@@ -1,3 +1,4 @@
+import MainNav from "@/components/layouts/main-nav";
 import { Fragment } from "react";
 
 export default function LandingLayout({
@@ -7,7 +8,7 @@ export default function LandingLayout({
 }>) {
   return (
     <main>
-      {/* <frame /> */}
+      <MainNav />
       {children}
     </main>
   );
