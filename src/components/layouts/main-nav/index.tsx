@@ -39,9 +39,9 @@ const SoundLottie = () => {
 
 const MainNav = (): JSX.Element => {
   return (
-    <nav className="main-nav absolute w-full">
+    <nav className="main-nav absolute z-50 w-full">
       <div className="main-nav__container container flex items-center justify-between py-6">
-        <Logo className="main-nav__logo w-42" />
+        <Logo className="main-nav__logo w-38" />
 
         <div className="actions flex space-x-10 items-center">
           <ul className="menu-items flex space-x-8">
