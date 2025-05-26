@@ -132,4 +132,10 @@
   .animated-element {
     opacity: 0;
   }
+
+  .yellow-linear {
+    border-radius: 12px;
+    border: 1px solid #FAB467;
+    background: linear-gradient(93deg, rgba(250, 180, 103, 0.75) 2.74%, rgba(250, 180, 103, 0.30) 103.81%);
+  }
 }
