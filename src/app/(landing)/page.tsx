@@ -1,12 +1,12 @@
-import About from "@/features/landing/components/About";
 import Hero from "@/features/landing/components/Hero";
+import Section3d from "@/features/landing/components/Section3d";
 import { JSX } from "react";
 
 const Landing = (): JSX.Element => {
   return (
     <section className="landing">
       <Hero />
-      <About />
+      <Section3d />
     </section>
   );
 };
