@@ -7,7 +7,7 @@ export default function LandingLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main>
+    <main className="w-full overflow-hidden">
       <MainNav />
       {children}
     </main>

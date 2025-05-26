@@ -1,7 +1,7 @@
 "use client";
 
 import { NAV_DATA } from "@/helpers/constants";
-import Logo from "@/icons";
+import { Logo } from "@/icons";
 import { DotLottiePlayer } from "@dotlottie/react-player";
 import "@dotlottie/react-player/dist/index.css";
 import React, { JSX, useRef, useState } from "react";

@@ -4,7 +4,7 @@ interface IconProps extends React.HTMLAttributes<HTMLOrSVGElement> {
   color?: string;
 }
 
-const Logo: React.FC<IconProps> = ({ color = "#ffffff", ...props }) => (
+export const Logo: React.FC<IconProps> = ({ color = "#ffffff", ...props }) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 261 58" {...props}>
     <path
       fill={color}
@@ -16,4 +16,19 @@ const Logo: React.FC<IconProps> = ({ color = "#ffffff", ...props }) => (
     ></path>
   </svg>
 );
-export default Logo;
+
+export const ArrowDown: React.FC<IconProps> = ({
+  color = "#ffffff",
+  ...props
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 39 58"
+    {...props}
+  >
+    <path
+      fill={color}
+      d="M19.521.828c.456 0 .893.208 1.215.577s.504.87.504 1.392v48.042l14.253-16.326a1.6 1.6 0 0 1 1.21-.553c.45.005.881.212 1.2.577s.5.858.503 1.375a2.13 2.13 0 0 1-.482 1.384L20.736 56.984c-.322.369-.76.576-1.215.576s-.893-.207-1.215-.576L1.118 37.296a2 2 0 0 1-.385-.639 2.22 2.22 0 0 1-.011-1.522 2 2 0 0 1 .375-.647q.245-.279.565-.43a1.53 1.53 0 0 1 1.329.013c.21.104.4.254.558.442l14.253 16.326V2.797c0-.522.181-1.023.504-1.392.322-.37.76-.577 1.215-.577"
+    ></path>
+  </svg>
+);
