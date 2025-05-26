@@ -465,6 +465,37 @@
     "@rgba-image/copy" "^0.1.2"
     "@rgba-image/create-image" "^0.1.1"
 
+"@studio-freight/hamo@^0.6.28", "@studio-freight/hamo@^0.6.33":
+  version "0.6.33"
+  resolved "https://registry.yarnpkg.com/@studio-freight/hamo/-/hamo-0.6.33.tgz#1d825288c31b1fbaf1df8fdfcf936dd654f8c164"
+  integrity sha512-U3Nvw5wDvB/jps2/ZbGL2TFL+CcZvJF/tkjL7S7ajuzDi9T5VkqCguws6tuWHttZ74Z6DfXxV1b8F1EB30AyJg==
+  dependencies:
+    "@studio-freight/tempus" "^0.0.38"
+    just-debounce-it "^3.2.0"
+    nanoevents "^9.0.0"
+
+"@studio-freight/lenis@^1.0.40":
+  version "1.0.42"
+  resolved "https://registry.yarnpkg.com/@studio-freight/lenis/-/lenis-1.0.42.tgz#031402beee5eede12649beb9a912abd1aa98f96a"
+  integrity sha512-HJAGf2DeM+BTvKzHv752z6Z7zy6bA643nZM7W88Ft9tnw2GsJSp6iJ+3cekjyMIWH+cloL2U9X82dKXgdU8kPg==
+
+"@studio-freight/react-lenis@^0.0.47":
+  version "0.0.47"
+  resolved "https://registry.yarnpkg.com/@studio-freight/react-lenis/-/react-lenis-0.0.47.tgz#c83fd5046c36889b8e8306170a5bc7b07fa3a55c"
+  integrity sha512-h+IAqiyiNo8mRo/CA3/sHCqX2IV0tTLyzZRWsdRaLPtM2aBaRqK0+ISYWTUmktQfcf3qvp4hsn0Oeyt9uXwLTQ==
+  dependencies:
+    "@studio-freight/hamo" "^0.6.28"
+    "@studio-freight/lenis" "^1.0.40"
+    "@types/react" "^18.0.0"
+    clsx "^2.0.0"
+    react "^18.0.0"
+    zustand "^4.4.7"
+
+"@studio-freight/tempus@^0.0.38":
+  version "0.0.38"
+  resolved "https://registry.yarnpkg.com/@studio-freight/tempus/-/tempus-0.0.38.tgz#170e0b3de4b123917b04943dd95e7c452ec63e39"
+  integrity sha512-AO1O2fEmfUqWGjEofmPNMQRlwgZ96eB5OFsVJjeH8/RKd1/Yf4zbPnXO+r2TD4aueA6X9JRCJU2GUprI9+m8uQ==
+
 "@swc/counter@0.1.3":
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/@swc/counter/-/counter-0.1.3.tgz#cc7463bd02949611c6329596fccd2b0ec782b0e9"
@@ -608,10 +639,23 @@
   dependencies:
     undici-types "~6.19.2"
 
+"@types/prop-types@*":
+  version "15.7.14"
+  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.14.tgz#1433419d73b2a7ebfc6918dcefd2ec0d5cd698f2"
+  integrity sha512-gNMvNH49DJ7OJYv+KAKn0Xp45p8PLl6zo2YnvDIbTd4J6MER2BmWN49TG7n9LvkyihINxeKW8+3bfS2yDC9dzQ==
+
 "@types/react-dom@^19":
   version "19.1.5"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-19.1.5.tgz#cdfe2c663742887372f54804b16e8dbc26bd794a"
   integrity sha512-CMCjrWucUBZvohgZxkjd6S9h0nZxXjzus6yDfUb+xLxYM7VvjKNH1tQrE9GWLql1XoOP4/Ds3bwFqShHUYraGg==
+
+"@types/react@^18.0.0":
+  version "18.3.22"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.3.22.tgz#19b77d6e4957c43070c297e638c6a1c43079e234"
+  integrity sha512-vUhG0YmQZ7kL/tmKLrD3g5zXbXXreZXB3pmROW8bg3CnLnpjkRVwUlLne7Ufa2r9yJ8+/6B73RzhAek5TBKh2Q==
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^3.0.2"
 
 "@types/react@^19":
   version "19.1.5"
@@ -673,7 +717,7 @@ client-only@0.0.1:
   resolved "https://registry.yarnpkg.com/client-only/-/client-only-0.0.1.tgz#38bba5d403c41ab150bff64a95c85013cf73bca1"
   integrity sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==
 
-clsx@^2.1.1:
+clsx@^2.0.0, clsx@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/clsx/-/clsx-2.1.1.tgz#eed397c9fd8bd882bfb18deab7102049a2f32999"
   integrity sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==
@@ -780,6 +824,11 @@ jiti@^2.4.2:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
+
+just-debounce-it@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/just-debounce-it/-/just-debounce-it-3.2.0.tgz#4352265f4af44188624ce9fdbc6bff4d49c63a80"
+  integrity sha512-WXzwLL0745uNuedrCsCs3rpmfD6DBaf7uuVwaq98/8dafURfgQaBsSpjiPp5+CW6Vjltwy9cOGI6qE71b3T8iQ==
 
 lethargy@^1.0.2:
   version "1.0.9"
@@ -888,7 +937,7 @@ locomotive-scroll@^4.1.4:
     smoothscroll-polyfill "^0.4.4"
     virtual-scroll "^1.5.2"
 
-loose-envify@^1.4.0:
+loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
@@ -935,6 +984,11 @@ mkdirp@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-3.0.1.tgz#e44e4c5607fb279c168241713cc6e0fea9adcb50"
   integrity sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg==
+
+nanoevents@^9.0.0:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/nanoevents/-/nanoevents-9.1.0.tgz#76c8c86ed54a26131ada5a0a1c5682f48690dbb7"
+  integrity sha512-Jd0fILWG44a9luj8v5kED4WI+zfkkgwKyRQKItTtlPfEsh7Lznfi1kr8/iZ+XAIss4Qq5GqRB0qtWbaz9ceO/A==
 
 nanoid@^3.3.6, nanoid@^3.3.8:
   version "3.3.11"
@@ -1023,6 +1077,14 @@ react-is@^16.13.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-locomotive-scroll@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/react-locomotive-scroll/-/react-locomotive-scroll-0.2.2.tgz#50fd3982b5386cd3e4196d391cbdd327c0523079"
+  integrity sha512-F+1JCUNw2sU/g+wtvbxh8Oi4FPrhPQFKY7QlK0p3D0kl2JgK0FK9fF1G43wcZccP8YBrKU81T4ZQBf/DasgVOg==
+  dependencies:
+    use-debounce "6.0.1"
+    use-resize-observer "6.1.0"
+
 react-responsive@^10.0.1:
   version "10.0.1"
   resolved "https://registry.yarnpkg.com/react-responsive/-/react-responsive-10.0.1.tgz#293d4d2562da93409861216f0110d146c5676eb3"
@@ -1033,10 +1095,22 @@ react-responsive@^10.0.1:
     prop-types "^15.6.1"
     shallow-equal "^3.1.0"
 
+react@^18.0.0:
+  version "18.3.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-18.3.1.tgz#49ab892009c53933625bd16b2533fc754cab2891"
+  integrity sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==
+  dependencies:
+    loose-envify "^1.1.0"
+
 react@^19.0.0:
   version "19.1.0"
   resolved "https://registry.yarnpkg.com/react/-/react-19.1.0.tgz#926864b6c48da7627f004795d6cce50e90793b75"
   integrity sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg==
+
+resize-observer-polyfill@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
+  integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
 
 scheduler@^0.26.0:
   version "0.26.0"
@@ -1233,6 +1307,23 @@ undici-types@~6.19.2:
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.19.8.tgz#35111c9d1437ab83a7cdc0abae2f26d88eda0a02"
   integrity sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==
 
+use-debounce@6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/use-debounce/-/use-debounce-6.0.1.tgz#ed1eb2b30189408fb9792ea2887f4c6c3cb401a3"
+  integrity sha512-kpvIxpa0vOLz/2I2sfNJ72mUeaT2CMNCu5BT1f2HkV9qZK27UVSOFf1sSSu+wjJE4TcR2VTXS2SM569+m3TN7Q==
+
+use-resize-observer@6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/use-resize-observer/-/use-resize-observer-6.1.0.tgz#d4d267a940dbf9c326da6042f8a4bb8c89d29729"
+  integrity sha512-SiPcWHiIQ1CnHmb6PxbYtygqiZXR0U9dNkkbpX9VYnlstUwF8+QqpUTrzh13pjPwcjMVGR+QIC+nvF5ujfFNng==
+  dependencies:
+    resize-observer-polyfill "^1.5.1"
+
+use-sync-external-store@^1.2.2:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.5.0.tgz#55122e2a3edd2a6c106174c27485e0fd59bcfca0"
+  integrity sha512-Rb46I4cGGVBmjamjphe8L/UnvJD+uPPtTkNvX5mZgqdbavhI4EbgIWJiIHXJ8bc/i9EQGPRh4DwEURJ552Do0A==
+
 valibot@^0.13.1:
   version "0.13.1"
   resolved "https://registry.yarnpkg.com/valibot/-/valibot-0.13.1.tgz#34196211c5b4293829a9e4e6b0cf29a9227f410b"
@@ -1265,3 +1356,10 @@ yallist@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-5.0.0.tgz#00e2de443639ed0d78fd87de0d27469fbcffb533"
   integrity sha512-YgvUTfwqyc7UXVMrB+SImsVYSmTS8X/tSrtdNZMImM+n7+QTriRXyXim0mBrTXNeqzVF0KWGgHPeiyViFFrNDw==
+
+zustand@^4.4.7:
+  version "4.5.7"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.5.7.tgz#7d6bb2026a142415dd8be8891d7870e6dbe65f55"
+  integrity sha512-CHOUy7mu3lbD6o6LJLfllpjkzhHXSBlX8B9+qPddUsIfeF5S/UZ5q0kmCsnRqT1UHFQZchNFDDzMbQsuesHWlw==
+  dependencies:
+    use-sync-external-store "^1.2.2"

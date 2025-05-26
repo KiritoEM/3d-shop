@@ -1,27 +1,12 @@
-"use client";
-
+import About from "@/features/landing/components/About";
 import Hero from "@/features/landing/components/Hero";
-import { JSX, useEffect } from "react";
-import "locomotive-scroll/dist/locomotive-scroll.css";
+import { JSX } from "react";
 
 const Landing = (): JSX.Element => {
-  useEffect(() => {
-    (async () => {
-      const LocomotiveScroll = (await import("locomotive-scroll")).default;
-
-      new LocomotiveScroll({
-        // @ts-ignore
-        lenisOptions: {
-          duration: 1.5,
-          smoothWheel: true,
-        },
-      });
-    })();
-  }, []);
   return (
     <section className="landing">
       <Hero />
-      <div className="h-[200vh]"></div>
+      <About />
     </section>
   );
 };

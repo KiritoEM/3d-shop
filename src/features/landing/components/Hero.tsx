@@ -8,6 +8,10 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import TextBlur from "@/components/animations/TextBlur";
 import { useScrollDefaultOptions } from "@/helpers/constants";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Parallax from "@/components/Parallax";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const HeroIllustrations = () => {
   const megaphoneRef = useRef<HTMLImageElement | null>(null);
@@ -61,21 +65,21 @@ const HeroIllustrations = () => {
   }, []);
 
   return (
-    <div className="hero__illustrations">
+    <Parallax speed={1.4} className="hero__illustrations w-full relative z-30">
       <img
         src="/landing/megaphone.svg"
-        className="animated-element absolute z-20 -top-[110px] -left-[142px] w-[365px]"
+        className="animated-element absolute -top-[110px] -left-[142px] w-[365px]"
         alt="megaphones"
         ref={megaphoneRef}
       />
 
       <img
         src="/landing/headphones.svg"
-        className="animated-element absolute z-20 -top-[100px] -right-[110px] w-[280px]"
+        className="animated-element absolute -top-[100px] -right-[110px] w-[280px]"
         alt="headphone"
         ref={headphoneRef}
       />
-    </div>
+    </Parallax>
   );
 };
 
@@ -121,15 +125,16 @@ const Hero = (): JSX.Element => {
       duration: 0.5,
     });
   }, []);
+
   return (
-    <section id="hero" className="flex items-center justify-center w-full">
+    <section className="hero flex items-center justify-center w-full min-h-screen">
       <div className="hero__gradient absolute z-10 -top-[9vh] -left-3">
         <img src="/landing/hero-bg.png" className="w-screen" />
       </div>
 
       <div
         ref={sectionRef}
-        className="hero__content relative text-center z-20 mt-[28.5vh] 2xl:mt-[30.5vh] flex flex-col items-center space-y-6"
+        className="hero__content relative z-20 text-center my-[28.5vh] 2xl:my-[30.5vh] flex flex-col items-center space-y-6"
       >
         <HeroIllustrations />
 
@@ -150,9 +155,11 @@ const Hero = (): JSX.Element => {
         </Button>
       </div>
 
-      <div className="scroll-indicator w-14 h-14 absolute flex items-center justify-center bottom-8 right-8 border border-foreground rounded-full p-4">
-        <ArrowDown className="size-8 animate-bounce relative -top-2" />
-      </div>
+      <Parallax speed={-1.4} className="absolute bottom-14 right-8">
+        <div className="scroll-indicator w-14 h-14 flex items-center justify-center border border-foreground rounded-full p-4">
+          <ArrowDown className="size-8 animate-bounce relative -top-2" />
+        </div>
+      </Parallax>
     </section>
   );
 };
