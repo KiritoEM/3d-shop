@@ -7,6 +7,7 @@ const Landing = (): JSX.Element => {
     <section className="landing">
       <Hero />
       <Section3d />
+      <section className="h-screen"></section>
     </section>
   );
 };

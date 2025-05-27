@@ -138,4 +138,10 @@
     border: 1px solid #FAB467;
     background: linear-gradient(93deg, rgba(250, 180, 103, 0.75) 2.74%, rgba(250, 180, 103, 0.30) 103.81%);
   }
+
+  .dark-linear {
+    border-radius: 14px;
+    border: 1px solid #302F2F;
+    background: linear-gradient(93deg, #302F2F 2.74%, rgba(161, 158, 158, 0.40) 103.81%);
+  }
 }

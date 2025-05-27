@@ -4,7 +4,6 @@ import React, { forwardRef, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { Mesh, Material } from "three";
 import * as THREE from "three";
-import { useFrame } from "@react-three/fiber";
 
 interface ModelProps {
   position?: [number, number, number];

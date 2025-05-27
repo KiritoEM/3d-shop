@@ -23,7 +23,7 @@ const AboutCard: FC<AboutCardTypes> = ({ icon, text, index }) => {
 
 const About = (): JSX.Element => {
   return (
-    <section className="about container px-0 mb-20 pl-12 min-h-screen flex justify-end">
+    <section className="about container px-0 pl-12 min-h-screen flex justify-end">
       <div className="content w-full max-w-[600px] relative z-20 right-[60px]">
         <h2 className="content__title font-michroma text-5xl text-foreground">
           Découvrez une nouvelle façon de shopper
