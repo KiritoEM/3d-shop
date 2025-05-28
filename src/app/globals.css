@@ -144,4 +144,12 @@
     border: 1px solid #302F2F;
     background: linear-gradient(93deg, #302F2F 2.74%, rgba(161, 158, 158, 0.40) 103.81%);
   }
+
+  .blue-linear {
+    background: #03398B;
+    filter: blur(86.5px);
+    width: 367.922px;
+    height: 264.88px;
+    flex-shrink: 0;
+  }
 }

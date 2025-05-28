@@ -24,12 +24,10 @@ const TextFadedScroll: FC<{ children: ReactNode }> = ({
       scrollTrigger: {
         trigger: text,
         scrub: 2,
-        start: "top 85%",
+        start: "top 60%",
         end: "bottom bottom",
       },
       opacity: 1,
-      stagger: 0.12,
-      duration: 1.4,
       x: 0,
       ease: "power3.out",
     });

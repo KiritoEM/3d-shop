@@ -2,10 +2,11 @@
 
 import TextLift from "@/components/animations/TextLift";
 import { useGSAP } from "@gsap/react";
-import { FC, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useScrollDefaultOptions } from "@/helpers/constants";
+import { perspective3D } from "@/helpers/perpective";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,6 +18,19 @@ type StepCardProps = {
 const StepCard: FC<StepCardProps> = ({ title, index }): JSX.Element => {
   const cardRef = useRef<HTMLElement | null>(null);
   const scrollOpt = useScrollDefaultOptions();
+  const { handleMouseLeave, handleMouseMove } = perspective3D(cardRef);
+
+  useEffect(() => {
+    if (!cardRef.current) return;
+
+    cardRef.current.addEventListener("mousemove", handleMouseMove);
+    cardRef.current.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      cardRef.current?.removeEventListener("mousemove", handleMouseMove);
+      cardRef.current?.removeEventListener("mouseleave", handleMouseLeave);
+    }
+  }, [handleMouseLeave, handleMouseMove])
 
   useGSAP(() => {
     const card = cardRef.current;
@@ -50,7 +64,7 @@ const StepCard: FC<StepCardProps> = ({ title, index }): JSX.Element => {
 const Steps = (): JSX.Element => {
   return (
     <section className="steps mt-50 min-h-screen relative z-30">
-      <TextLift className="steps__title font-michroma text-[4em] text-foreground mx-auto text-center leading-none" text="En 3 étapes <br />simples" />
+      <TextLift className="steps__title font-michroma text-[4em] text-foreground mx-auto text-center leading-none" text="En <span class='text-primary'>3 étapes</span> <br />simples" />
 
       <div className="steps__cards mt-40">
         <div className="row-1 max-w-[1050px] mx-auto flex justify-between items-center">
