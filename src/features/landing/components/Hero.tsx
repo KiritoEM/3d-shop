@@ -151,7 +151,7 @@ const Hero = (): JSX.Element => {
       >
         <HeroIllustrations />
 
-        <div className="tag animated-element w-fit rounded-lg border px-5 py-2 flex items-center space-x-3 text-[11px] sm2:text-[13px]">
+        <div className="tag animated-element w-fit rounded-lg border px-5 py-2 flex items-center space-x-2 md:space-x-3 text-[12px] sm2:text-[13px]">
           <span className="text-[#CAC4C4]">Besoin de recommandation?</span>
           <span className="flex gap-1 items-center text-primary">
             Explorer <ArrowRight className="size-4" />

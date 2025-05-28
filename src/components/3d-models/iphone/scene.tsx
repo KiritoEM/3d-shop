@@ -15,12 +15,13 @@ const IphoneScene = (): JSX.Element => {
   const iphoneRef = useRef<THREE.Group | null>(null);
   const yRef = useRef<number>(0);
   const isLg = useMediaQuery({ query: "(max-width: 1279px)" });
+  const isMd = useMediaQuery({ query: "(max-width: 1023px)" });
 
   useGSAP(() => {
     if (!iphoneRef.current) return;
 
     gsap.set(iphoneRef.current.position, {
-      x: isLg ? -2.25 : -3.4,
+      x: isLg ? -2.25 : isMd ? -0.8 : -3.4,
       y: 0,
     });
 

@@ -54,19 +54,19 @@ const StepCard: FC<StepCardProps> = ({ title, index }): JSX.Element => {
   }, []);
 
   return (
-    <article ref={cardRef} className="step-card p-5 dark-linear flex items-center w-full max-w-[440px] space-x-8 font-michroma backdrop-blur-sm">
-      <h1 className="text-[3.8em]">{index + 1}.</h1>
-      <h4 className="text-4xl">{title}</h4>
+    <article ref={cardRef} className="step-card p-5 dark-linear flex items-center w-full max-w-[320px] lg:max-w-[440px] space-x-8 font-michroma backdrop-blur-sm">
+      <h1 className="text-[2.8em] md:text-[3em] lg:text-[3.8em]">{index + 1}.</h1>
+      <h4 className="text-xl md:text-2xl lg:text-4xl">{title}</h4>
     </article>
   );
 };
 
 const Steps = (): JSX.Element => {
   return (
-    <section className="steps mt-50 min-h-screen relative z-30">
-      <TextLift className="steps__title font-michroma text-[4em] text-foreground mx-auto text-center leading-none" text="En <span class='text-primary'>3 étapes</span> <br />simples" />
+    <section className="steps mt-30 md:mt-36 lg:mt-50 md:min-h-screen relative z-30">
+      <TextLift className="steps__title font-michroma text-[3em] md:text-[4em] text-foreground mx-auto text-center leading-none" text="En <span class='text-primary'>3 étapes</span> <br />simples" />
 
-      <div className="steps__cards mt-40">
+      <div className="steps__cards hidden md:block mt-40 px-6 lg:px-0">
         <div className="row-1 max-w-[1050px] mx-auto flex justify-between items-center">
           <StepCard index={0} title="Parcourez le catalogue" />
 
@@ -76,6 +76,13 @@ const Steps = (): JSX.Element => {
         <div className="row-2 flex justify-center mt-[180px]">
           <StepCard index={2} title="Achetez en un clic !" />
         </div>
+      </div>
+
+      {/* Steps cards responsive */}
+      <div className="steps__cards grid grid-cols-1 gap-8 md:hidden mt-16 px-6 lg:px-0">
+        <StepCard index={0} title="Parcourez le catalogue" />
+        <StepCard index={1} title="Examinez en 3D" />
+        <StepCard index={2} title="Achetez en un clic !" />
       </div>
     </section>
   );

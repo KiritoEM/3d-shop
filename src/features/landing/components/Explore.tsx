@@ -28,8 +28,8 @@ const Explore = (): JSX.Element => {
         gsap.to(gradient, {
             opacity: 1,
             scale: 1,
-            duration: .5,
-            delay: 0.7,
+            duration: .4,
+            delay: 0.55,
             ease: "power3.out",
             scrollTrigger: {
                 trigger: sectionRef.current,
@@ -41,7 +41,7 @@ const Explore = (): JSX.Element => {
     }, { scope: sectionRef })
 
     return (
-        <section className="explore mt-[380px] mb-[140px] relative z-30" ref={sectionRef}>
+        <section className="explore mt-28 md:mt-[380px] mb-[140px] relative z-30" ref={sectionRef}>
             <div className="explore__gradient blue-linear absolute w-fit left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2" ref={gradientRef}></div>
 
             <div className="explore-content relative z-20 w-fit mx-auto text-center flex flex-col items-center">
@@ -49,7 +49,7 @@ const Explore = (): JSX.Element => {
                     byLine
                     duration={1.3}
                     stagger={0.1}
-                    className="steps__title font-michroma text-[4em]"
+                    className="steps__title font-michroma text-[2.7em] md:text-[4em] leading-tight"
                     text="Explorez sans limites"
                 />
 
@@ -57,7 +57,7 @@ const Explore = (): JSX.Element => {
                     byLine
                     duration={1.3}
                     stagger={0.1}
-                    className="steps__description w-full max-w-[800px] mt-3 text-center"
+                    className="steps__description w-full max-w-[800px] mt-5 mdd:mt-3 text-center"
                     text="Votre curiosité n'a plus de barrières. Naviguez librement dans notre univers interactif et laissez vos sens guider vos choix."
                 />
 
