@@ -79,7 +79,7 @@ const Steps = (): JSX.Element => {
       </div>
 
       {/* Steps cards responsive */}
-      <div className="steps__cards grid grid-cols-1 gap-8 md:hidden mt-16 px-6 lg:px-0">
+      <div className="steps__cards flex flex-col gap-8 w-fit md:hidden mt-16 px-6 lg:px-0 mx-auto">
         <StepCard index={0} title="Parcourez le catalogue" />
         <StepCard index={1} title="Examinez en 3D" />
         <StepCard index={2} title="Achetez en un clic !" />

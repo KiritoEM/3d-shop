@@ -41,7 +41,7 @@ const Explore = (): JSX.Element => {
     }, { scope: sectionRef })
 
     return (
-        <section className="explore mt-28 md:mt-[380px] mb-[140px] relative z-30" ref={sectionRef}>
+        <section className="explore mt-28 px-5 md:mt-[380px] mb-[140px] relative z-30" ref={sectionRef}>
             <div className="explore__gradient blue-linear absolute w-fit left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2" ref={gradientRef}></div>
 
             <div className="explore-content relative z-20 w-fit mx-auto text-center flex flex-col items-center">
