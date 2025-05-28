@@ -53,7 +53,7 @@ const NavResponsive: FC<NavResponsiveProps> = ({ isOpen }): JSX.Element => {
     return (
         <div className={
             cn(
-                "nav-responsive w-full px-5 fixed top-[100px] z-50 flex lg:hidden justify-end transition-all ease-out duration-400",
+                "nav-responsive w-full px-5 fixed top-[100px] z-50 flex lg:hidden justify-end transition-all ease-in-out duration-400",
                 isOpen ? "translate-x-0" : "translate-x-[100%]"
             )
         }>

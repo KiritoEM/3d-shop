@@ -65,17 +65,17 @@ const HeroIllustrations = () => {
   }, []);
 
   return (
-    <Parallax speed={1.4} className="hero__illustrations w-full relative z-30">
+    <Parallax speed={1.4} className="hero__illustrations hidden md:block w-full relative z-30">
       <img
         src="/landing/megaphone.svg"
-        className="animated-element absolute -top-[110px] -left-[142px] w-[365px]"
+        className="animated-element absolute -top-[160px] lg:-top-[130px] xl:-top-[110px] -left-[100px] lg:-left-[122px] xl:-left-[142px] w-[345px] xl:w-[365px]"
         alt="megaphones"
         ref={megaphoneRef}
       />
 
       <img
         src="/landing/headphones.svg"
-        className="animated-element absolute -top-[100px] -right-[110px] w-[280px]"
+        className="animated-element absolute -top-[150px] lg:-top-[116px] xl:-top-[100px] -right-[60px] lg:-right-[90px] xl:-right-[110px] w-[260px] xl:w-[280px]"
         alt="headphone"
         ref={headphoneRef}
       />
@@ -147,11 +147,11 @@ const Hero = (): JSX.Element => {
 
       <div
         ref={sectionRef}
-        className="hero__content relative z-20 text-center my-[28.5vh] 2xl:my-[30.5vh] flex flex-col items-center space-y-6"
+        className="hero__content relative z-20 text-center my-[28.5vh] 2xl:my-[30.5vh] px-5 md:px-0 flex flex-col items-center space-y-6"
       >
         <HeroIllustrations />
 
-        <div className="tag animated-element w-fit rounded-lg border px-5 py-2 flex items-center space-x-3 text-[13px]">
+        <div className="tag animated-element w-fit rounded-lg border px-5 py-2 flex items-center space-x-3 text-[11px] sm2:text-[13px]">
           <span className="text-[#CAC4C4]">Besoin de recommandation?</span>
           <span className="flex gap-1 items-center text-primary">
             Explorer <ArrowRight className="size-4" />
@@ -159,7 +159,7 @@ const Hero = (): JSX.Element => {
         </div>
 
         <TextBlur
-          className="font-michroma text-[5.2em] leading-none"
+          className="font-michroma text-[2.35em] sm:text-[2.9em] md:text-[3.8em] lg:text-[4.5em] xl:text-[5.2em] 2xl:text-[6.3em] leading-tight md:leading-none"
           text={`Découvrez <br /> un shopping en 3D`}
         />
 
@@ -168,7 +168,7 @@ const Hero = (): JSX.Element => {
         </Button>
       </div>
 
-      <Parallax speed={-1.4} className="absolute bottom-14 right-8">
+      <Parallax speed={-1.4} className="hidden md:block absolute bottom-22 right-8">
         <div className="scroll-indicator w-14 h-14 flex items-center justify-center border border-foreground rounded-full p-4">
           <ArrowDown className="size-8 animate-bounce relative -top-2" />
         </div>

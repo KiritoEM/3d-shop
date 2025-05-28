@@ -16,7 +16,6 @@ const SoundLottie = () => {
   const playerRef = useRef<any>(null);
 
   const isMobile = useMediaQuery({ query: "(max-width: 400px)" });
-  const isTablet = useMediaQuery({ query: "(max-width: 1023px)" });
 
   const handleChangeSound = () => {
     if (isPlaying) {
