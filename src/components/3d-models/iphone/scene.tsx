@@ -1,4 +1,5 @@
 "use client";
+
 import { useRef } from "react";
 import { IphoneModel } from "./model";
 import { useGSAP } from "@gsap/react";
@@ -6,18 +7,20 @@ import * as THREE from "three";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Float } from "@react-three/drei";
+import { useMediaQuery } from "react-responsive";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const IphoneScene = (): JSX.Element => {
   const iphoneRef = useRef<THREE.Group | null>(null);
   const yRef = useRef<number>(0);
+  const isLg = useMediaQuery({ query: "(max-width: 1279px)" });
 
   useGSAP(() => {
     if (!iphoneRef.current) return;
 
     gsap.set(iphoneRef.current.position, {
-      x: -3.4,
+      x: isLg ? -2.25 : -3.4,
       y: 0,
     });
 
@@ -60,9 +63,9 @@ const IphoneScene = (): JSX.Element => {
       .to(
         iphoneRef.current.scale,
         {
-          x: 3.9,
-          y: 3.9,
-          z: 3.9,
+          x: isLg ? 3 : 3.9,
+          y: isLg ? 3 : 3.9,
+          z: isLg ? 3 : 3.9,
         },
         0.2
       )
@@ -91,9 +94,9 @@ const IphoneScene = (): JSX.Element => {
   return (
     <Float
       speed={1.5}
-      rotationIntensity={0.7}
-      floatIntensity={0.7}
-      floatingRange={[-0.06, 0.06]}
+      rotationIntensity={0.6}
+      floatIntensity={0.6}
+      floatingRange={[-0.05, 0.05]}
     >
       <IphoneModel
         scale={3.3}

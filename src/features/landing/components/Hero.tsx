@@ -141,7 +141,7 @@ const Hero = (): JSX.Element => {
 
   return (
     <section className="hero flex items-center justify-center w-full min-h-screen">
-      <div className="hero__gradient absolute z-10 -top-[9vh] -left-3 opacity-0" ref={gradientRef}>
+      <div className="hero__gradient absolute z-10 top-0 lg:-top-[9vh] -left-3 opacity-0" ref={gradientRef}>
         <img src="/landing/hero-bg.png" className="w-screen" />
       </div>
 

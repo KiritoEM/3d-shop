@@ -46,12 +46,12 @@ const AboutCard: FC<AboutCardTypes> = ({ icon, text, index }) => {
     <article
       ref={cardRef}
       className={cn(
-        "about-card p-5 yellow-linear flex items-center space-x-8",
-        index! % 2 === 0 && "relative left-14"
+        "about-card p-5 yellow-linear flex flex-col sm:flex-row items-center gap-8",
+        index! % 2 === 0 && "relative md:left-14"
       )}
     >
-      <div className="about-card__icon w-[128px] h-[128px] bg-white rounded-xl flex items-center justify-center">
-        <Image src={icon} height={58} width={58} alt={icon.split(".")[0]} />
+      <div className="about-card__icon w-[120px] sm:w-[128px] h-[120px] sm:h-[128px] bg-white rounded-xl flex items-center justify-center">
+        <Image src={icon} height={58} width={58} className="w-[52px] sm:w-auto h-[52px] sm:h-auto" alt={icon.split(".")[0]} />
       </div>
 
       <h4 className="about-card__title text-2xl flex-1">{text}</h4>
@@ -62,14 +62,14 @@ const AboutCard: FC<AboutCardTypes> = ({ icon, text, index }) => {
 const About = (): JSX.Element => {
   return (
     <section className="about container px-0 pl-12 min-h-screen flex justify-end">
-      <div className="content w-full max-w-[600px] relative z-20 right-[60px]">
-        <div className="content__title font-michroma text-5xl text-foreground">
+      <div className="content w-full max-w-[560px] md:max-w-[580px] lg:max-w-[600px] relative z-20 md:right-[60px]">
+        <div className="content__title font-michroma w-full text-[30px] leading-tight md:text-5xl text-foreground">
           {ABOUT_TEXT.map((phrase, index) => (
             <TextFadedScroll key={index}>{phrase}</TextFadedScroll>
           ))}
         </div>
 
-        <div className="about-cards flex flex-col space-y-8 mt-16">
+        <div className="about-cards flex flex-col space-y-10 md:space-y-8 mt-16">
           {ABOUT_DATA.map((item, index) => (
             <AboutCard key={index} index={index} {...item} />
           ))}
