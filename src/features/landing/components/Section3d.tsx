@@ -5,7 +5,7 @@ import Steps from "./Steps";
 const Section3d = (): JSX.Element => {
   return (
     <section className="section-3d relative">
-      <div className="iphone-model-container absolute left-0 top-0 h-[120vh] w-screen z-10 overflow-visible">
+      <div className="iphone-model-container border border-red-500 absolute left-0 top-0 h-[120vh] w-screen z-10 overflow-visible">
         <IphoneViewCanvas />
       </div>
 

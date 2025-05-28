@@ -1,5 +1,4 @@
 "use client";
-
 import { useRef } from "react";
 import { IphoneModel } from "./model";
 import { useGSAP } from "@gsap/react";
@@ -12,6 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const IphoneScene = (): JSX.Element => {
   const iphoneRef = useRef<THREE.Group | null>(null);
+  const yRef = useRef<number>(0);
 
   useGSAP(() => {
     if (!iphoneRef.current) return;
@@ -21,6 +21,16 @@ const IphoneScene = (): JSX.Element => {
       y: 0,
     });
 
+    const calculateResponsiveY = () => {
+      const aboutSection = document.querySelector(".about") as HTMLDivElement;
+      if (!aboutSection) return 240;
+
+      const aboutHeight = aboutSection.offsetHeight;
+      const additionalMargin = 240;
+
+      return aboutHeight + additionalMargin;
+    };
+
     const scrollTl = gsap.timeline({
       defaults: {
         duration: 2,
@@ -28,32 +38,25 @@ const IphoneScene = (): JSX.Element => {
       },
       scrollTrigger: {
         trigger: ".section-3d",
-        start: "top 45%",
-        end: "bottom center",
-        scrub: true,
+        start: "top center",
+        end: "bottom-=80 center",
+        scrub: 1,
+        markers: true,
       },
     });
 
+    yRef.current = calculateResponsiveY();
+
     scrollTl
       .to(".iphone-model-container", {
-        y: "146vh",
-        delay: 0.1,
+        y: yRef.current,
       })
       .to(
         iphoneRef.current.rotation,
         {
           y: Math.PI * 2,
         },
-        0.2
-      )
-      .to(
-        iphoneRef.current.rotation,
-        {
-          z: 0,
-          x: 0,
-          y: 0,
-        },
-        0.2
+        "<+=0.1"
       )
       .to(
         iphoneRef.current.scale,
@@ -72,8 +75,17 @@ const IphoneScene = (): JSX.Element => {
         "<+=0.02"
       );
 
+    const handleResize = () => {
+      const newY = calculateResponsiveY();
+      scrollTl.to(".iphone-model-container", { y: newY }, 0);
+      ScrollTrigger.refresh();
+    };
+
+    window.addEventListener("resize", handleResize);
+
     return () => {
       scrollTl.kill();
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
