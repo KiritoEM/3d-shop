@@ -78,6 +78,7 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   --background: oklch(1 0 0);
+  --text-gray: #b8b2b2;
 }
 
 .dark {
@@ -112,6 +113,7 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
   --background: oklch(0.1591 0 0);
+  --text-gray: #262626;
 }
 
 @layer base {
@@ -151,5 +153,16 @@
     width: 367.922px;
     height: 264.88px;
     flex-shrink: 0;
+  }
+
+  .text-follow div {
+    background-image: linear-gradient(to right,
+        var(--color-foreground) 50%,
+        var(--text-gray) 50%);
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-position: 100% 0%;
   }
 }

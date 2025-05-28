@@ -85,6 +85,7 @@ const HeroIllustrations = () => {
 
 const Hero = (): JSX.Element => {
   const sectionRef = useRef<HTMLDivElement | null>(null);
+  const gradientRef = useRef<HTMLDivElement | null>(null);
   const scrollOpt = useScrollDefaultOptions();
 
   useGSAP(() => {
@@ -92,6 +93,17 @@ const Hero = (): JSX.Element => {
 
     const btn = sectionRef.current.querySelector("button");
     const tag = sectionRef.current.querySelector(".tag");
+
+    gsap.set(gradientRef.current, {
+      opacity: 0
+    })
+
+    gsap.to(gradientRef.current, {
+      opacity: 1,
+      duration: 0.5,
+      delay: 0.4,
+      ease: "power2.out"
+    })
 
     const tl = gsap.timeline({
       defaults: {
@@ -113,6 +125,7 @@ const Hero = (): JSX.Element => {
       y: -100,
     });
 
+
     tl.to(tag, {
       opacity: 1,
       y: 0,
@@ -128,7 +141,7 @@ const Hero = (): JSX.Element => {
 
   return (
     <section className="hero flex items-center justify-center w-full min-h-screen">
-      <div className="hero__gradient absolute z-10 -top-[9vh] -left-3">
+      <div className="hero__gradient absolute z-10 -top-[9vh] -left-3 opacity-0" ref={gradientRef}>
         <img src="/landing/hero-bg.png" className="w-screen" />
       </div>
 

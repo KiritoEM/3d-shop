@@ -14,12 +14,11 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 const TextLift: FC<AnimatedTextProps> = ({
   text,
   useScrollTrigger = true,
-  as: Tag = "h1",
   className,
   ...props
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const textRef = useRef<HTMLElement | null>(null);
+  const textRef = useRef<HTMLDivElement | null>(null);
   const scrolOpts = useScrollDefaultOptions();
 
   useGSAP(() => {
@@ -87,12 +86,9 @@ const TextLift: FC<AnimatedTextProps> = ({
 
   return (
     <div ref={containerRef}>
-      <Tag
-        //@ts-ignore
+      <div
         ref={textRef}
-        //@ts-ignore
         className={cn("will-change-opacity will-change-transform", className)}
-        //@ts-ignore
         dangerouslySetInnerHTML={{ __html: text }}
         {...props}
       />

@@ -1,6 +1,7 @@
 "use client";
 
 import MainNav from "@/components/layouts/main-nav";
+import PlaySound from "@/components/PlaySound";
 
 export default function LandingLayout({
   children,
@@ -10,6 +11,7 @@ export default function LandingLayout({
   return (
     <main className="w-full overflow-hidden">
       <MainNav />
+      <PlaySound />
       {children}
     </main>
   );

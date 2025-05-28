@@ -7,5 +7,4 @@ export interface AnimatedTextProps
     scrollTriggerOpt?: {
         trigger: RefObject<HTMLElement>;
     };
-    as?: ElementType;
 }

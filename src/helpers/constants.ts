@@ -15,6 +15,12 @@ export const NAV_DATA = [
     }
 ];
 
+export const SOUND_STATUS = {
+    PLAYING: "PLAYING",
+    STOPPED: "STOPPED",
+    PAUSED: "PAUSED"
+} as const;
+
 export const useScrollDefaultOptions = () => {
     const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
     const isTablet = useMediaQuery({ query: "(max-width: 1023px)" });

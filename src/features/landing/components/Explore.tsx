@@ -1,20 +1,65 @@
 "use client"
 
+import TextFollow from "@/components/animations/TextFollow";
 import { Button } from "@/components/ui/button";
 import useButtonHover from "@/hooks/useButtonHover";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight } from "lucide-react";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Explore = (): JSX.Element => {
     const { buttonRef, circleSize, isHovered, startPosition, handleMouseEnter, handleMouseLeave } = useButtonHover();
+    const sectionRef = useRef<HTMLDivElement | null>(null);
+    const gradientRef = useRef<HTMLDivElement | null>(null);
+
+    useGSAP(() => {
+        if (!sectionRef.current || !gradientRef.current) return;
+        const gradient = gradientRef.current;
+
+        gsap.set(gradient, {
+            opacity: 0,
+            scale: 0.5
+        })
+
+        gsap.to(gradient, {
+            opacity: 1,
+            scale: 1,
+            duration: .5,
+            delay: 0.7,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "top 85%",
+                end: "bottom 5%",
+                toggleActions: "play reverse play reverse"
+            }
+        })
+    }, { scope: sectionRef })
 
     return (
-        <section className="explore mt-[400px] mb-[140px] relative">
-            <div className="explore__gradient blue-linear absolute w-fit left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"></div>
+        <section className="explore mt-[380px] mb-[140px] relative z-30" ref={sectionRef}>
+            <div className="explore__gradient blue-linear absolute w-fit left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2" ref={gradientRef}></div>
 
             <div className="explore-content relative z-20 w-fit mx-auto text-center flex flex-col items-center">
-                <h2 className="steps__title font-michroma text-[4em]">Explorez sans limites</h2>
-                <p className="text-foreground/80 w-full max-w-[800px] mt-3 text-center">Votre curiosité n'a plus de barrières. Naviguez librement dans notre univers interactif et laissez vos sens guider vos choix.</p>
+                <TextFollow
+                    byLine
+                    duration={1.3}
+                    stagger={0.1}
+                    className="steps__title font-michroma text-[4em]"
+                    text="Explorez sans limites"
+                />
+
+                <TextFollow
+                    byLine
+                    duration={1.3}
+                    stagger={0.1}
+                    className="steps__description w-full max-w-[800px] mt-3 text-center"
+                    text="Votre curiosité n'a plus de barrières. Naviguez librement dans notre univers interactif et laissez vos sens guider vos choix."
+                />
 
                 <Button
                     size="lg"

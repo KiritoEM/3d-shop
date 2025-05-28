@@ -14,11 +14,10 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 const TextBlur: FC<AnimatedTextProps> = ({
   text,
   useScrollTrigger = true,
-  as: Tag = "h1",
   className,
   ...props
 }) => {
-  const textRef = useRef<HTMLElement | null>(null);
+  const textRef = useRef<HTMLDivElement | null>(null);
   const scrolOpts = useScrollDefaultOptions();
 
   useGSAP(() => {
@@ -61,7 +60,7 @@ const TextBlur: FC<AnimatedTextProps> = ({
   }, [text]);
 
   return (
-    <Tag
+    <div
       ref={textRef}
       className={cn("origin-top opacity-0", className)}
       {...props}

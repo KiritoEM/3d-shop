@@ -1,6 +1,7 @@
 "use client";
 
 import { NAV_DATA } from "@/helpers/constants";
+import usePlaySound from "@/hooks/usePlaySound";
 import { Logo } from "@/icons";
 import { DotLottiePlayer } from "@dotlottie/react-player";
 import "@dotlottie/react-player/dist/index.css";
@@ -10,15 +11,18 @@ type SoundStateType = "play" | "pause";
 
 const SoundLottie = () => {
   const [soundState, setSoundState] = useState<SoundStateType>("play");
+  const togglePlaySound = usePlaySound((state) => state.togglePlaySound);
   const playerRef = useRef<any>(null);
 
   const handleChangeSound = () => {
     if (soundState === "play") {
       playerRef.current.pause();
+      togglePlaySound();
       playerRef.current?.seek(0); //Reset animation when pausing
       setSoundState("pause");
     } else {
       playerRef.current.play();
+      togglePlaySound();
       setSoundState("play");
     }
   };
