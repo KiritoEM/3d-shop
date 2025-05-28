@@ -26,7 +26,7 @@ const IphoneScene = (): JSX.Element => {
       if (!aboutSection) return 240;
 
       const aboutHeight = aboutSection.offsetHeight;
-      const additionalMargin = 240;
+      const additionalMargin = 358;
 
       return aboutHeight + additionalMargin;
     };
@@ -41,7 +41,6 @@ const IphoneScene = (): JSX.Element => {
         start: "top center",
         end: "bottom-=80 center",
         scrub: 1,
-        markers: true,
       },
     });
 
@@ -61,9 +60,9 @@ const IphoneScene = (): JSX.Element => {
       .to(
         iphoneRef.current.scale,
         {
-          x: 4,
-          y: 4,
-          z: 4,
+          x: 3.9,
+          y: 3.9,
+          z: 3.9,
         },
         0.2
       )
@@ -92,12 +91,12 @@ const IphoneScene = (): JSX.Element => {
   return (
     <Float
       speed={1.5}
-      rotationIntensity={0.5}
-      floatIntensity={0.5}
-      floatingRange={[-0.05, 0.05]}
+      rotationIntensity={0.7}
+      floatIntensity={0.7}
+      floatingRange={[-0.06, 0.06]}
     >
       <IphoneModel
-        scale={3.56}
+        scale={3.3}
         ref={iphoneRef}
         position={[0, 0, 0]}
         rotation={[0.05, Math.PI, 0]}
