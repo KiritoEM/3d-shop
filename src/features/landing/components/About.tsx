@@ -51,7 +51,7 @@ const AboutCard: FC<AboutCardTypes> = ({ icon, text, index }) => {
       )}
     >
       <div className="about-card__icon w-[112px] sm:w-[128px] h-[112px] sm:h-[128px] bg-white rounded-xl flex items-center justify-center">
-        <Image src={icon} height={58} width={58} className="w-[52px] sm:w-auto h-[52px] sm:h-auto" alt={icon.split(".")[0]} />
+        <Image src={icon} height={58} width={58} className="w-[52px] sm:w-[58px] h-[52px] sm:h-[58px]" alt={icon.split(".")[0]} />
       </div>
 
       <h4 className="about-card__title text-2xl flex-1">{text}</h4>
@@ -63,7 +63,7 @@ const About = (): JSX.Element => {
   return (
     <section className="about container px-0 pl-12 min-h-screen flex justify-end">
       <div className="content w-full max-w-[560px] md:max-w-[580px] lg:max-w-[600px] relative z-20 md:right-[60px]">
-        <div className="content__title font-michroma w-full text-[34px] leading-tight md:text-5xl text-foreground">
+        <div className="content__title font-michroma w-full text-[27px] sm2:text-[32px] leading-tight sm:text-5xl text-foreground">
           {ABOUT_TEXT.map((phrase, index) => (
             <TextFadedScroll key={index}>{phrase}</TextFadedScroll>
           ))}

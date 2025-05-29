@@ -1,3 +1,4 @@
+import { Moon, Sun } from "lucide-react";
 import { useMediaQuery } from "react-responsive";
 
 export const NAV_DATA = [
@@ -13,6 +14,19 @@ export const NAV_DATA = [
         label: "Recommandations",
         url: "/recommandations"
     }
+];
+
+export const THEME_OPTIONS = [
+    {
+        label: "Light",
+        icon: Sun,
+        value: "light"
+    },
+    {
+        label: "Dark",
+        icon: Moon,
+        value: "dark"
+    },
 ];
 
 export const SOUND_STATUS = {

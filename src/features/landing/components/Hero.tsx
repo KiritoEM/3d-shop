@@ -159,7 +159,7 @@ const Hero = (): JSX.Element => {
         </div>
 
         <TextBlur
-          className="font-michroma text-[2.37em] sm:text-[2.9em] md:text-[3.8em] lg:text-[4.5em] xl:text-[5.2em] 2xl:text-[6.3em] leading-tight md:leading-none"
+          className="font-michroma text-[2.17em] sm2:text-[2.37em] sm:text-[2.9em] md:text-[3.8em] lg:text-[4.5em] xl:text-[5.2em] 2xl:text-[6.3em] leading-tight md:leading-none"
           text={`Découvrez <br /> un shopping en 3D`}
         />
 
@@ -168,7 +168,7 @@ const Hero = (): JSX.Element => {
         </Button>
       </div>
 
-      <Parallax speed={-1.4} className="hidden md:block absolute bottom-22 right-8">
+      <Parallax speed={-1.4} className="hidden md:block absolute bottom-14 right-36">
         <div className="scroll-indicator w-14 h-14 flex items-center justify-center border border-foreground rounded-full p-4">
           <ArrowDown className="size-8 animate-bounce relative -top-2" />
         </div>
