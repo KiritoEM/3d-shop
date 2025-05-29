@@ -6,7 +6,7 @@ import { Logo } from "@/icons";
 import { DotLottiePlayer } from "@dotlottie/react-player";
 import "@dotlottie/react-player/dist/index.css";
 import { MenuIcon, X } from "lucide-react";
-import React, { Fragment, JSX, useRef, useState } from "react";
+import React, { Fragment, JSX, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import NavResponsive from "./components/NavResponsive";
 import { useTheme } from "next-themes";
@@ -17,6 +17,12 @@ const SoundLottie = () => {
   const playerRef = useRef<any>(null);
 
   const isMobile = useMediaQuery({ query: "(max-width: 400px)" });
+
+  useEffect(() => {
+    if (playerRef.current && !isPlaying) {
+      playerRef.current.pause();
+    }
+  }, [])
 
   const handleChangeSound = () => {
     if (isPlaying) {
@@ -29,10 +35,9 @@ const SoundLottie = () => {
     }
   };
   return (
-    <div className="actions__sound-lottie" onClick={handleChangeSound}>
+    <div className="actions__sound-lottie" onClick={handleChangeSound} title="Play/pause music">
       <DotLottiePlayer
         ref={playerRef}
-        autoplay
         loop
         src="/lotties/sound.lottie"
         background="transparent"

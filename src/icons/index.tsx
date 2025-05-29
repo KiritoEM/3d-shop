@@ -4,7 +4,7 @@ interface IconProps extends React.HTMLAttributes<HTMLOrSVGElement> {
   color?: string;
 }
 
-export const Logo: React.FC<IconProps> = ({ color = "#ffffff", ...props }) => (
+export const Logo: React.FC<IconProps> = ({ color, ...props }) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 261 58" {...props}>
     <path
       fill={color}

@@ -69,14 +69,14 @@ const HeroIllustrations = () => {
     <Parallax speed={1.4} className="hero__illustrations hidden md:block w-full relative z-30">
       <img
         src="/landing/megaphone.svg"
-        className="animated-element absolute -top-[160px] lg:-top-[130px] xl:-top-[110px] -left-[100px] lg:-left-[122px] xl:-left-[142px] w-[345px] xl:w-[365px]"
+        className="animated-element absolute -top-[160px] lg:-top-[130px] xl:-top-[110px] -left-[100px] lg:-left-[122px] xl:-left-[142px] w-[345px] xl:w-[365px] 2xl:w-[395px]"
         alt="megaphones"
         ref={megaphoneRef}
       />
 
       <img
         src="/landing/headphones.svg"
-        className="animated-element absolute -top-[150px] lg:-top-[116px] xl:-top-[100px] -right-[60px] lg:-right-[90px] xl:-right-[110px] w-[260px] xl:w-[280px]"
+        className="animated-element absolute -top-[150px] lg:-top-[116px] xl:-top-[100px] -right-[60px] lg:-right-[90px] xl:-right-[110px] w-[260px] xl:w-[280px] 2xl:w-[310px]"
         alt="headphone"
         ref={headphoneRef}
       />
@@ -88,7 +88,7 @@ const Hero = (): JSX.Element => {
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const gradientRef = useRef<HTMLDivElement | null>(null);
   const scrollOpt = useScrollDefaultOptions();
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
   useGSAP(() => {
     if (!sectionRef.current) return;
@@ -153,7 +153,7 @@ const Hero = (): JSX.Element => {
       >
         <HeroIllustrations />
 
-        <div className="tag animated-element w-fit rounded-lg border px-5 py-2 flex items-center space-x-2 md:space-x-3 text-[12px] sm2:text-[13px]">
+        <div className="tag animated-element w-fit rounded-lg border px-5 py-2 flex items-center space-x-2 md:space-x-3 text-[12px] sm2:text-[13px] xl:text-[15px] 2xl:text-[16px]">
           <span className="text-[#CAC4C4]">Besoin de recommandation?</span>
           <span className="flex gap-1 items-center text-primary">
             Explorer <ArrowRight className="size-4" />

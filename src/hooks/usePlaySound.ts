@@ -6,7 +6,7 @@ type SoundState = {
 }
 
 const usePlaySound = create<SoundState>((set) => ({
-    isPlaying: true,
+    isPlaying: false,
     togglePlaySound: () => set((state) => ({ isPlaying: !state.isPlaying })),
 }))
 
