@@ -143,7 +143,6 @@
   }
 
   .dark-linear {
-    border-radius: 14px;
     border: 1px solid #302F2F;
     background: linear-gradient(93deg, #302F2F 2.74%, rgba(161, 158, 158, 0.40) 103.81%);
   }
