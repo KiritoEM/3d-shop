@@ -29,7 +29,7 @@ const Explore = (): JSX.Element => {
             opacity: 1,
             scale: 1,
             duration: .4,
-            delay: 0.55,
+            delay: 1.2,
             ease: "power3.out",
             scrollTrigger: {
                 trigger: sectionRef.current,

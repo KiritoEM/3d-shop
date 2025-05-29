@@ -10,6 +10,7 @@ import TextBlur from "@/components/animations/TextBlur";
 import { useScrollDefaultOptions } from "@/constants/constants";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Parallax from "@/components/Parallax";
+import { useTheme } from "next-themes";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -87,6 +88,7 @@ const Hero = (): JSX.Element => {
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const gradientRef = useRef<HTMLDivElement | null>(null);
   const scrollOpt = useScrollDefaultOptions();
+  const {theme} = useTheme();
 
   useGSAP(() => {
     if (!sectionRef.current) return;
@@ -170,7 +172,7 @@ const Hero = (): JSX.Element => {
 
       <Parallax speed={-1.4} className="hidden md:block absolute bottom-14 right-36">
         <div className="scroll-indicator w-14 h-14 flex items-center justify-center border border-foreground rounded-full p-4">
-          <ArrowDown className="size-8 animate-bounce relative -top-2" />
+          <ArrowDown color={theme === "dark" ? "#ffffff" : "#0D0D0D"} className="size-8 animate-bounce relative -top-2" />
         </div>
       </Parallax>
     </section>

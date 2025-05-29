@@ -54,7 +54,7 @@ const StepCard: FC<StepCardProps> = ({ title, index }): JSX.Element => {
   }, []);
 
   return (
-    <article ref={cardRef} className="step-card p-5 rounded-[14px] border border-[#6b6a6a] bg-white/65 dark:dark-linear flex items-center w-full max-w-[320px] lg:max-w-[440px] space-x-8 font-michroma backdrop-blur-sm">
+    <article ref={cardRef} className="step-card p-5 rounded-[14px] border border-[#6b6a6a] dark-linear flex items-center w-full max-w-[320px] lg:max-w-[440px] space-x-8 font-michroma backdrop-blur-sm">
       <h1 className="text-[2.8em] md:text-[3em] lg:text-[3.8em]">{index + 1}.</h1>
       <h4 className="text-xl md:text-2xl lg:text-4xl">{title}</h4>
     </article>

@@ -143,12 +143,12 @@
   }
 
   .dark-linear {
-    border: 1px solid #302F2F;
-    background: linear-gradient(93deg, #302F2F 2.74%, rgba(161, 158, 158, 0.40) 103.81%);
+    background-color: white;
+    opacity: 0.65;
   }
 
   .blue-linear {
-    background: #03398B;
+    background: #186be7;
     filter: blur(86.5px);
     width: 367.922px;
     height: 264.88px;
@@ -171,6 +171,59 @@
       border-radius: 12px;
       border: 1px solid #fcbc78;
       background: linear-gradient(93deg, rgba(245, 168, 86, 0.75) 2.74%, rgba(250, 174, 93, 0.3) 103.81%);
+    }
+
+    .dark-linear {
+      border: none;
+      background: linear-gradient(93deg, #302F2F 2.74%, rgba(161, 158, 158, 0.40) 103.81%);
+    }
+
+    .blue-linear {
+      background: #03398B;
+      filter: blur(86.5px);
+      width: 367.922px;
+      height: 264.88px;
+      flex-shrink: 0;
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    .blue-linear {
+      background: #186be7;
+      filter: blur(86.5px);
+      width: 340.922px;
+      height: 240.88px;
+      flex-shrink: 0;
+    }
+
+    .dark {
+      .blue-linear {
+        background: #03398B;
+        filter: blur(86.5px);
+        width: 340.922px;
+        height: 240.88px;
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .blue-linear {
+      background: #186be7;
+      filter: blur(86.5px);
+      width: 320.922px;
+      height: 220.88px;
+      flex-shrink: 0;
+    }
+
+    .dark {
+      .blue-linear {
+        background: #03398B;
+        filter: blur(86.5px);
+        width: 320.922px;
+        height: 220.88px;
+        flex-shrink: 0;
+      }
     }
   }
 }
