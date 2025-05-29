@@ -5,7 +5,7 @@ import { AnimatedTextProps } from "./types";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { cn } from "@/lib/utils";
-import { useScrollDefaultOptions } from "@/helpers/constants";
+import { useScrollDefaultOptions } from "@/constants/constants";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 

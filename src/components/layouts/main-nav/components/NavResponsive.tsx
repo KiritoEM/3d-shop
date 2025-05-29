@@ -1,6 +1,6 @@
 "use client"
 
-import { NAV_DATA } from "@/helpers/constants";
+import { NAV_DATA } from "@/constants/constants";
 import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";

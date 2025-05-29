@@ -1,4 +1,4 @@
-import { SOUND_STATUS } from '@/helpers/constants';
+import { SOUND_STATUS } from '@/constants/constants';
 import usePlaySound from '@/hooks/usePlaySound';
 import React from 'react';
 import Sound from "react-sound";

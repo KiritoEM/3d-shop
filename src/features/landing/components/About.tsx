@@ -1,9 +1,9 @@
 "use client";
 
 import TextFadedScroll from "@/components/animations/TextFadedScroll";
-import { useScrollDefaultOptions } from "@/helpers/constants";
-import { ABOUT_DATA } from "@/helpers/data/landing-data";
-import { AboutCardTypes } from "@/helpers/types";
+import { useScrollDefaultOptions } from "@/constants/constants";
+import { ABOUT_DATA } from "@/constants/data/landing-data";
+import { AboutCardTypes } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";

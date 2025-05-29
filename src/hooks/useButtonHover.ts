@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Position = {
     x: number;
@@ -11,6 +11,7 @@ const useButtonHover = () => {
     const buttonRef = useRef<HTMLButtonElement | null>(null);
     const [startPosition, setStartPosition] = useState<Position>({ x: 0, y: 0 });
     const [isHovered, setIsHovered] = useState<boolean>(false);
+    const [isTextChanged, setIsTextChanged] = useState<boolean>(false);
     const [circleSize, setCircleSize] = useState<number>(0);
 
     const handleMouseEnter = (e: React.MouseEvent) => {
@@ -32,7 +33,24 @@ const useButtonHover = () => {
 
     const handleMouseLeave = () => {
         setIsHovered(false);
+        setTimeout(() => {
+            setIsTextChanged(false);
+        }, 200)
     }
+
+    useEffect(() => {
+        let timeout: NodeJS.Timeout;
+
+        if (isHovered) {
+            timeout = setTimeout(() => {
+                setIsTextChanged(true);
+            }, 280)
+        }
+
+        return () => {
+            clearTimeout(timeout)
+        }
+    }, [isHovered])
 
     return {
         buttonRef,
@@ -40,6 +58,7 @@ const useButtonHover = () => {
         isHovered,
         circleSize,
         handleMouseEnter,
+        isTextChanged,
         handleMouseLeave
     }
 };

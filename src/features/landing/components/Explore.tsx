@@ -12,7 +12,7 @@ import React, { useRef } from "react";
 gsap.registerPlugin(ScrollTrigger);
 
 const Explore = (): JSX.Element => {
-    const { buttonRef, circleSize, isHovered, startPosition, handleMouseEnter, handleMouseLeave } = useButtonHover();
+    const { buttonRef, circleSize, isHovered, startPosition, handleMouseEnter, handleMouseLeave, isTextChanged } = useButtonHover();
     const sectionRef = useRef<HTMLDivElement | null>(null);
     const gradientRef = useRef<HTMLDivElement | null>(null);
 
@@ -66,7 +66,7 @@ const Explore = (): JSX.Element => {
                     ref={buttonRef}
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
-                    className="mt-8 px-7 rounded-full bg-foreground hover:bg-foreground text-background overflow-hidden relative"
+                    className={`mt-8 px-7 rounded-full ${isTextChanged ? "text-white" : "text-background"} bg-foreground hover:bg-foreground overflow-hidden relative`}
                 >
                     <span className="relative inline-flex gap-3 items-center z-10">
                         Explorer notre shop <ArrowRight />

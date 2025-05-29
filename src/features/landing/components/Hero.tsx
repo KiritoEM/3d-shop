@@ -7,7 +7,7 @@ import { JSX, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import TextBlur from "@/components/animations/TextBlur";
-import { useScrollDefaultOptions } from "@/helpers/constants";
+import { useScrollDefaultOptions } from "@/constants/constants";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Parallax from "@/components/Parallax";
 
@@ -159,7 +159,7 @@ const Hero = (): JSX.Element => {
         </div>
 
         <TextBlur
-          className="font-michroma text-[2.35em] sm:text-[2.9em] md:text-[3.8em] lg:text-[4.5em] xl:text-[5.2em] 2xl:text-[6.3em] leading-tight md:leading-none"
+          className="font-michroma text-[2.37em] sm:text-[2.9em] md:text-[3.8em] lg:text-[4.5em] xl:text-[5.2em] 2xl:text-[6.3em] leading-tight md:leading-none"
           text={`Découvrez <br /> un shopping en 3D`}
         />
 

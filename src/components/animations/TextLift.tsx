@@ -6,7 +6,7 @@ import { FC, useRef } from "react";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { cn } from "@/lib/utils";
-import { useScrollDefaultOptions } from "@/helpers/constants";
+import { useScrollDefaultOptions } from "@/constants/constants";
 import { AnimatedTextProps } from "./types";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);

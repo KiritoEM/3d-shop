@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { FC, useRef } from "react";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
-import { useScrollDefaultOptions } from "@/helpers/constants";
+import { useScrollDefaultOptions } from "@/constants/constants";
 import { AnimatedTextProps } from "./types";
 import { cn } from "@/lib/utils";
 

@@ -5,8 +5,8 @@ import { useGSAP } from "@gsap/react";
 import { FC, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useScrollDefaultOptions } from "@/helpers/constants";
-import { perspective3D } from "@/helpers/perpective";
+import { useScrollDefaultOptions } from "@/constants/constants";
+import { perspective3D } from "@/lib/perpective";
 
 gsap.registerPlugin(ScrollTrigger);
 

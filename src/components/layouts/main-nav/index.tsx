@@ -1,6 +1,6 @@
 "use client";
 
-import { NAV_DATA } from "@/helpers/constants";
+import { NAV_DATA } from "@/constants/constants";
 import usePlaySound from "@/hooks/usePlaySound";
 import { Logo } from "@/icons";
 import { DotLottiePlayer } from "@dotlottie/react-player";

@@ -2,6 +2,7 @@
 
 import MainNav from "@/components/layouts/main-nav";
 import PlaySound from "@/components/PlaySound";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function LandingLayout({
   children,
@@ -13,6 +14,7 @@ export default function LandingLayout({
       <MainNav />
       <PlaySound />
       {children}
+      <ThemeToggle />
     </main>
   );
 }
