@@ -169,12 +169,6 @@ const Hero = (): JSX.Element => {
           Voir nos produits
         </Button>
       </div>
-
-      <Parallax speed={-1.4} className="hidden md:block absolute bottom-14 right-36">
-        <div className="scroll-indicator w-14 h-14 flex items-center justify-center border border-foreground rounded-full p-4">
-          <ArrowDown color={theme === "dark" ? "#ffffff" : "#0D0D0D"} className="size-8 animate-bounce relative -top-2" />
-        </div>
-      </Parallax>
     </section>
   );
 };

@@ -1,0 +1,6 @@
+services:
+  app-prod:
+    build: 
+      context: .
+    ports:
+      - '3002:3000'
