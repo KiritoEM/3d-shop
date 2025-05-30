@@ -149,10 +149,9 @@
 
   .blue-linear {
     background: #186be7;
-    filter: blur(86.5px);
-    width: 367.922px;
-    height: 264.88px;
-    flex-shrink: 0;
+    filter: blur(190px);
+    width: 396.326px;
+    height: 460.201px;
   }
 
   .text-follow div {
@@ -179,18 +178,17 @@
     }
 
     .blue-linear {
-      background: #03398B;
-      filter: blur(86.5px);
-      width: 367.922px;
-      height: 264.88px;
-      flex-shrink: 0;
+      background: #1767df;
+      filter: blur(190px);
+      width: 396.326px;
+      height: 460.201px;
     }
   }
 
   @media screen and (max-width: 1024px) {
     .blue-linear {
       background: #186be7;
-      filter: blur(86.5px);
+      filter: blur(190px);
       width: 340.922px;
       height: 240.88px;
       flex-shrink: 0;
@@ -198,7 +196,7 @@
 
     .dark {
       .blue-linear {
-        background: #03398B;
+        background: #1767df;
         filter: blur(86.5px);
         width: 340.922px;
         height: 240.88px;
@@ -208,20 +206,20 @@
   }
 
   @media screen and (max-width: 768px) {
-    .blue-linear {
+  .blue-linear {
       background: #186be7;
-      filter: blur(86.5px);
-      width: 320.922px;
-      height: 220.88px;
+      filter: blur(85px);
+      width: 212.922px;
+      height: 140.88px;
       flex-shrink: 0;
     }
 
     .dark {
       .blue-linear {
-        background: #03398B;
-        filter: blur(86.5px);
-        width: 320.922px;
-        height: 220.88px;
+        background: #1767df;
+        filter: blur(85px);
+        width: 212.922px;
+        height: 140.88px;
         flex-shrink: 0;
       }
     }

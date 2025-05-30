@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import React, { useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -29,7 +30,7 @@ const Explore = (): JSX.Element => {
             opacity: 1,
             scale: 1,
             duration: .4,
-            delay: 1.5,
+            delay: .5,
             ease: "power3.out",
             scrollTrigger: {
                 trigger: sectionRef.current,
@@ -41,8 +42,43 @@ const Explore = (): JSX.Element => {
     }, { scope: sectionRef })
 
     return (
-        <section className="explore mt-28 px-5 md:mt-[380px] mb-[140px] relative z-30" ref={sectionRef}>
-            <div className="explore__gradient blue-linear absolute w-fit left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2" ref={gradientRef}></div>
+        <section className="explore mt-28 px-5 lg:mt-[380px] mb-[140px] relative z-30" ref={sectionRef}>
+            <div className="explore__gradient blue-linear absolute z-20 w-fit left-0 top-6 lg:-top-64" ref={gradientRef}>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 967 1515"
+                >
+                    <g filter="url(#filter0_f_1_1228)">
+                        <path
+                            fill="#186be7"
+                            d="M529.518 779.033c-83.862-90.255 34.942-211.014 104.827-260.111 229.486-122.221 365.479 385.466 325.814 441.876-39.664 56.412-229.486 84.612-189.822 0 39.664-84.615-135.992-68.945-240.819-181.765"
+                        ></path>
+                    </g>
+                    <defs>
+                        <filter
+                            id="filter0_f_1_1228"
+                            width="1466.33"
+                            height="1514.2"
+                            x="0.674"
+                            y="0"
+                            colorInterpolationFilters="sRGB"
+                            filterUnits="userSpaceOnUse"
+                        >
+                            <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
+                            <feBlend
+                                in="SourceGraphic"
+                                in2="BackgroundImageFix"
+                                result="shape"
+                            ></feBlend>
+                            <feGaussianBlur
+                                result="effect1_foregroundBlur_1_1228"
+                                stdDeviation="250"
+                            ></feGaussianBlur>
+                        </filter>
+                    </defs>
+                </svg>
+            </div>
 
             <div className="explore-content relative z-20 w-fit mx-auto text-center flex flex-col items-center">
                 <TextFollow
@@ -67,21 +103,24 @@ const Explore = (): JSX.Element => {
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                     className={`mt-8 px-7 rounded-full ${isTextChanged ? "text-white" : "text-background"} bg-foreground hover:bg-foreground overflow-hidden relative`}
+                    asChild
                 >
-                    <span className="relative inline-flex gap-3 items-center z-10">
-                        Explorer notre shop <ArrowRight />
-                    </span>
-                    <div
-                        className="absolute rounded-full bg-primary transition-all duration-700 ease-linear pointer-events-none"
-                        style={{
-                            left: `${startPosition.x}px`,
-                            top: `${startPosition.y}px`,
-                            width: `${circleSize}px`,
-                            height: `${circleSize}px`,
-                            transform: `translate(-50%, -50%) scale(${isHovered ? 1 : 0})`,
-                            transitionProperty: 'transform',
-                        }}
-                    />
+                    <Link href="/shop">
+                        <span className="relative inline-flex gap-3 items-center z-10">
+                            Explorer notre shop <ArrowRight />
+                        </span>
+                        <div
+                            className="absolute rounded-full bg-primary transition-all duration-700 ease-linear pointer-events-none"
+                            style={{
+                                left: `${startPosition.x}px`,
+                                top: `${startPosition.y}px`,
+                                width: `${circleSize}px`,
+                                height: `${circleSize}px`,
+                                transform: `translate(-50%, -50%) scale(${isHovered ? 1 : 0})`,
+                                transitionProperty: 'transform',
+                            }}
+                        />
+                    </Link>
                 </Button>
             </div>
         </section>

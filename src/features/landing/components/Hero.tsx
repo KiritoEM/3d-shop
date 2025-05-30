@@ -11,6 +11,7 @@ import { useScrollDefaultOptions } from "@/constants/constants";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Parallax from "@/components/Parallax";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -93,7 +94,7 @@ const Hero = (): JSX.Element => {
   useGSAP(() => {
     if (!sectionRef.current) return;
 
-    const btn = sectionRef.current.querySelector("button");
+    const btn = sectionRef.current.querySelector(".hero__cta");
     const tag = sectionRef.current.querySelector(".tag");
 
     gsap.set(gradientRef.current, {
@@ -155,9 +156,9 @@ const Hero = (): JSX.Element => {
 
         <div className="tag animated-element w-fit rounded-lg border px-5 py-2 flex items-center space-x-2 md:space-x-3 text-[12px] sm2:text-[13px] xl:text-[15px] 2xl:text-[16px]">
           <span className="text-[#CAC4C4]">Besoin de recommandation?</span>
-          <span className="flex gap-1 items-center text-primary">
+          <Link href="/" className="flex gap-1 items-center text-primary">
             Explorer <ArrowRight className="size-4" />
-          </span>
+          </Link>
         </div>
 
         <TextBlur
@@ -165,8 +166,10 @@ const Hero = (): JSX.Element => {
           text={`Découvrez <br /> un shopping en 3D`}
         />
 
-        <Button size="lg" className="animated-element rounded-full mt-6">
-          Voir nos produits
+        <Button size="lg" className="hero__cta animated-element rounded-full mt-6" asChild>
+          <Link href="/shop">
+            Voir nos produits
+          </Link>
         </Button>
       </div>
     </section>

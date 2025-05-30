@@ -4,7 +4,7 @@ import { useMediaQuery } from "react-responsive";
 export const NAV_DATA = [
     {
         label: "Accueil",
-        url: "#hero"
+        url: "/"
     },
     {
         label: "Shop",
