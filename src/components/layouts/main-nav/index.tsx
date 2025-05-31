@@ -14,6 +14,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
+const MATHED_PATH: string[] = ["/"];
+
 const SoundLottie = () => {
   const togglePlaySound = usePlaySound((state) => state.togglePlaySound);
   const isPlaying = usePlaySound((state) => state.isPlaying);
@@ -56,9 +58,14 @@ const MainNav = (): JSX.Element => {
   const { theme } = useTheme();
   const path = usePathname();
   const router = useRouter();
+  const pathname = usePathname();
+
+  const isAbsolute = MATHED_PATH.includes(path);
   return (
     <Fragment>
-      <nav className="main-nav absolute z-50 w-full">
+      <nav className={
+        cn("main-nav z-50 w-full", isAbsolute ? "absolute" : "relative")
+      }>
         <div className="main-nav__container container flex items-center justify-between py-5 sm2:py-2 lg:py-6">
           <Logo color={theme === "light" ? "#0D0D0D" : "#ffffff"} className="main-nav__logo w-36 sm:w-42 lg:w-38 cursor-pointer" onClick={() => router.push("/")} />
 

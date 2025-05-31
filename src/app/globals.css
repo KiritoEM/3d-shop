@@ -80,6 +80,7 @@
   --sidebar-ring: oklch(0.708 0 0);
   --background: oklch(1 0 0);
   --text-gray: #b8b2b2;
+  --border-gray: #626060;
 }
 
 .dark {
@@ -115,6 +116,7 @@
   --sidebar-ring: oklch(0.556 0 0);
   --background: oklch(0.1591 0 0);
   --text-gray: #262626;
+  --border-gray: #626060;
 }
 
 @layer base {
@@ -165,6 +167,10 @@
     background-position: 100% 0%;
   }
 
+  .border-gray {
+    border-color: var(--border-gray);
+  }
+
   .dark {
     .yellow-linear {
       border-radius: 12px;
@@ -182,6 +188,10 @@
       filter: blur(190px);
       width: 396.326px;
       height: 460.201px;
+    }
+
+    .border-gray {
+      border-color: var(--border-gray);
     }
   }
 
@@ -206,7 +216,7 @@
   }
 
   @media screen and (max-width: 768px) {
-  .blue-linear {
+    .blue-linear {
       background: #186be7;
       filter: blur(85px);
       width: 212.922px;

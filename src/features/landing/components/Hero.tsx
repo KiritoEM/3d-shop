@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ArrowDown } from "@/icons";
 import { ArrowRight } from "lucide-react";
 import { JSX, useRef } from "react";
 import { useGSAP } from "@gsap/react";
@@ -10,7 +9,6 @@ import TextBlur from "@/components/animations/TextBlur";
 import { useScrollDefaultOptions } from "@/constants/constants";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Parallax from "@/components/Parallax";
-import { useTheme } from "next-themes";
 import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -89,7 +87,6 @@ const Hero = (): JSX.Element => {
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const gradientRef = useRef<HTMLDivElement | null>(null);
   const scrollOpt = useScrollDefaultOptions();
-  const { theme } = useTheme();
 
   useGSAP(() => {
     if (!sectionRef.current) return;
