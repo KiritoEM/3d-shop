@@ -80,7 +80,7 @@
   --sidebar-ring: oklch(0.708 0 0);
   --background: oklch(1 0 0);
   --text-gray: #b8b2b2;
-  --border-gray: #626060;
+  --border-gray: #353434;
 }
 
 .dark {
@@ -116,7 +116,7 @@
   --sidebar-ring: oklch(0.556 0 0);
   --background: oklch(0.1591 0 0);
   --text-gray: #262626;
-  --border-gray: #626060;
+  --border-gray: #5c5b5b;
 }
 
 @layer base {
