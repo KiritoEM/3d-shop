@@ -10,7 +10,7 @@ const FilterCard: FC<FilterCardProps> = ({ title, children, className, ...props 
     return (
         <article className={cn(className, "p-6 rounded-xl border-gray border-1")}>
             <header>
-                <h4 className="font-michroma text-2xl">{title}</h4>
+                <h4 className="font-michroma text-xl">{title}</h4>
             </header>
 
             <div className="filter-card__content mt-8">

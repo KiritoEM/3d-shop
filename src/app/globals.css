@@ -171,6 +171,25 @@
     border-color: var(--border-gray);
   }
 
+  .scrollable-section::-webkit-scrollbar {
+    width: 7px;
+    display: none;
+  }
+
+  .scrollable-section:hover::-webkit-scrollbar,
+  .scrollable-section:active::-webkit-scrollbar {
+    display: block;
+  }
+
+  .scrollable-section::-webkit-scrollbar-thumb {
+    background: #aaa8a8b9;
+    border-radius: 5px;
+  }
+
+  .scrollable-section::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
   .dark {
     .yellow-linear {
       border-radius: 12px;

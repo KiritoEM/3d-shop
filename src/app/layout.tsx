@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { DM_Mono, Michroma } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/providers/ThemeProvider";
-import SmoothScrolling from "@/components/SmoothScrolling";
 
 const DM = DM_Mono({
   variable: "--font-dm-mono",
@@ -34,7 +33,7 @@ export default function RootLayout({
           defaultTheme="dark"
           enableSystem={false}
         >
-          <SmoothScrolling>{children}</SmoothScrolling>
+          {children}
         </ThemeProvider>
       </body>
     </html>
