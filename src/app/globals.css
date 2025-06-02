@@ -284,3 +284,37 @@
     mask-size: 200vmax 200vmax;
   }
 }
+
+.product-card:hover .product-card__active {
+  transform: translateY(0%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-card .product-card__active {
+  transform: translateY(100%);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+.product-card .product-card__active .content>* {
+  transform: translateY(30px);
+  opacity: 0;
+}
+
+.product-card:hover .product-card__active .content>*:nth-child(1) {
+  transform: translateY(0);
+  opacity: 1;
+  transition: all 0.3s ease-out 0.2s;
+}
+
+.product-card:hover .product-card__active .content>*:nth-child(2) {
+  transform: translateY(0);
+  opacity: 1;
+  transition: all 0.3s ease-out 0.4s;
+}
+
+.product-card:hover .product-card__active .content>*:nth-child(3) {
+  transform: translateY(0);
+  opacity: 1;
+  transition: all 0.3s ease-out 0.6s;
+}

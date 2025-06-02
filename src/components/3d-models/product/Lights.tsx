@@ -5,15 +5,10 @@ const Lights = (): JSX.Element => {
     <Fragment>
       <directionalLight
         position={[2, 6, 3]}
-        intensity={4.6}
+        intensity={5.4}
         castShadow
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
-        shadow-camera-far={20}
-        shadow-camera-left={-8}
-        shadow-camera-right={8}
-        shadow-camera-top={8}
-        shadow-camera-bottom={-8}
         shadow-bias={-0.0001}
         color="#ffffff"
       />
@@ -26,7 +21,7 @@ const Lights = (): JSX.Element => {
 
       <directionalLight
         position={[-3, 3, 2]}
-        intensity={2.2}
+        intensity={1.2}
       />
 
       <directionalLight
@@ -35,21 +30,14 @@ const Lights = (): JSX.Element => {
       />
 
       <directionalLight
-        position={[0, 3, 5]}
-        intensity={2.0}
-        color="#ffffff"
-      />
-
-      <directionalLight
         position={[0, 8, 0]}
-        intensity={2.2}
+        intensity={0.7}
       />
 
-      <ambientLight intensity={2.2} color="#ffffff" />
+      <ambientLight intensity={2.2} />
 
       <hemisphereLight
-        groundColor="#ffffff"
-        intensity={1.8}
+        intensity={2.2}
       />
     </Fragment>
   );
