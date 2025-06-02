@@ -10,7 +10,7 @@ import { useState } from 'react';
 const FilterSidebar = (): JSX.Element => {
     const [values, setValues] = useState<number[]>([0, 100000]);
     return (
-        <aside className="w-full max-w-[345px] space-y-8 h-[calc(100vh-120px)] pb-8 fixed overflow-x-hidden scrollable-section overflow-y-auto">
+        <aside className="w-full max-w-[340px] space-y-8 h-[calc(100vh-120px)] pb-8 fixed overflow-x-hidden scrollable-section overflow-y-auto">
             {/* Customisation card */}
             <FilterCard className="customisation-card" title="Customisation">
                 <ul className="flex flex-col space-y-5">

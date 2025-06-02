@@ -2,11 +2,17 @@
 
 import { Environment } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import React, { Suspense } from "react";
+import React, { FC, Suspense } from "react";
 import Lights from "./Lights";
 import { ProductModel } from "./model";
+import { Config3D } from "@/models/Product.model";
 
-const ProductViewCanvas = (): JSX.Element => {
+type ProductViewCanvasProps = {
+    modelPath: string;
+    config3d?: Partial<Config3D>
+}
+
+const ProductViewCanvas: FC<ProductViewCanvasProps> = ({ modelPath, config3d = { rotation: [0, 0, 0], position: [0, 0, 0], scale: 2.4 } }): JSX.Element => {
     return (
         <Canvas
             shadows
@@ -34,8 +40,10 @@ const ProductViewCanvas = (): JSX.Element => {
 
                 <Suspense fallback={null}>
                     <ProductModel
-                        position={[0, 0, 0]}
-                        rotation={[-0.18, Math.PI - 0.6, 0.4]}
+                        scale={config3d.scale}
+                        position={config3d.position}
+                        rotation={config3d.rotation}
+                        modelPath={modelPath}
                     />
                 </Suspense>
             </group>
