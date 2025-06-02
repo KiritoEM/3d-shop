@@ -8,7 +8,7 @@ interface FilterCardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const FilterCard: FC<FilterCardProps> = ({ title, children, className, ...props }): JSX.Element => {
     return (
-        <article className={cn(className, "p-6 rounded-xl border-gray border-1")}>
+        <article className={cn(className, "p-6 rounded-xl border-gray border-1")} {...props}>
             <header>
                 <h4 className="font-michroma text-xl">{title}</h4>
             </header>

@@ -1,5 +1,6 @@
 import ProductViewCanvas from "@/components/3d-models/product/ViewCanvas";
 import { Button } from "@/components/ui/button";
+import { formatIntoPrice } from "@/lib/utils";
 import { IProduct } from "@/models/Product.model";
 import { Info } from "lucide-react";
 import { FC } from "react";
@@ -15,7 +16,7 @@ const ProductCard: FC<ProductCardProps> = ({ id, name, modelPath, price, groundC
                 <div className="overlay-bg bg-[#0D0D0D]/81 absolute w-full h-full"></div>
                 <div className="content flex flex-col space-y-3 relative z-20 items-center text-center">
                     <h5 className="text-xl font-michroma">{name}</h5>
-                    <p className="text-lg">{price} Euros</p>
+                    <p className="text-lg">{formatIntoPrice(price!)} Euros</p>
                     <Button className="rounded-full !h-8 mt-1"><Info /> Détails</Button>
                 </div>
             </div>
