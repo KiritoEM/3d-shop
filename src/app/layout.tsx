@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Mono, Michroma } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/providers/ThemeProvider";
+import TanstackProvider from "@/providers/TanstackProvider";
 
 const DM = DM_Mono({
   variable: "--font-dm-mono",
@@ -28,13 +29,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${DM.className} ${michroma.variable} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-        >
-          {children}
-        </ThemeProvider>
+        <TanstackProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem={false}
+          >
+            {children}
+          </ThemeProvider>
+        </TanstackProvider>
       </body>
     </html>
   );

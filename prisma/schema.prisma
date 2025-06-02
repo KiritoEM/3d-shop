@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-
 }
 
 datasource db {
@@ -18,14 +17,14 @@ model Product {
   id Int @id @default(autoincrement())
   name String
   description String
-  config3D Json?
+  config3D Json @default("{\"rotation\": [0, 0, 0], \"scale\": 2.4, \"position\": [0, 0, 0]}")
   price Decimal
   modelPath String
   groundColor String
   createdAt DateTime @default (now())
   updatedAt DateTime @updatedAt
   categoryId Int
-  catefory Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 }
 
 model Category {

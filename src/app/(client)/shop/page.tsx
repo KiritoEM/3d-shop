@@ -1,8 +1,17 @@
+"use client"
+
 import FilterSidebar from '@/features/shop/components/Filter-sidebar';
 import ProductCard from '@/features/shop/components/ProductCard';
 import React from 'react';
+import { useQuery } from "@tanstack/react-query";
+import { fetchProducts } from '@/features/shop/services/productServices';
 
 const Shop = (): JSX.Element => {
+    const { data } = useQuery({
+        queryKey: ["products"],
+        queryFn: () => fetchProducts(),
+    })
+
     return (
         <section className="shop container !px-6 flex gap-12 mt-[106px]">
             <FilterSidebar />
