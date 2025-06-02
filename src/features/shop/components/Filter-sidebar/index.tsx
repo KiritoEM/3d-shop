@@ -27,18 +27,18 @@ const FilterSidebar = (): JSX.Element => {
 
             {/* Category card */}
             <FilterCard className="category-card" title="Catégories">
-                <div className="flex flex-col space-y-5">
+                <ul className="flex flex-col space-y-5">
                     {
                         CategoryMockData.map((category, index) => (
-                            <ul key={index} className="category__item w-full flex items-center justify-between">
+                            <li key={index} className="category__item w-full flex items-center justify-between cursor-pointer">
                                 <p>{category.name}</p>
                                 <div className="count px-3 py-1 rounded-xl bg-primary/10 text-primary text-sm">
                                     <span>{category.count}</span>
                                 </div>
-                            </ul>
+                            </li>
                         ))
                     }
-                </div>
+                </ul>
             </FilterCard>
 
             {/* Price card */}
