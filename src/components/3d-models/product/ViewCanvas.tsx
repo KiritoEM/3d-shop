@@ -59,8 +59,8 @@ const ProductViewCanvas: FC<ProductViewCanvasProps> = ({ modelPath, config3D }):
             >
                 <Lights />
                 <Stage
-                    intensity={0.6}
-                    preset="rembrandt"
+                    intensity={0.4}
+                    preset="upfront"
                 >
                     <Suspense fallback={null}>
                         <ProductModel
