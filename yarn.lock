@@ -1708,6 +1708,11 @@ minizlib@^3.0.1:
   dependencies:
     minipass "^7.1.2"
 
+mitt@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/mitt/-/mitt-3.0.1.tgz#ea36cf0cc30403601ae074c8f77b7092cdab36d1"
+  integrity sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==
+
 mkdirp@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-3.0.1.tgz#e44e4c5607fb279c168241713cc6e0fea9adcb50"
@@ -1757,6 +1762,18 @@ next@15.3.2:
     "@next/swc-win32-arm64-msvc" "15.3.2"
     "@next/swc-win32-x64-msvc" "15.3.2"
     sharp "^0.34.1"
+
+nuq@^0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/nuq/-/nuq-0.0.0.tgz#f999ed6cdc50366ed9681ff2f58f2a192b9f8605"
+  integrity sha512-WlRAh8ea7sn7NvHJ3Ix6LsShGHAZ6L71hx+96/0OVwLBXeNYKH2JvH8guc9BEBT0fH7tna6QBaRRJYQpL8ffuQ==
+
+nuqs@^2.4.3:
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/nuqs/-/nuqs-2.4.3.tgz#4d0713f44822ae64145740d013c074e1d1523b6d"
+  integrity sha512-BgtlYpvRwLYiJuWzxt34q2bXu/AIS66sLU1QePIMr2LWkb+XH0vKXdbLSgn9t6p7QKzwI7f38rX3Wl9llTXQ8Q==
+  dependencies:
+    mitt "^3.0.1"
 
 object-assign@^4.0.1, object-assign@^4.1.1:
   version "4.1.1"

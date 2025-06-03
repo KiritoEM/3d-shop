@@ -3,6 +3,7 @@ import { DM_Mono, Michroma } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/providers/ThemeProvider";
 import TanstackProvider from "@/providers/TanstackProvider";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 const DM = DM_Mono({
   variable: "--font-dm-mono",
@@ -35,7 +36,7 @@ export default function RootLayout({
             defaultTheme="dark"
             enableSystem={false}
           >
-            {children}
+            <NuqsAdapter>{children}</NuqsAdapter>
           </ThemeProvider>
         </TanstackProvider>
       </body>

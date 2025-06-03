@@ -3,14 +3,22 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { FilterCard } from "./card";
 import { CUSTOMISATION_FILTER_OPTS } from "@/constants/data/store-data";
-import { CategoryMockData } from "@/__mock__/store-mock";
 import { DualRangeSlider } from '@/components/ui/ranger-slider';
-import { useState } from 'react';
+import { FC, useState } from 'react';
+import { ICategory } from "@/models/category.model";
+import { normalizeStr } from "@/lib/utils";
 
-const FilterSidebar = (): JSX.Element => {
-    const [values, setValues] = useState<number[]>([0, 100000]);
+type FilterSidebarProps = {
+    categories: ICategory[];
+    setCategory: (category: string) => void;
+}
+
+const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setCategory }): JSX.Element => {
+    const [prices, setPrices] = useState<number[]>([0, 100000]);
+    const allCategoriesLength = categories.map((category) => category.Product.flat()).length;
+
     return (
-        <aside className="w-full max-w-[345px] space-y-8 h-[calc(100vh-120px)] pb-8 fixed overflow-x-hidden scrollable-section overflow-y-auto">
+        <aside className="filter-bar hidden lg:block w-full max-w-[310px] xl:max-w-[325px] space-y-8 h-[calc(100vh-110px)] pb-8 fixed overflow-x-hidden scrollable-section overflow-y-auto">
             {/* Customisation card */}
             <FilterCard className="customisation-card" title="Customisation">
                 <ul className="flex flex-col space-y-5">
@@ -28,12 +36,23 @@ const FilterSidebar = (): JSX.Element => {
             {/* Category card */}
             <FilterCard className="category-card" title="Catégories">
                 <ul className="flex flex-col space-y-5">
+                    <li className="category__item w-full flex items-center justify-between cursor-pointer" onClick={() => setCategory('tout')}>
+                        <p>Tout</p>
+                        <div className="count px-3 py-1 rounded-xl bg-primary/10 text-primary text-sm">
+                            <span>{allCategoriesLength}</span>
+                        </div>
+                    </li>
+
                     {
-                        CategoryMockData.map((category, index) => (
-                            <li key={index} className="category__item w-full flex items-center justify-between cursor-pointer">
+                        categories.map((category, index) => (
+                            <li
+                                key={index}
+                                className="category__item w-full flex items-center justify-between cursor-pointer"
+                                onClick={() => setCategory(normalizeStr(category.name))}
+                            >
                                 <p>{category.name}</p>
                                 <div className="count px-3 py-1 rounded-xl bg-primary/10 text-primary text-sm">
-                                    <span>{category.count}</span>
+                                    <span>{category.Product.length}</span>
                                 </div>
                             </li>
                         ))
@@ -46,8 +65,8 @@ const FilterSidebar = (): JSX.Element => {
                 <div className="w-full pr-5 mt-16">
                     <DualRangeSlider
                         label={(value) => <span className="text-[13px]">{value}</span>}
-                        value={values}
-                        onValueChange={setValues}
+                        value={prices}
+                        onValueChange={setPrices}
                         className="font-michroma"
                         min={0}
                         max={100000}

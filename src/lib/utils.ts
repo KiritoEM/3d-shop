@@ -20,3 +20,14 @@ export const formatIntoPrice = (price: number): string => {
 
   return res.join(" ");
 }
+
+export const normalizeStr = (str: string) => {
+  if (typeof str !== "string") return "";
+  return str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zÀ-ÿ0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "")
+    .replace(/_+/g, "_");
+};
