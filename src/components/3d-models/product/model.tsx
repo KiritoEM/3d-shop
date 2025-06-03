@@ -2,6 +2,7 @@
 
 import React, { forwardRef, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
+import { Mesh, Material } from "three";
 import * as THREE from "three";
 
 interface ModelProps {

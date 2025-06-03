@@ -1,7 +1,7 @@
-export type Config3D = {
-    rotation: [number, number, number];
-    scale: number;
-    position: [number, number, number]
+type Config3D = {
+    rotation?: [number, number, number],
+    position?: [number, number, number],
+    scale?: number;
 }
 
 export interface IProduct {
@@ -11,5 +11,8 @@ export interface IProduct {
     price: number;
     modelPath: string;
     groundColor: string;
-    config3D?: Partial<Config3D>;
+    config3D?: Config3D;
+    createdAt: string;
+    updatedAt: string;
+    category: string
 }

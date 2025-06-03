@@ -1,6 +1,6 @@
-import { IProduct } from "@/models/Product.model";
+import { IProduct } from "@/models/product.model";
 
-export const fetchProducts = async (): Promise<IProduct> => {
+export const fetchProducts = async (): Promise<IProduct[]> => {
     const response = await fetch("/api/products");
 
     if (!response.ok) {

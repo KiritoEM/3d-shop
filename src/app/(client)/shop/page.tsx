@@ -22,7 +22,11 @@ const Shop = (): JSX.Element => {
                 </header>
 
                 <div className="shop-products__showcases grid grid-cols-3 mt-12 gap-x-6 gap-y-8">
-                    <ProductCard id={1} name="Iphone 12 Pro" modelPath="/iphone_16_pro_max.glb" price={150000} groundColor="#585656" />
+                    {
+                        data && data.map((product) => (
+                            <ProductCard key={product.id} {...product} />
+                        ))
+                    }
                 </div>
             </div>
         </section>
