@@ -8,7 +8,7 @@ import { fetchProducts } from '@/features/shop/services/productServices';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const Shop = (): JSX.Element => {
-    const { data, isLoading } = useQuery({
+    const { data, isLoading, error } = useQuery({
         queryKey: ["products"],
         queryFn: () => fetchProducts(),
     })
@@ -25,9 +25,16 @@ const Shop = (): JSX.Element => {
                 <div className="shop-products__showcases grid grid-cols-3 mt-12 gap-x-6 gap-y-8">
                     {/* Skeletons loading */}
                     {
-                        isLoading && Array.from({ length: 8 }).map((_, i) => (
+                        isLoading && Array.from({ length: 6 }).map((_, i) => (
                             <Skeleton key={i} className="w-full h-[240px] rounded-lg" />
                         ))
+                    }
+
+                    {/* If no items in shop */}
+                    {
+                        !isLoading && (!data || error) && (
+                            <h4 className="text-2xl w-full col-span-3">Pas de produits disponibles</h4>
+                        )
                     }
 
                     {/* Rendered products */}

@@ -1,4 +1,4 @@
-type Config3D = {
+export type Config3D = {
     rotation?: [number, number, number],
     position?: [number, number, number],
     scale?: number;
