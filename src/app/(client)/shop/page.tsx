@@ -5,9 +5,10 @@ import ProductCard from '@/features/shop/components/ProductCard';
 import React from 'react';
 import { useQuery } from "@tanstack/react-query";
 import { fetchProducts } from '@/features/shop/services/productServices';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const Shop = (): JSX.Element => {
-    const { data } = useQuery({
+    const { data, isLoading } = useQuery({
         queryKey: ["products"],
         queryFn: () => fetchProducts(),
     })
@@ -22,8 +23,16 @@ const Shop = (): JSX.Element => {
                 </header>
 
                 <div className="shop-products__showcases grid grid-cols-3 mt-12 gap-x-6 gap-y-8">
+                    {/* Skeletons loading */}
                     {
-                        data && data.map((product) => (
+                        isLoading && Array.from({ length: 8 }).map((_, i) => (
+                            <Skeleton key={i} className="w-full h-[240px] rounded-lg" />
+                        ))
+                    }
+
+                    {/* Rendered products */}
+                    {
+                        !isLoading && data && data.map((product) => (
                             <ProductCard key={product.id} {...product} />
                         ))
                     }

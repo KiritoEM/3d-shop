@@ -1,8 +1,7 @@
 "use client";
 
-import React, { forwardRef, useRef } from "react";
+import React, { forwardRef, useEffect, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
-import { Mesh, Material } from "three";
 import * as THREE from "three";
 
 interface ModelProps {
@@ -10,18 +9,25 @@ interface ModelProps {
     rotation?: [number, number, number];
     scale?: [number, number, number] | number;
     visible?: boolean;
-    modelPath: string
+    modelPath: string;
+    onLoad: (state: boolean) => void
 }
 
 export const ProductModel = forwardRef<THREE.Group, ModelProps>(
     (
-        { position = [0, 0, 0], rotation = [0, 0, 0], scale = 2.4, visible = true, modelPath },
+        { position = [0, 0, 0], rotation = [0, 0, 0], scale = 2.4, visible = true, modelPath, onLoad },
         ref
     ) => {
         const internalRef = useRef<THREE.Group>(null);
         const { scene } = useGLTF(
             modelPath
         );
+
+        useEffect(() => {
+            if (scene) {
+                onLoad(true);
+            }
+        }, [scene])
 
         const groupRef = ref || internalRef;
 

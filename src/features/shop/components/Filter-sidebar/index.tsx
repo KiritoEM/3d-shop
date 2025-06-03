@@ -42,7 +42,7 @@ const FilterSidebar = (): JSX.Element => {
             </FilterCard>
 
             {/* Price card */}
-            <FilterCard className="category-card" title="Prix(Ar)">
+            <FilterCard className="category-card" title="Prix(Euros)">
                 <div className="w-full pr-5 mt-16">
                     <DualRangeSlider
                         label={(value) => <span className="text-[13px]">{value}</span>}
