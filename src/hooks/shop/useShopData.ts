@@ -10,7 +10,7 @@ import { useQueryState } from "nuqs";
 const useShopData = () => {
     const [category, setCategory] = useQueryState("category", { defaultValue: "tout" });
 
-    const { setProducts, setCategories, filters, setFilters, getFilteredProducts, resetStore } = useShopStore();
+    const { setProducts, setCategories, filters, setFilters, getFilteredProducts, resetStore, setSearchValues } = useShopStore();
 
     const { data: products, isLoading: productsLoading, error: productsError } = useQuery({
         queryKey: ["products"],
@@ -51,6 +51,10 @@ const useShopData = () => {
         setFilters({ ...filters, priceRange: range });
     }, [setFilters]);
 
+    const handleSearchChange = (value: string) => {
+        setSearchValues(value);
+    }
+
     return {
         products,
         categories,
@@ -59,11 +63,12 @@ const useShopData = () => {
         productsError,
         resetStore,
         categoriesError,
+        priceRange: filters.priceRange,
+        activeCategory: category || "tout",
         filteredProducts: getFilteredProducts(),
         handleChangeCategory,
-        activeCategory: category || "tout",
         handleChangePriceRange,
-        priceRange: filters.priceRange
+        handleSearchChange
     }
 }
 

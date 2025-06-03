@@ -7,13 +7,13 @@ import { devtools, combine } from 'zustand/middleware';
 type Filters = {
     priceRange?: [number, number];
     category?: string;
-    search?: string
 }
 
 type ShopState = {
     products: IProduct[];
     categories: ICategory[];
     filters: Filters;
+    searchValue?: string;
 }
 
 const initialState: ShopState = {
@@ -21,7 +21,8 @@ const initialState: ShopState = {
     categories: [],
     filters: {
         priceRange: [0, 3000000]
-    }
+    },
+    searchValue: ""
 }
 
 const useShopStore = create(
@@ -47,9 +48,13 @@ const useShopStore = create(
                     }))
                 },
 
+                setSearchValues: (value: string) => {
+                    set({ searchValue: value })
+                },
+
                 //getters
                 getFilteredProducts: () => {
-                    const { filters, products } = get();
+                    const { filters, products, searchValue } = get();
                     let filtered = [...products];
 
                     if (filters.category && filters.category.toLowerCase() !== "tout") {
@@ -64,6 +69,13 @@ const useShopStore = create(
                     if (filters.priceRange) {
                         const [min, max] = filters.priceRange;
                         filtered = filtered.filter((product) => product.price >= min && product.price <= max)
+                    }
+
+                    if (searchValue) {
+                        filtered = filtered.filter((product) => {
+                            let normalizedProductName = normalizeStr(product.name);
+                            return normalizedProductName.includes(searchValue);
+                        })
                     }
 
                     return filtered;
