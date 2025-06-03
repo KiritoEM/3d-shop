@@ -7,11 +7,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 import useShopData from '@/hooks/shop/useShopData';
 
 const Shop = (): JSX.Element => {
-    const { categories, filteredProducts, productsLoading, productsError, handleChangeCategory, resetStore } = useShopData();
+    const { categories, filteredProducts, productsLoading, productsError, handleChangeCategory, activeCategory } = useShopData();
 
     return (
         <section className="shop container !px-6 flex gap-12 mt-[106px]">
-            <FilterSidebar categories={categories ?? []} setCategory={handleChangeCategory} />
+            <FilterSidebar categories={categories ?? []} activeCategory={activeCategory} setCategory={handleChangeCategory} />
 
             <div className="shop-products w-full lg:w-[calc(100%-355px)] xl:w-[calc(100%-370px)] ml-0 lg:ml-[355px] xl:ml-[370px] mb-20 mt-7">
                 <header className="shop-products__header">

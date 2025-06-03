@@ -57,7 +57,8 @@ const useShopData = () => {
         resetStore,
         categoriesError,
         filteredProducts: getFilteredProducts(),
-        handleChangeCategory
+        handleChangeCategory,
+        activeCategory: category
     }
 }
 

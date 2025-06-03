@@ -11,9 +11,10 @@ import { normalizeStr } from "@/lib/utils";
 type FilterSidebarProps = {
     categories: ICategory[];
     setCategory: (category: string) => void;
+    activeCategory: string;
 }
 
-const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setCategory }): JSX.Element => {
+const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setCategory, activeCategory }): JSX.Element => {
     const [prices, setPrices] = useState<number[]>([0, 100000]);
     const allCategoriesLength = categories.map((category) => category.Product.flat()).length;
 
@@ -37,7 +38,7 @@ const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setCategory }): JSX
             <FilterCard className="category-card" title="Catégories">
                 <ul className="flex flex-col space-y-5">
                     <li className="category__item w-full flex items-center justify-between cursor-pointer" onClick={() => setCategory('tout')}>
-                        <p>Tout</p>
+                        <p className={activeCategory === "tout" ? "text-primary" : "text-foreground"}>Tout</p>
                         <div className="count px-3 py-1 rounded-xl bg-primary/10 text-primary text-sm">
                             <span>{allCategoriesLength}</span>
                         </div>
@@ -50,7 +51,7 @@ const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setCategory }): JSX
                                 className="category__item w-full flex items-center justify-between cursor-pointer"
                                 onClick={() => setCategory(normalizeStr(category.name))}
                             >
-                                <p>{category.name}</p>
+                                <p className={activeCategory.length && activeCategory === normalizeStr(category.name) ? "text-primary" : "text-foreground"}>{category.name}</p>
                                 <div className="count px-3 py-1 rounded-xl bg-primary/10 text-primary text-sm">
                                     <span>{category.Product.length}</span>
                                 </div>
