@@ -80,6 +80,7 @@
   --sidebar-ring: oklch(0.708 0 0);
   --background: oklch(1 0 0);
   --text-gray: #b8b2b2;
+  --border-gray: #b9b6b6;
 }
 
 .dark {
@@ -115,6 +116,7 @@
   --sidebar-ring: oklch(0.556 0 0);
   --background: oklch(0.1591 0 0);
   --text-gray: #262626;
+  --border-gray: #5c5b5b;
 }
 
 @layer base {
@@ -165,6 +167,29 @@
     background-position: 100% 0%;
   }
 
+  .border-gray {
+    border-color: var(--border-gray);
+  }
+
+  .scrollable-section::-webkit-scrollbar {
+    width: 7px;
+    display: none;
+  }
+
+  .scrollable-section:hover::-webkit-scrollbar,
+  .scrollable-section:active::-webkit-scrollbar {
+    display: block;
+  }
+
+  .scrollable-section::-webkit-scrollbar-thumb {
+    background: #aaa8a8b9;
+    border-radius: 5px;
+  }
+
+  .scrollable-section::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
   .dark {
     .yellow-linear {
       border-radius: 12px;
@@ -182,6 +207,10 @@
       filter: blur(190px);
       width: 396.326px;
       height: 460.201px;
+    }
+
+    .border-gray {
+      border-color: var(--border-gray);
     }
   }
 
@@ -206,7 +235,7 @@
   }
 
   @media screen and (max-width: 768px) {
-  .blue-linear {
+    .blue-linear {
       background: #186be7;
       filter: blur(85px);
       width: 212.922px;
@@ -254,4 +283,38 @@
   to {
     mask-size: 200vmax 200vmax;
   }
+}
+
+.product-card:hover .product-card__active {
+  transform: translateY(0%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-card .product-card__active {
+  transform: translateY(100%);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+.product-card .product-card__active .content>* {
+  transform: translateY(30px);
+  opacity: 0;
+}
+
+.product-card:hover .product-card__active .content>*:nth-child(1) {
+  transform: translateY(0);
+  opacity: 1;
+  transition: all 0.3s ease-out 0.2s;
+}
+
+.product-card:hover .product-card__active .content>*:nth-child(2) {
+  transform: translateY(0);
+  opacity: 1;
+  transition: all 0.3s ease-out 0.4s;
+}
+
+.product-card:hover .product-card__active .content>*:nth-child(3) {
+  transform: translateY(0);
+  opacity: 1;
+  transition: all 0.3s ease-out 0.6s;
 }

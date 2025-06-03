@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { DM_Mono, Michroma } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/providers/ThemeProvider";
-import SmoothScrolling from "@/components/SmoothScrolling";
+import TanstackProvider from "@/providers/TanstackProvider";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 const DM = DM_Mono({
   variable: "--font-dm-mono",
@@ -29,13 +30,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${DM.className} ${michroma.variable} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-        >
-          <SmoothScrolling>{children}</SmoothScrolling>
-        </ThemeProvider>
+        <TanstackProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem={false}
+          >
+            <NuqsAdapter>{children}</NuqsAdapter>
+          </ThemeProvider>
+        </TanstackProvider>
       </body>
     </html>
   );
