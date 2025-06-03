@@ -19,7 +19,9 @@ type ShopState = {
 const initialState: ShopState = {
     products: [],
     categories: [],
-    filters: {}
+    filters: {
+        priceRange: [0, 3000000]
+    }
 }
 
 const useShopStore = create(

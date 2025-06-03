@@ -3,15 +3,14 @@
 import { fetchCategories } from "@/features/shop/services/categoryServices";
 import { fetchProducts } from "@/features/shop/services/productServices";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import useShopStore from "./shopStore";
 import { useQueryState } from "nuqs";
 
 const useShopData = () => {
     const [category, setCategory] = useQueryState("category", { defaultValue: "tout" });
-    const [priceRange, setPriceRange] = useQueryState("category", { defaultValue: "" });
 
-    const { setProducts, setCategories, setFilters, getFilteredProducts, resetStore } = useShopStore();
+    const { setProducts, setCategories, filters, setFilters, getFilteredProducts, resetStore } = useShopStore();
 
     const { data: products, isLoading: productsLoading, error: productsError } = useQuery({
         queryKey: ["products"],
@@ -48,6 +47,10 @@ const useShopData = () => {
         setCategory(category);
     }
 
+    const handleChangePriceRange = useCallback((range: [number, number]) => {
+        setFilters({ ...filters, priceRange: range });
+    }, [setFilters]);
+
     return {
         products,
         categories,
@@ -58,7 +61,9 @@ const useShopData = () => {
         categoriesError,
         filteredProducts: getFilteredProducts(),
         handleChangeCategory,
-        activeCategory: category
+        activeCategory: category || "tout",
+        handleChangePriceRange,
+        priceRange: filters.priceRange
     }
 }
 

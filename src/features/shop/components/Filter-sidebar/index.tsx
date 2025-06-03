@@ -4,7 +4,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FilterCard } from "./card";
 import { CUSTOMISATION_FILTER_OPTS } from "@/constants/data/store-data";
 import { DualRangeSlider } from '@/components/ui/ranger-slider';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { ICategory } from "@/models/category.model";
 import { normalizeStr } from "@/lib/utils";
 
@@ -12,10 +12,11 @@ type FilterSidebarProps = {
     categories: ICategory[];
     setCategory: (category: string) => void;
     activeCategory: string;
+    setPriceRange: (range: [number, number]) => void;
+    priceRange: [number, number]
 }
 
-const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setCategory, activeCategory }): JSX.Element => {
-    const [prices, setPrices] = useState<number[]>([0, 100000]);
+const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setCategory, activeCategory, setPriceRange, priceRange }): JSX.Element => {
     const allCategoriesLength = categories.map((category) => category.Product.flat()).length;
 
     return (
@@ -66,11 +67,11 @@ const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setCategory, active
                 <div className="w-full pr-5 mt-16">
                     <DualRangeSlider
                         label={(value) => <span className="text-[13px]">{value}</span>}
-                        value={prices}
-                        onValueChange={setPrices}
+                        value={priceRange}
+                        onValueChange={setPriceRange}
                         className="font-michroma"
                         min={0}
-                        max={100000}
+                        max={3500000}
                         step={50}
                     />
                 </div>
