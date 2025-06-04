@@ -43,7 +43,7 @@
   --radius-xl: calc(var(--radius) + 4px);
   --font-dm-mono: var(--font-dm-mono);
   --font-michroma: var(--font-michroma);
-  --breakpoint-sm2: 400px;
+  --breakpoint-sm2: 392px;
 }
 
 :root {

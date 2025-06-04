@@ -6,21 +6,14 @@ import { CUSTOMISATION_FILTER_OPTS } from "@/constants/data/store-data";
 import { DualRangeSlider } from '@/components/ui/ranger-slider';
 import { FC } from 'react';
 import { normalizeStr } from "@/lib/utils";
-import { ICategory } from "@/models/category.model";
+import { FilterSidebarProps } from ".";
 import useFilterQuery from "@/hooks/useFilterQuery";
 
-export type FilterSidebarProps = {
-    categories: ICategory[]
-    priceRange: [number, number];
-    categoriesLoading: boolean;
-    setPriceRange: (range: [number, number]) => void;
-}
-
-const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setPriceRange, priceRange, categoriesLoading }): JSX.Element => {
+const FilterSidebarMobile: FC<FilterSidebarProps> = ({ categories, setPriceRange, priceRange, categoriesLoading }): JSX.Element => {
     const allCategoriesLength = categories.map((category) => category.Product.flat()).length;
     const { activeCategory, setCategory } = useFilterQuery();
     return (
-        <aside className="filter-bar hidden lg:block w-full max-w-[310px] xl:max-w-[325px] space-y-8 h-[calc(100vh-110px)] pb-8 fixed overflow-x-hidden scrollable-section overflow-y-auto">
+        <div className="filter-bar-mobile flex lg:hidden h-screen w-[50%] fixed top-0 overflow-x-hidden scrollable-section overflow-y-auto">
             {/* Customisation card */}
             <FilterCard className="customisation-card" title="Customisation">
                 <ul className="flex flex-col space-y-5">
@@ -83,8 +76,8 @@ const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setPriceRange, pric
                     />
                 </div>
             </FilterCard>
-        </aside>
+        </div>
     );
 };
 
-export default FilterSidebar;
+export default FilterSidebarMobile;

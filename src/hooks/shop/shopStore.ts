@@ -11,7 +11,6 @@ export type Filters = {
 
 type ShopState = {
     products: IProduct[];
-    categories: ICategory[];
     rotateModel: boolean;
     filters: Filters;
     searchValue?: string;
@@ -19,7 +18,6 @@ type ShopState = {
 
 const initialState: ShopState = {
     products: [],
-    categories: [],
     filters: {
         priceRange: [0, 3000000]
     },
@@ -35,12 +33,6 @@ const useShopStore = create(
                 setProducts: (products: IProduct[]) => {
                     if (Array.isArray(products)) {
                         set({ products })
-                    }
-                },
-
-                setCategories: (categories: ICategory[]) => {
-                    if (Array.isArray(categories)) {
-                        set({ categories })
                     }
                 },
 
