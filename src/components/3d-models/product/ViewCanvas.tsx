@@ -64,9 +64,9 @@ const ProductViewCanvas: FC<ProductViewCanvasProps> = ({ modelPath, config3D }):
                 >
                     <Suspense fallback={null}>
                         <ProductModel
-                            position={config3D.position}
-                            rotation={config3D.rotation}
-                            scale={config3D.scale}
+                            position={config3D.position ?? [0, 0, 0]}
+                            rotation={config3D.rotation ?? [0, 0, 0]}
+                            scale={config3D.scale ?? 2.4}
                             modelPath={modelPath}
                             onLoad={handleModelLoad}
                         />

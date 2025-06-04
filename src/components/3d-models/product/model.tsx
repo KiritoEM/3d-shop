@@ -16,7 +16,7 @@ interface ModelProps {
 
 export const ProductModel = forwardRef<THREE.Group, ModelProps>(
     (
-        { position = [0, 0, 0], rotation = [0, 0, 0], scale = 2.4, visible = true, modelPath, onLoad },
+        { position, rotation, scale, visible = true, modelPath, onLoad },
         ref
     ) => {
         const internalRef = useRef<THREE.Group | null>(null);

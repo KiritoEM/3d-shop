@@ -14,6 +14,7 @@ export interface IProduct {
     config3D?: Config3D;
     createdAt: string;
     updatedAt: string;
+    cuid: string;
     category: {
         name: string
     }
