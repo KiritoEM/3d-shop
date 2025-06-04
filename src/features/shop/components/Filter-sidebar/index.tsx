@@ -4,31 +4,22 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FilterCard } from "./card";
 import { CUSTOMISATION_FILTER_OPTS } from "@/constants/data/store-data";
 import { DualRangeSlider } from '@/components/ui/ranger-slider';
-import { FC, useEffect } from 'react';
-import { ICategory } from "@/models/category.model";
+import { FC } from 'react';
 import { normalizeStr } from "@/lib/utils";
-import { useQueryState } from "nuqs";
-import { Filters } from "@/hooks/shop/shopStore";
+import { ICategory } from "@/models/category.model";
+import useFilterQuery from "@/features/shop/hooks/useFilterQuery";
 
-type FilterSidebarProps = {
-    categories: ICategory[];
+export interface FilterSidebarProps {
+    categories: ICategory[]
     priceRange: [number, number];
+    categoriesLoading: boolean;
     setPriceRange: (range: [number, number]) => void;
-    setFilters: (filters: Filters) => void;
 }
 
-const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setPriceRange, priceRange, setFilters }): JSX.Element => {
-    const [activeCategory, setCategory] = useQueryState("category", { defaultValue: "tout" });
+const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setPriceRange, priceRange, categoriesLoading }): JSX.Element => {
+    const { activeCategory, setCategory } = useFilterQuery();
 
     const allCategoriesLength = categories.map((category) => category.Product.flat()).length;
-
-    //observer for filter query changement
-    useEffect(() => {
-        if (activeCategory) {
-            setFilters({ category: activeCategory })
-        }
-    }, [activeCategory])
-
     return (
         <aside className="filter-bar hidden lg:block w-full max-w-[310px] xl:max-w-[325px] space-y-8 h-[calc(100vh-110px)] pb-8 fixed overflow-x-hidden scrollable-section overflow-y-auto">
             {/* Customisation card */}
@@ -47,29 +38,36 @@ const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setPriceRange, pric
 
             {/* Category card */}
             <FilterCard className="category-card" title="Catégories">
-                <ul className="flex flex-col space-y-5">
-                    <li className="category__item w-full flex items-center justify-between cursor-pointer" onClick={() => setCategory('tout')}>
-                        <p className={activeCategory === "tout" ? "text-primary" : "text-foreground"}>Tout</p>
-                        <div className="count px-3 py-1 rounded-xl bg-primary/10 text-primary text-sm">
-                            <span>{allCategoriesLength}</span>
-                        </div>
-                    </li>
+                {
+                    categoriesLoading ? (
+                        <div className="spinner mx-auto mt-4 animate-spin rounded-full h-7 w-7 border-b-2 border-current"></div>
+                    ) :
+                        (
+                            <ul className="flex flex-col space-y-5">
+                                <li className="category__item w-full flex items-center justify-between cursor-pointer" onClick={() => setCategory('tout')}>
+                                    <p className={activeCategory === "tout" ? "text-primary" : "text-foreground"}>Tout</p>
+                                    <div className="count px-3 py-1 rounded-xl bg-primary/10 text-primary text-sm">
+                                        <span>{allCategoriesLength}</span>
+                                    </div>
+                                </li>
 
-                    {
-                        categories.map((category, index) => (
-                            <li
-                                key={index}
-                                className="category__item w-full flex items-center justify-between cursor-pointer"
-                                onClick={() => setCategory(normalizeStr(category.name))}
-                            >
-                                <p className={activeCategory === normalizeStr(category.name) ? "text-primary" : "text-foreground"}>{category.name}</p>
-                                <div className="count px-3 py-1 rounded-xl bg-primary/10 text-primary text-sm">
-                                    <span>{category.Product.length}</span>
-                                </div>
-                            </li>
-                        ))
-                    }
-                </ul>
+                                {
+                                    categories.map((category, index) => (
+                                        <li
+                                            key={index}
+                                            className="category__item w-full flex items-center justify-between cursor-pointer"
+                                            onClick={() => setCategory(normalizeStr(category.name))}
+                                        >
+                                            <p className={activeCategory === normalizeStr(category.name) ? "text-primary" : "text-foreground"}>{category.name}</p>
+                                            <div className="count px-3 py-1 rounded-xl bg-primary/10 text-primary text-sm">
+                                                <span>{category.Product.length}</span>
+                                            </div>
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        )
+                }
             </FilterCard>
 
             {/* Price card */}

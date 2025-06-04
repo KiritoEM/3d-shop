@@ -42,13 +42,13 @@ const ThemeToggle = (): JSX.Element | null => {
     return (
         <div className={
             cn(
-                "fixed z-50 bottom-8 right-8 transition-all duration-400",
+                "fixed z-50 bottom-6 lg:bottom-8 right-6 lg:right-8 transition-all duration-400",
                 // isVisible ? "translate-x-0 opacity-100" : "translate-x-150 opacity-0"
             )
         }>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <div className="theme-toggle-trigger cursor-pointer p-4 rounded-full bg-primary dark:bg-white">
+                    <div className="theme-toggle-trigger cursor-pointer p-3 lg:p-4 rounded-full bg-primary dark:bg-white">
                         <Palette className="w-[28px] md:w-[32px]" color={theme === "light" ? "#ffffff" : "#E45826"} />
                     </div>
                 </DropdownMenuTrigger>

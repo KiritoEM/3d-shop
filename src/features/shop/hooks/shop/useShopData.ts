@@ -7,7 +7,7 @@ import { useCallback, useEffect } from "react";
 import useShopStore, { Filters } from "./shopStore";
 
 const useShopData = () => {
-    const { setProducts, setCategories, filters, setFilters, getFilteredProducts, resetStore, setSearchValues } = useShopStore();
+    const { setProducts, filters, setFilters, getFilteredProducts, resetStore, setSearchValues } = useShopStore();
 
     const { data: products, isLoading: productsLoading, error: productsError } = useQuery({
         queryKey: ["products"],
@@ -25,12 +25,6 @@ const useShopData = () => {
             setProducts(products);
         }
     }, [products])
-
-    useEffect(() => {
-        if (categories) {
-            setCategories(categories);
-        }
-    }, [categories])
 
     const handleChangePriceRange = useCallback((range: [number, number]) => {
         setFilters({ ...filters, priceRange: range });
