@@ -3,7 +3,7 @@
 import ProductCard from "@/features/shop/components/ProductCard";
 import React, { useRef } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import useShopData from "@/hooks/shop/useShopData";
+import useShopData from "@/features/shop/hooks/shop/useShopData";
 import SearchInput from "@/components/SearchInput";
 import dynamic from "next/dynamic";
 import { FilterIcon } from "lucide-react";

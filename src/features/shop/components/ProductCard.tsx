@@ -2,7 +2,7 @@
 
 import ProductViewCanvas from "@/components/3d-models/product/ViewCanvas";
 import { Button } from "@/components/ui/button";
-import useShopStore from "@/hooks/shop/shopStore";
+import useShopStore from "@/features/shop/hooks/shop/shopStore";
 import { formatIntoPrice } from "@/lib/utils";
 import { IProduct } from "@/models/product.model";
 import { Info } from "lucide-react";

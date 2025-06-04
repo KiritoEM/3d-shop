@@ -7,7 +7,7 @@ import { DualRangeSlider } from '@/components/ui/ranger-slider';
 import { FC } from 'react';
 import { normalizeStr } from "@/lib/utils";
 import { ICategory } from "@/models/category.model";
-import useFilterQuery from "@/hooks/useFilterQuery";
+import useFilterQuery from "@/features/shop/hooks/useFilterQuery";
 
 export type FilterSidebarProps = {
     categories: ICategory[]

@@ -7,7 +7,7 @@ import { DualRangeSlider } from '@/components/ui/ranger-slider';
 import { FC } from 'react';
 import { normalizeStr } from "@/lib/utils";
 import { FilterSidebarProps } from ".";
-import useFilterQuery from "@/hooks/useFilterQuery";
+import useFilterQuery from "@/features/shop/hooks/useFilterQuery";
 
 const FilterSidebarMobile: FC<FilterSidebarProps> = ({ categories, setPriceRange, priceRange, categoriesLoading }): JSX.Element => {
     const allCategoriesLength = categories.map((category) => category.Product.flat()).length;
