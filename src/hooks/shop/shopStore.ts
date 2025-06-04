@@ -4,7 +4,7 @@ import { IProduct } from "@/models/product.model";
 import { create } from "zustand";
 import { devtools, combine } from 'zustand/middleware';
 
-type Filters = {
+export type Filters = {
     priceRange?: [number, number];
     category?: string;
 }

@@ -4,20 +4,30 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FilterCard } from "./card";
 import { CUSTOMISATION_FILTER_OPTS } from "@/constants/data/store-data";
 import { DualRangeSlider } from '@/components/ui/ranger-slider';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { ICategory } from "@/models/category.model";
 import { normalizeStr } from "@/lib/utils";
+import { useQueryState } from "nuqs";
+import { Filters } from "@/hooks/shop/shopStore";
 
 type FilterSidebarProps = {
     categories: ICategory[];
-    activeCategory: string;
     priceRange: [number, number];
-    setCategory: (category: string) => void;
     setPriceRange: (range: [number, number]) => void;
+    setFilters: (filters: Filters) => void;
 }
 
-const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setCategory, activeCategory, setPriceRange, priceRange }): JSX.Element => {
+const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setPriceRange, priceRange, setFilters }): JSX.Element => {
+    const [activeCategory, setCategory] = useQueryState("category", { defaultValue: "tout" });
+
     const allCategoriesLength = categories.map((category) => category.Product.flat()).length;
+
+    //observer for filter query changement
+    useEffect(() => {
+        if (activeCategory) {
+            setFilters({ category: activeCategory })
+        }
+    }, [activeCategory])
 
     return (
         <aside className="filter-bar hidden lg:block w-full max-w-[310px] xl:max-w-[325px] space-y-8 h-[calc(100vh-110px)] pb-8 fixed overflow-x-hidden scrollable-section overflow-y-auto">
@@ -52,7 +62,7 @@ const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setCategory, active
                                 className="category__item w-full flex items-center justify-between cursor-pointer"
                                 onClick={() => setCategory(normalizeStr(category.name))}
                             >
-                                <p className={activeCategory.length && activeCategory === normalizeStr(category.name) ? "text-primary" : "text-foreground"}>{category.name}</p>
+                                <p className={activeCategory === normalizeStr(category.name) ? "text-primary" : "text-foreground"}>{category.name}</p>
                                 <div className="count px-3 py-1 rounded-xl bg-primary/10 text-primary text-sm">
                                     <span>{category.Product.length}</span>
                                 </div>

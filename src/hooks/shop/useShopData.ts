@@ -4,12 +4,9 @@ import { fetchCategories } from "@/features/shop/services/categoryServices";
 import { fetchProducts } from "@/features/shop/services/productServices";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect } from "react";
-import useShopStore from "./shopStore";
-import { useQueryState } from "nuqs";
+import useShopStore, { Filters } from "./shopStore";
 
 const useShopData = () => {
-    const [category, setCategory] = useQueryState("category", { defaultValue: "tout" });
-
     const { setProducts, setCategories, filters, setFilters, getFilteredProducts, resetStore, setSearchValues } = useShopStore();
 
     const { data: products, isLoading: productsLoading, error: productsError } = useQuery({
@@ -35,24 +32,16 @@ const useShopData = () => {
         }
     }, [categories])
 
-    //observer for filter query changement
-    useEffect(() => {
-        if (category) {
-            console.log("category query: ", category);
-            setFilters({ category })
-        }
-    }, [category])
-
-    const handleChangeCategory = (category: string) => {
-        setCategory(category);
-    }
-
     const handleChangePriceRange = useCallback((range: [number, number]) => {
         setFilters({ ...filters, priceRange: range });
     }, [setFilters]);
 
     const handleSearchChange = (value: string) => {
         setSearchValues(value);
+    }
+
+    const handleChangeFilters = (filters: Filters) => {
+        setFilters(filters);
     }
 
     return {
@@ -64,11 +53,10 @@ const useShopData = () => {
         resetStore,
         categoriesError,
         priceRange: filters.priceRange,
-        activeCategory: category || "tout",
         filteredProducts: getFilteredProducts(),
-        handleChangeCategory,
         handleChangePriceRange,
-        handleSearchChange
+        handleSearchChange,
+        handleChangeFilters
     }
 }
 

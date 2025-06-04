@@ -4,7 +4,6 @@ import React, { forwardRef, useEffect, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import useShopStore from "@/hooks/shop/shopStore";
-import { useFrame } from "@react-three/fiber";
 
 interface ModelProps {
     position?: [number, number, number];

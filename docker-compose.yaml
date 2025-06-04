@@ -13,7 +13,7 @@ services:
       - app_network
     volumes:
       - pg_data:/var/lib/postgresql/data
-      - ./database/init:/docker-entrypoint-initdb.d
+      - ./data_import:/import_data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${db_user} -d ${postgres_db} -p 5432"]
       interval: 10s
