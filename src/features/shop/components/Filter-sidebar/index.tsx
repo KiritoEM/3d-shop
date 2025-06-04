@@ -9,7 +9,7 @@ import { normalizeStr } from "@/lib/utils";
 import { ICategory } from "@/models/category.model";
 import useFilterQuery from "@/features/shop/hooks/useFilterQuery";
 
-export type FilterSidebarProps = {
+export interface FilterSidebarProps {
     categories: ICategory[]
     priceRange: [number, number];
     categoriesLoading: boolean;
@@ -17,8 +17,9 @@ export type FilterSidebarProps = {
 }
 
 const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setPriceRange, priceRange, categoriesLoading }): JSX.Element => {
-    const allCategoriesLength = categories.map((category) => category.Product.flat()).length;
     const { activeCategory, setCategory } = useFilterQuery();
+
+    const allCategoriesLength = categories.map((category) => category.Product.flat()).length;
     return (
         <aside className="filter-bar hidden lg:block w-full max-w-[310px] xl:max-w-[325px] space-y-8 h-[calc(100vh-110px)] pb-8 fixed overflow-x-hidden scrollable-section overflow-y-auto">
             {/* Customisation card */}
