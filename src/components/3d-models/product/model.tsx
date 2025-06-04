@@ -3,6 +3,8 @@
 import React, { forwardRef, useEffect, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
+import useShopStore from "@/hooks/shop/shopStore";
+import { useFrame } from "@react-three/fiber";
 
 interface ModelProps {
     position?: [number, number, number];
@@ -10,7 +12,7 @@ interface ModelProps {
     scale?: [number, number, number] | number;
     visible?: boolean;
     modelPath: string;
-    onLoad: (state: boolean) => void
+    onLoad: (state: boolean) => void;
 }
 
 export const ProductModel = forwardRef<THREE.Group, ModelProps>(
@@ -18,18 +20,23 @@ export const ProductModel = forwardRef<THREE.Group, ModelProps>(
         { position = [0, 0, 0], rotation = [0, 0, 0], scale = 2.4, visible = true, modelPath, onLoad },
         ref
     ) => {
-        const internalRef = useRef<THREE.Group>(null);
-        const { scene } = useGLTF(
-            modelPath
-        );
+        const internalRef = useRef<THREE.Group | null>(null);
+        const { scene } = useGLTF(modelPath);
+        const { rotateModel } = useShopStore();
 
         useEffect(() => {
             if (scene) {
                 onLoad(true);
             }
-        }, [scene])
+        }, [scene, onLoad]);
 
-        const groupRef = ref || internalRef;
+        const groupRef = (ref as React.RefObject<THREE.Group | null>) || internalRef;
+
+        // useFrame((state, delta) => {
+        //     if (rotateModel && groupRef.current) {
+        //         groupRef.current.rotation.y += 0.05 * delta * 60;
+        //     }
+        // });
 
         return (
             <group
