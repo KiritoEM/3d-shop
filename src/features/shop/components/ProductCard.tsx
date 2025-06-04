@@ -2,6 +2,7 @@
 
 import ProductViewCanvas from "@/components/3d-models/product/ViewCanvas";
 import { Button } from "@/components/ui/button";
+import useShopStore from "@/hooks/shop/shopStore";
 import { formatIntoPrice } from "@/lib/utils";
 import { IProduct } from "@/models/product.model";
 import { Info } from "lucide-react";
@@ -10,8 +11,13 @@ import { FC } from "react";
 interface ProductCardProps extends Pick<IProduct, "id" | "name" | "config3D" | "modelPath" | "groundColor" | "price"> { }
 
 const ProductCard: FC<ProductCardProps> = ({ id, name, modelPath, price, groundColor, config3D }): JSX.Element => {
+    const { setRotateModel } = useShopStore();
     return (
-        <article className="product-card relative cursor-pointer rounded-lg h-[228px] lg:h-[200px] xl:h-[260px] 2xl:h-[235px] overflow-hidden" style={{ backgroundColor: `${groundColor}` }}>
+        <article
+            className="product-card relative cursor-pointer rounded-lg h-[228px] lg:h-[200px] xl:h-[260px] 2xl:h-[235px] overflow-hidden"
+            style={{ backgroundColor: `${groundColor}` }}
+            onMouseEnter={setRotateModel}
+        >
             <ProductViewCanvas config3D={config3D!} modelPath={modelPath} />
 
             <div className="product-card__active absolute top-0 z-30 w-full h-full flex items-center justify-center">

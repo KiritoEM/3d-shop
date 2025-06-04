@@ -12,6 +12,7 @@ type Filters = {
 type ShopState = {
     products: IProduct[];
     categories: ICategory[];
+    rotateModel: boolean;
     filters: Filters;
     searchValue?: string;
 }
@@ -22,7 +23,8 @@ const initialState: ShopState = {
     filters: {
         priceRange: [0, 3000000]
     },
-    searchValue: ""
+    searchValue: "",
+    rotateModel: false
 }
 
 const useShopStore = create(
@@ -50,6 +52,10 @@ const useShopStore = create(
 
                 setSearchValues: (value: string) => {
                     set({ searchValue: value })
+                },
+
+                setRotateModel: () => {
+                    set({ rotateModel: true })
                 },
 
                 //getters

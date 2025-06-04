@@ -10,10 +10,10 @@ import { normalizeStr } from "@/lib/utils";
 
 type FilterSidebarProps = {
     categories: ICategory[];
-    setCategory: (category: string) => void;
     activeCategory: string;
+    priceRange: [number, number];
+    setCategory: (category: string) => void;
     setPriceRange: (range: [number, number]) => void;
-    priceRange: [number, number]
 }
 
 const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setCategory, activeCategory, setPriceRange, priceRange }): JSX.Element => {
