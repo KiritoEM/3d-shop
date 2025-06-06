@@ -1,43 +1,56 @@
 import { cn, formatIntoPrice } from "@/lib/utils";
-import { useCart } from "../hooks/useCart";
-import { Fragment } from "react";
+import { CartItemTypes, useCart } from "../hooks/useCart";
+import { FC, Fragment } from "react";
 import { Trash2, WalletCards, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const CartItem = (): JSX.Element => {
+const CartItem: FC<CartItemTypes> = ({ id, name, price }): JSX.Element => {
+    const { deleteItem } = useCart();
     return (
-        <article className="cart-item flex justify-between gap-6 items-center">
-            <div className="left-part flex gap-4 items-center">
-                <div className="cart-item__3d-preview w-[60px] h-[60px] rounded-lg border"></div>
+        <article className="cart-item flex justify-between gap-6 lg:gap-8 items-center">
+            <div className="left-part flex items-center w-fit">
+                <div className="cart-item__3d-preview w-[63px] h-[62px] rounded-lg border"></div>
 
-                <div className="cart-item__content space-y-1">
-                    <h5 className="text-lg md:text-xl">Iphone 16 Pro</h5>
-                    <p className="text-sm md:text-base">{formatIntoPrice(1088000)} €</p>
+                <div className="cart-item__content space-y-1 w-fit ml-4">
+                    <h5 className="text-md md:text-lg font-michroma leading-none">{name}</h5>
+                    <p className="text-sm md:text-base">{formatIntoPrice(price)} €</p>
                 </div>
             </div>
 
-            <div className="delete-item">
+            <div className="delete-item cursor-pointer hover:[&>svg]:scale-105" onClick={() => deleteItem(id)}>
                 <Trash2 className="text-destructive size-6" />
             </div>
         </article>
     )
 }
 
-const CartItemsList = (): JSX.Element => {
+type CartItemsListProps = {
+    cartData: CartItemTypes[]
+}
+
+const CartItemsList: FC<CartItemsListProps> = ({ cartData }): JSX.Element => {
     return (
         <div className="cart-items-list flex flex-col space-y-6 mt-8">
-            <CartItem />
+            {
+                cartData.map((item, index) => (
+                    <CartItem key={index} {...item} />
+                ))
+            }
         </div>
     )
 }
 
-const CartPaiement = (): JSX.Element => {
+type CartPaiementProps = {
+    totalPrice: number;
+}
+
+const CartPaiement: FC<CartPaiementProps> = ({ totalPrice }): JSX.Element => {
     return (
         <div className="w-full cart-paiement mt-8 pb-8 bg-background">
             <div className="cart-paiement__container flex items-center justify-between gap-6">
                 <div className="flex flex-col md:flex-row gap-1">
                     <p className="text-primary text-lg mr-1 font-michroma">total:</p>
-                    <h5 className="text-xl">2 000 000 €</h5>
+                    <h5 className="text-xl">{totalPrice} €</h5>
                 </div>
 
                 <Button className="rounded-full"><WalletCards /> Payer</Button>
@@ -47,7 +60,7 @@ const CartPaiement = (): JSX.Element => {
 }
 
 const CartContent = (): JSX.Element => {
-    const { isOpenContent, setCloseContent } = useCart();
+    const { isOpenContent, setCloseContent, cartItems, getTotalPrice } = useCart();
     return (
         <Fragment>
             <div className={
@@ -63,11 +76,19 @@ const CartContent = (): JSX.Element => {
 
                 <h4 className="text-2xl md:text-3xl font-michroma mt-22">Votre panier</h4>
 
-                <CartItemsList />
+                {
+                    cartItems.length ? (
+                        <Fragment>
+                            <CartItemsList cartData={cartItems} />
 
-                <hr className="mt-8" />
+                            <hr className="mt-8" />
 
-                <CartPaiement />
+                            <CartPaiement totalPrice={getTotalPrice()} />
+                        </Fragment>
+                    ) : (
+                        <h4 className="empty-cart text-lg lg:text-xl w-full col-span-3 mt-8">Votre panier est vide</h4>
+                    )
+                }
             </div>
 
             {/* Overlay */}

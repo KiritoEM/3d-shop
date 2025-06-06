@@ -1,8 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { formatIntoPrice } from '@/lib/utils';
+import { useCart } from '@/features/cart/hooks/useCart';
+import { cn, formatIntoPrice } from '@/lib/utils';
 import { CustomisationConfigs, IProduct } from '@/models/product.model';
-import { CheckIcon, ShoppingCart } from 'lucide-react';
+import { CheckCheck, CheckIcon, ShoppingCart } from 'lucide-react';
 import React, { FC, Fragment } from 'react';
 
 interface ColorOptProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -45,6 +46,8 @@ type ProductDetailsProps = {
 }
 
 const ProductDetails: FC<ProductDetailsProps> = ({ loadingProduct, productData, availableCustomisation = {}, activeColor, changeModelColor, resetModelColor }): JSX.Element => {
+    const { addItem, checkIsInCart } = useCart();
+
     return (
         <div className="product-details w-full lg:flex-1 space-y-6">
             {
@@ -61,7 +64,37 @@ const ProductDetails: FC<ProductDetailsProps> = ({ loadingProduct, productData, 
                         <div className="product-details__price flex flex-col sm:flex-row gap-3 justify-between sm:items-center mt-2">
                             <h4 className="text-2xl xl:text-4xl">{formatIntoPrice(productData?.price!)} €</h4>
 
-                            <Button className="rounded-full w-fit"><ShoppingCart /> Ajouter au panier</Button>
+                            <Button disabled={checkIsInCart(productData.id)} className={
+                                cn(
+                                    "rounded-full w-fit",
+                                    checkIsInCart(productData.id) && "pointer-events-none bg-gray-500"
+                                )
+                            }
+                                onClick={() => addItem(
+                                    {
+                                        id: productData.id,
+                                        name: productData.name,
+                                        price: productData.price
+
+                                    }
+                                )}
+                            >
+                                {checkIsInCart(productData.id) ?
+                                    (
+                                        <Fragment>
+                                            <CheckCheck />
+                                            <span>Ajouté au panier</span>
+                                        </Fragment>
+                                    )
+                                    :
+                                    (
+                                        <Fragment>
+                                            <ShoppingCart />
+                                            <span>Ajouter au panier</span>
+                                        </Fragment>
+                                    )
+                                }
+                            </Button>
                         </div>
 
                         {
