@@ -5,7 +5,7 @@ const ProductPage = async ({ params }: { params: Promise<{ cuid: string }> }): P
     const { cuid } = await params;
 
     return (
-        <section className="product-page container mt-[116px]">
+        <section className="product-page container !px-5 md:!px-7 lg:!px-10 xl:!px-14 mt-[116px]">
             <BackBtn />
 
             <ProductContent cuid={cuid} />

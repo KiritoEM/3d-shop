@@ -1,11 +1,11 @@
 "use client";
 
-import { Environment, useProgress, Stage } from "@react-three/drei";
+import { useProgress, Stage, OrbitControls, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import React, { FC, Suspense, useState } from "react";
+import React, { FC, Suspense, useEffect, useState } from "react";
 import Lights from "./Lights";
-import { ProductModel } from "./model";
 import { Config3D } from "@/models/product.model";
+import * as THREE from "three";
 
 const Loader: FC = () => {
     const { progress } = useProgress();
@@ -21,15 +21,36 @@ const Loader: FC = () => {
 
 type ProductViewCanvasProps = {
     modelPath: string;
-    config3D: Config3D
+    config3D: Config3D;
+    orbitControl?: boolean;
+    selectedMaterials?: Record<string, string>
 };
 
-const ProductViewCanvas: FC<ProductViewCanvasProps> = ({ modelPath, config3D }): JSX.Element => {
+const ProductViewCanvas: FC<ProductViewCanvasProps> = ({ modelPath, config3D, orbitControl = false, selectedMaterials }): JSX.Element => {
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
+    const { scene, materials } = useGLTF(modelPath);
 
-    const handleModelLoad = (state: boolean) => {
-        setIsLoaded(state);
-    };
+    useEffect(() => {
+        if (scene) {
+            setIsLoaded(true);
+        }
+    }, [scene, materials]);
+
+    // Change color dynamic
+    useEffect(() => {
+        if (!materials || !scene) return;
+
+        if (selectedMaterials && Object.keys(selectedMaterials).length) {
+            Object.entries(selectedMaterials).forEach(([key, value]) => {
+                const material = materials[key];
+                console.log(material);
+
+                if (material && material instanceof THREE.MeshStandardMaterial) {
+                    material.color.set(value);
+                }
+            })
+        }
+    }, [selectedMaterials, materials, scene]);
 
     return (
         <div className="relative w-full h-full">
@@ -58,18 +79,23 @@ const ProductViewCanvas: FC<ProductViewCanvasProps> = ({ modelPath, config3D }):
                 }}
             >
                 <Lights />
+
+                {orbitControl && <OrbitControls enableZoom={false} />}
+
                 <Stage
                     intensity={0.4}
                     preset="upfront"
                 >
                     <Suspense fallback={null}>
-                        <ProductModel
+                        {/* Model */}
+                        <group
+                            dispose={null}
                             position={config3D.position ?? [0, 0, 0]}
                             rotation={config3D.rotation ?? [0, 0, 0]}
                             scale={config3D.scale ?? 2.4}
-                            modelPath={modelPath}
-                            onLoad={handleModelLoad}
-                        />
+                        >
+                            <primitive object={scene} />
+                        </group>
                     </Suspense>
                 </Stage>
             </Canvas>

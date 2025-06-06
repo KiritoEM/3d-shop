@@ -131,7 +131,7 @@
 
 @layer utilities {
   .container {
-    @apply container w-full 2xl:max-w-[1440px] mx-auto px-5 md:px-7 lg:px-12;
+    @apply container w-full 2xl:max-w-[1440px] mx-auto px-5 md:px-7 lg:px-10 xl:px-12;
   }
 
   .animated-element {

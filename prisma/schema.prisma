@@ -20,6 +20,7 @@ model Product {
   categoryId  Int
   cuid        String   @default(cuid()) @unique
   category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  customisationConfigs Json @default("{}")
 
   @@map("product")
 }
