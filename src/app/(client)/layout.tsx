@@ -1,8 +1,8 @@
 "use client";
 
+import FloatingOptions from "@/components/FloatingOptions";
 import MainNav from "@/components/layouts/main-nav";
 import PlayBackgroundSound from "@/components/PlayBackgroundSound";
-import ThemeToggle from "@/components/ThemeToggle";
 
 export default function LandingLayout({
   children,
@@ -14,7 +14,7 @@ export default function LandingLayout({
       <MainNav />
       <PlayBackgroundSound />
       {children}
-      <ThemeToggle />
+      <FloatingOptions />
     </main>
   );
 }
