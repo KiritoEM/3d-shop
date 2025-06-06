@@ -28,7 +28,7 @@ const ProductContent: FC<ProductContentProps> = ({ cuid }): JSX.Element => {
 
     return (
         <div className="product-content mt-10 mb-12 flex flex-col lg:flex-row items-center gap-14 md:gap-20">
-            <div className="product-content__3d h-[68vmin] sm:h-[60vmin] lg:h-[70vmin] xl:h-[77vmin] w-full lg:w-[72vmin] xl:w-[80vmin] rounded-xl overflow-hidden" style={{ backgroundColor: `${data?.groundColor}` }}>
+            <div className="product-content__3d h-[68vmin] sm:h-[450px] lg:h-[70vmin] xl:h-[77vmin] 2xl:h-[72vmin] w-full lg:w-[72vmin] xl:w-[80vmin] 2xl:w-[75vmin] rounded-xl overflow-hidden" style={{ backgroundColor: `${data?.groundColor}` }}>
                 {
                     !isLoading ?
                         (

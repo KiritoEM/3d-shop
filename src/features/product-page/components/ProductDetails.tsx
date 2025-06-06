@@ -12,8 +12,8 @@ interface ColorOptProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const ColorOpt: FC<ColorOptProps> = ({ color, isActive = false, ...props }) => {
     return (
-        <div className="color__opt relative cursor-pointer overflow-hidden w-8 h-8 rounded-full border-2 border-foreground" style={{ backgroundColor: `${color}` }} {...props} >
-            {isActive && <div className="active-opt absolute top-0 left-0 h-full w-full bg-white/30 flex items-center justify-center"><CheckIcon className="size-5 text-secondary" /></div>}
+        <div className="color__opt relative cursor-pointer overflow-hidden w-7 md:w-8 h-7 md:h-8 rounded-full border-2 border-foreground" style={{ backgroundColor: `${color}` }} {...props} >
+            {isActive && <div className="active-opt absolute top-0 left-0 h-full w-full bg-white/30 flex items-center justify-center"><CheckIcon className="size-4 md:size-5 text-secondary" /></div>}
         </div>
     )
 }
@@ -69,7 +69,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({ loadingProduct, productData, 
                                 <Fragment>
                                     <hr className="mt-6" />
                                     <div className="3d-customisation mt-8">
-                                        <h5 className="text-xl lg:text-2xl">Changer la couleur du modèle</h5>
+                                        <h5 className="text-lg md:text-xl lg:text-2xl">Changer la couleur du modèle</h5>
 
                                         <div className="color mt-4 flex items-center gap-7">
                                             <ColorOpt isActive={activeColor === "default"} color={availableCustomisation.defaultColor} onClick={() => resetModelColor()} />
