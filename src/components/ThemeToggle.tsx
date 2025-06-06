@@ -40,54 +40,47 @@ const ThemeToggle = (): JSX.Element | null => {
     }
 
     return (
-        <div className={
-            cn(
-                "fixed z-50 bottom-6 lg:bottom-8 right-6 lg:right-8 transition-all duration-400",
-                // isVisible ? "translate-x-0 opacity-100" : "translate-x-150 opacity-0"
-            )
-        }>
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <div className="theme-toggle-trigger cursor-pointer p-3 lg:p-4 rounded-full bg-primary dark:bg-white">
-                        <Palette className="w-[28px] md:w-[32px]" color={theme === "light" ? "#ffffff" : "#E45826"} />
-                    </div>
-                </DropdownMenuTrigger>
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <div className="theme-toggle-trigger cursor-pointer h-14 w-14 flex items-center justify-center rounded-full bg-primary dark:bg-white">
+                    <Palette className="w-[26px] md:w-[28px]" color={theme === "light" ? "#ffffff" : "#E45826"} />
+                </div>
+            </DropdownMenuTrigger>
 
-                <DropdownMenuContent
-                    align="end"
-                    side="top"
-                    className="w-[230px] border-none p-3 dark:bg-white"
-                    sideOffset={8}
-                >
-                    <DropdownMenuLabel className="text-[16px] font-michroma text-[#0D0D0D]">
-                        Choisir un thème
-                    </DropdownMenuLabel>
+            <DropdownMenuContent
+                align="end"
+                side="top"
+                className="w-[230px] border-none p-3 dark:bg-white"
+                sideOffset={8}
+            >
+                <DropdownMenuLabel className="text-[16px] font-michroma text-[#0D0D0D]">
+                    Choisir un thème
+                </DropdownMenuLabel>
 
-                    <DropdownMenuGroup className="mt-1 space-y-1">
-                        {THEME_OPTIONS.map((opt, index) => (
-                            <DropdownMenuItem
-                                key={index}
-                                className={cn(
-                                    "relative dark:focus:bg-white/40",
-                                    theme === opt.value &&
-                                    "pointer-events-none border border-primary text-primary",
-                                )}
-                                onClick={() => handleToggleTheme(opt.value)}
-                            >
-                                <div className={`theme flex items-center space-x-2 ${theme === opt.value ? "text-primary" : "text-[#0D0D0D]"} cursor-pointer`}>
-                                    <opt.icon className={theme === opt.value ? "text-primary" : "text-[#0D0D0D]"} />
-                                    <span>{opt.label}</span>
-                                </div>
+                <DropdownMenuGroup className="mt-1 space-y-1">
+                    {THEME_OPTIONS.map((opt, index) => (
+                        <DropdownMenuItem
+                            key={index}
+                            className={cn(
+                                "relative dark:focus:bg-white/40",
+                                theme === opt.value &&
+                                "pointer-events-none border border-primary text-primary",
+                            )}
+                            onClick={() => handleToggleTheme(opt.value)}
+                        >
+                            <div className={`theme flex items-center space-x-2 ${theme === opt.value ? "text-primary" : "text-[#0D0D0D]"} cursor-pointer`}>
+                                <opt.icon className={theme === opt.value ? "text-primary" : "text-[#0D0D0D]"} />
+                                <span>{opt.label}</span>
+                            </div>
 
-                                {theme === opt.value && (
-                                    <div className="absolute right-3 h-2 w-2 rounded-full bg-primary"></div>
-                                )}
-                            </DropdownMenuItem>
-                        ))}
-                    </DropdownMenuGroup>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        </div>
+                            {theme === opt.value && (
+                                <div className="absolute right-3 h-2 w-2 rounded-full bg-primary"></div>
+                            )}
+                        </DropdownMenuItem>
+                    ))}
+                </DropdownMenuGroup>
+            </DropdownMenuContent>
+        </DropdownMenu>
     );
 };
 

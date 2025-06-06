@@ -171,6 +171,10 @@
     border-color: var(--border-gray);
   }
 
+  .scrollable-section {
+    scrollbar-gutter: stable;
+  }
+
   .scrollable-section::-webkit-scrollbar {
     width: 7px;
     display: none;
@@ -182,7 +186,7 @@
   }
 
   .scrollable-section::-webkit-scrollbar-thumb {
-    background: #aaa8a8b9;
+    background: #aaa8a873;
     border-radius: 5px;
   }
 
