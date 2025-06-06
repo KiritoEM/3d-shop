@@ -18,6 +18,7 @@ const Shop = (): JSX.Element => {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const {
         categories,
+        isProductsLoaded,
         filteredProducts,
         productsError,
         productsLoading,
@@ -71,7 +72,7 @@ const Shop = (): JSX.Element => {
 
                     {/* If no items in shop */}
                     {
-                        !productsLoading && (filteredProducts.length === 0 || productsError) && (
+                        !productsLoading && isProductsLoaded && (filteredProducts.length === 0 || productsError) && (
                             <h4 className="text-xl xl:text-2xl w-full col-span-3">Pas de produits correspondants</h4>
                         )
                     }

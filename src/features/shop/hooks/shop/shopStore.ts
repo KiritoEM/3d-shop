@@ -1,5 +1,4 @@
 import { normalizeStr } from "@/lib/utils";
-import { ICategory } from "@/models/category.model";
 import { IProduct } from "@/models/product.model";
 import { create } from "zustand";
 import { devtools, combine } from 'zustand/middleware';

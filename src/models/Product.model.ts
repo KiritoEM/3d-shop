@@ -4,6 +4,17 @@ export type Config3D = {
     scale?: number;
 }
 
+export type ColorCustomisation = {
+    color: string;
+    value: string;
+    materials: Record<string, string>
+}
+
+export type CustomisationConfigs = {
+    colorCustomisation: ColorCustomisation[];
+    defaultColor: string
+}
+
 export interface IProduct {
     id: number;
     name: string;
@@ -14,7 +25,9 @@ export interface IProduct {
     config3D?: Config3D;
     createdAt: string;
     updatedAt: string;
+    cuid: string;
     category: {
         name: string
-    }
+    };
+    customisationConfigs: CustomisationConfigs
 }

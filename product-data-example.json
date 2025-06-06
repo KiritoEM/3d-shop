@@ -1,0 +1,59 @@
+{
+    "defaultColor": "#bfa48f",
+    "colorCustomisation": [
+        {
+            "color": "black",
+            "value": "#0a0a0a",
+            "materials": {
+                "flas": "#1a1a1a",
+                "lens": "#2a2a2a",
+                "logo": "#1e1e1e",
+                "ereve": "#191919",
+                "glass": "#141414",
+                "screw": "#2e2e2e",
+                "kamera": "#1c1c1c",
+                "kamera1": "#1c1c1c",
+                "kamera2": "#1c1c1c",
+                "ana_renk": "#0a0a0a",
+                "wallpaper": "#131313",
+                "cam_materyal": "#1b1b1b"
+            }
+        },
+        {
+            "color": "gray",
+            "value": "#8c8c8c",
+            "materials": {
+                "flas": "#a0a0a0",
+                "lens": "#999999",
+                "logo": "#8b8b8b",
+                "ereve": "#b0b0b0",
+                "glass": "#c2c2c2",
+                "screw": "#9c9c9c",
+                "kamera": "#8e8e8e",
+                "kamera1": "#8e8e8e",
+                "kamera2": "#8e8e8e",
+                "ana_renk": "#8c8c8c",
+                "wallpaper": "#a5a5a5",
+                "cam_materyal": "#ababab"
+            }
+        },
+        {
+            "color": "white",
+            "value": "#f9f9f9",
+            "materials": {
+                "flas": "#f2f2f2",
+                "lens": "#eaeaea",
+                "logo": "#e0e0e0",
+                "ereve": "#ededed",
+                "glass": "#f6f6f6",
+                "screw": "#dcdcdc",
+                "kamera": "#d8d8d8",
+                "kamera1": "#d8d8d8",
+                "kamera2": "#d8d8d8",
+                "ana_renk": "#f9f9f9",
+                "wallpaper": "#ebebeb",
+                "cam_materyal": "#e5e5e5"
+            }
+        }
+    ]
+}
