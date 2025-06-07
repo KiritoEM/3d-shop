@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useCart } from '@/features/cart/hooks/useCart';
 import { cn, formatIntoPrice } from '@/lib/utils';
-import { CustomisationConfigs, IProduct } from '@/models/product.model';
+import { CustomisationConfigs, IProduct } from '@/models/productModel';
 import { CheckCheck, CheckIcon, ShoppingCart } from 'lucide-react';
 import React, { FC, Fragment } from 'react';
 

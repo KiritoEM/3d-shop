@@ -1,14 +1,15 @@
 #!/bin/sh
 
-echo "En attente de PostgreSQL..."
+# Wait for PostgreSQL
+echo "Waiting for PostgreSQL..."
 while ! nc -z postgres 5432; do 
   sleep 1
 done
 
-echo "PostgreSQL est prêt !"
-
-echo "Exécution des migrations..."
+# Run migrations
+echo "Running migrations..."
 npx prisma migrate deploy
 
-echo "Démarrage de l'application..."
+# Start application
+echo "Starting application..."
 exec node server.js

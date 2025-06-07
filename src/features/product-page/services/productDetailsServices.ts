@@ -1,4 +1,4 @@
-import { IProduct } from "@/models/product.model";
+import { IProduct } from "@/models/productModel";
 
 export const fetchProductByCuid = async (cuid: string): Promise<IProduct> => {
     const response = await fetch(`/api/product/${cuid}`);
