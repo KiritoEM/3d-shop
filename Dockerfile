@@ -26,7 +26,6 @@ COPY prisma ./prisma
 COPY src ./src
 COPY public ./public
 COPY next.config.ts ./
-COPY jsconfig.json ./
 COPY postcss.config.mjs ./
 COPY tsconfig.json ./
 COPY components.json ./
@@ -39,7 +38,8 @@ RUN npx prisma generate
 RUN yarn build
 
 # Production (standalone)
-FROM base 
+FROM base
+
 WORKDIR /app
 
 ENV NODE_ENV=production
@@ -47,6 +47,9 @@ ENV NODE_ENV=production
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nextjs -u 1001
 RUN apk add --no-cache libc6-compat
+
+# COPY --chown=nextjs:nodejs ./start.sh ./
+# RUN chmod +x start.sh
 
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
@@ -59,15 +62,6 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 USER nextjs
 
 EXPOSE 3000
-
 ENV PORT=3000
 
-COPY --chown=nextjs:nodejs start.sh ./
-RUN chmod +x start.sh
-
-USER nextjs
-
-EXPOSE 3000
-ENV PORT=3000
-
-CMD ["./start.sh"]
+CMD ["sh", "-c", "npx prisma migrate deploy && node server.js"]

@@ -1,4 +1,4 @@
-import { ICategory } from "@/models/category.model";
+import { ICategory } from "@/models/categoryModel";
 
 export const fetchCategories = async (): Promise<ICategory[]> => {
     const response = await fetch("/api/category");

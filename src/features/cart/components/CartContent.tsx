@@ -3,6 +3,8 @@ import { CartItemTypes, useCart } from "../hooks/useCart";
 import { FC, Fragment } from "react";
 import { Trash2, WalletCards, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { usePayment } from "@/features/payement/hooks/usePayment";
 
 const CartItem: FC<CartItemTypes> = ({ id, name, price }): JSX.Element => {
     const { deleteItem } = useCart();
@@ -42,18 +44,22 @@ const CartItemsList: FC<CartItemsListProps> = ({ cartData }): JSX.Element => {
 
 type CartPaiementProps = {
     totalPrice: number;
+    productsToBuy: CartItemTypes[];
+    closeContent: () => void
 }
 
-const CartPaiement: FC<CartPaiementProps> = ({ totalPrice }): JSX.Element => {
+const CartPaiement: FC<CartPaiementProps> = ({ totalPrice, productsToBuy, closeContent }): JSX.Element => {
+    const router = useRouter();
+    const { setProductsToBuy } = usePayment();
     return (
         <div className="w-full cart-paiement mt-8 pb-8 bg-background">
             <div className="cart-paiement__container flex items-center justify-between gap-6">
-                <div className="flex flex-col md:flex-row gap-1">
+                <div className="flex flex-col gap-1">
                     <p className="text-primary text-lg mr-1 font-michroma">total:</p>
                     <h5 className="text-xl">{totalPrice} €</h5>
                 </div>
 
-                <Button className="rounded-full"><WalletCards /> Payer</Button>
+                <Button className="rounded-full" onClick={() => { router.push("/payment"); closeContent(); setProductsToBuy(productsToBuy) }}><WalletCards /> Payer</Button>
             </div>
         </div>
     )
@@ -83,7 +89,7 @@ const CartContent = (): JSX.Element => {
 
                             <hr className="mt-8" />
 
-                            <CartPaiement totalPrice={getTotalPrice()} />
+                            <CartPaiement totalPrice={getTotalPrice()} closeContent={setCloseContent} productsToBuy={cartItems} />
                         </Fragment>
                     ) : (
                         <h4 className="empty-cart text-lg lg:text-xl w-full col-span-3 mt-8">Votre panier est vide</h4>

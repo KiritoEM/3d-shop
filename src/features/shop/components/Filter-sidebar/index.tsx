@@ -6,7 +6,7 @@ import { CUSTOMISATION_FILTER_OPTS } from "@/constants/data/store-data";
 import { DualRangeSlider } from '@/components/ui/ranger-slider';
 import { FC } from 'react';
 import { normalizeStr } from "@/lib/utils";
-import { ICategory } from "@/models/category.model";
+import { ICategory } from "@/models/categoryModel";
 import useFilterQuery from "@/features/shop/hooks/useFilterQuery";
 
 export interface FilterSidebarProps {

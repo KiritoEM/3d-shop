@@ -7,11 +7,24 @@ import useShopData from "@/features/shop/hooks/shop/useShopData";
 import SearchInput from "@/components/SearchInput";
 import dynamic from "next/dynamic";
 import { FilterIcon } from "lucide-react";
-import FilterSidebarMobile from "@/features/shop/components/Filter-sidebar/SidebarMobile";
+
+const FilterbarLoaderSkeletons = () => (
+    <aside className="filter-bar-skeletons hidden lg:block w-full max-w-[310px] xl:max-w-[325px] space-y-8 h-[calc(100vh-110px)] pb-8 fixed">
+        <Skeleton className="customisation-card rounded-lg w-full h-[140px]" />
+        <Skeleton className="category-card rounded-lg w-full h-[340px]" />
+        <Skeleton className="price-card rounded-lg w-full h-[100px]" />
+    </aside>
+)
 
 const FilterSidebar = dynamic(() => import("@/features/shop/components/Filter-sidebar"), {
+    ssr: false,
+    loading: () => <FilterbarLoaderSkeletons />
+})
+
+const FilterSidebarMobile = dynamic(() => import("@/features/shop/components/Filter-sidebar/SidebarMobile"), {
     ssr: false
 })
+
 
 const ShopContent = (): JSX.Element => {
     const [isSidebarOpen, setOpenSidebar] = useState<boolean>(false);

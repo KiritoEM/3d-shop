@@ -38,82 +38,6 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: Category; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public."Category" (
-    id integer NOT NULL,
-    name text NOT NULL
-);
-
-
-ALTER TABLE public."Category" OWNER TO postgres;
-
---
--- Name: Category_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public."Category_id_seq"
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE public."Category_id_seq" OWNER TO postgres;
-
---
--- Name: Category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public."Category_id_seq" OWNED BY public."Category".id;
-
-
---
--- Name: Product; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public."Product" (
-    id integer NOT NULL,
-    name text NOT NULL,
-    description text NOT NULL,
-    "config3D" jsonb DEFAULT '{"scale": 2.4, "position": [0, 0, 0], "rotation": [0, 0, 0]}'::jsonb NOT NULL,
-    price numeric(65,30) NOT NULL,
-    "modelPath" text NOT NULL,
-    "groundColor" text NOT NULL,
-    "createdAt" timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "updatedAt" timestamp(3) without time zone NOT NULL,
-    "categoryId" integer NOT NULL
-);
-
-
-ALTER TABLE public."Product" OWNER TO postgres;
-
---
--- Name: Product_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public."Product_id_seq"
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE public."Product_id_seq" OWNER TO postgres;
-
---
--- Name: Product_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public."Product_id_seq" OWNED BY public."Product".id;
-
-
---
 -- Name: _prisma_migrations; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -132,37 +56,95 @@ CREATE TABLE public._prisma_migrations (
 ALTER TABLE public._prisma_migrations OWNER TO postgres;
 
 --
--- Name: Category id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: category; Type: TABLE; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Category" ALTER COLUMN id SET DEFAULT nextval('public."Category_id_seq"'::regclass);
+CREATE TABLE public.category (
+    id integer NOT NULL,
+    name text NOT NULL
+);
+
+
+ALTER TABLE public.category OWNER TO postgres;
+
+--
+-- Name: category_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.category_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.category_id_seq OWNER TO postgres;
+
+--
+-- Name: category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.category_id_seq OWNED BY public.category.id;
 
 
 --
--- Name: Product id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: product; Type: TABLE; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Product" ALTER COLUMN id SET DEFAULT nextval('public."Product_id_seq"'::regclass);
+CREATE TABLE public.product (
+    id integer NOT NULL,
+    name text NOT NULL,
+    description text NOT NULL,
+    "config3D" jsonb DEFAULT '{"scale": 2.4, "position": [0, 0, 0], "rotation": [0, 0, 0]}'::jsonb NOT NULL,
+    price numeric(65,30) NOT NULL,
+    "modelPath" text NOT NULL,
+    "groundColor" text NOT NULL,
+    "createdAt" timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    "updatedAt" timestamp(3) without time zone NOT NULL,
+    "categoryId" integer NOT NULL,
+    cuid text NOT NULL,
+    "customisationConfigs" jsonb DEFAULT '{}'::jsonb NOT NULL
+);
+
+
+ALTER TABLE public.product OWNER TO postgres;
+
+--
+-- Name: product_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.product_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.product_id_seq OWNER TO postgres;
+
+--
+-- Name: product_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.product_id_seq OWNED BY public.product.id;
 
 
 --
--- Data for Name: Category; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Name: category id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-COPY public."Category" (id, name) FROM stdin;
-1	Mode & Vestimentaire
-2	Maison & Décoration
-3	Électronique
-\.
+ALTER TABLE ONLY public.category ALTER COLUMN id SET DEFAULT nextval('public.category_id_seq'::regclass);
 
 
 --
--- Data for Name: Product; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Name: product id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-COPY public."Product" (id, name, description, "config3D", price, "modelPath", "groundColor", "createdAt", "updatedAt", "categoryId") FROM stdin;
-1	Iphone 16	Découvrez l'iPhone 16 Pro et laissez-vous séduire par une technologie qui redéfinit les standards. Conçu pour ceux qui exigent le meilleur, ce smartphone premium vous offre une expérience utilisateur incomparable.	{"rotation": [0.35, 0, 0]}	1087998.000000000000000000000000000000	/uploaded-models/iphone_16_pro_max.glb	#585656	2025-06-04 11:13:21.484	2025-06-04 11:25:42.846	3
-\.
+ALTER TABLE ONLY public.product ALTER COLUMN id SET DEFAULT nextval('public.product_id_seq'::regclass);
 
 
 --
@@ -170,38 +152,44 @@ COPY public."Product" (id, name, description, "config3D", price, "modelPath", "g
 --
 
 COPY public._prisma_migrations (id, checksum, finished_at, migration_name, logs, rolled_back_at, started_at, applied_steps_count) FROM stdin;
-4ccaf6ea-1098-4f8e-97c7-549ce479937f	0c6c162ec2f228a4e69eccca7e46675e7ca7a4d6b484e555a6588b84658c98e5	2025-06-04 12:02:28.7204+03	20250604090227_init	\N	\N	2025-06-04 12:02:28.662849+03	1
+50988c12-fdaa-41e5-9a9c-69205a9777c6	065a51f53b714a8b9ba971f2a131215367b4d6d64e87800d1466524f0907343d	2025-06-04 22:13:57.184858+03	20250604191356_init	\N	\N	2025-06-04 22:13:57.134227+03	1
+ae2db9d9-1b29-494e-8a8d-dd23a9c9bc79	0bae8681193d3f21c836d98236b27f4f4e52abadbe22d973fa944a27c49b2769	2025-06-05 11:14:37.002422+03	20250605081435_add_customisation_configs	\N	\N	2025-06-05 11:14:36.978157+03	1
 \.
 
 
 --
--- Name: Category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Data for Name: category; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Category_id_seq"', 3, true);
-
-
---
--- Name: Product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public."Product_id_seq"', 1, true);
+COPY public.category (id, name) FROM stdin;
+1	Mode & Vestimentaire
+2	Maison & Décoration
+3	Électronique
+\.
 
 
 --
--- Name: Category Category_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Data for Name: product; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Category"
-    ADD CONSTRAINT "Category_pkey" PRIMARY KEY (id);
+COPY public.product (id, name, description, "config3D", price, "modelPath", "groundColor", "createdAt", "updatedAt", "categoryId", cuid, "customisationConfigs") FROM stdin;
+2	Apple watch ultra 2	Explorez l'Apple Watch Ultra 2 et succombez à une montre qui repousse toutes les limites. Pensée pour les aventuriers les plus exigeants, cette montre ultra-résistante vous accompagne dans vos défis les plus extrêmes avec une précision et une endurance exceptionnelles.	{"scale": 50, "rotation": [0.5, -0.3, 0]}	850.000000000000000000000000000000	/uploaded-models/apple_watch_ultra_2.glb	#3A5129	2025-06-04 19:22:25.409	2025-06-04 19:20:56.665	3	cmbic3x8g0001rsyojqyatfgp	{}
+1	Iphone 16	Découvrez l'iPhone 16 Pro et laissez-vous séduire par une technologie qui redéfinit les standards. Conçu pour ceux qui exigent le meilleur, ce smartphone premium vous offre une expérience utilisateur incomparable.	{"rotation": [0.35, 0, 0]}	1088000.000000000000000000000000000000	/uploaded-models/iphone_16_pro_max.glb	#585656	2025-06-04 19:20:32.401	2025-06-06 04:45:38.122	3	cmbic1i1d0000rsyor688d61q	{"defaultColor": "#bfa48f", "colorCustomisation": [{"color": "black", "value": "#0a0a0a", "materials": {"flas": "#1c1c1c", "logo": "#1a1a1a", "ereve": "#141414", "screw": "#1d1d1d", "ana_renk": "#0a0a0a"}}, {"color": "gray", "value": "#8c8c8c", "materials": {"flas": "#9b9b9b", "logo": "#8e8e8e", "ereve": "#a2a2a2", "screw": "#919191", "ana_renk": "#8c8c8c"}}, {"color": "white", "value": "#f9f9f9", "materials": {"flas": "#f2f2f2", "logo": "#e8e8e8", "ereve": "#f0f0f0", "screw": "#e2e2e2", "ana_renk": "#f9f9f9"}}]}
+\.
 
 
 --
--- Name: Product Product_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Product"
-    ADD CONSTRAINT "Product_pkey" PRIMARY KEY (id);
+SELECT pg_catalog.setval('public.category_id_seq', 3, true);
+
+
+--
+-- Name: product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.product_id_seq', 2, true);
 
 
 --
@@ -213,11 +201,41 @@ ALTER TABLE ONLY public._prisma_migrations
 
 
 --
--- Name: Product Product_categoryId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: category category_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Product"
-    ADD CONSTRAINT "Product_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES public."Category"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.category
+    ADD CONSTRAINT category_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: product product_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product
+    ADD CONSTRAINT product_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: product_cuid_key; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX product_cuid_key ON public.product USING btree (cuid);
+
+
+--
+-- Name: product_name_key; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX product_name_key ON public.product USING btree (name);
+
+
+--
+-- Name: product product_categoryId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product
+    ADD CONSTRAINT "product_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES public.category(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
