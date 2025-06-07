@@ -15,7 +15,7 @@ const PaymentResult = async ({ searchParams }: { searchParams: any }): Promise<J
     const session = await getStripSession(sessionId);
 
     return (
-        <div className="payment-result w-full overflow-hidden flex justify-center text-center mx-auto">
+        <div className="payment-result w-full overflow-hidden flex justify-center text-center mx-auto px-5 md:px-7">
             <div className="payement-result__content mt-[140px] mb-12 flex flex-col space-y-6 max-w-2xl rounded-lg border shadow-md p-9">
                 <Lottie />
 
