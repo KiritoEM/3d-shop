@@ -4,7 +4,6 @@ import { NAV_DATA } from "@/constants/constants";
 import usePlaySound from "@/hooks/usePlaySound";
 import { Logo } from "@/icons";
 import { DotLottiePlayer } from "@dotlottie/react-player";
-import "@dotlottie/react-player/dist/index.css";
 import { MenuIcon, X } from "lucide-react";
 import React, { Fragment, JSX, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
@@ -13,6 +12,7 @@ import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import "@dotlottie/react-player/dist/index.css";
 
 const MATHED_PATH: string[] = ["/"];
 
