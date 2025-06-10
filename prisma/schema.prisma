@@ -32,3 +32,41 @@ model Category {
 
   @@map("category")
 }
+
+model User {
+  id Int @id @default(autoincrement())
+  email String
+  password String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Transactions Transaction[]
+
+  @@map("user")
+}
+
+model Transaction {
+  id Int @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  stripePaymentIntentId String @unique
+  stripeChargeId String @unique
+  amount Int
+  currency String @default("eur")
+  status TransactionStatus
+  updatedAt   DateTime @updatedAt
+  customerEmail String
+  customerName String
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("transation")
+}
+
+enum TransactionStatus {
+  PENDING
+  PROCESSING
+  SUCCEEDED
+  FAILED
+  CANCELED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}

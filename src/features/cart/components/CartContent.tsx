@@ -10,13 +10,9 @@ const CartItem: FC<CartItemTypes> = ({ id, name, price }): JSX.Element => {
     const { deleteItem } = useCart();
     return (
         <article className="cart-item flex justify-between gap-6 lg:gap-8 items-center">
-            <div className="left-part flex items-center w-fit">
-                <div className="cart-item__3d-preview w-[63px] h-[62px] rounded-lg border"></div>
-
-                <div className="cart-item__content space-y-1 w-fit ml-4">
-                    <h5 className="text-md md:text-lg font-michroma leading-none">{name}</h5>
-                    <p className="text-sm md:text-base">{formatIntoPrice(price)} €</p>
-                </div>
+            <div className="cart-item__content space-y-1 w-fit ml-4">
+                <h5 className="text-md md:text-lg font-michroma leading-none">{name}</h5>
+                <p className="text-sm md:text-base">{formatIntoPrice(price)} €</p>
             </div>
 
             <div className="delete-item cursor-pointer hover:[&>svg]:scale-105" onClick={() => deleteItem(id)}>
