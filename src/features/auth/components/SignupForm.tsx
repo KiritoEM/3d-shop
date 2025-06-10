@@ -12,29 +12,43 @@ import GoogleAuth from "./GoogleAuth";
 import Separator from "./Separator";
 import Link from "next/link";
 
-const LoginForm = (): JSX.Element => {
+const SignupForm = (): JSX.Element => {
     const form = useForm<IAuthData>({
         resolver: zodResolver(authSchema),
         mode: "onChange",
         defaultValues: {
-            mode: "login",
+            mode: "signup",
             email: "",
             password: ""
         }
     });
 
     const onSubmit = (data: IAuthData) => {
-        if (data.mode === "login") {
+        if (data.mode === "signup") {
             console.log(data)
         }
     }
     return (
         <Form {...form}>
             <div className="login-form relative z-20 w-full max-w-[450px] flex flex-col space-y-10 items-center bg-background/90 dark:bg-background/70 px-10 py-12 border rounded-lg my-10">
-                <h1 className="login-form__title font-michroma text-3xl">Se connecter</h1>
+                <h1 className="login-form__title font-michroma text-3xl">Créer un compte</h1>
 
                 <div className="space-y-6 w-full">
                     <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Nom</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Votre com complet" type="text" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
                         <FormField
                             control={form.control}
                             name="email"
@@ -56,27 +70,25 @@ const LoginForm = (): JSX.Element => {
                                 <FormItem>
                                     <FormLabel>Confidentiel</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Votre mot de passe" type="password" {...field} />
+                                        <Input placeholder="Créer votre mot de passe" type="password" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
 
-                        <p className="text-sm -mt-3 text-right">Mot de passe oublié?</p>
-
-                        <Button className="h-10 w-full mt-1">Se connecter</Button>
+                        <Button className="h-10 w-full mt-1">S'inscrire</Button>
                     </form>
 
                     <Separator />
 
                     <GoogleAuth />
 
-                    <p className="signup-cta mt-2 w-fit mx-auto text-center">Pas encore de compte? <Link href="/signup" className="cursor-pointer hover:underline  text-blue-500">S'inscrire</Link></p>
+                    <p className="signup-cta mt-2 w-fit mx-auto text-center">Vous avez déja un compte? <Link href="/login" className="cursor-pointer hover:underline text-blue-500">Se connecter</Link></p>
                 </div>
             </div>
         </Form>
     );
 };
 
-export default LoginForm;
+export default SignupForm;
