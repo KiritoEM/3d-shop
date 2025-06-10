@@ -4,12 +4,22 @@ import { ShoppingCart } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import React from 'react';
 import { useCart } from '../hooks/useCart';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 const CartTrigger = (): JSX.Element => {
     const { theme } = useTheme();
     const { setOpenContent, cartNotification, removeNotification } = useCart();
+    const path = usePathname();
+
+    const isVisible = path.split("/").includes("shop");
     return (
-        <div className="cart-trigger">
+        <div className={
+            cn(
+                "cart-trigger",
+                isVisible ? "block" : "hidden"
+            )
+        }>
             <div
                 className="theme-toggle-trigger relative cursor-pointer h-14 w-14 flex items-center justify-center rounded-full bg-primary dark:bg-white"
                 onClick={() => { setOpenContent(), cartNotification?.status === "add" && removeNotification() }}
