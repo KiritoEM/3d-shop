@@ -5,27 +5,46 @@ import { authSchema, IAuthData } from "@/lib/zod-schemas/authSchemas";
 import { useForm } from "react-hook-form";
 import {
     zodResolver
-} from "@hookform/resolvers/zod"
+} from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import GoogleAuth from "./GoogleAuth";
 import Separator from "./Separator";
 import Link from "next/link";
+import { signup } from "../actions/authActions";
+import { redirect } from "next/navigation";
+import { FC } from "react";
+import { toast } from "react-toastify";
 
-const SignupForm = (): JSX.Element => {
+type SignupFormProps = {
+    urlRedirect: string
+}
+
+const SignupForm: FC<SignupFormProps> = ({ urlRedirect }): JSX.Element => {
     const form = useForm<IAuthData>({
         resolver: zodResolver(authSchema),
         mode: "onChange",
         defaultValues: {
             mode: "signup",
+            name: "",
             email: "",
             password: ""
         }
     });
 
-    const onSubmit = (data: IAuthData) => {
+    const onSubmit = async (data: IAuthData) => {
         if (data.mode === "signup") {
-            console.log(data)
+            const response = await signup(data);
+
+            if (response.status === "success") {
+                redirect(urlRedirect)
+            }
+            else if (response.status === "error") {
+                toast(response.message, {
+                    type: "error",
+                    theme: "colored"
+                })
+            }
         }
     }
     return (

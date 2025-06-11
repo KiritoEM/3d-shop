@@ -11,8 +11,16 @@ import { Button } from "@/components/ui/button";
 import GoogleAuth from "./GoogleAuth";
 import Separator from "./Separator";
 import Link from "next/link";
+import { login } from "../actions/authActions";
+import { toast } from "react-toastify";
+import { redirect } from "next/navigation";
+import { FC } from "react";
 
-const LoginForm = (): JSX.Element => {
+type LoginFormProps = {
+    urlRedirect: string
+}
+
+const LoginForm: FC<LoginFormProps> = ({ urlRedirect }): JSX.Element => {
     const form = useForm<IAuthData>({
         resolver: zodResolver(authSchema),
         mode: "onChange",
@@ -23,9 +31,19 @@ const LoginForm = (): JSX.Element => {
         }
     });
 
-    const onSubmit = (data: IAuthData) => {
+    const onSubmit = async (data: IAuthData) => {
         if (data.mode === "login") {
-            console.log(data)
+            const response = await login(data);
+
+            if (response.status === "success") {
+                redirect(urlRedirect)
+            }
+            else if (response.status === "error") {
+                toast(response.message, {
+                    type: "error",
+                    theme: "colored"
+                })
+            }
         }
     }
     return (

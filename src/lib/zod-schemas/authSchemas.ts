@@ -28,3 +28,5 @@ export const authSchema = z.discriminatedUnion("mode", [
 ])
 
 export type IAuthData = z.infer<typeof authSchema>;
+export type ILoginSchema = z.infer<typeof loginSchema>;
+export type ISignupSchema = z.infer<typeof signupSchema>;

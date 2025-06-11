@@ -4,6 +4,7 @@ import "./globals.css";
 import ThemeProvider from "@/providers/ThemeProvider";
 import TanstackProvider from "@/providers/TanstackProvider";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { ToastContainer } from "react-toastify";
 
 const DM = DM_Mono({
   variable: "--font-dm-mono",
@@ -37,6 +38,17 @@ export default function RootLayout({
             enableSystem={false}
           >
             <NuqsAdapter>{children}</NuqsAdapter>
+            <ToastContainer
+              position="bottom-center"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
           </ThemeProvider>
         </TanstackProvider>
       </body>
