@@ -3,27 +3,26 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { authSchema, IAuthData } from "@/lib/zod-schemas/authSchemas";
 import { useForm } from "react-hook-form";
-import {
-    zodResolver
-} from "@hookform/resolvers/zod";
-import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input, PasswordInput } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import GoogleAuth from "./GoogleAuth";
 import Separator from "./Separator";
 import Link from "next/link";
 import { signup } from "../actions/authActions";
-import { redirect } from "next/navigation";
-import { FC } from "react";
+import { useRouter } from "next/navigation";
+import { FC, useState, useTransition } from "react";
 import { toast } from "react-toastify";
 
 type SignupFormProps = {
-    urlRedirect: string
-}
+    urlRedirect?: string;
+};
 
-const SignupForm: FC<SignupFormProps> = ({ urlRedirect }): JSX.Element => {
+const SignupForm: FC<SignupFormProps> = ({ urlRedirect = "" }): JSX.Element => {
+    const router = useRouter();
     const form = useForm<IAuthData>({
         resolver: zodResolver(authSchema),
-        mode: "onChange",
+        mode: "onSubmit",
         defaultValues: {
             mode: "signup",
             name: "",
@@ -31,22 +30,27 @@ const SignupForm: FC<SignupFormProps> = ({ urlRedirect }): JSX.Element => {
             password: ""
         }
     });
+    const [isPending, startTransition] = useTransition();
+    const [isSubmitted] = useState<boolean>(false);
 
-    const onSubmit = async (data: IAuthData) => {
-        if (data.mode === "signup") {
-            const response = await signup(data);
+    const onSubmit = (data: IAuthData) => {
+        startTransition(async () => {
+            if (data.mode === "signup") {
+                const response = await signup(data);
 
-            if (response.status === "success") {
-                redirect(urlRedirect)
+                if (response.status === "success") {
+                    form.reset();
+                    router.replace(urlRedirect || "/");
+                } else if (response.status === "error") {
+                    toast(response.message, {
+                        type: "error",
+                        theme: "colored"
+                    });
+                }
             }
-            else if (response.status === "error") {
-                toast(response.message, {
-                    type: "error",
-                    theme: "colored"
-                })
-            }
-        }
-    }
+        });
+    };
+
     return (
         <Form {...form}>
             <div className="login-form relative z-20 w-full max-w-[450px] flex flex-col space-y-10 items-center bg-background/90 dark:bg-background/70 px-10 py-12 border rounded-lg my-10">
@@ -61,9 +65,14 @@ const SignupForm: FC<SignupFormProps> = ({ urlRedirect }): JSX.Element => {
                                 <FormItem>
                                     <FormLabel>Nom</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Votre com complet" type="text" {...field} />
+                                        <Input
+                                            placeholder="Votre nom complet"
+                                            type="text"
+                                            {...field}
+                                            disabled={isPending}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
+                                    {/* <FormMessage /> */}
                                 </FormItem>
                             )}
                         />
@@ -75,9 +84,14 @@ const SignupForm: FC<SignupFormProps> = ({ urlRedirect }): JSX.Element => {
                                 <FormItem>
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="johndoe@gmail.com" type="email" {...field} />
+                                        <Input
+                                            placeholder="johndoe@gmail.com"
+                                            type="email"
+                                            {...field}
+                                            disabled={isPending}
+                                        />
                                     </FormControl>
-                                    <FormMessage />
+                                    {/* <FormMessage /> */}
                                 </FormItem>
                             )}
                         />
@@ -89,21 +103,38 @@ const SignupForm: FC<SignupFormProps> = ({ urlRedirect }): JSX.Element => {
                                 <FormItem>
                                     <FormLabel>Confidentiel</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Créer votre mot de passe" type="password" {...field} />
+                                        <PasswordInput
+                                            placeholder="Créer votre mot de passe"
+                                            field={field}
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
 
-                        <Button className="h-10 w-full mt-1">S'inscrire</Button>
+                        <Button
+                            className="h-10 w-full mt-1"
+                            type="submit"
+                            disabled={isPending}
+                        >
+                            {isPending ? "Inscription en cours..." : "S'inscrire"}
+                        </Button>
                     </form>
 
                     <Separator />
 
                     <GoogleAuth />
 
-                    <p className="signup-cta mt-2 w-fit mx-auto text-center">Vous avez déja un compte? <Link href="/login" className="cursor-pointer hover:underline text-blue-500">Se connecter</Link></p>
+                    <p className="signup-cta mt-2 w-fit mx-auto text-center">
+                        Vous avez déjà un compte?{" "}
+                        <Link
+                            href="/login"
+                            className="cursor-pointer hover:underline text-blue-500"
+                        >
+                            Se connecter
+                        </Link>
+                    </p>
                 </div>
             </div>
         </Form>

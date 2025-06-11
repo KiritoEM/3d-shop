@@ -7,14 +7,14 @@ import {
     zodResolver
 } from "@hookform/resolvers/zod"
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import GoogleAuth from "./GoogleAuth";
 import Separator from "./Separator";
 import Link from "next/link";
 import { login } from "../actions/authActions";
 import { toast } from "react-toastify";
-import { redirect } from "next/navigation";
-import { FC } from "react";
+import { useRouter } from "next/navigation";
+import { FC, useTransition } from "react";
+import { Button } from "@/components/ui/button";
 
 type LoginFormProps = {
     urlRedirect: string
@@ -23,28 +23,35 @@ type LoginFormProps = {
 const LoginForm: FC<LoginFormProps> = ({ urlRedirect }): JSX.Element => {
     const form = useForm<IAuthData>({
         resolver: zodResolver(authSchema),
-        mode: "onChange",
+        mode: "onSubmit",
+        reValidateMode: "onChange",
         defaultValues: {
             mode: "login",
             email: "",
             password: ""
         }
     });
+    const router = useRouter();
+    const [isPending, startTransition] = useTransition();
 
-    const onSubmit = async (data: IAuthData) => {
-        if (data.mode === "login") {
-            const response = await login(data);
+    const onSubmit = (data: IAuthData) => {
+        startTransition(async () => {
+            if (data.mode === "login") {
+                const response = await login(data);
 
-            if (response.status === "success") {
-                redirect(urlRedirect)
+                if (response.status === "success") {
+                    form.reset();
+                    router.replace(urlRedirect || "/")
+                }
+                else if (response.status === "error") {
+                    toast(response.message, {
+                        type: "error",
+                        theme: "colored"
+                    })
+                }
             }
-            else if (response.status === "error") {
-                toast(response.message, {
-                    type: "error",
-                    theme: "colored"
-                })
-            }
-        }
+        })
+
     }
     return (
         <Form {...form}>
@@ -56,7 +63,7 @@ const LoginForm: FC<LoginFormProps> = ({ urlRedirect }): JSX.Element => {
                         <FormField
                             control={form.control}
                             name="email"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem>
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
@@ -70,7 +77,7 @@ const LoginForm: FC<LoginFormProps> = ({ urlRedirect }): JSX.Element => {
                         <FormField
                             control={form.control}
                             name="password"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem>
                                     <FormLabel>Confidentiel</FormLabel>
                                     <FormControl>
@@ -83,7 +90,13 @@ const LoginForm: FC<LoginFormProps> = ({ urlRedirect }): JSX.Element => {
 
                         <p className="text-sm -mt-3 text-right">Mot de passe oublié?</p>
 
-                        <Button className="h-10 w-full mt-1">Se connecter</Button>
+                        <Button
+                            className="h-10 w-full mt-1"
+                            type="submit"
+                            disabled={isPending}
+                        >
+                            {isPending ? "Connexion en cours..." : "Se connecter"}
+                        </Button>
                     </form>
 
                     <Separator />

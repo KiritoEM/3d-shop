@@ -1,6 +1,7 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
+import { EyeIcon, EyeOffIcon } from "lucide-react"
 
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   return (
@@ -13,9 +14,27 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
         "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
         className
       )}
+      autoComplete="off"
       {...props}
     />
   )
 }
 
-export { Input }
+type PasswordInputTypes = {
+  placeholder: string;
+  field: any;
+}
+
+const PasswordInput: React.FC<PasswordInputTypes> = ({ placeholder, field }) => {
+  const [showPassword, setShowPassword] = React.useState<boolean>(false);
+  return (
+    <div className="password-input relative">
+      <Input placeholder={placeholder} type={showPassword ? "text" : "password"} {...field} />
+      <div className="eye-icon absolute top-1/2 -translate-y-1/2 right-3 cursor-pointer" onClick={() => setShowPassword(!showPassword)}>
+        {showPassword ? (<EyeOffIcon className="w-4 h-4" />) : (<EyeIcon className="w-4 h-4" />)}
+      </div>
+    </div>
+  )
+}
+
+export { Input, PasswordInput }

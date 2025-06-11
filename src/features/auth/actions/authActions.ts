@@ -64,11 +64,11 @@ export const signup = async (data: ISignupSchema): Promise<IResponseType<any>> =
             data: {
                 email: data.email,
                 name: data.name,
-                password: hashData(data.password)
+                password: await hashData(data.password)
             }
         })
 
-        if (createdUser) {
+        if (!createdUser) {
             return {
                 status: "error",
                 message: "Un erreur s'est produit"
