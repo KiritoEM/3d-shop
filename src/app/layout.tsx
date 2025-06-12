@@ -5,6 +5,7 @@ import ThemeProvider from "@/providers/ThemeProvider";
 import TanstackProvider from "@/providers/TanstackProvider";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ToastContainer } from "react-toastify";
+import { NextAuthProvider } from "@/providers/NextauthProvider";
 
 const DM = DM_Mono({
   variable: "--font-dm-mono",
@@ -31,26 +32,28 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${DM.className} ${michroma.variable} antialiased`}>
-        <TanstackProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem={false}
-          >
-            <NuqsAdapter>{children}</NuqsAdapter>
-            <ToastContainer
-              position="bottom-center"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick={false}
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-            />
-          </ThemeProvider>
-        </TanstackProvider>
+        <NextAuthProvider>
+          <TanstackProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem={false}
+            >
+              <NuqsAdapter>{children}</NuqsAdapter>
+              <ToastContainer
+                position="bottom-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+              />
+            </ThemeProvider>
+          </TanstackProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );

@@ -6,19 +6,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input, PasswordInput } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import GoogleAuth from "./GoogleAuth";
-import Separator from "./Separator";
 import Link from "next/link";
 import { signup } from "../actions/authActions";
 import { useRouter } from "next/navigation";
-import { FC, useState, useTransition } from "react";
+import { FC, useTransition } from "react";
 import { toast } from "react-toastify";
 
-type SignupFormProps = {
-    urlRedirect?: string;
-};
-
-const SignupForm: FC<SignupFormProps> = ({ urlRedirect = "" }): JSX.Element => {
+const SignupForm: FC = (): JSX.Element => {
     const router = useRouter();
     const form = useForm<IAuthData>({
         resolver: zodResolver(authSchema),
@@ -31,7 +25,6 @@ const SignupForm: FC<SignupFormProps> = ({ urlRedirect = "" }): JSX.Element => {
         }
     });
     const [isPending, startTransition] = useTransition();
-    const [isSubmitted] = useState<boolean>(false);
 
     const onSubmit = (data: IAuthData) => {
         startTransition(async () => {
@@ -40,7 +33,10 @@ const SignupForm: FC<SignupFormProps> = ({ urlRedirect = "" }): JSX.Element => {
 
                 if (response.status === "success") {
                     form.reset();
-                    router.replace(urlRedirect || "/");
+                    toast("Votre compte a été créé avec succés", {
+                        theme: "colored"
+                    })
+                    router.replace("/login");
                 } else if (response.status === "error") {
                     toast(response.message, {
                         type: "error",
@@ -72,7 +68,7 @@ const SignupForm: FC<SignupFormProps> = ({ urlRedirect = "" }): JSX.Element => {
                                             disabled={isPending}
                                         />
                                     </FormControl>
-                                    {/* <FormMessage /> */}
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -91,7 +87,7 @@ const SignupForm: FC<SignupFormProps> = ({ urlRedirect = "" }): JSX.Element => {
                                             disabled={isPending}
                                         />
                                     </FormControl>
-                                    {/* <FormMessage /> */}
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -121,10 +117,6 @@ const SignupForm: FC<SignupFormProps> = ({ urlRedirect = "" }): JSX.Element => {
                             {isPending ? "Inscription en cours..." : "S'inscrire"}
                         </Button>
                     </form>
-
-                    <Separator />
-
-                    <GoogleAuth />
 
                     <p className="signup-cta mt-2 w-fit mx-auto text-center">
                         Vous avez déjà un compte?{" "}

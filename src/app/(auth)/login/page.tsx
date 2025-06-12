@@ -1,10 +1,11 @@
 import LoginForm from "@/features/auth/components/LoginForm";
-import Image from "next/image";
 
 const Login = async ({ searchParams }: { searchParams: any }): Promise<JSX.Element> => {
     const urlRedirect = (await searchParams).url;
+    const error = (await searchParams).error;
+    console.log((await searchParams).error);
 
-    return <LoginForm urlRedirect={urlRedirect} />;
+    return <LoginForm urlRedirect={urlRedirect} error={error} />;
 };
 
 export default Login;
