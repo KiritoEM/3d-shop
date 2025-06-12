@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { prisma } from "./prisma";
+import { compareData } from "./hash";
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
@@ -18,9 +19,27 @@ export const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials) {
-                return null; //let server action to handle login logic
+                if (!credentials?.email || !credentials?.password) {
+                    return null;
+                }
+
+                const user = await prisma.user.findUnique({
+                    where: {
+                        email: credentials.email
+                    }
+                });
+
+                if (!user || !(compareData(credentials.password, user.password!))) {
+                    return null;
+                }
+
+                return {
+                    id: user.id,
+                    email: credentials.email,
+                    name: user.name
+                }
             }
-        })
+        }),
     ],
     callbacks: {
         async signIn({ user, account, profile }) {

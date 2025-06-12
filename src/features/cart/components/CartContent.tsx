@@ -1,3 +1,5 @@
+"use client"
+
 import { cn, formatIntoPrice } from "@/lib/utils";
 import { CartItemTypes, useCart } from "../hooks/useCart";
 import { FC, Fragment } from "react";
@@ -5,6 +7,8 @@ import { Trash2, WalletCards, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { usePayment } from "@/features/payement/hooks/usePayment";
+import { useSession } from "next-auth/react";
+import AuthLoadingScreen from "@/components/AuthLoadingScreen";
 
 const CartItem: FC<CartItemTypes> = ({ id, name, price }): JSX.Element => {
     const { deleteItem } = useCart();
@@ -38,15 +42,33 @@ const CartItemsList: FC<CartItemsListProps> = ({ cartData }): JSX.Element => {
     )
 }
 
-type CartPaiementProps = {
+type CartPaymentProps = {
     totalPrice: number;
     productsToBuy: CartItemTypes[];
     closeContent: () => void
 }
 
-const CartPaiement: FC<CartPaiementProps> = ({ totalPrice, productsToBuy, closeContent }): JSX.Element => {
+const CartPayment: FC<CartPaymentProps> = ({ totalPrice, productsToBuy, closeContent }): JSX.Element => {
     const router = useRouter();
     const { setProductsToBuy } = usePayment();
+    const { status, data } = useSession();
+
+    console.log(status, data);
+
+    const handlePay = () => {
+        if (status === "loading") return <AuthLoadingScreen />
+
+        setProductsToBuy(productsToBuy);
+
+        if (status === "unauthenticated") {
+            router.push("/login?url=payment");
+            return;
+        }
+
+        router.push("/payment");
+        closeContent();
+    }
+
     return (
         <div className="w-full cart-paiement mt-8 pb-8 bg-background">
             <div className="cart-paiement__container flex items-center justify-between gap-6">
@@ -55,7 +77,7 @@ const CartPaiement: FC<CartPaiementProps> = ({ totalPrice, productsToBuy, closeC
                     <h5 className="text-xl">{totalPrice} €</h5>
                 </div>
 
-                <Button className="rounded-full" onClick={() => { router.push("/payment"); closeContent(); setProductsToBuy(productsToBuy) }}><WalletCards /> Payer</Button>
+                <Button className="rounded-full" onClick={handlePay}><WalletCards /> Payer</Button>
             </div>
         </div>
     )
@@ -85,7 +107,7 @@ const CartContent = (): JSX.Element => {
 
                             <hr className="mt-8" />
 
-                            <CartPaiement totalPrice={getTotalPrice()} closeContent={setCloseContent} productsToBuy={cartItems} />
+                            <CartPayment totalPrice={getTotalPrice()} closeContent={setCloseContent} productsToBuy={cartItems} />
                         </Fragment>
                     ) : (
                         <h4 className="empty-cart text-lg lg:text-xl w-full col-span-3 mt-8">Votre panier est vide</h4>

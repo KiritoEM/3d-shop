@@ -18,7 +18,7 @@ interface FilterSidebarMobileProps extends FilterSidebarProps {
 const FilterSidebarMobile: FC<FilterSidebarMobileProps> = ({ categories, setPriceRange, priceRange, categoriesLoading, isSidebarOpen, closeSidebar }): JSX.Element => {
     const { activeCategory, setCategory } = useFilterQuery();
 
-    const allCategoriesLength = categories.map((category) => category.Product.flat()).length;
+    const allCategoriesLength = categories.map((category) => category.products.flat()).length;
     return (
         <div className={
             cn(
@@ -70,7 +70,7 @@ const FilterSidebarMobile: FC<FilterSidebarMobileProps> = ({ categories, setPric
                                             >
                                                 <p className={activeCategory === normalizeStr(category.name) ? "text-primary" : "text-foreground"}>{category.name}</p>
                                                 <div className="count px-3 py-1 rounded-xl bg-primary/10 text-primary text-sm">
-                                                    <span>{category.Product.length}</span>
+                                                    <span>{category.products.length}</span>
                                                 </div>
                                             </li>
                                         ))

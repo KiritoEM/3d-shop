@@ -19,7 +19,7 @@ export interface FilterSidebarProps {
 const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setPriceRange, priceRange, categoriesLoading }): JSX.Element => {
     const { activeCategory, setCategory } = useFilterQuery();
 
-    const allCategoriesLength = categories.map((category) => category.Product.flat()).length;
+    const allCategoriesLength = categories.map((category) => category.products.flat()).length;
     return (
         <aside className="filter-bar hidden lg:block w-full max-w-[310px] xl:max-w-[325px] space-y-8 h-[calc(100vh-110px)] pb-8 fixed overflow-x-hidden scrollable-section overflow-y-auto">
             {/* Customisation card */}
@@ -60,7 +60,7 @@ const FilterSidebar: FC<FilterSidebarProps> = ({ categories, setPriceRange, pric
                                         >
                                             <p className={activeCategory === normalizeStr(category.name) ? "text-primary" : "text-foreground"}>{category.name}</p>
                                             <div className="count px-3 py-1 rounded-xl bg-primary/10 text-primary text-sm">
-                                                <span>{category.Product.length}</span>
+                                                <span>{category.products.length}</span>
                                             </div>
                                         </li>
                                     ))

@@ -3,5 +3,5 @@ import { IProduct } from "./productModel";
 export interface ICategory {
     id: number;
     name: string;
-    Product: IProduct[];
+    products: IProduct[];
 }

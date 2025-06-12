@@ -5,7 +5,7 @@ export const GET = async () => {
     try {
         const categories = await prisma.category.findMany({
             include: {
-                Product: true
+                products: true
             }
         });
         return NextResponse.json(categories, { status: 200 });

@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input";
 import GoogleAuth from "./GoogleAuth";
 import Separator from "./Separator";
 import Link from "next/link";
-import { login } from "../actions/authActions";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { FC, useEffect, useTransition } from "react";
@@ -49,20 +48,19 @@ const LoginForm: FC<LoginFormProps> = ({ urlRedirect, error }): JSX.Element => {
     const onSubmit = (data: IAuthData) => {
         startTransition(async () => {
             if (data.mode === "login") {
-                const response = await login(data);
+                const response = await signIn("credentials", {
+                    email: data.email,
+                    password: data.password,
+                    redirect: false,
+                });;
 
-                if (response.status === "success") {
-
-                    await signIn("credentials", {
-                        email: data.email,
-                        password: data.password,
-                        redirect: false,
-                    });
+                if (response?.ok) {
                     form.reset();
-                    router.replace(urlRedirect || "/")
+                    urlRedirect && router.replace(`/${urlRedirect}`)
                 }
-                else if (response.status === "error") {
-                    toast(response.message, {
+
+                if (response?.error) {
+                    toast("Email ou mot de passe incorrect", {
                         type: "error",
                         theme: "colored"
                     })
