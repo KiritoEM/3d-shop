@@ -1,8 +1,8 @@
-import type { NextAuthOptions, Session } from "next-auth";
+import type { Awaitable, NextAuthOptions, User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { prisma } from "./prisma";
-import { User } from "@prisma/client";
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
@@ -10,6 +10,16 @@ export const authOptions: NextAuthOptions = {
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID as string,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
+        }),
+        CredentialsProvider({
+            name: "Credentials",
+            credentials: {
+                email: { label: "Email", type: "text" },
+                password: { label: "Password", type: "password" }
+            },
+            async authorize(credentials) {
+                return null; //let server action to handle login logic
+            }
         })
     ],
     callbacks: {

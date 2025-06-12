@@ -33,8 +33,9 @@ const SignupForm: FC = (): JSX.Element => {
 
                 if (response.status === "success") {
                     form.reset();
-                    toast("Votre compte a été créé avec succés", {
-                        theme: "colored"
+                    toast("Votre compte a été créé avec succés!!! Veuillez vous connecter pour continuer", {
+                        theme: "colored",
+                        type: "success"
                     })
                     router.replace("/login");
                 } else if (response.status === "error") {
@@ -49,8 +50,8 @@ const SignupForm: FC = (): JSX.Element => {
 
     return (
         <Form {...form}>
-            <div className="login-form relative z-20 w-full max-w-[450px] flex flex-col space-y-10 items-center bg-background/90 dark:bg-background/70 px-10 py-12 border rounded-lg my-10">
-                <h1 className="login-form__title font-michroma text-3xl">Créer un compte</h1>
+            <div className="signup-form relative z-20 w-full max-w-[380px] md:max-w-[400px] xl:max-w-[450px] flex flex-col space-y-10 items-center bg-background/90 dark:bg-background/70 px-6 md:px-8 xl:px-10 py-8 md:py-10 xl:py-12 border rounded-lg my-10">
+                <h1 className="signup-form__title font-michroma text-3xl">Créer un compte</h1>
 
                 <div className="space-y-6 w-full">
                     <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>

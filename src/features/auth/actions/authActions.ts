@@ -20,7 +20,7 @@ export const login = async (data: ILoginSchema): Promise<IResponseType<any>> => 
             };
         }
 
-        if (!compareData(data.password, user.password)) {
+        if (!compareData(data.password, user.password!)) {
             return {
                 status: "error",
                 message: "Veuillez vous assurer que le mot de passe entré est valide"

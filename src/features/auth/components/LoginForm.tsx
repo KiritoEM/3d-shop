@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { FC, useEffect, useTransition } from "react";
 import { Button } from "@/components/ui/button";
+import { signIn } from "next-auth/react";
 
 type LoginFormProps = {
     urlRedirect: string;
@@ -51,6 +52,12 @@ const LoginForm: FC<LoginFormProps> = ({ urlRedirect, error }): JSX.Element => {
                 const response = await login(data);
 
                 if (response.status === "success") {
+
+                    await signIn("credentials", {
+                        email: data.email,
+                        password: data.password,
+                        redirect: false,
+                    });
                     form.reset();
                     router.replace(urlRedirect || "/")
                 }
@@ -66,8 +73,8 @@ const LoginForm: FC<LoginFormProps> = ({ urlRedirect, error }): JSX.Element => {
     }
     return (
         <Form {...form}>
-            <div className="login-form relative z-20 w-full max-w-[450px] flex flex-col space-y-10 items-center bg-background/90 dark:bg-background/70 px-10 py-12 border rounded-lg my-10">
-                <h1 className="login-form__title font-michroma text-3xl">Se connecter</h1>
+            <div className="login-form relative z-20 w-full max-w-[380px] md:max-w-[400px] xl:max-w-[450px] flex flex-col space-y-10 items-center bg-background/90 dark:bg-background/70 px-6 md:px-8 xl:px-10 py-8 md:py-10 xl:py-12 border rounded-lg my-10">
+                <h1 className="login-form__title font-michroma text-2xl md:text-3xl text-center">Se connecter</h1>
 
                 <div className="space-y-6 w-full">
                     <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
