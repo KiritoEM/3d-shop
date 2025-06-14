@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { addPayment } from "@/features/payement/actions/paymentActions";
 import Lottie from "@/features/payement/components/Lottie";
 import { getStripSession } from "@/features/payement/services/paymentServices";
 import { Home } from "lucide-react";
@@ -14,6 +15,15 @@ const PaymentResult = async ({ searchParams }: { searchParams: any }): Promise<J
 
     const session = await getStripSession(sessionId);
 
+    if (!session) {
+        redirect("/shop");
+    }
+
+    const paymentReponse = await addPayment(session);
+
+    if (paymentReponse.status === "error") {
+
+    }
     return (
         <div className="payment-result w-full overflow-hidden flex justify-center text-center mx-auto px-5 md:px-7">
             <div className="payement-result__content mt-[140px] mb-12 flex flex-col space-y-6 max-w-2xl rounded-lg border shadow-md p-9">
