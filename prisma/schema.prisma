@@ -97,8 +97,8 @@ model VerificationToken {
 model Transaction {
   id                    Int               @id @default(autoincrement())
   createdAt             DateTime          @default(now())
-  stripePaymentIntentId String            @unique
-  stripeChargeId        String            @unique
+  stripePaymentIntentId String?            @unique
+  stripeChargeId        String?            @unique
   amount                Int              
   currency              String            @default("eur")
   status                TransactionStatus
