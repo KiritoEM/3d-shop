@@ -4,7 +4,7 @@ import { IResponseType } from "@/features/auth/types";
 import { prisma } from "@/lib/prisma";
 import Stripe from "stripe";
 
-export const addPayment = async (session: Stripe.Response<Stripe.Checkout.Session>): Promise<IResponseType<any>> => {
+export const addPayment = async (session: Stripe.Response<Stripe.Checkout.Session>, userId: string): Promise<IResponseType<any>> => {
     try {
         const existingPayment = await prisma.transaction.findUnique({
             where: { stripeChargeId: session.id }
@@ -27,9 +27,10 @@ export const addPayment = async (session: Stripe.Response<Stripe.Checkout.Sessio
                 currency: "eur",
                 user: {
                     connect: {
-                        id: 4
+                        id: userId
                     }
-                }
+                },
+                stripePaymentIntentId: session.payment_intent as string
             }
         });
 

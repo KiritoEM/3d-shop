@@ -56,7 +56,14 @@ const LoginForm: FC<LoginFormProps> = ({ urlRedirect, error }): JSX.Element => {
 
                 if (response?.ok) {
                     form.reset();
-                    urlRedirect && router.replace(`/${urlRedirect}`)
+
+                    if (urlRedirect === "payment") {
+                        router.replace("/payment");
+                        router.refresh();
+                    }
+                    else {
+                        urlRedirect && router.replace(`/${urlRedirect}`)
+                    }
                 }
 
                 if (response?.error) {

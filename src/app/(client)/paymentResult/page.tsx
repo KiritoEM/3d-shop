@@ -2,7 +2,9 @@ import { Button } from "@/components/ui/button";
 import { addPayment } from "@/features/payement/actions/paymentActions";
 import Lottie from "@/features/payement/components/Lottie";
 import { getStripSession } from "@/features/payement/services/paymentServices";
+import { authOptions } from "@/lib/auth";
 import { Home } from "lucide-react";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -18,8 +20,16 @@ const PaymentResult = async ({ searchParams }: { searchParams: any }): Promise<J
     if (!session) {
         redirect("/shop");
     }
+    const serverSession = await getServerSession(authOptions);
+    if (!serverSession || !serverSession.user) {
+        redirect("/shop");
+    }
 
-    const paymentReponse = await addPayment(session);
+
+    type SessionUserWithId = typeof serverSession.user & { id: string };
+    const userWithId = serverSession.user as SessionUserWithId;
+
+    const paymentReponse = await addPayment(session, userWithId.id);
 
     if (paymentReponse.status === "error") {
 
