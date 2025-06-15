@@ -53,8 +53,6 @@ const CartPayment: FC<CartPaymentProps> = ({ totalPrice, productsToBuy, closeCon
     const { setProductsToBuy } = usePayment();
     const { status, data } = useSession();
 
-    console.log(status, data);
-
     const handlePay = () => {
         if (status === "loading") return <AuthLoadingScreen />
 
