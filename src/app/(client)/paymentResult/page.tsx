@@ -5,6 +5,7 @@ import { getStripSession } from "@/features/payement/services/paymentServices";
 import { authOptions } from "@/lib/auth";
 import { Home } from "lucide-react";
 import { getServerSession } from "next-auth";
+import Error from "next/error";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -29,6 +30,10 @@ const PaymentResult = async ({ searchParams }: { searchParams: any }): Promise<J
     const userWithId = serverSession.user as SessionUserWithId;
 
     const paymentReponse = await addPayment(session, userWithId.id);
+
+    if (paymentReponse.status === "error") {
+        return <Error statusCode={500} title="Erreur lors du traitement du paiement" />;
+    }
 
     return (
         <div className="payment-result w-full overflow-hidden flex justify-center text-center mx-auto px-5 md:px-7">

@@ -4,13 +4,10 @@ import { NAV_DATA, NAV_DATA_AUTHENTICATED } from "@/constants/constants";
 import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useSession } from "next-auth/react";
 import { FC, useRef } from "react";
 import Link from "next/link";
+import { Session } from "next-auth";
 
-type NavResponsiveProps = {
-    isOpen: boolean;
-}
 
 const AuthentificatedActions = (): JSX.Element => {
     return (
@@ -33,9 +30,13 @@ const AuthentificatedActions = (): JSX.Element => {
     );
 }
 
-const NavResponsive: FC<NavResponsiveProps> = ({ isOpen }): JSX.Element => {
+type NavResponsiveProps = {
+    isOpen: boolean;
+    sessionStatus: string;
+}
+
+const NavResponsive: FC<NavResponsiveProps> = ({ isOpen, sessionStatus }): JSX.Element => {
     const containerRef = useRef<HTMLDivElement | null>(null);
-    const { status } = useSession();
 
     useGSAP(() => {
         const container = containerRef.current;
@@ -98,7 +99,7 @@ const NavResponsive: FC<NavResponsiveProps> = ({ isOpen }): JSX.Element => {
                 </ul>
 
                 {/* Actions if authenticated */}
-                {status === "authenticated" && <AuthentificatedActions />}
+                {sessionStatus === "authenticated" && <AuthentificatedActions />}
             </div>
         </div>
     );

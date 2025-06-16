@@ -16,6 +16,7 @@ import "@dotlottie/react-player/dist/index.css";
 import { useSession } from "next-auth/react";
 import { Avatar } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import AuthLoadingScreen from "@/components/AuthLoadingScreen";
 
 const MATCHED_PATH: string[] = ["/"];
 
@@ -79,6 +80,10 @@ const MainNav = (): JSX.Element => {
   const router = useRouter();
   const { data, status } = useSession();
 
+  if (status === "loading") {
+    return <AuthLoadingScreen text="Chargement..." />;
+  }
+
   const isAbsolute = MATCHED_PATH.includes(path);
   return (
     <Fragment>
@@ -101,37 +106,39 @@ const MainNav = (): JSX.Element => {
               ))}
             </ul>
 
-            <SoundLottie />
+            <div className="actions__container flex items-center space-x-3 md:space-x-4 lg:space-x-6 ml-3 xl:ml-5">
+              <SoundLottie />
 
-            {
-              status === "authenticated" && data.user ? (
-                <Fragment>
-                  {/* For desktop */}
-                  <DropdownMenu>
-                    <DropdownMenuTrigger className="hidden lg:block">
-                      <Avatar email={data.user.email!} name={data.user.name!} />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuAuthentificatedActions />
-                  </DropdownMenu>
+              {
+                status === "authenticated" && data.user ? (
+                  <Fragment>
+                    {/* For desktop */}
+                    <DropdownMenu>
+                      <DropdownMenuTrigger className="hidden lg:block">
+                        <Avatar email={data.user.email!} name={data.user.name!} />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuAuthentificatedActions />
+                    </DropdownMenu>
 
-                  {/* For mobile  */}
-                  <div className="avatar block lg:hidden">
-                    <Avatar email={data.user.email!} name={data.user.name!} onClick={() => setIsOpen(!isOpen)} />
+                    {/* For mobile  */}
+                    <div className="avatar block lg:hidden">
+                      <Avatar email={data.user.email!} name={data.user.name!} onClick={() => setIsOpen(!isOpen)} />
+                    </div>
+                  </Fragment>
+                ) : (
+                  <div className="menu-icon block lg:hidden p-2 md:p-3 px-4 md:px-5 rounded-xl bg-primary cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
+                    {
+                      !isOpen ? <MenuIcon className="size-5 sm:size-6 md:size-7" /> : <X className="size-5 sm:size-6 md:size-7" />
+                    }
                   </div>
-                </Fragment>
-              ) : (
-                <div className="menu-icon block lg:hidden p-2 md:p-3 px-4 md:px-5 rounded-xl bg-primary cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
-                  {
-                    !isOpen ? <MenuIcon className="size-5 sm:size-6 md:size-7" /> : <X className="size-5 sm:size-6 md:size-7" />
-                  }
-                </div>
-              )
-            }
+                )
+              }
+            </div>
           </div>
         </div>
       </nav>
 
-      <NavResponsive isOpen={isOpen} />
+      <NavResponsive isOpen={isOpen} sessionStatus={status} />
     </Fragment >
   );
 };
