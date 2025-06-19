@@ -6,10 +6,9 @@ import { useSession } from "next-auth/react";
 import AuthLoadingScreen from "@/components/AuthLoadingScreen";
 import { Avatar } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { RotateCcw } from "lucide-react";
 import { useRecommandation } from "../hooks/useRecommandation";
 import { Skeleton } from "@/components/ui/skeleton";
+import Markdown from "markdown-to-jsx";
 
 type ChatItemProps = {
     role: string;
@@ -37,10 +36,10 @@ const ChatItem: FC<ChatItemProps> = ({ image, message, role, name }) => {
                 <div className={
                     cn(
                         "chat-content__message mt-3 p-3 rounded-lg w-fit",
-                        role === "user" ? "chat-linear" : "bg-[#2B2C2C]"
+                        role === "user" ? "bg-blue-500 text-white" : "bg-input/60 dark:bg-[#2B2C2C]"
                     )
                 }>
-                    <p className="text-base">{message}</p>
+                    <Markdown options={{ forceWrapper: true }} className="text-base">{message}</Markdown>
                 </div>
             </div>
         </article>
@@ -68,18 +67,24 @@ const RecommandationsBot = (): JSX.Element => {
     if (status === "loading") return <AuthLoadingScreen text="Chargement en cours..." />
 
     return (
-        <div className="recommandations-bot w-[46%] mb-12">
-            <div className="recommandations-bot__header mb-6 flex flex-col gap-4">
-                <h1 className="text-3xl 2xl:text-4xl font-michroma leading-tight">
-                    Décrivez votre recherche idéale
-                </h1>
-                <p className="text-foreground/80">Décrivez le produit que vous recherchez et notre IA trouvera les meilleures options pour vous.</p>
+        <div className="recommandations-bot w-[45%] mb-12 relative">
+            {chats.length === 0 && (
+                <div className="recommandations-bot__header mb-6 flex flex-col gap-4">
+                    <h1 className="text-3xl 2xl:text-4xl font-michroma leading-tight">
+                        Décrivez votre recherche idéale
+                    </h1>
+                    <p className="text-foreground/80">Décrivez le produit que vous recherchez et notre IA assitant commercial proposera les meilleures options pour vous.</p>
+                </div>
+            )}
+
+            <div className="input-container fixed  w-[42%] max-w-full bottom-5 z-10">
+                <PromptInput />
             </div>
 
             {
-                chats.length > 0 ? (
-                    <div className="chat-wrapper w-full flex flex-col">
-                        <div className="chat-container flex flex-col space-y-10 mt-14">
+                chats.length > 0 && (
+                    <div className="chat-wrapper w-full flex flex-col h-full max-h-[calc(100vh-200px)] scrollable-section overflow-y-auto">
+                        <div className="chat-container flex flex-col w-[96%] space-y-10 mb-[100px]">
                             {
                                 chats.map((item, index) => (
                                     <ChatItem
@@ -98,17 +103,7 @@ const RecommandationsBot = (): JSX.Element => {
                                 )
                             }
                         </div>
-
-                        {
-                            !loading && (
-                                <div className="reset-btn w-full flex justify-center">
-                                    <Button className="rounded-full mt-8" onClick={reset}><RotateCcw /> Effectuer une autre demande</Button>
-                                </div>
-                            )
-                        }
                     </div>
-                ) : (
-                    <PromptInput />
                 )
             }
         </div>

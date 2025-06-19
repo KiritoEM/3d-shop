@@ -15,30 +15,36 @@ const PromptInput: FC = (): JSX.Element => {
 
         const form = e.currentTarget;
         const input = form["prompt"] as HTMLInputElement;
+        const userMessage = input.value.trim();
 
-        setChat({ role: "user", message: input.value.trim() });
+        if (!userMessage) return;
+
+        setChat({ role: "user", message: userMessage });
         setLoading(true);
+        input.value = "";
 
-        const response = await axios.post(
-            `${FLASK_BASE_URL}/bot/recommandation`,
-            {
-                prompt: input.value.trim(),
-            }
-        );
+        try {
+            const response = await axios.post(`/api/bot_recommandation`, {
+                prompt: userMessage,
+            });
 
-        if (response.status !== 200) {
-            setChat({ role: "bot", message: "Une erreur s'est produite lors de la soumission du prompt." });
-            console.error("Failed to submit prompt:", response.data.error);
+            setChat({
+                role: "bot",
+                message: response.data.message
+            });
+        } catch (error: any) {
+            console.error("Error from AI:", error);
+            setChat({
+                role: "bot",
+                message: "Une erreur s'est produite, veuillez réessayer plus tard."
+            });
+        } finally {
+            setLoading(false);
         }
-
-        setChat({ role: "bot", message: response.data.explanation });
-
-        setLoading(false);
-
     }
     return (
         <form method="POST" onSubmit={handleSubmit}>
-            <div className="prompt-input w-full rounded-xl mt-14 border border-border h-[150px] dark:bg-[#171819] p-4 flex flex-col items-end justify-between gap-5">
+            <div className="prompt-input w-full rounded-xl mt-14 border border-border h-[120px] dark:bg-[#171819] p-4 flex flex-col items-end justify-between gap-5">
                 <input
                     type="text"
                     name="prompt"
