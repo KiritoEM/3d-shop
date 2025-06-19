@@ -60,6 +60,8 @@ export const useScrollDefaultOptions = () => {
     };
 };
 
+export const FLASK_BASE_URL = process.env.NEXT_PUBLIC_FLASK_BASE_URL || "http://localhost:5000";
+
 export enum ERROR_CODE {
     BAD_REQUEST = 400,
     UNAUTHORIZED = 401,

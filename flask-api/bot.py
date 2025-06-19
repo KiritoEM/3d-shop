@@ -18,12 +18,14 @@ def handle_bot_request():
         if db is None:
             return jsonify({"error": "Database connection failed"}), 500
             
-        data = request.form
+        data = request.get_json()
+        print(f"Received data: {data}")
 
         if not data or not data.get('prompt'):
             return jsonify({"error": "No prompt provided"}), 400
 
         query_result = natural_language_to_sql(data.get('prompt'), db)
+        print(f"Query result: {query_result}")
 
         if query_result["status"] != "success":
             return jsonify({"error": query_result["error"]}), 500

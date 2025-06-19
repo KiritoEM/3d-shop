@@ -8,7 +8,7 @@ import re
 from langchain_core.messages import AIMessage
 from langchain_groq import ChatGroq
 from langchain.prompts import PromptTemplate
-from constants import RESULT_EXPLANATION_TEMPLATE
+from constants import (RESULT_EXPLANATION_TEMPLATE, ERROR_PROMPT)
 from langchain_core.prompts import ChatPromptTemplate
 
 load_dotenv()
@@ -50,6 +50,15 @@ def connect_langchain_to_db():
         logger.error(f"Failed to connect to database: {e}")
         return None
 
+def is_valid_sql(query_text: str) -> bool:
+    query_text = query_text.strip()
+    
+    sql_keywords = ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'WITH', 'CREATE', 'ALTER', 'DROP']
+    first_word = query_text.split()[0].upper() if query_text.split() else ""
+    
+    if first_word not in sql_keywords:
+        return False
+
 def clean_sql_query(raw_sql: str) -> str:
     cleaned = re.sub(r'^SQLQuery:\s*', '', raw_sql.strip(), flags=re.IGNORECASE)
     cleaned = re.sub(r'^SQL:\s*', '', cleaned, flags=re.IGNORECASE)
@@ -84,13 +93,13 @@ def natural_language_to_sql(prompt: str, db: SQLDatabase):
         }
 
 def execute_sql_query(db: SQLDatabase, query: str, question: str):
-    try:
-        if not query or query.strip() == "":
-            logger.error("Empty SQL query provided")
+        if not query or query.strip() == "" or not is_valid_sql(query):
+            logger.error("Invalid SQL query provided")
+            error_response = llm.invoke(ERROR_PROMPT.format(question=f"la question: {question.strip()}, le query: {query.strip()}"))
             return {
                 "data": None,
-                "explanation": "Impossible de générer une requête SQL valide.",
-                "status": "error"
+                "explanation": error_response.content,
+                "status": "success"
             }
         
         logger.info(f"Executing SQL: {query}")
@@ -129,10 +138,3 @@ def execute_sql_query(db: SQLDatabase, query: str, question: str):
             "status": "success"
         }
         
-    except Exception as e:
-        logger.error(f"Error executing query: {e}")
-    return {
-        "data": None,
-        "explanation": f"Erreur lors de l'exécution de la requête: {str(e)}",
-        "status": "error"
-    }

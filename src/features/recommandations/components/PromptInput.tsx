@@ -1,11 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { FLASK_BASE_URL } from "@/constants/constants";
 import Image from "next/image";
 import { FC } from "react";
+import axios from "axios";
+import { IChat } from "./RecommandationsBot";
 
 type PromptInputProps = {
-    onSubmit?: (value: string) => void;
+    onSubmit?: (value: IChat) => void;
 }
 
 const PromptInput: FC<PromptInputProps> = ({ onSubmit }): JSX.Element => {
@@ -15,21 +18,22 @@ const PromptInput: FC<PromptInputProps> = ({ onSubmit }): JSX.Element => {
         const form = e.currentTarget;
         const input = form["prompt"] as HTMLInputElement;
 
-        const response = await fetch("/api/bot", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                question: input.value.trim(),
-            }),
-        })
+        onSubmit?.({ role: "user", message: input.value.trim() });
 
-        if (!response.ok) {
+        const response = await axios.post(
+            `${FLASK_BASE_URL}/bot/recommandation`,
+            {
+                prompt: input.value.trim(),
+            }
+        );
 
+        if (response.status !== 200) {
+            onSubmit?.({ role: "bot", message: "Une erreur s'est produite lors de la soumission du prompt." });
+            console.error("Failed to submit prompt:", response.data.error);
         }
 
-        onSubmit?.(input.value.trim());
+        onSubmit?.({ role: "bot", message: response.data.explanation });
+
     }
     return (
         <form method="POST" onSubmit={handleSubmit}>
