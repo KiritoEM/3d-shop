@@ -32,14 +32,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${DM.className} ${michroma.variable} antialiased`}>
-        <NextAuthProvider>
-          <TanstackProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="dark"
-              enableSystem={false}
-            >
-              <NuqsAdapter>{children}</NuqsAdapter>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+        >
+          <NextAuthProvider>
+            <TanstackProvider>
+              <NuqsAdapter>
+                {children}
+              </NuqsAdapter>
               <ToastContainer
                 position="bottom-center"
                 autoClose={5000}
@@ -51,10 +53,10 @@ export default function RootLayout({
                 draggable
                 pauseOnHover
               />
-            </ThemeProvider>
-          </TanstackProvider>
-        </NextAuthProvider>
+            </TanstackProvider>
+          </NextAuthProvider>
+        </ThemeProvider>
       </body>
-    </html>
+    </html >
   );
 }

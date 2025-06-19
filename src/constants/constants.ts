@@ -1,4 +1,4 @@
-import { Moon, Sun } from "lucide-react";
+import { LogOut, Moon, Settings, Sun } from "lucide-react";
 import { useMediaQuery } from "react-responsive";
 
 export const NAV_DATA = [
@@ -15,6 +15,18 @@ export const NAV_DATA = [
         url: "/recommandations"
     }
 ];
+
+export const NAV_DATA_AUTHENTICATED = [
+    {
+        label: "Paramètres",
+        url: "/settings",
+        icon: Settings
+    },
+    {
+        label: "Déconnexion",
+        icon: LogOut
+    }
+]
 
 export const THEME_OPTIONS = [
     {

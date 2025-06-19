@@ -1,23 +1,48 @@
 "use client"
 
-import { NAV_DATA } from "@/constants/constants";
+import { NAV_DATA, NAV_DATA_AUTHENTICATED } from "@/constants/constants";
 import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { FC, useRef } from "react";
+import Link from "next/link";
+import { Session } from "next-auth";
 
-type NavResponsiveProps = {
-    isOpen: boolean
+
+const AuthentificatedActions = (): JSX.Element => {
+    return (
+        <div className="authentified-actions flex flex-col items-center gap-2">
+            <hr className="authentified-actions__separator h-[1px] w-full bg-border mt-5" />
+            <div className="authentified-actions__items mt-3 w-full">
+                <ul className="flex flex-col gap-5">
+                    {
+                        NAV_DATA_AUTHENTICATED.map((item, index) => (
+                            <li key={index}>
+                                <Link href="" className="animated-label flex items-center gap-3 text-base cursor-pointer hover:opacity-70 transition-opacity">
+                                    <item.icon /> <span>{item.label}</span>
+                                </Link>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+        </div>
+    );
 }
 
-const NavResponsive: FC<NavResponsiveProps> = ({ isOpen }): JSX.Element => {
+type NavResponsiveProps = {
+    isOpen: boolean;
+    sessionStatus: string;
+}
+
+const NavResponsive: FC<NavResponsiveProps> = ({ isOpen, sessionStatus }): JSX.Element => {
     const containerRef = useRef<HTMLDivElement | null>(null);
 
     useGSAP(() => {
         const container = containerRef.current;
         if (!container) return;
 
-        const items = container.querySelectorAll(".menu-items__label");
+        const items = container.querySelectorAll(".animated-label");
 
         if (isOpen) {
             gsap.set(items, {
@@ -58,11 +83,11 @@ const NavResponsive: FC<NavResponsiveProps> = ({ isOpen }): JSX.Element => {
             )
         }>
             <div className="nav-responsive__container rounded-lg dark-linear p-6 w-full max-w-[266px]" ref={containerRef}>
-                <ul className="menu-items flex flex-col lg:hidden gap-7">
+                <ul className="menu-items flex flex-col lg:hidden gap-5">
                     {NAV_DATA.map((item, index) => (
                         <li
                             key={index}
-                            className="menu-items__label text-lg cursor-pointer hover:opacity-70 transition-opacity"
+                            className="animated-label text-base cursor-pointer hover:opacity-70 transition-opacity"
                             style={{
                                 opacity: 0,
                                 clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)"
@@ -72,6 +97,9 @@ const NavResponsive: FC<NavResponsiveProps> = ({ isOpen }): JSX.Element => {
                         </li>
                     ))}
                 </ul>
+
+                {/* Actions if authenticated */}
+                {sessionStatus === "authenticated" && <AuthentificatedActions />}
             </div>
         </div>
     );
