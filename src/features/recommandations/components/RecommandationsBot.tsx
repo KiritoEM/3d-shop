@@ -1,11 +1,15 @@
 "use client";
 
-import { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, } from "react";
 import PromptInput from "./PromptInput";
 import { useSession } from "next-auth/react";
 import AuthLoadingScreen from "@/components/AuthLoadingScreen";
 import { Avatar } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { RotateCcw } from "lucide-react";
+import { useRecommandation } from "../hooks/useRecommandation";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type ChatItemProps = {
     role: string;
@@ -16,7 +20,7 @@ type ChatItemProps = {
 
 const ChatItem: FC<ChatItemProps> = ({ image, message, role, name }) => {
     return (
-        <article className="chat-item flex gap-6">
+        <article className="chat-item flex gap-6 w-full items-start">
             {
                 typeof image === "string" ? (
                     <img src={image} alt="avatar" className="w-12 h-12 rounded-lg object-cover" />
@@ -32,7 +36,7 @@ const ChatItem: FC<ChatItemProps> = ({ image, message, role, name }) => {
 
                 <div className={
                     cn(
-                        "chat-content__message mt-3 p-3 rounded-lg",
+                        "chat-content__message mt-3 p-3 rounded-lg w-fit",
                         role === "user" ? "chat-linear" : "bg-[#2B2C2C]"
                     )
                 }>
@@ -43,19 +47,28 @@ const ChatItem: FC<ChatItemProps> = ({ image, message, role, name }) => {
     );
 }
 
-export type IChat = {
-    role: string;
-    message: string;
+const ChatItemSkeleton = () => {
+    return (
+        <article className="chat-item-skeleton flex gap-6 w-full items-start">
+            <Skeleton className="avatar-skeleton w-12 h-12 rounded-lg" />
+
+            <div className="chat-content-skeleton w-full">
+                <Skeleton className="chat-content-skeleton__header h-[20px] w-[20%]" />
+
+                <Skeleton className="chat-content-skeleton__content mt-3 h-[65px] w-full" />
+            </div>
+        </article>
+    );
 }
 
 const RecommandationsBot = (): JSX.Element => {
-    const [chat, setChat] = useState<IChat[]>([]);
     const { data, status } = useSession();
+    const { chats, loading, reset } = useRecommandation();
 
-    if (status === "loading") return <AuthLoadingScreen />
+    if (status === "loading") return <AuthLoadingScreen text="Chargement en cours..." />
 
     return (
-        <div className="recommandations-bot w-[46%]">
+        <div className="recommandations-bot w-[46%] mb-12">
             <div className="recommandations-bot__header mb-6 flex flex-col gap-4">
                 <h1 className="text-3xl 2xl:text-4xl font-michroma leading-tight">
                     Décrivez votre recherche idéale
@@ -64,22 +77,38 @@ const RecommandationsBot = (): JSX.Element => {
             </div>
 
             {
-                chat.length > 0 ? (
-                    <div className="chat-container flex flex-col space-y-8 mt-14">
+                chats.length > 0 ? (
+                    <div className="chat-wrapper w-full flex flex-col">
+                        <div className="chat-container flex flex-col space-y-10 mt-14">
+                            {
+                                chats.map((item, index) => (
+                                    <ChatItem
+                                        key={index}
+                                        role={item.role}
+                                        message={item.message}
+                                        image={item.role === "user" ? <Avatar email={data?.user?.email!} name={data?.user?.name!} className="!size-12 !rounded-lg object-cover" /> : "/ai-avatar.png"}
+                                        name={item.role === "user" ? data?.user?.name?.split(" ")[0]! : "Bazzar AI"}
+                                    />
+                                ))
+                            }
+
+                            {
+                                loading && (
+                                    <ChatItemSkeleton />
+                                )
+                            }
+                        </div>
+
                         {
-                            chat.map((item, index) => (
-                                <ChatItem
-                                    key={index}
-                                    role={item.role}
-                                    message={item.message}
-                                    image={item.role === "user" ? <Avatar email={data?.user?.email!} name={data?.user?.name!} className="!size-12 !rounded-lg object-cover" /> : "/images/bot-avatar.png"}
-                                    name={item.role === "user" ? data?.user?.name?.split(" ")[0]! : "Bazzar AI"}
-                                />
-                            ))
+                            !loading && (
+                                <div className="reset-btn w-full flex justify-center">
+                                    <Button className="rounded-full mt-8" onClick={reset}><RotateCcw /> Effectuer une autre demande</Button>
+                                </div>
+                            )
                         }
                     </div>
                 ) : (
-                    <PromptInput onSubmit={(value: IChat) => setChat((prev) => [...prev, value])} />
+                    <PromptInput />
                 )
             }
         </div>

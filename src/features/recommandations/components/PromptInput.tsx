@@ -5,20 +5,19 @@ import { FLASK_BASE_URL } from "@/constants/constants";
 import Image from "next/image";
 import { FC } from "react";
 import axios from "axios";
-import { IChat } from "./RecommandationsBot";
+import { useRecommandation } from "../hooks/useRecommandation";
 
-type PromptInputProps = {
-    onSubmit?: (value: IChat) => void;
-}
+const PromptInput: FC = (): JSX.Element => {
+    const { setChat, setLoading } = useRecommandation();
 
-const PromptInput: FC<PromptInputProps> = ({ onSubmit }): JSX.Element => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const form = e.currentTarget;
         const input = form["prompt"] as HTMLInputElement;
 
-        onSubmit?.({ role: "user", message: input.value.trim() });
+        setChat({ role: "user", message: input.value.trim() });
+        setLoading(true);
 
         const response = await axios.post(
             `${FLASK_BASE_URL}/bot/recommandation`,
@@ -28,11 +27,13 @@ const PromptInput: FC<PromptInputProps> = ({ onSubmit }): JSX.Element => {
         );
 
         if (response.status !== 200) {
-            onSubmit?.({ role: "bot", message: "Une erreur s'est produite lors de la soumission du prompt." });
+            setChat({ role: "bot", message: "Une erreur s'est produite lors de la soumission du prompt." });
             console.error("Failed to submit prompt:", response.data.error);
         }
 
-        onSubmit?.({ role: "bot", message: response.data.explanation });
+        setChat({ role: "bot", message: response.data.explanation });
+
+        setLoading(false);
 
     }
     return (
