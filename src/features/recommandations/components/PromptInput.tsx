@@ -50,16 +50,19 @@ const PromptInput: FC = (): JSX.Element => {
                     name="prompt"
                     className="outline-none w-full"
                     autoComplete="off"
-                    placeholder="Entrez votre description... (ex: ‘une montre apple watch’)"
+                    placeholder="Entrez votre description..."
                 />
 
-                <Button type="submit" className="send-btn rounded-full w-10 h-10 !px-0 !py-0 bg-primary hover:bg-primary/90 transition-all cursor-pointer duration-400">
+                <Button
+                    type="submit"
+                    className="send-btn group rounded-full w-10 h-10 !px-0 !py-0 bg-primary hover:bg-primary/90 transition-all cursor-pointer duration-400"
+                >
                     <Image
                         src="/icons/send.svg"
                         width={20}
                         height={20}
                         alt="send-icon"
-                        className="transition-transform duration-300 group-hover:rotate-280"
+                        className="transition-transform duration-300 group-hover:rotate-45"
                     />
                 </Button>
             </div>

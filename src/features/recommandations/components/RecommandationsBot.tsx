@@ -1,23 +1,49 @@
 "use client";
 
-import { FC, ReactNode, } from "react";
+import { FC, ReactNode, useState, } from "react";
 import PromptInput from "./PromptInput";
 import { useSession } from "next-auth/react";
 import AuthLoadingScreen from "@/components/AuthLoadingScreen";
 import { Avatar } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import { useRecommandation } from "../hooks/useRecommandation";
+import { IChatRole, useRecommandation } from "../hooks/useRecommandation";
 import { Skeleton } from "@/components/ui/skeleton";
 import Markdown from "markdown-to-jsx";
+import { useSpeech } from "react-text-to-speech";
+import { Button } from "@/components/ui/button";
+import { Check, Copy, StopCircle, Volume2 } from "lucide-react";
+import copy from "copy-to-clipboard";
+import { toast } from "react-toastify";
 
 type ChatItemProps = {
-    role: string;
+    role: IChatRole;
     message: string;
     image: ReactNode | string;
     name: string;
 }
 
 const ChatItem: FC<ChatItemProps> = ({ image, message, role, name }) => {
+    const { start, stop, speechStatus } = useSpeech({ text: message });
+    const [copied, setCopied] = useState<boolean>(false);
+
+    const handlePlaySound = () => {
+        speechStatus !== "started" ? start() : stop();
+    }
+
+    const handleCopyText = () => {
+        setCopied(true);
+        copy(message);
+        toast("Message copié dans le presse-papiers", {
+            type: "success",
+            position: "top-right",
+            autoClose: 3000
+        })
+
+        setTimeout(() => {
+            setCopied(false);
+        }, 3500);
+    }
+
     return (
         <article className="chat-item flex gap-6 w-full items-start">
             {
@@ -41,6 +67,31 @@ const ChatItem: FC<ChatItemProps> = ({ image, message, role, name }) => {
                 }>
                     <Markdown options={{ forceWrapper: true }} className="text-base">{message}</Markdown>
                 </div>
+
+                {
+                    role === "bot" && (
+                        <div className="chat-content__actions flex items-center space-x-4 ml-2">
+                            <Button className="copy-text rounded-full !px-0 cursor-pointer group" variant="ghost" onClick={handleCopyText}>
+                                {
+                                    copied ? (
+                                        <Check className="size-4" />
+                                    ) :
+                                        (
+                                            <Copy className="size-4 transition-transform duration-300 group-hover:-translate-y-1" />
+                                        )
+                                }
+                            </Button>
+
+                            <Button className="play-sound rounded-full !px-0 cursor-pointer group" variant="ghost" onClick={handlePlaySound}>
+                                {speechStatus !== "started" ? (
+                                    <Volume2 className="size-5 transition-transform duration-300 group-hover:-translate-y-1" />
+                                ) : (
+                                    <StopCircle className="size-5 animate-pulse text-primary" />
+                                )}
+                            </Button>
+                        </div>
+                    )
+                }
             </div>
         </article>
     );
@@ -77,7 +128,7 @@ const RecommandationsBot = (): JSX.Element => {
                 </div>
             )}
 
-            <div className="input-container fixed  w-[42%] max-w-full bottom-5 z-10">
+            <div className="input-container fixed  w-[40%] max-w-full bottom-5 z-10">
                 <PromptInput />
             </div>
 

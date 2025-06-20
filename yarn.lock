@@ -1577,6 +1577,13 @@ cookie@^0.7.0:
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.7.2.tgz#556369c472a2ba910f2979891b526b3436237ed7"
   integrity sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==
 
+copy-to-clipboard@^3.3.3:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/copy-to-clipboard/-/copy-to-clipboard-3.3.3.tgz#55ac43a1db8ae639a4bd99511c148cdd1b83a1b0"
+  integrity sha512-2KV8NhB5JqC3ky0r9PMCAZKbUHSwtEo4CwCs0KXgruG43gX5PMqDEBbVU4OUzw2MuAWUfsuFmWvEKG5QRfSnJA==
+  dependencies:
+    toggle-selection "^1.0.6"
+
 core-js-pure@^3.43.0:
   version "3.43.0"
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.43.0.tgz#4df9c949c7abde839a8398d16a827a76856b1f0c"
@@ -2723,6 +2730,11 @@ react-style-singleton@^2.2.2, react-style-singleton@^2.2.3:
     get-nonce "^1.0.0"
     tslib "^2.0.0"
 
+react-text-to-speech@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-text-to-speech/-/react-text-to-speech-2.1.0.tgz#d44d38aeedd18fa21832f84bc0b4f9bb7cc8cdc8"
+  integrity sha512-mkLPgXnPbgroCoAaM+PzlO5oZB21YJ6SLyVM/BVhoJ24pd//GBLozE0Zn6DLCTCje7NFzPkFBAJ4HHTlXzmxzg==
+
 react-toastify@^11.0.5:
   version "11.0.5"
   resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-11.0.5.tgz#ce4c42d10eeb433988ab2264d3e445c4e9d13313"
@@ -3064,6 +3076,11 @@ three@^0.176.0:
   version "0.176.0"
   resolved "https://registry.yarnpkg.com/three/-/three-0.176.0.tgz#a30c1974e46db5745e4f96dd9ee2028d71e16ecf"
   integrity sha512-PWRKYWQo23ojf9oZSlRGH8K09q7nRSWx6LY/HF/UUrMdYgN9i1e2OwJYHoQjwc6HF/4lvvYLC5YC1X8UJL2ZpA==
+
+toggle-selection@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/toggle-selection/-/toggle-selection-1.0.6.tgz#6e45b1263f2017fa0acc7d89d78b15b8bf77da32"
+  integrity sha512-BiZS+C1OS8g/q2RRbJmy59xpyghNBqrr6k5L/uKBGRsTfxmu3ffiRnd8mlGPUVayg8pvfi5urfnu8TU7DVOkLQ==
 
 tr46@~0.0.3:
   version "0.0.3"

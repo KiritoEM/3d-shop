@@ -2,8 +2,10 @@
 
 import { create } from "zustand";
 
+export type IChatRole = "bot" | "user";
+
 export type IChat = {
-    role: string;
+    role: IChatRole;
     message: string;
 }
 
