@@ -1,16 +1,10 @@
 "use client";
 
 import React, { forwardRef, useRef } from "react";
-import { useGLTF } from "@react-three/drei";
+import { useFBX, useGLTF } from "@react-three/drei";
 import { Mesh, Material } from "three";
 import * as THREE from "three";
-
-interface ModelProps {
-  position?: [number, number, number];
-  rotation?: [number, number, number];
-  scale?: [number, number, number] | number;
-  visible?: boolean;
-}
+import { ModelProps } from "@/components/3d-models/types";
 
 interface GLTFResult {
   nodes: {
@@ -43,6 +37,7 @@ interface GLTFResult {
   };
 }
 
+
 export const IphoneModel = forwardRef<THREE.Group, ModelProps>(
   (
     { position = [0, 0, 0], rotation = [0, 0, 0], scale = 1, visible = true },
@@ -50,8 +45,9 @@ export const IphoneModel = forwardRef<THREE.Group, ModelProps>(
   ) => {
     const internalRef = useRef<THREE.Group>(null);
     const { nodes, materials } = useGLTF(
-      "/iphone_16_pro_max.glb"
+      "/3d-models/iphone_16_pro_max.glb"
     ) as unknown as GLTFResult;
+
 
     const groupRef = ref || internalRef;
 
@@ -152,4 +148,4 @@ export const IphoneModel = forwardRef<THREE.Group, ModelProps>(
 
 IphoneModel.displayName = "IphoneModel";
 
-useGLTF.preload("/iphone_16_pro_max.glb");
+useGLTF.preload("/3d-models/iphone_16_pro_max.glb");

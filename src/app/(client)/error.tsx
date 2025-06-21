@@ -13,7 +13,7 @@ const error: FC<{ error: Error & { digest?: string } }> = ({ error }): JSX.Eleme
         <section className="flex flex-col items-center justify-center min-h-screen text-center px-5">
             <h1 className="text-3xl font-michroma mb-4">Une erreur est survenue</h1>
             <p className="text-lg mb-2">Désolé, quelque chose s'est mal passé.</p>
-            <Button className="rounded-full" asChild>
+            <Button className="rounded-full mt-3" asChild>
                 <Link href="/shop">
                     <Home /> Revenir au shop
                 </Link>

@@ -30,7 +30,7 @@ const IphoneViewCanvas = (): JSX.Element => {
     >
       <group>
         <Lights />
-        <Environment preset="city" />
+        <Environment preset="sunset" />
 
         <Suspense fallback={null}>
           <IphoneScene />
