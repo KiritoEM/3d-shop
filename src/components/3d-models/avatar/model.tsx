@@ -1,9 +1,12 @@
 "use client"
 
-import React, { FC, useEffect, useRef } from "react";
+import React, { FC, memo, useEffect, useRef } from "react";
 import { useAnimations, useFBX, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { IAnimations, ModelProps } from "../types";
+import { useSpeechAvatar } from "@/features/recommandations/hooks/useSpeechAvatar";
+import { extractViseme } from "@/lib/viseme";
+import { useFrame } from "@react-three/fiber";
 
 interface GLTFResult {
     nodes: {
@@ -66,34 +69,119 @@ interface GLTFResult {
     materials: {
         Wolf3D_Avatar: THREE.Material;
         Wolf3D_Eye: THREE.Material;
+        'Wolf3D_Eye.002'?: THREE.Material;
         Wolf3D_Skin: THREE.Material;
+        'Wolf3D_Skin.002'?: THREE.Material;
         Wolf3D_Teeth: THREE.Material;
+        'Wolf3D_Teeth.002'?: THREE.Material;
         Wolf3D_Hair: THREE.Material;
+        'Wolf3D_Hair.002'?: THREE.Material;
         Wolf3D_Glasses: THREE.Material;
+        'Wolf3D_Glasses.001'?: THREE.Material;
         Wolf3D_Body: THREE.Material;
+        'Wolf3D_Body.002'?: THREE.Material;
         Wolf3D_Outfit_Bottom: THREE.Material;
+        'Wolf3D_Outfit_Bottom.002'?: THREE.Material;
         Wolf3D_Outfit_Footwear: THREE.Material;
+        'Wolf3D_Outfit_Footwear.002'?: THREE.Material;
         Wolf3D_Outfit_Top: THREE.Material;
     };
 }
 
-interface AvatarModelProps extends ModelProps {
-    animation?: IAnimations;
-}
+interface AvatarModelProps extends ModelProps { }
 
-export const AvatarModel: FC<AvatarModelProps> = ({ scale, position, rotation, visible, animation = "Talking" }) => {
-    const { nodes, materials } = useGLTF("/3d-models/685672e31b6a13eb9809043e.glb") as unknown as GLTFResult;
+export const AvatarModel: FC<AvatarModelProps> = memo(({ scale, position, rotation, visible }) => {
+    const { nodes, materials } = useGLTF("/3d-models/avatar.glb") as unknown as GLTFResult;
+    const { speechtext, animation } = useSpeechAvatar();
 
     //Animations
     const { animations: idleAnimations } = useFBX("/3d-animations/Idle.fbx");
     const { animations: talkingAnimations } = useFBX("/3d-animations/Talking.fbx");
 
     const groupRef = useRef<THREE.Group>(null);
+    const currentViseme = useRef<string | null>(null);
+    const visemeStartTime = useRef<number>(0);
 
     const { actions } = useAnimations([idleAnimations[0], talkingAnimations[0]], groupRef);
 
     idleAnimations[0].name = "Idle";
     talkingAnimations[0].name = "Talking";
+
+    // Lip sync
+    useEffect(() => {
+        if (!speechtext || speechtext === "") {
+            currentViseme.current = null;
+            return;
+        }
+
+        const extractedVisemes = extractViseme(speechtext);
+        let timeOffset = 0;
+
+        extractedVisemes.forEach((visemeData, i) => {
+            const viseme = visemeData.viseme;
+            if (!viseme) return;
+
+            setTimeout(() => {
+                currentViseme.current = viseme;
+                visemeStartTime.current = Date.now();
+            }, timeOffset);
+
+            timeOffset += 70;
+        });
+    });
+
+    useFrame(() => {
+        if (currentViseme.current && nodes.Wolf3D_Head.morphTargetDictionary) {
+            const index = nodes.Wolf3D_Head.morphTargetDictionary[currentViseme.current];
+
+            if (index !== undefined) {
+                nodes.Wolf3D_Head.morphTargetInfluences[index] = THREE.MathUtils.lerp(
+                    nodes.Wolf3D_Head.morphTargetInfluences[index],
+                    1,
+                    0.3
+                );
+                nodes.Wolf3D_Teeth.morphTargetInfluences[index] = THREE.MathUtils.lerp(
+                    nodes.Wolf3D_Teeth.morphTargetInfluences[index],
+                    1,
+                    0.3
+                );
+
+                Object.keys(nodes.Wolf3D_Head.morphTargetDictionary).forEach((key) => {
+                    if (key !== currentViseme.current) {
+                        const otherIndex = nodes.Wolf3D_Head.morphTargetDictionary[key];
+                        nodes.Wolf3D_Head.morphTargetInfluences[otherIndex] = THREE.MathUtils.lerp(
+                            nodes.Wolf3D_Head.morphTargetInfluences[otherIndex],
+                            0,
+                            0.2
+                        );
+                        nodes.Wolf3D_Teeth.morphTargetInfluences[otherIndex] = THREE.MathUtils.lerp(
+                            nodes.Wolf3D_Teeth.morphTargetInfluences[otherIndex],
+                            0,
+                            0.2
+                        );
+                    }
+                });
+
+                if (Date.now() - visemeStartTime.current > 70) {
+                    currentViseme.current = null;
+                }
+            }
+        } else {
+            Object.keys(nodes.Wolf3D_Head.morphTargetDictionary || {}).forEach((key) => {
+                const index = nodes.Wolf3D_Head.morphTargetDictionary[key];
+                nodes.Wolf3D_Head.morphTargetInfluences[index] = THREE.MathUtils.lerp(
+                    nodes.Wolf3D_Head.morphTargetInfluences[index],
+                    0,
+                    0.15
+                );
+                nodes.Wolf3D_Teeth.morphTargetInfluences[index] = THREE.MathUtils.lerp(
+                    nodes.Wolf3D_Teeth.morphTargetInfluences[index],
+                    0,
+                    0.15
+                );
+            });
+        }
+    });
 
     useEffect(() => {
         //Stop all actions before playing the new one
@@ -115,18 +203,8 @@ export const AvatarModel: FC<AvatarModelProps> = ({ scale, position, rotation, v
     }, [animation, actions]);
 
     return (
-        <group
-            ref={groupRef}
-            scale={scale}
-            position={position}
-            rotation={rotation}
-            visible={visible}
-            dispose={null}
-        >
-            <group rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-                <primitive object={nodes.Hips} />
-            </group>
-
+        <group dispose={null} ref={groupRef} scale={scale} position={position}>
+            <primitive object={nodes.Hips} />
             <skinnedMesh
                 name="EyeLeft"
                 geometry={nodes.EyeLeft.geometry}
@@ -191,6 +269,6 @@ export const AvatarModel: FC<AvatarModelProps> = ({ scale, position, rotation, v
             />
         </group>
     )
-}
+})
 
-useGLTF.preload("/3d-models/685672e31b6a13eb9809043e.glb")
+useGLTF.preload("/3d-models/avatar.glb")

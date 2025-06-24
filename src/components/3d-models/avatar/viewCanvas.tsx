@@ -3,33 +3,29 @@
 import { Canvas } from "@react-three/fiber";
 import { AvatarModel } from "./model";
 import { Suspense } from "react";
-import { Environment, OrbitControls } from "@react-three/drei";
+import { Environment } from "@react-three/drei";
 
 const AvatarViewCanvas = (): JSX.Element => {
     return (
         <Canvas
-            dpr={[1, 1.5]}
             style={{
-                backgroundColor: "transparent",
-                width: "100%",
                 height: "100%",
-            }}
-            gl={{
-                antialias: true,
-                alpha: true,
-                preserveDrawingBuffer: true,
+                width: "100%",
             }}
             camera={{
-                fov: 75,
-                position: [0, 0, 8]
-            }}>
+                fov: 40,
+                position: [0, 0, 10]
+            }}
+        >
             <Environment preset="sunset" />
 
             <Suspense fallback={null}>
                 {/* Model */}
-                <AvatarModel scale={7.12} position={[0, -7.96, 0]} />
+                <AvatarModel
+                    scale={5.4}
+                    position={[0, -6.55, 0]}
+                />
             </Suspense>
-
         </Canvas>
     );
 };

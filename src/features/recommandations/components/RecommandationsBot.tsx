@@ -5,7 +5,7 @@ import PromptInput from "./PromptInput";
 import { useSession } from "next-auth/react";
 import AuthLoadingScreen from "@/components/AuthLoadingScreen";
 import { Avatar } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
+import { cleanTextForSpeech, cn } from "@/lib/utils";
 import { IChatRole, useRecommandation } from "../hooks/useRecommandation";
 import { Skeleton } from "@/components/ui/skeleton";
 import Markdown from "markdown-to-jsx";
@@ -15,6 +15,11 @@ import { Check, Copy, StopCircle, Volume2 } from "lucide-react";
 import copy from "copy-to-clipboard";
 import { toast } from "react-toastify";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useRemark } from "react-remarkify";
+import { useSpeechAvatar } from "../hooks/useSpeechAvatar";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
+import remarkGfm from "remark-gfm";
 
 type ChatItemProps = {
     role: IChatRole;
@@ -24,11 +29,27 @@ type ChatItemProps = {
 }
 
 const ChatItem: FC<ChatItemProps> = ({ image, message, role, name }) => {
-    const { start, stop, speechStatus } = useSpeech({ text: message });
+    const content = useRemark({ markdown: message, rehypePlugins: [rehypeRaw, rehypeSanitize], remarkPlugins: [remarkGfm], remarkToRehypeOptions: { allowDangerousHtml: true } });
+    const { start, stop, speechStatus } = useSpeech({
+        text: content,
+        highlightText: true,
+        showOnlyHighlightedText: false,
+        highlightMode: "word",
+        voiceURI: "Microsoft Paul - French (France)"
+    });
     const [copied, setCopied] = useState<boolean>(false);
+    const { setSpeechtext, setAnimation } = useSpeechAvatar();
 
     const handlePlaySound = () => {
-        speechStatus !== "started" ? start() : stop();
+        if (speechStatus !== "started") {
+            start();
+            setSpeechtext(cleanTextForSpeech(message));
+            setAnimation("Talking");
+        }
+        else {
+            stop();
+            setAnimation("Idle");
+        }
     }
 
     const handleCopyText = () => {
@@ -125,13 +146,13 @@ const RecommandationsBot = (): JSX.Element => {
             {chats.length === 0 && (
                 <div className="recommandations-bot__header mb-6 flex flex-col gap-4">
                     <h1 className="text-3xl 2xl:text-4xl font-michroma leading-tight">
-                        Décrivez votre recherche idéale
+                        Comment puis-je vous aider ?
                     </h1>
-                    <p className="text-foreground/80">Décrivez le produit que vous recherchez et notre IA assitant commercial proposera les meilleures options pour vous.</p>
+                    <p className="text-foreground/80">Décrivez le produit ou service que vous recherchez et notre assistant commercial IA vous proposera les meilleures recommandations et conseils personnalisés pour répondre à vos besoins.</p>
                 </div>
             )}
 
-            <div className="input-container fixed  w-[36%] max-w-full bottom-9 z-10">
+            <div className="input-container fixed w-full h-[115px] max-w-[36%] flex items-center bottom-7 z-10">
                 <PromptInput />
             </div>
 

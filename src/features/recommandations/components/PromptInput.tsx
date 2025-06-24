@@ -43,28 +43,30 @@ const PromptInput: FC = (): JSX.Element => {
         }
     }
     return (
-        <form method="POST" onSubmit={handleSubmit}>
-            <div className="prompt-input w-full rounded-xl mt-14 border border-border h-[120px] dark:bg-[#171819] p-4 flex flex-col items-end justify-between gap-5">
-                <input
-                    type="text"
+        <form method="POST" className="w-full h-fit mt-0" onSubmit={handleSubmit}>
+            <div className="prompt-input rounded-xl border border-border h-[116px] dark:bg-[#171819] p-4 flex justify-between gap-6">
+                <textarea
                     name="prompt"
-                    className="outline-none w-full"
+                    className="outline-none w-full !h-full resize-none scrollable-section"
                     autoComplete="off"
-                    placeholder="Entrez votre description..."
+                    placeholder="Ecrire votre description..."
+
                 />
 
-                <Button
-                    type="submit"
-                    className="send-btn group rounded-full w-10 h-10 !px-0 !py-0 bg-primary hover:bg-primary/90 transition-all cursor-pointer duration-400"
-                >
-                    <Image
-                        src="/icons/send.svg"
-                        width={20}
-                        height={20}
-                        alt="send-icon"
-                        className="transition-transform duration-300 group-hover:rotate-45"
-                    />
-                </Button>
+                <div className="btn-cta h-full flex items-end">
+                    <Button
+                        type="submit"
+                        className="send-btn group rounded-full w-10 h-10 !px-0 !py-0 bg-primary hover:bg-primary/90 transition-all cursor-pointer duration-400"
+                    >
+                        <Image
+                            src="/icons/send.svg"
+                            width={20}
+                            height={20}
+                            alt="send-icon"
+                            className="transition-transform duration-300 group-hover:rotate-45"
+                        />
+                    </Button>
+                </div>
             </div>
         </form>
     );

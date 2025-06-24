@@ -1,3 +1,5 @@
+"use client"
+
 import AvatarViewCanvas from "@/components/3d-models/avatar/viewCanvas";
 import RecommandationsBot from "@/features/recommandations/components/RecommandationsBot";
 
