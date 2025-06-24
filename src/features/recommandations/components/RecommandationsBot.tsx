@@ -28,6 +28,7 @@ type ChatItemProps = {
     name: string;
 }
 
+// Chat card
 const ChatItem: FC<ChatItemProps> = ({ image, message, role, name }) => {
     const content = useRemark({ markdown: message, rehypePlugins: [rehypeRaw, rehypeSanitize], remarkPlugins: [remarkGfm], remarkToRehypeOptions: { allowDangerousHtml: true } });
     const { start, stop, speechStatus } = useSpeech({
@@ -48,6 +49,7 @@ const ChatItem: FC<ChatItemProps> = ({ image, message, role, name }) => {
         }
         else {
             stop();
+            setSpeechtext("");
             setAnimation("Idle");
         }
     }
@@ -121,6 +123,7 @@ const ChatItem: FC<ChatItemProps> = ({ image, message, role, name }) => {
     );
 }
 
+// Chat skeleton card
 const ChatItemSkeleton = () => {
     return (
         <article className="chat-item-skeleton flex gap-6 w-full items-start">
@@ -166,7 +169,11 @@ const RecommandationsBot = (): JSX.Element => {
                                         key={index}
                                         role={item.role}
                                         message={item.message}
-                                        image={item.role === "user" ? <Avatar email={data?.user?.email!} name={data?.user?.name!} className="!size-12 !rounded-lg object-cover" /> : "/ai-avatar.png"}
+                                        image={item.role === "user" ? (
+                                            <div className="user-avatar w-12">
+                                                <Avatar email={data?.user?.email!} name={data?.user?.name!} className=" !size-12 !rounded-lg object-cover" />
+                                            </div>
+                                        ) : "/ai-avatar.png"}
                                         name={item.role === "user" ? data?.user?.name?.split(" ")[0]! : "Bazzar AI"}
                                     />
                                 ))

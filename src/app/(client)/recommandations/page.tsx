@@ -2,6 +2,7 @@
 
 import AvatarViewCanvas from "@/components/3d-models/avatar/viewCanvas";
 import RecommandationsBot from "@/features/recommandations/components/RecommandationsBot";
+import checkIsAuthentified from "@/HOC/isAuthentified";
 
 const Recommandations = (): JSX.Element => {
     return (
@@ -17,4 +18,4 @@ const Recommandations = (): JSX.Element => {
     );
 };
 
-export default Recommandations;
+export default checkIsAuthentified(Recommandations);

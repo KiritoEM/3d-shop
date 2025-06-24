@@ -22,8 +22,8 @@ const AvatarViewCanvas = (): JSX.Element => {
             <Suspense fallback={null}>
                 {/* Model */}
                 <AvatarModel
-                    scale={5.4}
-                    position={[0, -6.55, 0]}
+                    scale={5}
+                    position={[0, -6, 0]}
                 />
             </Suspense>
         </Canvas>
