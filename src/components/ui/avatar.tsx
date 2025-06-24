@@ -18,7 +18,6 @@ const Avatar: FC<AvatarProps> = ({ name, email, onClick, className }) => {
             email={email}
             maxInitials={2}
             title={name}
-            size="2.1em"
             className={
                 cn(className, "cursor-pointer")
             }

@@ -1,25 +1,32 @@
-import { naturalLanguageToSQL } from "@/lib/langchain";
+import { generateAIChat } from "@/lib/laingchain";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
     try {
-        const data = await req.json() as { question?: string };
+        const data = await req.json() as { prompt?: string };
 
-        if (!data.question) {
+        if (!data.prompt) {
             return NextResponse.json({
                 message: "No data provided",
                 status: 400
             })
         }
 
-        const result = await naturalLanguageToSQL(data.question);
+        const result = await generateAIChat(data.prompt);
+
+        if (!result) {
+            return NextResponse.json({
+                message: "No response from AI",
+                status: 400
+            })
+        }
 
         return NextResponse.json({
             message: result,
             status: 200
         });
     } catch (err) {
-        console.error("Payment API Error:", err);
+        console.error("Bot API Error:", err);
 
         return NextResponse.json({
             message: "Internal Server Error",

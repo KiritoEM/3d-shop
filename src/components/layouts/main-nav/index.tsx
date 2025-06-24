@@ -115,7 +115,7 @@ const MainNav = (): JSX.Element => {
                     {/* For desktop */}
                     <DropdownMenu>
                       <DropdownMenuTrigger className="hidden lg:block">
-                        <Avatar email={data.user.email!} name={data.user.name!} />
+                        <Avatar email={data.user.email!} name={data.user.name!} className="!size-[2.1em]" />
                       </DropdownMenuTrigger>
                       <DropdownMenuAuthentificatedActions />
                     </DropdownMenu>
