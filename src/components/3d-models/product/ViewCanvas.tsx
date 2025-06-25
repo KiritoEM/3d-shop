@@ -45,7 +45,6 @@ const ProductViewCanvas: FC<ProductViewCanvasProps> = ({ modelPath, config3D, or
         if (selectedMaterials && Object.keys(selectedMaterials).length) {
             Object.entries(selectedMaterials).forEach(([key, value]) => {
                 const material = materials[key];
-                console.log(material);
 
                 if (material && material instanceof THREE.MeshStandardMaterial) {
                     material.color.set(value);

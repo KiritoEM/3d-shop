@@ -69,10 +69,10 @@ const ChatItem: FC<ChatItemProps> = ({ image, message, role, name }) => {
     }
 
     return (
-        <article className="chat-item flex gap-6 w-full items-start">
+        <article className="chat-item flex gap-4 md:gap-6 w-full items-start">
             {
                 typeof image === "string" ? (
-                    <img src={image} alt="avatar" className="w-12 h-12 rounded-lg object-cover" />
+                    <img src={image} alt="avatar" className="w-10 md:w-12 h-10 md:h-12 rounded-lg object-cover" />
                 ) : (
                     image
                 )
@@ -80,7 +80,7 @@ const ChatItem: FC<ChatItemProps> = ({ image, message, role, name }) => {
 
             <div className="chat-content">
                 <div className="chat-content__header flex items-center gap-6 justify-between">
-                    <span className="text-sm font-semibold font-michroma">{name}</span>
+                    <span className="text-xs sm:text-sm font-semibold font-michroma">{name}</span>
                 </div>
 
                 <div className={
@@ -89,7 +89,7 @@ const ChatItem: FC<ChatItemProps> = ({ image, message, role, name }) => {
                         role === "user" ? "bg-blue-500 text-white" : "bg-input/60 dark:bg-[#2B2C2C]"
                     )
                 }>
-                    <Markdown options={{ forceWrapper: true }} className="text-base">{message}</Markdown>
+                    <Markdown options={{ forceWrapper: true }} className="text-sm md:text-base w-fit">{message}</Markdown>
                 </div>
 
                 {/* Actions */}
@@ -127,7 +127,7 @@ const ChatItem: FC<ChatItemProps> = ({ image, message, role, name }) => {
 const ChatItemSkeleton = () => {
     return (
         <article className="chat-item-skeleton flex gap-6 w-full items-start">
-            <Skeleton className="avatar-skeleton w-12 h-12 rounded-lg" />
+            <Skeleton className="avatar-skeleton w-10 md:w-12 h-10 md:h-12 rounded-lg" />
 
             <div className="chat-content-skeleton w-full">
                 <Skeleton className="chat-content-skeleton__header h-[20px] w-[20%]" />
@@ -145,7 +145,7 @@ const RecommandationsBot = (): JSX.Element => {
     if (status === "loading") return <AuthLoadingScreen text="Chargement en cours..." />
 
     return (
-        <div className="recommandations-bot w-[43%] mb-12 relative">
+        <div className="recommandations-bot relative w-full lg:w-[48%] xl:w-[43%] flex flex-col h-full">
             {chats.length === 0 && (
                 <div className="recommandations-bot__header mb-6 flex flex-col gap-4">
                     <h1 className="text-3xl 2xl:text-4xl font-michroma leading-tight">
@@ -155,14 +155,10 @@ const RecommandationsBot = (): JSX.Element => {
                 </div>
             )}
 
-            <div className="input-container fixed w-full h-[115px] max-w-[36%] flex items-center bottom-7 z-10">
-                <PromptInput />
-            </div>
-
             {
                 chats.length > 0 && (
-                    <ScrollArea className="chat-wrapper w-full flex flex-col h-full max-h-[calc(100vh-200px)] scrollable-section overflow-y-auto">
-                        <div className="chat-container flex flex-col w-[96%] space-y-10 mb-[100px]">
+                    <ScrollArea className="chat-wrapper w-full flex flex-col scrollable-section overflow-y-auto rounded-xl border border-foreground/45 h-[calc(100vh-315px)] lg:h-[calc(100vh-275px)]">
+                        <div className="chat-container  mb-2 lg:mb-4 flex flex-col w-[98%] space-y-10 p-5">
                             {
                                 chats.map((item, index) => (
                                     <ChatItem
@@ -171,7 +167,7 @@ const RecommandationsBot = (): JSX.Element => {
                                         message={item.message}
                                         image={item.role === "user" ? (
                                             <div className="user-avatar w-12">
-                                                <Avatar email={data?.user?.email!} name={data?.user?.name!} className=" !size-12 !rounded-lg object-cover" />
+                                                <Avatar email={data?.user?.email!} name={data?.user?.name!} className=" !size-10 md:!size-12 !rounded-lg object-cover" />
                                             </div>
                                         ) : "/ai-avatar.png"}
                                         name={item.role === "user" ? data?.user?.name?.split(" ")[0]! : "Bazzar AI"}
@@ -188,6 +184,12 @@ const RecommandationsBot = (): JSX.Element => {
                     </ScrollArea>
                 )
             }
+
+            <div className="input-container fixed bottom-18 lg:bottom-5 left-0 right-0 h-[115px] flex items-center z-10 lg:left-auto lg:right-auto lg:w-[48%] xl:w-[43%] 2xl:w-[37%]">
+                <div className="w-full px-7 lg:px-0">
+                    <PromptInput />
+                </div>
+            </div>
         </div>
     );
 };
