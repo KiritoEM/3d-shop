@@ -1,0 +1,52 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: postgres_db
+    ports:
+      - "5432:5432" 
+    environment:
+      POSTGRES_USER: ${db_user}
+      POSTGRES_PASSWORD: ${db_pwd}
+      POSTGRES_DB: ${postgres_db}
+      PGPORT: 5432 
+    networks:
+      - app_network
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./data_import:/import_data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${db_user} -d ${postgres_db} -p 5432"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  next-app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: bazzar_container
+    ports:
+      - '3002:3000'
+    environment:
+      DATABASE_URL : postgresql://${db_user}:${db_pwd}@postgres:5432/${postgres_db}
+      NEXTAUTH_URL : http://localhost:3000
+      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY : ${stripe_pusblishable_key}
+      NEXT_PUBLIC_STRIPE_SECRET_KEY: ${stripe_secret_key}
+      NEXT_PUBLIC_HASHING_SECRET_KEY: ${hashing_secret_key}
+      NEXTAUTH_SECRET : ${nextauth_secret}
+      GOOGLE_CLIENT_ID : ${google_client_id}
+      GOOGLE_CLIENT_SECRET: ${google_client_secret}
+      GROQ_API_KEY: ${groq_api_key}
+    networks:
+      - app_network
+    depends_on:
+      postgres: 
+        condition: service_healthy
+    restart: unless-stopped
+
+networks:
+  app_network:
+
+volumes:
+  pg_data:
