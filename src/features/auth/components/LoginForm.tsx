@@ -6,12 +6,12 @@ import { useForm } from "react-hook-form";
 import {
     zodResolver
 } from "@hookform/resolvers/zod"
-import { Input } from "@/components/ui/input";
+import { Input, PasswordInput } from "@/components/ui/input";
 import GoogleAuth from "./GoogleAuth";
 import Separator from "./Separator";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { notFound, redirect, useRouter } from "next/navigation";
 import { FC, useEffect, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
@@ -48,11 +48,15 @@ const LoginForm: FC<LoginFormProps> = ({ urlRedirect, error }): JSX.Element => {
     const onSubmit = (data: IAuthData) => {
         startTransition(async () => {
             if (data.mode === "login") {
+                if (!urlRedirect) {
+                    notFound();
+                }
+
                 const response = await signIn("credentials", {
                     email: data.email,
                     password: data.password,
                     redirect: false,
-                });;
+                });
 
                 if (response?.ok) {
                     form.reset();
@@ -62,7 +66,7 @@ const LoginForm: FC<LoginFormProps> = ({ urlRedirect, error }): JSX.Element => {
                         router.refresh();
                     }
                     else {
-                        urlRedirect && router.replace(`/${urlRedirect}`)
+                        urlRedirect && redirect(`/${urlRedirect}`)
                     }
                 }
 
@@ -104,7 +108,10 @@ const LoginForm: FC<LoginFormProps> = ({ urlRedirect, error }): JSX.Element => {
                                 <FormItem>
                                     <FormLabel>Confidentiel</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Votre mot de passe" type="password" {...field} />
+                                        <PasswordInput
+                                            placeholder="Votre mot de passe"
+                                            field={field}
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

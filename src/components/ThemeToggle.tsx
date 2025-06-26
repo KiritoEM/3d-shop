@@ -42,8 +42,8 @@ const ThemeToggle = (): JSX.Element | null => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <div className="theme-toggle-trigger cursor-pointer h-14 w-14 flex items-center justify-center rounded-full bg-primary dark:bg-white">
-                    <Palette className="w-[26px] md:w-[28px]" color={theme === "light" ? "#ffffff" : "#E45826"} />
+                <div className="theme-toggle-trigger cursor-pointer h-12 lg:h-14 w-12 lg:w-14 flex items-center justify-center rounded-full bg-primary dark:bg-white">
+                    <Palette className="w-[24px] lg:w-[26px] md:w-[28px]" color={theme === "light" ? "#ffffff" : "#E45826"} />
                 </div>
             </DropdownMenuTrigger>
 

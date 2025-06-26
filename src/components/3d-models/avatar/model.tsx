@@ -3,7 +3,7 @@
 import React, { FC, memo, useEffect, useRef } from "react";
 import { useAnimations, useFBX, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
-import { IAnimations, ModelProps } from "../types";
+import { ModelProps } from "../types";
 import { useSpeechAvatar } from "@/features/recommandations/hooks/useSpeechAvatar";
 import { extractViseme } from "@/lib/viseme";
 import { useFrame } from "@react-three/fiber";
@@ -109,7 +109,7 @@ export const AvatarModel: FC<AvatarModelProps> = memo(({ scale, position, rotati
 
     // Lip sync
     useEffect(() => {
-        if (!speechtext || speechtext === "") {
+        if (speechtext.length === 0) {
             currentViseme.current = null;
             return;
         }
@@ -131,6 +131,26 @@ export const AvatarModel: FC<AvatarModelProps> = memo(({ scale, position, rotati
     });
 
     useFrame(() => {
+        if (speechtext.length === 0) {
+            Object.keys(nodes.Wolf3D_Head.morphTargetDictionary).forEach((key) => {
+                if (key !== currentViseme.current) {
+                    const otherIndex = nodes.Wolf3D_Head.morphTargetDictionary[key];
+                    nodes.Wolf3D_Head.morphTargetInfluences[otherIndex] = THREE.MathUtils.lerp(
+                        nodes.Wolf3D_Head.morphTargetInfluences[otherIndex],
+                        0,
+                        0.2
+                    );
+                    nodes.Wolf3D_Teeth.morphTargetInfluences[otherIndex] = THREE.MathUtils.lerp(
+                        nodes.Wolf3D_Teeth.morphTargetInfluences[otherIndex],
+                        0,
+                        0.2
+                    );
+                }
+            });
+
+            return;
+        };
+
         if (currentViseme.current && nodes.Wolf3D_Head.morphTargetDictionary) {
             const index = nodes.Wolf3D_Head.morphTargetDictionary[currentViseme.current];
 

@@ -21,10 +21,10 @@ const CartTrigger = (): JSX.Element => {
             )
         }>
             <div
-                className="theme-toggle-trigger relative cursor-pointer h-14 w-14 flex items-center justify-center rounded-full bg-primary dark:bg-white"
+                className="theme-toggle-trigger relative cursor-pointer h-12 lg:h-14 w-12 lg:w-14 flex items-center justify-center rounded-full bg-primary dark:bg-white"
                 onClick={() => { setOpenContent(), cartNotification?.status === "add" && removeNotification() }}
             >
-                <ShoppingCart className="size-6" color={theme === "light" ? "#ffffff" : "#E45826"} />
+                <ShoppingCart className="size-5 lg:size-6" color={theme === "light" ? "#ffffff" : "#E45826"} />
 
                 {
                     cartNotification?.status === "add" && (

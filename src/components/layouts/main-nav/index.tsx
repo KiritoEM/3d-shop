@@ -122,7 +122,7 @@ const MainNav = (): JSX.Element => {
 
                     {/* For mobile  */}
                     <div className="avatar block lg:hidden">
-                      <Avatar email={data.user.email!} name={data.user.name!} onClick={() => setIsOpen(!isOpen)} />
+                      <Avatar className="!size-7 lg:!size-7" email={data.user.email!} name={data.user.name!} onClick={() => setIsOpen(!isOpen)} />
                     </div>
                   </Fragment>
                 ) : (
