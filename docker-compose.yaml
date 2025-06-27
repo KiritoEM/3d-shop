@@ -29,7 +29,15 @@ services:
     ports:
       - '3002:3000'
     environment:
-      - DATABASE_URL=postgresql://${db_user}:${db_pwd}@postgres:5432/${postgres_db}
+      DATABASE_URL : postgresql://${db_user}:${db_pwd}@postgres:5432/${postgres_db}
+      NEXTAUTH_URL : http://localhost:3002
+      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY : ${stripe_pusblishable_key}
+      NEXT_PUBLIC_STRIPE_SECRET_KEY: ${stripe_secret_key}
+      NEXT_PUBLIC_HASHING_SECRET_KEY: ${hashing_secret_key}
+      NEXTAUTH_SECRET : ${nextauth_secret}
+      GOOGLE_CLIENT_ID : ${google_client_id}
+      GOOGLE_CLIENT_SECRET: ${google_client_secret}
+      GROQ_API_KEY: ${groq_api_key}
     networks:
       - app_network
     depends_on:

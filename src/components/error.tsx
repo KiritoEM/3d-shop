@@ -5,7 +5,7 @@ import { Home } from "lucide-react";
 import Link from "next/link";
 import { FC, useEffect } from "react";
 
-const error: FC<{ error: Error & { digest?: string } }> = ({ error }): JSX.Element => {
+const Error: FC<{ error: string }> = ({ error }): JSX.Element => {
     useEffect(() => {
         console.error("An error occurred:", error); //log the error to the console
     }, [error])
@@ -22,4 +22,4 @@ const error: FC<{ error: Error & { digest?: string } }> = ({ error }): JSX.Eleme
     );
 };
 
-export default error;
+export default Error;

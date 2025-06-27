@@ -13,7 +13,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import "@dotlottie/react-player/dist/index.css";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { Avatar } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import AuthLoadingScreen from "@/components/AuthLoadingScreen";
@@ -57,15 +57,17 @@ const SoundLottie = () => {
   );
 };
 
-const DropdownMenuAuthentificatedActions = () => {
+type DropdownMenuActionsProps = {
+  actions: (key: string) => void;
+}
+
+const DropdownMenuAuthentificatedActions: FC<DropdownMenuActionsProps> = ({ actions }) => {
   return (
     <DropdownMenuContent className="w-48 flex flex-col gap-2 p-3">
       {
         NAV_DATA_AUTHENTICATED.map((item, index) => (
-          <DropdownMenuItem key={index} asChild>
-            <Link href="/settings" className="animated-label flex items-center gap-3 text-base cursor-pointer hover:opacity-70 transition-opacity">
-              <item.icon /> <span>{item.label}</span>
-            </Link>
+          <DropdownMenuItem key={index} className="animated-label flex items-center gap-3 text-base cursor-pointer hover:opacity-70 transition-opacity" onClick={() => actions(item.key)}>
+            <item.icon /> <span>{item.label}</span>
           </DropdownMenuItem>
         ))
       }
@@ -85,6 +87,25 @@ const MainNav = (): JSX.Element => {
   }
 
   const isAbsolute = MATCHED_PATH.includes(path);
+
+  const handleSignOut = async () => {
+    await signOut({
+      redirect: true,
+      callbackUrl: "/"
+    });
+  }
+
+  const handleDropdownmenuActions = (key: string) => {
+    switch (key) {
+      case "logout":
+        handleSignOut()
+        break;
+
+      default:
+        break;
+    }
+  }
+
   return (
     <Fragment>
       <nav className={
@@ -117,12 +138,12 @@ const MainNav = (): JSX.Element => {
                       <DropdownMenuTrigger className="hidden lg:block">
                         <Avatar email={data.user.email!} name={data.user.name!} className="!size-[2.1em]" />
                       </DropdownMenuTrigger>
-                      <DropdownMenuAuthentificatedActions />
+                      <DropdownMenuAuthentificatedActions actions={handleDropdownmenuActions} />
                     </DropdownMenu>
 
                     {/* For mobile  */}
                     <div className="avatar block lg:hidden">
-                      <Avatar email={data.user.email!} name={data.user.name!} onClick={() => setIsOpen(!isOpen)} />
+                      <Avatar className="!size-7 lg:!size-7" email={data.user.email!} name={data.user.name!} onClick={() => setIsOpen(!isOpen)} />
                     </div>
                   </Fragment>
                 ) : (
@@ -138,7 +159,7 @@ const MainNav = (): JSX.Element => {
         </div>
       </nav>
 
-      <NavResponsive isOpen={isOpen} sessionStatus={status} />
+      <NavResponsive isOpen={isOpen} sessionStatus={status} actions={handleDropdownmenuActions} />
     </Fragment >
   );
 };

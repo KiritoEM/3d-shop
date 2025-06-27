@@ -6,22 +6,22 @@ import { useForm } from "react-hook-form";
 import {
     zodResolver
 } from "@hookform/resolvers/zod"
-import { Input } from "@/components/ui/input";
+import { Input, PasswordInput } from "@/components/ui/input";
 import GoogleAuth from "./GoogleAuth";
 import Separator from "./Separator";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { FC, useEffect, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
 
 type LoginFormProps = {
-    urlRedirect: string;
+    callbackUrl: string;
     error?: string
 }
 
-const LoginForm: FC<LoginFormProps> = ({ urlRedirect, error }): JSX.Element => {
+const LoginForm: FC<LoginFormProps> = ({ callbackUrl, error }): JSX.Element => {
     const form = useForm<IAuthData>({
         resolver: zodResolver(authSchema),
         mode: "onSubmit",
@@ -48,21 +48,26 @@ const LoginForm: FC<LoginFormProps> = ({ urlRedirect, error }): JSX.Element => {
     const onSubmit = (data: IAuthData) => {
         startTransition(async () => {
             if (data.mode === "login") {
+                if (!callbackUrl) {
+                    router.replace("/");
+                }
+
                 const response = await signIn("credentials", {
                     email: data.email,
                     password: data.password,
+                    callbackUrl: `/${callbackUrl}`,
                     redirect: false,
-                });;
+                });
 
                 if (response?.ok) {
                     form.reset();
 
-                    if (urlRedirect === "payment") {
+                    if (callbackUrl === "/payment") {
                         router.replace("/payment");
                         router.refresh();
                     }
                     else {
-                        urlRedirect && router.replace(`/${urlRedirect}`)
+                        callbackUrl && redirect(callbackUrl)
                     }
                 }
 
@@ -104,7 +109,10 @@ const LoginForm: FC<LoginFormProps> = ({ urlRedirect, error }): JSX.Element => {
                                 <FormItem>
                                     <FormLabel>Confidentiel</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Votre mot de passe" type="password" {...field} />
+                                        <PasswordInput
+                                            placeholder="Votre mot de passe"
+                                            field={field}
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -124,9 +132,9 @@ const LoginForm: FC<LoginFormProps> = ({ urlRedirect, error }): JSX.Element => {
 
                     <Separator />
 
-                    <GoogleAuth callbackUrl={urlRedirect ?? "/"} />
+                    <GoogleAuth callbackUrl={callbackUrl ?? "/"} />
 
-                    <p className="signup-cta mt-2 w-fit mx-auto text-center">Pas encore de compte? <Link href="/signup" className="cursor-pointer hover:underline  text-blue-500">S'inscrire</Link></p>
+                    <p className="signup-cta mt-2 w-fit mx-auto text-center">Pas encore de compte? <Link href={`/signup${callbackUrl && `?redirectUrl=${callbackUrl}`}`} className="cursor-pointer hover:underline  text-blue-500">S'inscrire</Link></p>
                 </div>
             </div>
         </Form>

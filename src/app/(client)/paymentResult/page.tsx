@@ -1,3 +1,4 @@
+import Error from "@/components/error";
 import { Button } from "@/components/ui/button";
 import { addPayment } from "@/features/payement/actions/paymentActions";
 import Lottie from "@/features/payement/components/Lottie";
@@ -5,7 +6,6 @@ import { getStripSession } from "@/features/payement/services/paymentServices";
 import { authOptions } from "@/lib/auth";
 import { Home } from "lucide-react";
 import { getServerSession } from "next-auth";
-import Error from "next/error";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -32,7 +32,7 @@ const PaymentResult = async ({ searchParams }: { searchParams: any }): Promise<J
     const paymentReponse = await addPayment(session, userWithId.id);
 
     if (paymentReponse.status === "error") {
-        return <Error statusCode={500} title="Erreur lors du traitement du paiement" />;
+        return <Error error="Erreur lors du traitement du paiement" />;
     }
 
     return (

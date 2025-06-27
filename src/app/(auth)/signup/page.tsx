@@ -1,8 +1,9 @@
 import SignupForm from "@/features/auth/components/SignupForm";
 
-const Signup = (): JSX.Element => {
+const Signup = async ({ searchParams }: { searchParams: any }): Promise<JSX.Element> => {
+    const redirectUrl = (await searchParams).redirectUrl;
 
-    return <SignupForm />;
+    return <SignupForm redirectUrl={redirectUrl} />;
 };
 
 export default Signup;
