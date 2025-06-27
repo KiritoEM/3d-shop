@@ -59,7 +59,7 @@ const CartPayment: FC<CartPaymentProps> = ({ totalPrice, productsToBuy, closeCon
         setProductsToBuy(productsToBuy);
 
         if (status === "unauthenticated") {
-            router.push("/login?url=payment");
+            router.push("/login?callbackUrl=payment");
             return;
         }
 

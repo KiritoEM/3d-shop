@@ -12,7 +12,11 @@ import { useRouter } from "next/navigation";
 import { FC, useTransition } from "react";
 import { toast } from "react-toastify";
 
-const SignupForm: FC = (): JSX.Element => {
+type SignupFormProps = {
+    redirectUrl: string
+}
+
+const SignupForm: FC<SignupFormProps> = ({ redirectUrl }): JSX.Element => {
     const router = useRouter();
     const form = useForm<IAuthData>({
         resolver: zodResolver(authSchema),
@@ -37,7 +41,12 @@ const SignupForm: FC = (): JSX.Element => {
                         theme: "colored",
                         type: "success"
                     })
-                    router.replace("/login");
+                    if (!redirectUrl) {
+                        router.replace("/login");
+                    }
+                    else {
+                        router.replace(`/login?callbackUrl=${redirectUrl}`);
+                    }
                 } else if (response.status === "error") {
                     toast(response.message, {
                         type: "error",

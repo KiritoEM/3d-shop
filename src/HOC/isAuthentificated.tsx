@@ -12,11 +12,9 @@ const checkIsAuthentified = (Component: HOCProps["Component"], redirectUrl: stri
     return function IsAuth(props: any) {
         const { status } = useSession();
 
-        console.log(status);
-
         useLayoutEffect(() => {
             if (status === "unauthenticated") {
-                return redirect(`/login?url=${redirectUrl}`);
+                return redirect(`/login?callbackUrl=${redirectUrl}`);
             }
         }, [])
 

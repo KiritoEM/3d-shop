@@ -8,8 +8,9 @@ type GoogleAuthProps = {
 }
 
 const GoogleAuth: FC<GoogleAuthProps> = ({ callbackUrl }): JSX.Element => {
+    console.log(callbackUrl);
     return (
-        <Button variant="outline" className="w-full h-10 space-x-4" onClick={() => signIn("google", { callbackUrl})}>
+        <Button variant="outline" className="w-full h-10 space-x-4" onClick={() => signIn("google", { callbackUrl: `/${callbackUrl}` })}>
             <Image src="/icons/google.svg" height={18} width={18} alt="google-icon" /> Continuer avec Google
         </Button>
     )

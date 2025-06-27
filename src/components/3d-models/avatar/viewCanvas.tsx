@@ -53,13 +53,11 @@ const AvatarViewCanvas = (): JSX.Element => {
         >
             <Environment preset="sunset" />
 
-            <Suspense fallback={<CommonLoader />}>
-                {/* Model */}
-                <AvatarModel
-                    scale={getModelScale()}
-                    position={[0, -6, 0]}
-                />
-            </Suspense>
+            {/* Model */}
+            <AvatarModel
+                scale={getModelScale()}
+                position={[0, -6, 0]}
+            />
         </Canvas>
     );
 };

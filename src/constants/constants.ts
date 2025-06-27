@@ -1,4 +1,5 @@
 import { LogOut, Moon, Settings, Sun } from "lucide-react";
+import { signOut } from "next-auth/react";
 import { useMediaQuery } from "react-responsive";
 
 export const NAV_DATA = [
@@ -20,11 +21,13 @@ export const NAV_DATA_AUTHENTICATED = [
     {
         label: "Paramètres",
         url: "/settings",
-        icon: Settings
+        icon: Settings,
+        key: "settings"
     },
     {
         label: "Déconnexion",
-        icon: LogOut
+        icon: LogOut,
+        key: "logout"
     }
 ]
 

@@ -5,11 +5,12 @@ import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { FC, useRef } from "react";
-import Link from "next/link";
-import { Session } from "next-auth";
 
+type AuthentificatedActionsProps = {
+    actions: (key: string) => void;
+}
 
-const AuthentificatedActions = (): JSX.Element => {
+const AuthentificatedActions: FC<AuthentificatedActionsProps> = ({ actions }): JSX.Element => {
     return (
         <div className="authentified-actions flex flex-col items-center gap-2">
             <hr className="authentified-actions__separator h-[1px] w-full bg-border mt-5" />
@@ -17,10 +18,8 @@ const AuthentificatedActions = (): JSX.Element => {
                 <ul className="flex flex-col gap-5">
                     {
                         NAV_DATA_AUTHENTICATED.map((item, index) => (
-                            <li key={index}>
-                                <Link href="" className="animated-label flex items-center gap-3 text-base cursor-pointer hover:opacity-70 transition-opacity">
-                                    <item.icon /> <span>{item.label}</span>
-                                </Link>
+                            <li key={index} className="animated-label flex items-center gap-3 text-base cursor-pointer hover:opacity-70 transition-opacity" onClick={() => actions(item.key)}>
+                                <item.icon /> <span>{item.label}</span>
                             </li>
                         ))
                     }
@@ -33,9 +32,10 @@ const AuthentificatedActions = (): JSX.Element => {
 type NavResponsiveProps = {
     isOpen: boolean;
     sessionStatus: string;
+    actions: (key: string) => void;
 }
 
-const NavResponsive: FC<NavResponsiveProps> = ({ isOpen, sessionStatus }): JSX.Element => {
+const NavResponsive: FC<NavResponsiveProps> = ({ isOpen, sessionStatus, actions }): JSX.Element => {
     const containerRef = useRef<HTMLDivElement | null>(null);
 
     useGSAP(() => {
@@ -99,7 +99,7 @@ const NavResponsive: FC<NavResponsiveProps> = ({ isOpen, sessionStatus }): JSX.E
                 </ul>
 
                 {/* Actions if authenticated */}
-                {sessionStatus === "authenticated" && <AuthentificatedActions />}
+                {sessionStatus === "authenticated" && <AuthentificatedActions actions={actions} />}
             </div>
         </div>
     );
