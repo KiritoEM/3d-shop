@@ -30,7 +30,7 @@ services:
       - '3002:3000'
     environment:
       DATABASE_URL : postgresql://${db_user}:${db_pwd}@postgres:5432/${postgres_db}
-      NEXTAUTH_URL : http://localhost:3000
+      NEXTAUTH_URL : http://localhost:3002
       NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY : ${stripe_pusblishable_key}
       NEXT_PUBLIC_STRIPE_SECRET_KEY: ${stripe_secret_key}
       NEXT_PUBLIC_HASHING_SECRET_KEY: ${hashing_secret_key}

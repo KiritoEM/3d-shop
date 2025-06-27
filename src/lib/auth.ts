@@ -75,8 +75,8 @@ export const authOptions: NextAuthOptions = {
         }
     },
     pages: {
-        signIn: `${process.env.NEXTAUTH_URL}/login`,
-        error: `${process.env.NEXTAUTH_URL}/login`
+        signIn: "/login",
+        error: "/login"
     },
     session: {
         strategy: "jwt",
