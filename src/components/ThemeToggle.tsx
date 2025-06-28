@@ -15,12 +15,16 @@ import {
 import { THEME_OPTIONS } from "@/constants/constants";
 import { useEffect, useState } from "react";
 import { animateSideCannons } from "./animations/confetti";
+import { usePathname } from "next/navigation";
+
+const MATCHED_PATH = ["/recommandations"];
 
 const ThemeToggle = (): JSX.Element | null => {
     const [mounted, setMounted] = useState(false);
-    const { viewportHeight } = useViewportDimension();
-    // const isVisible = viewportHeight > 98;
     const { setTheme, theme } = useTheme();
+    const path = usePathname();
+
+    const isMatchedPath = MATCHED_PATH.find((path) => path === path.toLowerCase());
 
     const handleToggleTheme = (theme: string) => {
         if ("startViewTransition" in document) {
@@ -33,6 +37,8 @@ const ThemeToggle = (): JSX.Element | null => {
 
     useEffect(() => {
         setMounted(true);
+
+        return () => setMounted(false)
     }, []);
 
     if (!mounted) {
@@ -42,7 +48,12 @@ const ThemeToggle = (): JSX.Element | null => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <div className="theme-toggle-trigger cursor-pointer h-12 lg:h-14 w-12 lg:w-14 flex items-center justify-center rounded-full bg-primary dark:bg-white">
+                <div className={
+                    cn(
+                        "theme-toggle-trigger cursor-pointer h-12 lg:h-14 w-12 lg:w-14 rounded-full bg-primary dark:bg-white  items-center justify-center",
+                        isMatchedPath ? "hidden lg:flex" : "flex"
+                    )
+                }>
                     <Palette className="w-[24px] lg:w-[26px] md:w-[28px]" color={theme === "light" ? "#ffffff" : "#E45826"} />
                 </div>
             </DropdownMenuTrigger>
