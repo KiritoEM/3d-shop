@@ -185,10 +185,8 @@ const RecommandationsBot = (): JSX.Element => {
                 )
             }
 
-            <div className="input-container w-full h-[115px] flex items-center mb-6">
-                <div className="w-full px-7 lg:px-0">
-                    <PromptInput />
-                </div>
+            <div className="input-container w-full flex items-center mb-6">
+                <PromptInput />
             </div>
         </div>
     );
