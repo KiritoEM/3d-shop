@@ -145,7 +145,7 @@ const RecommandationsBot = (): JSX.Element => {
     if (status === "loading") return <AuthLoadingScreen text="Chargement en cours..." />
 
     return (
-        <div className="recommandations-bot relative w-full lg:w-[48%] xl:w-[43%] flex flex-col h-full">
+        <div className="recommandations-bot relative w-full lg:w-[48%] xl:w-[43%] flex flex-col justify-between gap-6 h-full">
             {chats.length === 0 && (
                 <div className="recommandations-bot__header mb-6 flex flex-col gap-4">
                     <h1 className="text-3xl 2xl:text-4xl font-michroma leading-tight">
@@ -185,10 +185,8 @@ const RecommandationsBot = (): JSX.Element => {
                 )
             }
 
-            <div className="input-container fixed bottom-18 lg:bottom-5 left-0 right-0 h-[115px] flex items-center z-10 lg:left-auto lg:right-auto lg:w-[48%] xl:w-[43%] 2xl:w-[37%]">
-                <div className="w-full px-7 lg:px-0">
-                    <PromptInput />
-                </div>
+            <div className="input-container w-full flex items-center mb-6">
+                <PromptInput />
             </div>
         </div>
     );
