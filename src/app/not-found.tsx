@@ -1,14 +1,34 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Home } from "lucide-react";
 import Link from "next/link";
-import "@dotlottie/react-player/dist/index.css";
+import { usePathname } from "next/navigation";
+import { Home, LogInIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { DotLottiePlayer } from "@dotlottie/react-player";
+import "@dotlottie/react-player/dist/index.css";
 
 const NotFound = (): JSX.Element => {
+    const pathname = usePathname();
+
+    const redirectLink = () => {
+        let linkJSX: JSX.Element = (
+            <Link href="/shop">
+                <Home /> Revenir au shop
+            </Link>
+        );
+        if (pathname.startsWith("/admin")) {
+            linkJSX = (
+                <Link href="/admin/statistics">
+                    <LogInIcon className="hidden sm:block" /> Retour au tableau
+                    de bord
+                </Link>
+            );
+        }
+
+        return linkJSX;
+    };
     return (
-        <section className="flex min-h-screen w-full flex-col items-center justify-center space-y-6 px-5 text-center">
+        <section className="flex min-h-screen w-full flex-col items-center justify-center space-y-6 overflow-hidden px-5 text-center">
             <DotLottiePlayer
                 loop
                 autoplay
@@ -21,9 +41,7 @@ const NotFound = (): JSX.Element => {
                 Oops, contenu non disponible
             </h1>
             <Button className="rounded-full" asChild>
-                <Link href="/shop">
-                    <Home /> Revenir au shop
-                </Link>
+                {redirectLink()}
             </Button>
         </section>
     );

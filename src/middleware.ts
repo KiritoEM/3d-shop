@@ -27,13 +27,7 @@ export const middleware = async (request: NextRequest) => {
         }
 
         const data = await response.json();
-
-        let expiresTime: number;
-        if (typeof data.expires === "string") {
-            expiresTime = new Date(data.expires).getTime();
-        } else {
-            return NextResponse.redirect(new URL("/admin/login", request.url));
-        }
+        const expiresTime = new Date(data.expires).getTime();
 
         const isTokenExpired = Date.now() > expiresTime;
 
@@ -43,7 +37,7 @@ export const middleware = async (request: NextRequest) => {
 
         if (!isTokenExpired && pathname === "/admin/login") {
             return NextResponse.redirect(
-                new URL("/admin/dashboard", request.url),
+                new URL("/admin/statistics", request.url),
             );
         }
     }
