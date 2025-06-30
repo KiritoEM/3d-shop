@@ -8,7 +8,9 @@ export const middleware = async (request: NextRequest) => {
         const sessionToken = cookie?.value;
 
         if (!sessionToken) {
-            return NextResponse.redirect(new URL("/admin/login", request.url));
+            return pathname !== "/admin/login"
+                ? NextResponse.redirect(new URL("/admin/login", request.url))
+                : NextResponse.next();
         }
 
         const response = await fetch(
@@ -22,17 +24,12 @@ export const middleware = async (request: NextRequest) => {
             },
         );
 
-        if (!response.ok) {
-            return NextResponse.redirect(new URL("/admin/login", request.url));
-        }
-
         const data = await response.json();
         const expiresTime = new Date(data.expires).getTime();
 
         const isTokenExpired = Date.now() > expiresTime;
 
-        if (isTokenExpired) {
-            return NextResponse.redirect(new URL("/admin/login", request.url));
+        if (!response.ok || isTokenExpired) {
         }
 
         if (!isTokenExpired && pathname === "/admin/login") {
@@ -44,7 +41,6 @@ export const middleware = async (request: NextRequest) => {
 
     return NextResponse.next();
 };
-
 export const config = {
     matcher: ["/admin/:path*"],
 };

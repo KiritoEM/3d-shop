@@ -50,6 +50,7 @@ const AdminLoginForm = (): JSX.Element => {
                         type: "success",
                         theme: "colored",
                     });
+                    router.replace("/admin/statistics");
                 }
             }
         });

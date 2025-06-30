@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
         if (!session) {
             return NextResponse.json({
-                message: "No session created",
+                message: "No session found",
                 status: 400,
             });
         }
