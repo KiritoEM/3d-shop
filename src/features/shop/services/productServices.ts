@@ -8,4 +8,4 @@ export const fetchProducts = async (): Promise<IProduct[]> => {
     }
 
     return response.json();
-}
+};

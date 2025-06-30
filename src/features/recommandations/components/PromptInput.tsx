@@ -30,39 +30,44 @@ const PromptInput: FC = (): JSX.Element => {
 
             setChat({
                 role: "bot",
-                message: response.data.message
+                message: response.data.message,
             });
         } catch (error: any) {
             console.error("Error from AI:", error);
             setChat({
                 role: "bot",
-                message: "Une erreur s'est produite, veuillez réessayer plus tard."
+                message:
+                    "Une erreur s'est produite, veuillez réessayer plus tard.",
             });
         } finally {
             setLoading(false);
         }
-    }
+    };
     return (
-        <form method="POST" className="w-full h-fit mt-0" onSubmit={handleSubmit}>
-            <div className="prompt-input rounded-xl border border-border h-[116px] dark:bg-[#171819] p-4 flex justify-between gap-4 sm:gap-6">
+        <form
+            method="POST"
+            className="mt-0 h-fit w-full"
+            onSubmit={handleSubmit}
+        >
+            <div className="prompt-input border-border flex h-[116px] justify-between gap-4 rounded-xl border p-4 sm:gap-6 dark:bg-[#171819]">
                 <textarea
                     name="prompt"
-                    className="outline-none w-full !h-full resize-none scrollable-section text-sm md:text-base"
+                    className="scrollable-section !h-full w-full resize-none text-sm outline-none md:text-base"
                     autoComplete="off"
                     placeholder="Ecrire votre description..."
                 />
 
-                <div className="btn-cta h-full flex items-end">
+                <div className="btn-cta flex h-full items-end">
                     <Button
                         type="submit"
-                        className="send-btn group rounded-full w-9 lg:w-10 h-9 lg:h-10 !px-0 !py-0 bg-primary hover:bg-primary/90 transition-all cursor-pointer duration-400"
+                        className="send-btn bg-primary hover:bg-primary/90 duration-400 group h-9 w-9 cursor-pointer rounded-full !px-0 !py-0 transition-all lg:h-10 lg:w-10"
                     >
                         <Image
                             src="/icons/send.svg"
                             width={20}
                             height={20}
                             alt="send-icon"
-                            className="!w-4 !h-4 transition-transform duration-300 group-hover:rotate-45"
+                            className="!h-4 !w-4 transition-transform duration-300 group-hover:rotate-45"
                         />
                     </Button>
                 </div>

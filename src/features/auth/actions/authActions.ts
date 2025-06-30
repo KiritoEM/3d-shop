@@ -1,22 +1,24 @@
-"use server"
+"use server";
 
 import { prisma } from "@/lib/prisma";
 import { ISignupSchema } from "@/lib/zod-schemas/authSchemas";
-import { IResponseType } from "../types";
+import { IResponseType } from "../../../types";
 import { hashData } from "@/lib/hash";
 
-export const signup = async (data: ISignupSchema): Promise<IResponseType<any>> => {
+export const signup = async (
+    data: ISignupSchema,
+): Promise<IResponseType<any>> => {
     try {
         const user = await prisma.user.findUnique({
             where: {
-                email: data.email
-            }
+                email: data.email,
+            },
         });
 
         if (user) {
             return {
                 status: "error",
-                message: "L'utilisateur existe déja avec cet adresse email"
+                message: "L'utilisateur existe déja avec cet adresse email",
             };
         }
 
@@ -24,28 +26,27 @@ export const signup = async (data: ISignupSchema): Promise<IResponseType<any>> =
             data: {
                 email: data.email,
                 name: data.name,
-                password: await hashData(data.password)
-            }
-        })
+                password: await hashData(data.password),
+            },
+        });
 
         if (!createdUser) {
             return {
                 status: "error",
-                message: "Un erreur s'est produit"
+                message: "Un erreur s'est produit",
             };
         }
 
         return {
             status: "success",
             message: "Login successful",
-            data: { ...data }
+            data: { ...data },
         };
-    }
-    catch (err) {
+    } catch (err) {
         console.error(err);
         return {
             status: "error",
-            message: "Un erreur s'est produit"
+            message: "Un erreur s'est produit",
         };
     }
-}
+};

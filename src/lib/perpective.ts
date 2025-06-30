@@ -18,19 +18,20 @@ const perspective3D = (elementRef: RefObject<HTMLElement | null>) => {
             element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.1)`;
             (element.style as any).hover = "true";
         }
-    }
+    };
 
     const handleMouseLeave = () => {
         const element = elementRef.current;
         if (element) {
-            element.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
+            element.style.transform =
+                "perspective(1000px) rotateX(0deg) rotateY(0deg)";
         }
     };
 
     return {
         handleMouseLeave,
-        handleMouseMove
-    }
-}
+        handleMouseMove,
+    };
+};
 
-export { perspective3D }
+export { perspective3D };

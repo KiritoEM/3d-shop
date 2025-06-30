@@ -10,15 +10,16 @@ export const fetchSecret = async (productsToBuy: CartItemTypes[]) => {
         const response = await fetch("/api/payment", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 products: productsToBuy.map((product) => {
                     return {
-                        id: product.id, image: product.preview3D
-                    }
-                })
-            })
+                        id: product.id,
+                        image: product.preview3D,
+                    };
+                }),
+            }),
         });
 
         if (!response.ok) {
@@ -31,7 +32,7 @@ export const fetchSecret = async (productsToBuy: CartItemTypes[]) => {
         console.error("Error fetching client secret:", err);
         throw err;
     }
-}
+};
 
 export const getStripSession = async (sessionId: string) => {
     try {
@@ -41,4 +42,4 @@ export const getStripSession = async (sessionId: string) => {
         console.error("Error fetching session:", err);
         return null;
     }
-}
+};

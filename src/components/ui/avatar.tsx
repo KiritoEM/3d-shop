@@ -7,23 +7,21 @@ type AvatarProps = {
     email?: string;
     onClick?: () => void;
     className?: string;
-}
+};
 
 const Avatar: FC<AvatarProps> = ({ name, email, onClick, className }) => {
     return (
         <ReactAvatar
             round
-            textMarginRatio={.18}
+            textMarginRatio={0.18}
             name={name}
             email={email}
             maxInitials={2}
             title={name}
-            className={
-                cn(className, "cursor-pointer")
-            }
+            className={cn(className, "cursor-pointer")}
             onClick={onClick}
         />
-    )
-}
+    );
+};
 
-export { Avatar }
+export { Avatar };

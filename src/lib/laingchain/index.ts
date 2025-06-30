@@ -25,4 +25,4 @@ export const generateAIChat = async (userText: string) => {
     const response = await chain.invoke({ text: userText });
 
     return response.content;
-}
+};

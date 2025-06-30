@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import usePlaySound from '@/hooks/usePlaySound';
-import { useLayoutEffect, useRef } from 'react';
+import usePlaySound from "@/hooks/usePlaySound";
+import { useLayoutEffect, useRef } from "react";
 
 const PlayBackgroundSound = (): JSX.Element => {
     const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -19,7 +19,7 @@ const PlayBackgroundSound = (): JSX.Element => {
                     audioRef.current?.load();
                 }
             } catch (error) {
-                console.warn('Audio playback failed:', error);
+                console.warn("Audio playback failed:", error);
             }
         };
 

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import useViewportDimension from "@/hooks/useViewportDimension";
 import { Palette } from "@/icons";
@@ -24,21 +24,23 @@ const ThemeToggle = (): JSX.Element | null => {
     const { setTheme, theme } = useTheme();
     const path = usePathname();
 
-    const isMatchedPath = MATCHED_PATH.find((path) => path === path.toLowerCase());
+    const isMatchedPath = MATCHED_PATH.find(
+        (path) => path === path.toLowerCase(),
+    );
 
     const handleToggleTheme = (theme: string) => {
         if ("startViewTransition" in document) {
             document.startViewTransition(() => {
                 animateSideCannons();
                 setTheme(theme);
-            })
+            });
         }
-    }
+    };
 
     useEffect(() => {
         setMounted(true);
 
-        return () => setMounted(false)
+        return () => setMounted(false);
     }, []);
 
     if (!mounted) {
@@ -48,13 +50,16 @@ const ThemeToggle = (): JSX.Element | null => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <div className={
-                    cn(
-                        "theme-toggle-trigger cursor-pointer h-12 lg:h-14 w-12 lg:w-14 rounded-full bg-primary dark:bg-white  items-center justify-center",
-                        isMatchedPath ? "hidden lg:flex" : "flex"
-                    )
-                }>
-                    <Palette className="w-[24px] lg:w-[26px] md:w-[28px]" color={theme === "light" ? "#ffffff" : "#E45826"} />
+                <div
+                    className={cn(
+                        "theme-toggle-trigger bg-primary h-12 w-12 cursor-pointer items-center justify-center rounded-full lg:h-14  lg:w-14 dark:bg-white",
+                        isMatchedPath ? "hidden lg:flex" : "flex",
+                    )}
+                >
+                    <Palette
+                        className="w-[24px] md:w-[28px] lg:w-[26px]"
+                        color={theme === "light" ? "#ffffff" : "#E45826"}
+                    />
                 </div>
             </DropdownMenuTrigger>
 
@@ -64,7 +69,7 @@ const ThemeToggle = (): JSX.Element | null => {
                 className="w-[230px] border-none p-3 dark:bg-white"
                 sideOffset={8}
             >
-                <DropdownMenuLabel className="text-[16px] font-michroma text-[#0D0D0D]">
+                <DropdownMenuLabel className="font-michroma text-[16px] text-[#0D0D0D]">
                     Choisir un thème
                 </DropdownMenuLabel>
 
@@ -75,17 +80,25 @@ const ThemeToggle = (): JSX.Element | null => {
                             className={cn(
                                 "relative dark:focus:bg-white/40",
                                 theme === opt.value &&
-                                "pointer-events-none border border-primary text-primary",
+                                    "border-primary text-primary pointer-events-none border",
                             )}
                             onClick={() => handleToggleTheme(opt.value)}
                         >
-                            <div className={`theme flex items-center space-x-2 ${theme === opt.value ? "text-primary" : "text-[#0D0D0D]"} cursor-pointer`}>
-                                <opt.icon className={theme === opt.value ? "text-primary" : "text-[#0D0D0D]"} />
+                            <div
+                                className={`theme flex items-center space-x-2 ${theme === opt.value ? "text-primary" : "text-[#0D0D0D]"} cursor-pointer`}
+                            >
+                                <opt.icon
+                                    className={
+                                        theme === opt.value
+                                            ? "text-primary"
+                                            : "text-[#0D0D0D]"
+                                    }
+                                />
                                 <span>{opt.label}</span>
                             </div>
 
                             {theme === opt.value && (
-                                <div className="absolute right-3 h-2 w-2 rounded-full bg-primary"></div>
+                                <div className="bg-primary absolute right-3 h-2 w-2 rounded-full"></div>
                             )}
                         </DropdownMenuItem>
                     ))}

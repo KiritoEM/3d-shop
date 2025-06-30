@@ -8,12 +8,16 @@ import { FC, useEffect } from "react";
 const Error: FC<{ error: string }> = ({ error }): JSX.Element => {
     useEffect(() => {
         console.error("An error occurred:", error); //log the error to the console
-    }, [error])
+    }, [error]);
     return (
-        <section className="flex flex-col items-center justify-center min-h-screen text-center px-5">
-            <h1 className="text-3xl font-michroma mb-4">Une erreur est survenue</h1>
-            <p className="text-lg mb-2">Désolé, quelque chose s'est mal passé.</p>
-            <Button className="rounded-full mt-3" asChild>
+        <section className="flex min-h-screen flex-col items-center justify-center px-5 text-center">
+            <h1 className="font-michroma mb-4 text-3xl">
+                Une erreur est survenue
+            </h1>
+            <p className="mb-2 text-lg">
+                Désolé, quelque chose s'est mal passé.
+            </p>
+            <Button className="mt-3 rounded-full" asChild>
                 <Link href="/shop">
                     <Home /> Revenir au shop
                 </Link>

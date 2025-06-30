@@ -8,16 +8,18 @@ import { DotLottiePlayer } from "@dotlottie/react-player";
 
 const NotFound = (): JSX.Element => {
     return (
-        <section className="flex flex-col space-y-6 items-center justify-center w-full min-h-screen text-center px-5">
+        <section className="flex min-h-screen w-full flex-col items-center justify-center space-y-6 px-5 text-center">
             <DotLottiePlayer
                 loop
                 autoplay
                 src="/lotties/not-found.lottie"
                 background="transparent"
-                className="cursor-pointer w-full"
+                className="w-full cursor-pointer"
                 style={{ width: "100%", height: "16em", objectFit: "cover" }}
             />
-            <h1 className="font-michroma text-3xl mt-1">Oops, contenu non disponible</h1>
+            <h1 className="font-michroma mt-1 text-3xl">
+                Oops, contenu non disponible
+            </h1>
             <Button className="rounded-full" asChild>
                 <Link href="/shop">
                     <Home /> Revenir au shop

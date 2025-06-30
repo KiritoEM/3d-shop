@@ -46,14 +46,14 @@ const TextFollow: FC<TextFollowProps> = ({
         const tl = gsap.timeline(
             useScrollTrigger
                 ? {
-                    scrollTrigger: {
-                        ...scrolOpts,
-                        trigger: textRef.current,
-                        ...(scrub && {
-                            scrub: 1,
-                        }),
-                    },
-                }
+                      scrollTrigger: {
+                          ...scrolOpts,
+                          trigger: textRef.current,
+                          ...(scrub && {
+                              scrub: 1,
+                          }),
+                      },
+                  }
                 : {},
         );
 

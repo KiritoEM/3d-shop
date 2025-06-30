@@ -4,11 +4,11 @@ import Cart from "@/features/cart/components";
 
 const FloatingOptions = (): JSX.Element => {
     return (
-        <div className={
-            cn(
-                "fixed z-50 bottom-6 lg:bottom-8 right-6 lg:right-8 transition-all duration-400 flex flex-col space-y-6",
-            )
-        }>
+        <div
+            className={cn(
+                "duration-400 fixed bottom-6 right-6 z-50 flex flex-col space-y-6 transition-all lg:bottom-8 lg:right-8",
+            )}
+        >
             <Cart />
             <ThemeToggle />
         </div>

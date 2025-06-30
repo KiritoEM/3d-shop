@@ -5,16 +5,16 @@ import { useMediaQuery } from "react-responsive";
 export const NAV_DATA = [
     {
         label: "Accueil",
-        url: "/"
+        url: "/",
     },
     {
         label: "Shop",
-        url: "/shop"
+        url: "/shop",
     },
     {
         label: "Recommandations",
-        url: "/recommandations"
-    }
+        url: "/recommandations",
+    },
 ];
 
 export const NAV_DATA_AUTHENTICATED = [
@@ -22,32 +22,32 @@ export const NAV_DATA_AUTHENTICATED = [
         label: "Paramètres",
         url: "/settings",
         icon: Settings,
-        key: "settings"
+        key: "settings",
     },
     {
         label: "Déconnexion",
         icon: LogOut,
-        key: "logout"
-    }
-]
+        key: "logout",
+    },
+];
 
 export const THEME_OPTIONS = [
     {
         label: "Light",
         icon: Sun,
-        value: "light"
+        value: "light",
     },
     {
         label: "Dark",
         icon: Moon,
-        value: "dark"
+        value: "dark",
     },
 ];
 
 export const SOUND_STATUS = {
     PLAYING: "PLAYING",
     STOPPED: "STOPPED",
-    PAUSED: "PAUSED"
+    PAUSED: "PAUSED",
 } as const;
 
 export const useScrollDefaultOptions = () => {
@@ -63,7 +63,8 @@ export const useScrollDefaultOptions = () => {
     };
 };
 
-export const FLASK_BASE_URL = process.env.NEXT_PUBLIC_FLASK_BASE_URL || "http://localhost:5000";
+export const FLASK_BASE_URL =
+    process.env.NEXT_PUBLIC_FLASK_BASE_URL || "http://localhost:5000";
 
 export const CORRESPONDING_VISEME = {
     A: "viseme_aa", // Mouth open wide
@@ -103,7 +104,7 @@ export enum ERROR_CODE {
     INTERNAL_SERVER_ERROR = 500,
     NOT_IMPLEMENTED = 501,
     BAD_GATEWAY = 502,
-    INVALID_FILE_TYPE = 422
+    INVALID_FILE_TYPE = 422,
 }
 
 export enum SUCCESS_CODE {
