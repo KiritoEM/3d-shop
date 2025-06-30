@@ -4,6 +4,7 @@ import crypto from "crypto";
 import { headers, cookies } from "next/headers";
 import { prisma } from "./prisma";
 import { IResponseType } from "@/types";
+import { Session } from "@prisma/client";
 
 const generateToken = () => {
     const randomBytes = crypto.randomBytes(32).toString("hex");
@@ -20,8 +21,8 @@ export const createSession = async () => {
     const sessionDB = await prisma.session.create({
         data: {
             token: generatedToken,
-            userAgent: userAgent,
-            expires: expires,
+            userAgent,
+            expires,
         },
     });
 
@@ -36,4 +37,18 @@ export const createSession = async () => {
         secure: process.env.NODE_ENV === "production",
         path: "/",
     });
+};
+
+export const getSession = async (token: string): Promise<Session> => {
+    const session = await prisma.session.findUnique({
+        where: {
+            token,
+        },
+    });
+
+    if (!session) {
+        throw new Error("Session not found");
+    }
+
+    return session;
 };
