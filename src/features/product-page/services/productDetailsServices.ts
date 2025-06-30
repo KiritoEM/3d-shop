@@ -8,4 +8,4 @@ export const fetchProductByCuid = async (cuid: string): Promise<IProduct> => {
     }
 
     return response.json();
-}
+};

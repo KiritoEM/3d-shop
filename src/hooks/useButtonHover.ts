@@ -1,15 +1,18 @@
-"use client"
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 
 type Position = {
     x: number;
     y: number;
-}
+};
 
 const useButtonHover = () => {
     const buttonRef = useRef<HTMLButtonElement | null>(null);
-    const [startPosition, setStartPosition] = useState<Position>({ x: 0, y: 0 });
+    const [startPosition, setStartPosition] = useState<Position>({
+        x: 0,
+        y: 0,
+    });
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const [isTextChanged, setIsTextChanged] = useState<boolean>(false);
     const [circleSize, setCircleSize] = useState<number>(0);
@@ -29,14 +32,14 @@ const useButtonHover = () => {
         const height = rect.height;
         const diameter = Math.ceil(Math.sqrt(width ** 2 + height ** 2)) * 2;
         setCircleSize(diameter);
-    }
+    };
 
     const handleMouseLeave = () => {
         setIsHovered(false);
         setTimeout(() => {
             setIsTextChanged(false);
-        }, 200)
-    }
+        }, 200);
+    };
 
     useEffect(() => {
         let timeout: NodeJS.Timeout;
@@ -44,13 +47,13 @@ const useButtonHover = () => {
         if (isHovered) {
             timeout = setTimeout(() => {
                 setIsTextChanged(true);
-            }, 280)
+            }, 280);
         }
 
         return () => {
-            clearTimeout(timeout)
-        }
-    }, [isHovered])
+            clearTimeout(timeout);
+        };
+    }, [isHovered]);
 
     return {
         buttonRef,
@@ -59,8 +62,8 @@ const useButtonHover = () => {
         circleSize,
         handleMouseEnter,
         isTextChanged,
-        handleMouseLeave
-    }
+        handleMouseLeave,
+    };
 };
 
 export default useButtonHover;

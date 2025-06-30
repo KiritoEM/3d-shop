@@ -1,22 +1,23 @@
-"use client"
+"use client";
 
 import { create } from "zustand";
 
 type ModelColor = {
     variant: string;
-    materials?: Record<string, string>
-}
+    materials?: Record<string, string>;
+};
 
 export type ProductCustomiserState = {
     color: ModelColor;
-}
+};
 
 type ProductCustomiserActions = {
     setColor: (color: ModelColor) => void;
     resetToDefault: () => void;
-}
+};
 
-export type ProductCustomiserStore = ProductCustomiserState & ProductCustomiserActions;
+export type ProductCustomiserStore = ProductCustomiserState &
+    ProductCustomiserActions;
 
 export const useProductCustomiser = create<ProductCustomiserStore>(
     (set, get) => ({
@@ -30,9 +31,9 @@ export const useProductCustomiser = create<ProductCustomiserStore>(
             set({
                 color: {
                     variant: "default",
-                    materials: {}
-                }
-            })
-        }
-    })
+                    materials: {},
+                },
+            });
+        },
+    }),
 );

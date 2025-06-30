@@ -6,16 +6,16 @@ import Section3d from "@/features/landing/components/Section3d";
 import { JSX } from "react";
 
 const Landing = (): JSX.Element => {
-  return (
-    <SmoothScrolling>
-      <section className="landing overflow-hidden">
-        <Hero />
-        <Section3d />
-        <Explore />
-        <Footer />
-      </section>
-    </SmoothScrolling>
-  );
+    return (
+        <SmoothScrolling>
+            <section className="landing overflow-hidden">
+                <Hero />
+                <Section3d />
+                <Explore />
+                <Footer />
+            </section>
+        </SmoothScrolling>
+    );
 };
 
 export default Landing;

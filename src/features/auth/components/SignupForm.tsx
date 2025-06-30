@@ -1,6 +1,13 @@
-"use client"
+"use client";
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
 import { authSchema, IAuthData } from "@/lib/zod-schemas/authSchemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,8 +20,8 @@ import { FC, useTransition } from "react";
 import { toast } from "react-toastify";
 
 type SignupFormProps = {
-    redirectUrl: string
-}
+    redirectUrl: string;
+};
 
 const SignupForm: FC<SignupFormProps> = ({ redirectUrl }): JSX.Element => {
     const router = useRouter();
@@ -25,8 +32,8 @@ const SignupForm: FC<SignupFormProps> = ({ redirectUrl }): JSX.Element => {
             mode: "signup",
             name: "",
             email: "",
-            password: ""
-        }
+            password: "",
+        },
     });
     const [isPending, startTransition] = useTransition();
 
@@ -37,20 +44,22 @@ const SignupForm: FC<SignupFormProps> = ({ redirectUrl }): JSX.Element => {
 
                 if (response.status === "success") {
                     form.reset();
-                    toast("Votre compte a été créé avec succés!!! Veuillez vous connecter pour continuer", {
-                        theme: "colored",
-                        type: "success"
-                    })
+                    toast(
+                        "Votre compte a été créé avec succés!!! Veuillez vous connecter pour continuer",
+                        {
+                            theme: "colored",
+                            type: "success",
+                        },
+                    );
                     if (!redirectUrl) {
                         router.replace("/login");
-                    }
-                    else {
+                    } else {
                         router.replace(`/login?callbackUrl=${redirectUrl}`);
                     }
                 } else if (response.status === "error") {
                     toast(response.message, {
                         type: "error",
-                        theme: "colored"
+                        theme: "colored",
                     });
                 }
             }
@@ -59,11 +68,16 @@ const SignupForm: FC<SignupFormProps> = ({ redirectUrl }): JSX.Element => {
 
     return (
         <Form {...form}>
-            <div className="signup-form relative z-20 w-full max-w-[380px] md:max-w-[400px] xl:max-w-[450px] flex flex-col space-y-10 items-center bg-background/90 dark:bg-background/70 px-6 md:px-8 xl:px-10 py-8 md:py-10 xl:py-12 border rounded-lg my-10">
-                <h1 className="signup-form__title font-michroma text-3xl">Créer un compte</h1>
+            <div className="signup-form bg-background/90 dark:bg-background/70 relative z-20 my-10 flex w-full max-w-[380px] flex-col items-center space-y-10 rounded-lg border px-6 py-8 md:max-w-[400px] md:px-8 md:py-10 xl:max-w-[450px] xl:px-10 xl:py-12">
+                <h1 className="signup-form__title font-michroma text-3xl">
+                    Créer un compte
+                </h1>
 
-                <div className="space-y-6 w-full">
-                    <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+                <div className="w-full space-y-6">
+                    <form
+                        className="space-y-6"
+                        onSubmit={form.handleSubmit(onSubmit)}
+                    >
                         <FormField
                             control={form.control}
                             name="name"
@@ -120,19 +134,21 @@ const SignupForm: FC<SignupFormProps> = ({ redirectUrl }): JSX.Element => {
                         />
 
                         <Button
-                            className="h-10 w-full mt-1"
+                            className="mt-1 h-10 w-full"
                             type="submit"
                             disabled={isPending}
                         >
-                            {isPending ? "Inscription en cours..." : "S'inscrire"}
+                            {isPending
+                                ? "Inscription en cours..."
+                                : "S'inscrire"}
                         </Button>
                     </form>
 
-                    <p className="signup-cta mt-2 w-fit mx-auto text-center">
+                    <p className="signup-cta mx-auto mt-2 w-fit text-center">
                         Vous avez déjà un compte?{" "}
                         <Link
                             href="/login"
-                            className="cursor-pointer hover:underline text-blue-500"
+                            className="cursor-pointer text-blue-500 hover:underline"
                         >
                             Se connecter
                         </Link>

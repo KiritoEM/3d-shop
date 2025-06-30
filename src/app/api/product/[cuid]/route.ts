@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(
     req: Request,
-    { params }: { params: Promise<{ cuid: string }> }
+    { params }: { params: Promise<{ cuid: string }> },
 ) {
     try {
         const cuid = (await params).cuid;
@@ -11,17 +11,19 @@ export async function GET(
 
         const productDetail = await prisma.product.findUnique({
             where: {
-                cuid: cuid
+                cuid: cuid,
             },
             include: {
-                category: true
-            }
-        })
+                category: true,
+            },
+        });
 
         return NextResponse.json(productDetail, { status: 200 });
-    }
-    catch (err) {
+    } catch (err) {
         console.error(err);
-        return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+        return NextResponse.json(
+            { message: "Internal Server Error" },
+            { status: 500 },
+        );
     }
 }

@@ -1,19 +1,19 @@
 export type Config3D = {
-    rotation?: [number, number, number],
-    position?: [number, number, number],
+    rotation?: [number, number, number];
+    position?: [number, number, number];
     scale?: number;
-}
+};
 
 export type ColorCustomisation = {
     color: string;
     value: string;
-    materials: Record<string, string>
-}
+    materials: Record<string, string>;
+};
 
 export type CustomisationConfigs = {
     colorCustomisation: ColorCustomisation[];
-    defaultColor: string
-}
+    defaultColor: string;
+};
 
 export interface IProduct {
     id: number;
@@ -27,7 +27,7 @@ export interface IProduct {
     updatedAt: string;
     cuid: string;
     category: {
-        name: string
+        name: string;
     };
-    customisationConfigs: CustomisationConfigs
+    customisationConfigs: CustomisationConfigs;
 }

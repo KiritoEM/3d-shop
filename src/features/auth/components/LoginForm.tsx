@@ -1,11 +1,16 @@
-"use client"
+"use client";
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
 import { authSchema, IAuthData } from "@/lib/zod-schemas/authSchemas";
 import { useForm } from "react-hook-form";
-import {
-    zodResolver
-} from "@hookform/resolvers/zod"
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Input, PasswordInput } from "@/components/ui/input";
 import GoogleAuth from "./GoogleAuth";
 import Separator from "./Separator";
@@ -18,8 +23,8 @@ import { signIn } from "next-auth/react";
 
 type LoginFormProps = {
     callbackUrl: string;
-    error?: string
-}
+    error?: string;
+};
 
 const LoginForm: FC<LoginFormProps> = ({ callbackUrl, error }): JSX.Element => {
     const form = useForm<IAuthData>({
@@ -29,8 +34,8 @@ const LoginForm: FC<LoginFormProps> = ({ callbackUrl, error }): JSX.Element => {
         defaultValues: {
             mode: "login",
             email: "",
-            password: ""
-        }
+            password: "",
+        },
     });
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
@@ -38,12 +43,15 @@ const LoginForm: FC<LoginFormProps> = ({ callbackUrl, error }): JSX.Element => {
     //for existing email handling
     useEffect(() => {
         if (error === "account_already_exist_with_that_email") {
-            toast("Un compte existe déjà avec cet email. Connectez-vous avec votre mot de passe.", {
-                type: "error",
-                theme: "colored"
-            })
+            toast(
+                "Un compte existe déjà avec cet email. Connectez-vous avec votre mot de passe.",
+                {
+                    type: "error",
+                    theme: "colored",
+                },
+            );
         }
-    }, [error])
+    }, [error]);
 
     const onSubmit = (data: IAuthData) => {
         startTransition(async () => {
@@ -65,29 +73,32 @@ const LoginForm: FC<LoginFormProps> = ({ callbackUrl, error }): JSX.Element => {
                     if (callbackUrl === "/payment") {
                         router.replace("/payment");
                         router.refresh();
-                    }
-                    else {
-                        callbackUrl && redirect(callbackUrl)
+                    } else {
+                        callbackUrl && redirect(callbackUrl);
                     }
                 }
 
                 if (response?.error) {
                     toast("Email ou mot de passe incorrect", {
                         type: "error",
-                        theme: "colored"
-                    })
+                        theme: "colored",
+                    });
                 }
             }
-        })
-
-    }
+        });
+    };
     return (
         <Form {...form}>
-            <div className="login-form relative z-20 w-full max-w-[380px] md:max-w-[400px] xl:max-w-[450px] flex flex-col space-y-10 items-center bg-background/90 dark:bg-background/70 px-6 md:px-8 xl:px-10 py-8 md:py-10 xl:py-12 border rounded-lg my-10">
-                <h1 className="login-form__title font-michroma text-2xl md:text-3xl text-center">Se connecter</h1>
+            <div className="login-form bg-background/90 dark:bg-background/70 relative z-20 my-10 flex w-full max-w-[380px] flex-col items-center space-y-10 rounded-lg border px-6 py-8 md:max-w-[400px] md:px-8 md:py-10 xl:max-w-[450px] xl:px-10 xl:py-12">
+                <h1 className="login-form__title font-michroma text-center text-2xl md:text-3xl">
+                    Se connecter
+                </h1>
 
-                <div className="space-y-6 w-full">
-                    <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+                <div className="w-full space-y-6">
+                    <form
+                        className="space-y-6"
+                        onSubmit={form.handleSubmit(onSubmit)}
+                    >
                         <FormField
                             control={form.control}
                             name="email"
@@ -95,7 +106,11 @@ const LoginForm: FC<LoginFormProps> = ({ callbackUrl, error }): JSX.Element => {
                                 <FormItem>
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="johndoe@gmail.com" type="email" {...field} />
+                                        <Input
+                                            placeholder="johndoe@gmail.com"
+                                            type="email"
+                                            {...field}
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -119,14 +134,18 @@ const LoginForm: FC<LoginFormProps> = ({ callbackUrl, error }): JSX.Element => {
                             )}
                         />
 
-                        <p className="text-sm -mt-3 text-right">Mot de passe oublié?</p>
+                        <p className="-mt-3 text-right text-sm">
+                            Mot de passe oublié?
+                        </p>
 
                         <Button
-                            className="h-10 w-full mt-1"
+                            className="mt-1 h-10 w-full"
                             type="submit"
                             disabled={isPending}
                         >
-                            {isPending ? "Connexion en cours..." : "Se connecter"}
+                            {isPending
+                                ? "Connexion en cours..."
+                                : "Se connecter"}
                         </Button>
                     </form>
 
@@ -134,7 +153,15 @@ const LoginForm: FC<LoginFormProps> = ({ callbackUrl, error }): JSX.Element => {
 
                     <GoogleAuth callbackUrl={callbackUrl ?? "/"} />
 
-                    <p className="signup-cta mt-2 w-fit mx-auto text-center">Pas encore de compte? <Link href={`/signup${callbackUrl && `?redirectUrl=${callbackUrl}`}`} className="cursor-pointer hover:underline  text-blue-500">S'inscrire</Link></p>
+                    <p className="signup-cta mx-auto mt-2 w-fit text-center">
+                        Pas encore de compte?{" "}
+                        <Link
+                            href={`/signup${callbackUrl && `?redirectUrl=${callbackUrl}`}`}
+                            className="cursor-pointer text-blue-500  hover:underline"
+                        >
+                            S'inscrire
+                        </Link>
+                    </p>
                 </div>
             </div>
         </Form>

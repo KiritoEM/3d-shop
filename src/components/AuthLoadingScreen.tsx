@@ -1,15 +1,19 @@
 import { FC } from "react";
 
 type AuthLoadingScreenProps = {
-    text?: string
+    text?: string;
 };
 
-const AuthLoadingScreen: FC<AuthLoadingScreenProps> = ({ text = "Vérification de la session..." }): JSX.Element => {
+const AuthLoadingScreen: FC<AuthLoadingScreenProps> = ({
+    text = "Vérification de la session...",
+}): JSX.Element => {
     return (
-        <div className="auth-loading-screen fixed top-0 left-0 w-screen z-50 h-screen bg-background overflow-hidden flex items-center justify-center">
+        <div className="auth-loading-screen bg-background fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center overflow-hidden">
             <div className="auth-loading-screen__content flex flex-col items-center space-y-3">
                 <div className="dots-loader w-fit" />
-                <span className="font-michroma text-lg text-center">{text}</span>
+                <span className="font-michroma text-center text-lg">
+                    {text}
+                </span>
             </div>
         </div>
     );

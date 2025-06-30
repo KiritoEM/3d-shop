@@ -7,15 +7,17 @@ export const GET = async () => {
             include: {
                 category: {
                     select: {
-                        name: true
-                    }
-                }
-            }
+                        name: true,
+                    },
+                },
+            },
         });
         return NextResponse.json(allProducts, { status: 200 });
-    }
-    catch (err) {
+    } catch (err) {
         console.error(err);
-        return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+        return NextResponse.json(
+            { message: "Internal Server Error" },
+            { status: 500 },
+        );
     }
-}
+};

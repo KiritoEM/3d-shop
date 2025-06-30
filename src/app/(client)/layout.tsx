@@ -5,16 +5,16 @@ import MainNav from "@/components/layouts/main-nav";
 import PlayBackgroundSound from "@/components/PlayBackgroundSound";
 
 export default function LandingLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <main className="w-full">
-      <MainNav />
-      <PlayBackgroundSound />
-      {children}
-      <FloatingOptions />
-    </main>
-  );
+    return (
+        <main className="w-full">
+            <MainNav />
+            <PlayBackgroundSound />
+            {children}
+            <FloatingOptions />
+        </main>
+    );
 }

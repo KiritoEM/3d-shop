@@ -8,4 +8,4 @@ export const fetchCategories = async (): Promise<ICategory[]> => {
     }
 
     return response.json();
-}
+};

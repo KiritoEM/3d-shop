@@ -5,13 +5,15 @@ export const GET = async () => {
     try {
         const categories = await prisma.category.findMany({
             include: {
-                products: true
-            }
+                products: true,
+            },
         });
         return NextResponse.json(categories, { status: 200 });
-    }
-    catch (err) {
+    } catch (err) {
         console.error(err);
-        return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+        return NextResponse.json(
+            { message: "Internal Server Error" },
+            { status: 500 },
+        );
     }
-}
+};
