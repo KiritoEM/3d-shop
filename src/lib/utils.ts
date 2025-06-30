@@ -64,3 +64,5 @@ export const cleanTextForSpeech = (str: string) => {
             .trim()
     );
 };
+
+export const isDevelopment = process.env.NODE_ENV === "development";

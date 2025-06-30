@@ -3,6 +3,7 @@
 import { IResponseType } from "@/types";
 import { prisma } from "@/lib/prisma";
 import Stripe from "stripe";
+import { isDevelopment } from "@/lib/utils";
 
 export const addPayment = async (
     session: Stripe.Response<Stripe.Checkout.Session>,
@@ -50,7 +51,7 @@ export const addPayment = async (
             data: createdPayment,
         };
     } catch (err) {
-        console.error(err);
+        isDevelopment && console.error(err);
         return {
             status: "error",
             message: "Un erreur s'est produit",

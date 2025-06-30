@@ -1,13 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { isDevelopment } from "@/lib/utils";
 import { Home } from "lucide-react";
 import Link from "next/link";
 import { FC, useEffect } from "react";
 
 const Error: FC<{ error: string }> = ({ error }): JSX.Element => {
     useEffect(() => {
-        console.error("An error occurred:", error); //log the error to the console
+        isDevelopment ? console.error("An error occurred:", error) : null; //log the error to the console
     }, [error]);
     return (
         <section className="flex min-h-screen flex-col items-center justify-center px-5 text-center">

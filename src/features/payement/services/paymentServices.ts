@@ -1,5 +1,6 @@
 import { CartItemTypes } from "@/features/cart/hooks/useCart";
 import { stripe } from "@/lib/stripe";
+import { isDevelopment } from "@/lib/utils";
 
 export const fetchSecret = async (productsToBuy: CartItemTypes[]) => {
     try {
@@ -29,7 +30,7 @@ export const fetchSecret = async (productsToBuy: CartItemTypes[]) => {
         const data = await response.json();
         return data.client_secret;
     } catch (err) {
-        console.error("Error fetching client secret:", err);
+        isDevelopment && console.error("Error fetching client secret:", err);
         throw err;
     }
 };
@@ -39,7 +40,7 @@ export const getStripSession = async (sessionId: string) => {
         const session = await stripe.checkout.sessions.retrieve(sessionId);
         return session;
     } catch (err) {
-        console.error("Error fetching session:", err);
+        isDevelopment && console.error("Error fetching session:", err);
         return null;
     }
 };

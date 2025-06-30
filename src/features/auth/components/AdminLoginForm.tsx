@@ -14,6 +14,10 @@ import { Input, PasswordInput } from "@/components/ui/input";
 import { authSchema, IAuthData } from "@/lib/zod-schemas/authSchemas";
 import Separator from "./Separator";
 import FacialTrigger from "./FacialTrigger";
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { loginAdmin } from "../actions/authActions";
+import { toast } from "react-toastify";
 
 const AdminLoginForm = (): JSX.Element => {
     const form = useForm<IAuthData>({
@@ -25,6 +29,31 @@ const AdminLoginForm = (): JSX.Element => {
             password: "",
         },
     });
+    const router = useRouter();
+    const [isPending, startTransition] = useTransition();
+
+    const onSubmit = (data: IAuthData) => {
+        startTransition(async () => {
+            if (data.mode === "admin_login") {
+                const response = await loginAdmin(data);
+
+                if (response.status === "error") {
+                    toast(response.message, {
+                        type: "error",
+                        theme: "colored",
+                    });
+                }
+
+                if (response.status === "success") {
+                    form.reset();
+                    toast(response.message, {
+                        type: "success",
+                        theme: "colored",
+                    });
+                }
+            }
+        });
+    };
     return (
         <Form {...form}>
             <div className="signup-form bg-background/90 dark:bg-background/70 relative z-20 my-10 flex w-full max-w-[380px] flex-col items-center space-y-10 rounded-lg border px-6 py-8 md:max-w-[400px] md:px-8 md:py-10 xl:max-w-[440px] xl:px-10 xl:py-12">
@@ -33,7 +62,11 @@ const AdminLoginForm = (): JSX.Element => {
                 </h1>
 
                 <div className="w-full space-y-6">
-                    <form className="space-y-6">
+                    <form
+                        className="space-y-6"
+                        method="POST"
+                        onSubmit={form.handleSubmit(onSubmit)}
+                    >
                         <FormField
                             control={form.control}
                             name="name"
@@ -44,7 +77,6 @@ const AdminLoginForm = (): JSX.Element => {
                                             placeholder="Nom admin"
                                             type="text"
                                             {...field}
-                                            // disabled={isPending}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -71,10 +103,11 @@ const AdminLoginForm = (): JSX.Element => {
                         <Button
                             className="mt-1 h-10 w-full"
                             type="submit"
-                            // disabled={isPending}
+                            disabled={isPending}
                         >
-                            {/* {isPending ? "Inscription en cours..." : "S'inscrire"} */}
-                            Se connecter
+                            {isPending
+                                ? "Connexion en cours..."
+                                : "Se connecter"}
                         </Button>
                     </form>
 

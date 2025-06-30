@@ -112,6 +112,19 @@ model Transaction {
   @@map("transaction") 
 }
 
+model AdminInfo {
+  id Int  @id @default(autoincrement())
+  username String @unique
+  password String 
+  role AdminRole @default(SUPERADMIN)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([username, password])
+  @@map("admin_info")
+}
+
 enum TransactionStatus {
   PENDING
   PROCESSING
@@ -120,4 +133,9 @@ enum TransactionStatus {
   CANCELED
   REFUNDED
   PARTIALLY_REFUNDED
+}
+
+enum AdminRole {
+  SUPERADMIN
+  ADMIN
 }

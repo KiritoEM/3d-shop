@@ -10,7 +10,7 @@ const generateToken = () => {
     return crypto.createHash("sha256").update(randomBytes).digest("hex"); //hash random bytes
 };
 
-export const createSession = async (): Promise<IResponseType<null>> => {
+export const createSession = async () => {
     const generatedToken = generateToken();
     const userAgent = (await headers()).get("user-agent"); //get user-agent
     const cookiesStore = await cookies();
@@ -26,21 +26,14 @@ export const createSession = async (): Promise<IResponseType<null>> => {
     });
 
     if (!sessionDB) {
-        return {
-            message: "Failed to create DB session",
-            status: "error",
-        };
+        throw new Error("Failed to create DB session");
     }
 
-    cookiesStore.set("session_id", generatedToken, {
+    await cookiesStore.set("session_id", generatedToken, {
         httpOnly: true,
         expires: expires,
         sameSite: "lax",
-        secure: true,
+        secure: process.env.NODE_ENV === "production",
+        path: "/",
     });
-
-    return {
-        message: "Session created successfully",
-        status: "success",
-    };
 };

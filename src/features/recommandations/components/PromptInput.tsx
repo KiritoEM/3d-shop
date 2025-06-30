@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { FLASK_BASE_URL } from "@/constants/constants";
 import Image from "next/image";
 import { FC } from "react";
 import axios from "axios";
+import { isDevelopment } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { useRecommandation } from "../hooks/useRecommandation";
 
 const PromptInput: FC = (): JSX.Element => {
@@ -33,7 +33,7 @@ const PromptInput: FC = (): JSX.Element => {
                 message: response.data.message,
             });
         } catch (error: any) {
-            console.error("Error from AI:", error);
+            isDevelopment && console.error("Error from AI:", error);
             setChat({
                 role: "bot",
                 message:
