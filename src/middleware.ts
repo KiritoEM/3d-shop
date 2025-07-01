@@ -30,6 +30,9 @@ export const middleware = async (request: NextRequest) => {
         const isTokenExpired = Date.now() > expiresTime;
 
         if (!response.ok || isTokenExpired) {
+            return pathname !== "/admin/login"
+                ? NextResponse.redirect(new URL("/admin/login", request.url))
+                : NextResponse.next();
         }
 
         if (!isTokenExpired && pathname === "/admin/login") {
