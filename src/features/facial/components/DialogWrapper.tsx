@@ -24,7 +24,7 @@ const FacialDialogWrapper: FC<DialogWrapperProps> = ({
                 {trigger}
             </DialogTrigger>
 
-            <DialogContent className="sm:max-w-[460px] !border-foreground/44">
+            <DialogContent className="!border-foreground/44 sm:max-w-[460px]">
                 <DialogHeader>
                     <DialogTitle></DialogTitle>
                     <DialogDescription className="text-foreground text-md">
