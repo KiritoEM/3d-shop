@@ -11,7 +11,13 @@ const generateToken = () => {
     return crypto.createHash("sha256").update(randomBytes).digest("hex"); //hash random bytes
 };
 
-export const createSession = async () => {
+type IcreateSessionArg = {
+    method?: "FORM" | "FACIAL_RECOGNITION";
+};
+
+export const createSession = async (
+    arg: IcreateSessionArg = { method: "FORM" },
+) => {
     const generatedToken = generateToken();
     const userAgent = (await headers()).get("user-agent"); //get user-agent
     const cookiesStore = await cookies();
@@ -22,6 +28,7 @@ export const createSession = async () => {
         data: {
             token: generatedToken,
             userAgent,
+            method: arg.method,
             expires,
         },
     });

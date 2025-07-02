@@ -14,7 +14,7 @@ export const middleware = async (request: NextRequest) => {
         }
 
         const response = await fetch(
-            `${request.nextUrl.origin}/api/admin_session`,
+            `${request.nextUrl.origin}/api/admin/session`,
             {
                 method: "POST",
                 headers: {
@@ -30,6 +30,9 @@ export const middleware = async (request: NextRequest) => {
         const isTokenExpired = Date.now() > expiresTime;
 
         if (!response.ok || isTokenExpired) {
+            return pathname !== "/admin/login"
+                ? NextResponse.redirect(new URL("/admin/login", request.url))
+                : NextResponse.next();
         }
 
         if (!isTokenExpired && pathname === "/admin/login") {
