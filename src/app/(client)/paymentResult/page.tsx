@@ -1,7 +1,7 @@
 import Error from "@/components/error";
 import { Button } from "@/components/ui/button";
 import { addPayment } from "@/features/payement/actions/paymentActions";
-import Lottie from "@/features/payement/components/Lottie";
+import Lottie from "@/components/lotties/SuccessLottie";
 import { getStripSession } from "@/features/payement/services/paymentServices";
 import { authOptions } from "@/lib/auth";
 import { Home } from "lucide-react";

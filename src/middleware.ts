@@ -14,7 +14,7 @@ export const middleware = async (request: NextRequest) => {
         }
 
         const response = await fetch(
-            `${request.nextUrl.origin}/api/admin_session`,
+            `${request.nextUrl.origin}/api/admin/session`,
             {
                 method: "POST",
                 headers: {
