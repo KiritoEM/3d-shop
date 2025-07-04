@@ -1,0 +1,14 @@
+{
+    "semi": true,
+    "singleQuote": false,
+    "arrowParens": "always",
+    "endOfLine": "lf",
+    "trailingComma": "all",
+    "tabWidth": 4,
+    "pluginSearchDirs": ["."],
+    "plugins": ["prettier-plugin-tailwindcss"],
+    "bracketSpacing": true,
+    "tailwindStylesheet": "./src/app/global.css",
+    "tailwindPreserveWhitespace": true,
+    "tailwindFunctions": ["clsx, tw"]
+}

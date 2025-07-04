@@ -44,7 +44,6 @@ model User {
   updatedAt    DateTime      @updatedAt
   
   accounts     Account[]     
-  sessions     Session[]
   transactions Transaction[]
 
   @@map("user")
@@ -73,14 +72,16 @@ model Account {
 }
 
 model Session {
-  sessionToken String   @unique 
-  userId       String   
+  id String @id @default(cuid())
+  token String   @unique 
   expires      DateTime 
-  
+  isActive     Boolean  @default(true)
+  userAgent    String?
+  method SessionMethod @default(FACIAL_RECOGNITION)
+
+  //timespan
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("session")
 }
@@ -112,6 +113,37 @@ model Transaction {
   @@map("transaction") 
 }
 
+model AdminInfo {
+  id String @id @default(cuid())
+  username String @unique
+  password String 
+  role AdminRole @default(SUPERADMIN)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  adminFacial AdminFacialRecognition?
+
+  @@unique([username, password])
+  @@map("admin_info")
+}
+
+model AdminFacialRecognition {
+  id String @id @default(cuid())
+  image String
+  adminId String @unique
+  isActive Boolean @default(true)
+  deviceInfo String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  admin AdminInfo @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@unique([id, adminId])
+  @@map("admin_facial_recognition")
+}
+
 enum TransactionStatus {
   PENDING
   PROCESSING
@@ -120,4 +152,14 @@ enum TransactionStatus {
   CANCELED
   REFUNDED
   PARTIALLY_REFUNDED
+}
+
+enum SessionMethod {
+  FACIAL_RECOGNITION
+  FORM
+}
+
+enum AdminRole {
+  SUPERADMIN
+  ADMIN
 }

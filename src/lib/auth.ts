@@ -1,7 +1,7 @@
 import type { Awaitable, NextAuthOptions, User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaAdapter } from "@auth/prisma-adapter"
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./prisma";
 import { compareData } from "./hash";
 
@@ -10,13 +10,14 @@ export const authOptions: NextAuthOptions = {
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID as string,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
         }),
         CredentialsProvider({
             name: "Credentials",
+
             credentials: {
                 email: { label: "Email", type: "text" },
-                password: { label: "Password", type: "password" }
+                password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
                 if (!credentials?.email || !credentials?.password) {
@@ -25,20 +26,23 @@ export const authOptions: NextAuthOptions = {
 
                 const user = await prisma.user.findUnique({
                     where: {
-                        email: credentials.email
-                    }
+                        email: credentials.email,
+                    },
                 });
 
-                if (!user || !(compareData(credentials.password, user.password!))) {
+                if (
+                    !user ||
+                    !compareData(credentials.password, user.password!)
+                ) {
                     return null;
                 }
 
                 return {
                     id: user.id,
                     email: credentials.email,
-                    name: user.name
-                }
-            }
+                    name: user.name,
+                };
+            },
         }),
     ],
     callbacks: {
@@ -46,10 +50,15 @@ export const authOptions: NextAuthOptions = {
             if (account?.provider === "google") {
                 const existingUser = await prisma.user.findUnique({
                     where: { email: profile?.email },
-                    include: { accounts: true }
+                    include: { accounts: true },
                 });
 
-                if (existingUser && !existingUser.accounts.some((acc) => acc.provider === "google")) {
+                if (
+                    existingUser &&
+                    !existingUser.accounts.some(
+                        (acc) => acc.provider === "google",
+                    )
+                ) {
                     throw new Error("account_already_exist_with_that_email");
                 }
             }
@@ -60,26 +69,27 @@ export const authOptions: NextAuthOptions = {
                 ...session,
                 user: {
                     ...session.user,
-                    id: token.id
-                }
-            }
+                    id: token.id,
+                },
+            };
         },
         async jwt({ token, user }) {
             if (user) {
                 return {
                     ...token,
-                    id: (user as unknown as User).id
-                }
+                    id: (user as unknown as User).id,
+                };
             }
             return token;
-        }
+        },
     },
     pages: {
         signIn: "/login",
-        error: "/login"
+        error: "/login",
     },
     session: {
         strategy: "jwt",
+        maxAge: 30 * 24 * 60 * 60, //30 jours
     },
-    secret: process.env.NEXTAUTH_SECRET
+    secret: process.env.NEXTAUTH_SECRET,
 };

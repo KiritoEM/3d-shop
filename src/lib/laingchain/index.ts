@@ -16,7 +16,7 @@ export const generateAIChat = async (userText: string) => {
         ["user", "{text}"],
     ]);
 
-    const promptValue = await promptTemplate.format({
+    await promptTemplate.format({
         text: userText,
     });
 
@@ -25,4 +25,4 @@ export const generateAIChat = async (userText: string) => {
     const response = await chain.invoke({ text: userText });
 
     return response.content;
-}
+};

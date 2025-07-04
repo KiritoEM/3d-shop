@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useLayoutEffect, useState } from "react";
 
@@ -10,18 +10,18 @@ const useViewportDimension = () => {
 
         const handleScroll = () => {
             setViewportHeight(window.scrollY);
-        }
+        };
 
         window.addEventListener("scroll", handleScroll);
 
         return () => {
             window.removeEventListener("scroll", handleScroll);
-        }
+        };
     }, []);
 
     return {
-        viewportHeight
-    }
-}
+        viewportHeight,
+    };
+};
 
 export default useViewportDimension;
