@@ -26,7 +26,7 @@ const Webcam = (): JSX.Element => {
         useFacialRecognition(facesData, isPending);
 
     const BASE_STYLE_CONTAINER =
-        "flex h-full w-full flex-col items-center justify-center space-y-4 rounded-lg bg-[#262626]";
+        "flex h-full w-full flex-col items-center justify-center space-y-4 rounded-lg bg-input dark:bg-[#262626]";
 
     return (
         <div className="webcam relative mt-4 flex !h-[360px] w-full items-center justify-center p-0">
