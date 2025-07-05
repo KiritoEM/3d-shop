@@ -3,7 +3,6 @@
 import crypto from "crypto";
 import { headers, cookies } from "next/headers";
 import { prisma } from "./prisma";
-import { IResponseType } from "@/types";
 import { Session } from "@prisma/client";
 
 const generateToken = () => {

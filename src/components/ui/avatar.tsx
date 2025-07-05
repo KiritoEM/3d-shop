@@ -7,9 +7,16 @@ type AvatarProps = {
     email?: string;
     onClick?: () => void;
     className?: string;
+    image?: string;
 };
 
-const Avatar: FC<AvatarProps> = ({ name, email, onClick, className }) => {
+const Avatar: FC<AvatarProps> = ({
+    name,
+    email,
+    onClick,
+    image,
+    className,
+}) => {
     return (
         <ReactAvatar
             round
@@ -20,6 +27,7 @@ const Avatar: FC<AvatarProps> = ({ name, email, onClick, className }) => {
             title={name}
             className={cn(className, "cursor-pointer")}
             onClick={onClick}
+            src={typeof image === "string" ? image : undefined}
         />
     );
 };

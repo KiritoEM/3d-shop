@@ -3,20 +3,16 @@
 import { useCallback, useRef } from "react";
 import * as faceapi from "face-api.js";
 import { compareFace, handleLabelFace } from "@/lib/faceapi";
-import { createSession } from "@/lib/session";
 import { AdminFacialRecognition } from "@prisma/client";
-import { IAuthStatus } from "./useFacialRecognition";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const useFaceDetection = (
     facialData: AdminFacialRecognition[],
-    isLoadingFaces: boolean,
-    router: AppRouterInstance,
     videoRef: React.RefObject<HTMLVideoElement | null>,
     canvasRef: React.RefObject<HTMLCanvasElement | null>,
     isLoadingFacesRef: React.RefObject<boolean>,
-    onAuthenticationResult: (status: IAuthStatus) => void,
     closeWebcam: () => void,
+    onRecognized: () => void,
+    onUnknow: () => void,
 ) => {
     const detectionIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -81,7 +77,7 @@ const useFaceDetection = (
                         if (resizedDetection && !isLoadingFacesRef.current) {
                             if (!facialData || facialData.length === 0) {
                                 setTimeout(() => {
-                                    onAuthenticationResult("Unknow");
+                                    onUnknow();
                                     return;
                                 }, 660);
                             }
@@ -102,15 +98,9 @@ const useFaceDetection = (
 
                                 setTimeout(async () => {
                                     if (results.label !== "unknown") {
-                                        onAuthenticationResult(
-                                            "Authentificated",
-                                        );
-                                        await createSession({
-                                            method: "FACIAL_RECOGNITION",
-                                        });
-                                        router.replace("/admin/statistics");
+                                        onRecognized();
                                     } else {
-                                        onAuthenticationResult("Unknow");
+                                        onUnknow();
                                     }
 
                                     closeWebcam();
@@ -140,7 +130,7 @@ const useFaceDetection = (
     return {
         detectFace,
         stopDetection,
-        isLoadingFaces,
+        isLoadingFacesRef,
     };
 };
 
