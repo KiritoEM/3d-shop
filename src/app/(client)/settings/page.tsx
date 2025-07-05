@@ -9,12 +9,8 @@ import { redirect } from "next/navigation";
 const UserSetting = async (): Promise<JSX.Element> => {
     const serverSession = await getServerSession(authOptions);
     const token = (await cookies()).get("session_id");
-    const isValidToken =
-        serverSession && typeof serverSession.expires === "number"
-            ? serverSession.expires * 1000 > Date.now()
-            : false;
 
-    if (!token || !isValidToken) {
+    if (!serverSession || !serverSession.user) {
         redirect("/login?callbackUrl=settings");
     }
 
@@ -30,7 +26,7 @@ const UserSetting = async (): Promise<JSX.Element> => {
         {
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token.value}`,
+                Authorization: `Bearer ${token?.value}`,
             },
             cache: "no-store",
         },
