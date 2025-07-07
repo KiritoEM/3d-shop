@@ -3,3 +3,13 @@ export type IResponseType<T = null> = {
     status: "success" | "error";
     data?: T;
 };
+
+export type EmailTemplateType = "sendOTP";
+
+export interface OTPEmailProps {
+    otp: string;
+}
+
+export interface EmailTemplateProps {
+    sendOTP: OTPEmailProps;
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,7 +18,6 @@ import FacialTrigger from "./FacialTrigger";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { loginAdmin } from "../actions/authActions";
-import { toast } from "react-toastify";
 
 const AdminLoginForm = (): JSX.Element => {
     const form = useForm<IAuthData>({

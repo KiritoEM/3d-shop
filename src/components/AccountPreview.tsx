@@ -1,3 +1,5 @@
+"use client";
+
 import { FC } from "react";
 import { Avatar } from "./ui/avatar";
 
@@ -13,12 +15,17 @@ const AccountPreview: FC<AccountPreviewProps> = ({
     image,
 }): JSX.Element => {
     return (
-        <div className="account-preview flex items-center gap-8">
-            <Avatar name={name} email={email} image={image} />
+        <div className="account-preview flex w-fit items-center gap-6 rounded-lg border p-6">
+            <Avatar
+                name={name}
+                email={email}
+                image={image}
+                className="!size-17"
+            />
 
             <div className="account-preview__details">
-                <h3 className="font-michroma text-3xl">{name}</h3>
-                <p className="mt-2">{email}</p>
+                <h5 className="text-2xl font-medium">{name}</h5>
+                <p className="text-primary mt-1">{email}</p>
             </div>
         </div>
     );

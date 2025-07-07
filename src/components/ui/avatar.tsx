@@ -1,6 +1,8 @@
-import { cn } from "@/lib/utils";
+"use client";
+
 import { FC } from "react";
 import ReactAvatar from "react-avatar";
+import { cn } from "@/lib/utils";
 
 type AvatarProps = {
     name?: string;

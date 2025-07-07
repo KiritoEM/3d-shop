@@ -1,6 +1,7 @@
 import AccountPreview from "@/components/AccountPreview";
 import Error from "@/components/error";
 import Block from "@/features/user-settings/components/Block";
+import ChangePersonalInfo from "@/features/user-settings/components/ChangePersonalInfo";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { cookies } from "next/headers";
@@ -36,21 +37,30 @@ const UserSetting = async (): Promise<JSX.Element> => {
         return <Error error="Un erreur s'est produit" />;
     }
 
+    const userInfo = (await response.json()).user;
+
     return (
-        <section className="user-settings mt-[126px] w-full overflow-hidden">
+        <section className="user-settings mt-[126px] mb-12 w-full overflow-hidden">
             <div className="container">
                 <header>
                     <h3 className="font-michroma text-4xl">Paramètres</h3>
                 </header>
 
-                {/* <AccountPreview /> */}
+                <div className="user-settings__content mt-12 space-y-14">
+                    <AccountPreview
+                        email={userInfo.email}
+                        name={userInfo.name}
+                        image={userInfo.image}
+                    />
 
-                <div className="user-settings__content mt-12">
                     <Block
                         title="Informations personnelles"
-                        subtitle="Mettre à jour vos informations personnelle ou votre photo de profil"
+                        description="Personnalisez votre compte utilisateur et assurez-vous que vos coordonnées sont correctes"
                     >
-                        <></>
+                        <ChangePersonalInfo
+                            name={userInfo.name}
+                            email={userInfo.email}
+                        />
                     </Block>
                 </div>
             </div>
