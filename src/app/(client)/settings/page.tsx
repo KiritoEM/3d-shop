@@ -1,37 +1,16 @@
+import { cookies } from "next/headers";
 import AccountPreview from "@/components/AccountPreview";
 import Error from "@/components/error";
 import Block from "@/features/user-settings/components/Block";
-import ChangePersonalInfo from "@/features/user-settings/components/ChangePersonalInfo";
+import UserInfoForm from "@/features/user-settings/components/UserInfoForm";
+import { fetchUserInfo } from "@/features/user-settings/services/userServices";
+import { validateSession } from "@/features/user-settings/utilities/sessionUtilities";
 import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 const UserSetting = async (): Promise<JSX.Element> => {
-    const serverSession = await getServerSession(authOptions);
     const token = (await cookies()).get("session_id");
-
-    if (!serverSession || !serverSession.user) {
-        redirect("/login?callbackUrl=settings");
-    }
-
-    if (!serverSession || !serverSession.user) {
-        return <Error error="Un erreur s'est produit" />;
-    }
-
-    type SessionUserWithId = typeof serverSession.user & { id: string };
-    const userSession = serverSession.user as SessionUserWithId;
-
-    const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/user/${userSession.id}`,
-        {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token?.value}`,
-            },
-            cache: "no-store",
-        },
-    );
+    const userSession = await validateSession(authOptions);
+    const response = await fetchUserInfo(userSession, token?.value ?? "");
 
     if (!response.ok) {
         return <Error error="Un erreur s'est produit" />;
@@ -40,7 +19,7 @@ const UserSetting = async (): Promise<JSX.Element> => {
     const userInfo = (await response.json()).user;
 
     return (
-        <section className="user-settings mt-[126px] mb-12 w-full overflow-hidden">
+        <section className="user-settings mb-12 mt-[126px] w-full overflow-hidden">
             <div className="container">
                 <header>
                     <h3 className="font-michroma text-4xl">Paramètres</h3>
@@ -57,7 +36,7 @@ const UserSetting = async (): Promise<JSX.Element> => {
                         title="Informations personnelles"
                         description="Personnalisez votre compte utilisateur et assurez-vous que vos coordonnées sont correctes"
                     >
-                        <ChangePersonalInfo
+                        <UserInfoForm
                             name={userInfo.name}
                             email={userInfo.email}
                         />

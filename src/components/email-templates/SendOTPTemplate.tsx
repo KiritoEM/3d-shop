@@ -11,15 +11,9 @@ import {
     Text,
     Img,
 } from "@react-email/components";
+import { OTPEmailProps } from "@/types";
 
-interface EmailTemplateProps {
-    validationCode?: string;
-    baseUrl?: string;
-}
-
-const SendOTPTemplate: FC<EmailTemplateProps> = ({
-    validationCode = "123456",
-}) => {
+const SendOTPTemplate: FC<OTPEmailProps> = ({ validationCode }) => {
     return (
         <Html>
             <Head />

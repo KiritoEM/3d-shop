@@ -31,7 +31,7 @@ const useFaceDetection = (
                 const videoHeight = videoRef.current.videoHeight;
 
                 if (videoWidth === 0 || videoHeight === 0) {
-                    console.log("Video dimensions not ready");
+                    console.error("Video dimensions not ready");
                     return;
                 }
 

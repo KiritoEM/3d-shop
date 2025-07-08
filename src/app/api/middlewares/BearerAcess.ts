@@ -32,7 +32,6 @@ export const BearerAccess = (handler: Function) => {
             }
 
             const response = await handler(req, context);
-            console.log("response from handler: ", response);
             return response;
         } catch (err) {
             console.error("Bearer access error: ", err);

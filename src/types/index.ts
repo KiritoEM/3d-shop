@@ -7,7 +7,7 @@ export type IResponseType<T = null> = {
 export type EmailTemplateType = "sendOTP";
 
 export interface OTPEmailProps {
-    otp: string;
+    validationCode: string;
 }
 
 export interface EmailTemplateProps {

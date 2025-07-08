@@ -5,8 +5,6 @@ const SMTP_NAME = process.env.SMTP_NAME;
 const SMTP_PASSWORD = process.env.SMTP_PASSWORD;
 const SMTP_SERVICE = process.env.SMTP_SERVICE;
 
-console.log(SMTP_NAME, SMTP_PASSWORD, SMTP_SERVICE, SMTP_HOST);
-
 const transporter = nodemailer.createTransport({
     host: SMTP_HOST,
     service: SMTP_SERVICE,

@@ -1,5 +1,5 @@
 interface IOTPGenerator {
-    generate: (length: number) => void;
+    generate: (length: number) => string;
 }
 
 interface IOTPValidator {
@@ -10,22 +10,24 @@ interface IOTPValidator {
 class OTPGenerator implements IOTPGenerator {
     private readonly pattern = "0123456789";
 
-    generate(length: number) {
+    generate(length: number): string {
         let otp = "";
 
         for (let i = 0; i < length; i++) {
             otp +=
                 this.pattern[Math.floor(Math.random() * this.pattern.length)];
         }
+
+        return otp;
     }
 }
 
 class OTPValidator implements IOTPValidator {
-    isExpired(createdAt: number, maxDuration: number) {
+    isExpired(createdAt: number, maxDuration: number): boolean {
         return Date.now() > createdAt + maxDuration * 1000;
     }
 
-    validate(otp: string, providedOtp: string) {
+    validate(otp: string, providedOtp: string): boolean {
         return otp === providedOtp;
     }
 }
@@ -39,7 +41,7 @@ class OTP {
     private limit: number;
 
     constructor(
-        maxDuration: number = 5 * 60, //5 minutes by default
+        maxDuration: number = 5 * 60, // 5 minutes par défaut
         generator: IOTPGenerator = new OTPGenerator(),
         validator: IOTPValidator = new OTPValidator(),
         limit: number = 6,
@@ -50,23 +52,29 @@ class OTP {
         this.limit = limit;
     }
 
-    get getOTPCode() {
+    get getOTPCode(): string | undefined {
         return this.otp;
     }
 
-    generateOTPCode() {
-        this.generator.generate(this.limit);
+    generateOTPCode(): string {
+        this.otp = this.generator.generate(this.limit);
         this.createdAt = Date.now();
+
+        return this.otp;
     }
 
     checkOTP(providedOTP: string): boolean {
         if (
-            this.validator.isExpired(this.createdAt!, this.maxDuration) ||
+            !this.createdAt ||
             !this.otp ||
-            providedOTP.length === 0
-        )
+            providedOTP.length === 0 ||
+            this.validator.isExpired(this.createdAt, this.maxDuration)
+        ) {
             return false;
+        }
 
-        return this.validator.validate(this.otp!, providedOTP);
+        return this.validator.validate(this.otp, providedOTP);
     }
 }
+
+export default OTP;

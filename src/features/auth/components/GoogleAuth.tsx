@@ -8,7 +8,6 @@ type GoogleAuthProps = {
 };
 
 const GoogleAuth: FC<GoogleAuthProps> = ({ callbackUrl }): JSX.Element => {
-    console.log(callbackUrl);
     return (
         <Button
             variant="outline"

@@ -47,6 +47,7 @@
         "crypto-js": "^4.2.0",
         "face-api.js": "^0.22.2",
         "gsap": "^3.13.0",
+        "input-otp": "^1.4.2",
         "jsonwebtoken": "^9.0.2",
         "langchain": "^0.3.28",
         "lucide-react": "^0.511.0",

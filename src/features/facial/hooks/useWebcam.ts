@@ -51,7 +51,6 @@ const useWebcam = () => {
                     videoRef.current
                         .play()
                         .then(() => {
-                            console.log("Video started playing");
                             isInitializedRef.current = true;
 
                             setTimeout(() => {

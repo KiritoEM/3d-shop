@@ -1,6 +1,7 @@
 "use client";
 
-import { FC, useEffect, useState, useTransition } from "react";
+import { FC, useEffect, useRef, useState, useTransition } from "react";
+import dynamic from "next/dynamic";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,16 +19,22 @@ import {
     ISettingsSchema,
     settingsSchema,
 } from "@/lib/zod-schemas/settingsSchemas";
+import OTP from "@/lib/otp";
+import { useDialog } from "@/hooks/useDialog";
 
-type ChangePersonalInfoProps = {
+const OtpValidationDialog = dynamic(
+    () => import("@/components/email-validation-dialog/OtpValidationDialog"),
+    {
+        ssr: false,
+    },
+);
+
+type UserInfoFormProps = {
     name: string;
     email: string;
 };
 
-const ChangePersonalInfo: FC<ChangePersonalInfoProps> = ({
-    name,
-    email,
-}): JSX.Element => {
+const UserInfoForm: FC<UserInfoFormProps> = ({ name, email }): JSX.Element => {
     const form = useForm<ISettingsSchema>({
         resolver: zodResolver(settingsSchema),
         defaultValues: {
@@ -37,25 +44,28 @@ const ChangePersonalInfo: FC<ChangePersonalInfoProps> = ({
         },
     });
 
-    const [isPending, startTransition] = useTransition();
+    const { setDialogState, setEmail } = useDialog();
     const [isDisabled, setDisabled] = useState<boolean>(true);
+    const otpRef = useRef<OTP>(new OTP());
+    const [isPending, startTransition] = useTransition();
 
     const watchedValues = form.watch();
 
     useEffect(() => {
         const hasChanges =
-            watchedValues.email.trim() !== email.trim() || watchedValues.name.trim() !== name.trim();
+            watchedValues.email.trim() !== email.trim() ||
+            watchedValues.name.trim() !== name.trim();
         setDisabled(!hasChanges);
     }, [watchedValues, email, name]);
 
-    const handleSendEmail = async (otp: string) => {
+    const handleSendEmail = async (otp: string, email: string) => {
         try {
             const { status, message } = await sendEmail<"sendOTP">(
-                "johankirito64@gmail.com",
+                email,
                 "Email verification",
-                "sendOTP",  
+                "sendOTP",
                 {
-                    otp,
+                    validationCode: otp,
                 },
             );
 
@@ -69,6 +79,8 @@ const ChangePersonalInfo: FC<ChangePersonalInfoProps> = ({
                     theme: "colored",
                     type: "success",
                 });
+                setDialogState(true);
+                setEmail(email);
             }
         } catch (error) {
             toast("Une erreur est survenue lors de l'envoi de l'email", {
@@ -79,7 +91,14 @@ const ChangePersonalInfo: FC<ChangePersonalInfoProps> = ({
     };
 
     const onSubmit = (data: ISettingsSchema) => {
-        startTransition(async () => {});
+        startTransition(async () => {
+            if (data.email !== email) {
+                await handleSendEmail(
+                    otpRef.current.generateOTPCode(),
+                    data.email,
+                );
+            }
+        });
     };
 
     return (
@@ -136,8 +155,11 @@ const ChangePersonalInfo: FC<ChangePersonalInfoProps> = ({
                     </form>
                 </Form>
             </div>
+
+            {/* Dialog */}
+            <OtpValidationDialog otpRef={otpRef} />
         </div>
     );
 };
 
-export default ChangePersonalInfo;
+export default UserInfoForm;
