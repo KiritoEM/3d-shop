@@ -14,14 +14,10 @@ const AccountPreview: FC<AccountPreviewProps> = ({
     name,
     image,
 }): JSX.Element => {
+    console.log(image);
     return (
         <div className="account-preview flex w-fit items-center gap-6 rounded-lg border p-6">
-            <Avatar
-                name={name}
-                email={email}
-                image={image}
-                className="!size-17"
-            />
+            <Avatar name={name} image={image} className="!size-17" />
 
             <div className="account-preview__details">
                 <h5 className="text-2xl font-medium">{name}</h5>

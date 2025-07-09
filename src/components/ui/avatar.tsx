@@ -5,31 +5,24 @@ import ReactAvatar from "react-avatar";
 import { cn } from "@/lib/utils";
 
 type AvatarProps = {
-    name?: string;
-    email?: string;
-    onClick?: () => void;
     className?: string;
     image?: string;
+    name?: string;
+    onClick?: () => void;
 };
 
-const Avatar: FC<AvatarProps> = ({
-    name,
-    email,
-    onClick,
-    image,
-    className,
-}) => {
+const Avatar: FC<AvatarProps> = ({ name, onClick, image, className }) => {
     return (
         <ReactAvatar
             round
             textMarginRatio={0.18}
             name={name}
-            email={email}
             maxInitials={2}
             title={name}
-            className={cn(className, "cursor-pointer")}
+            className={cn(className, "cursor-pointer !object-cover")}
             onClick={onClick}
-            src={typeof image === "string" ? image : undefined}
+            src={image}
+            alt={name ? `Avatar de ${name}` : "Avatar utilisateur"}
         />
     );
 };

@@ -41,6 +41,7 @@ export const authOptions: NextAuthOptions = {
                     id: user.id,
                     email: credentials.email,
                     name: user.name,
+                    image: user.image ?? "",
                 };
             },
         }),
@@ -73,7 +74,15 @@ export const authOptions: NextAuthOptions = {
                 },
             };
         },
-        async jwt({ token, user }) {
+        async jwt({ token, user, trigger, session }) {
+            if (trigger === "update") {
+                //when updating session in clien-side
+                return {
+                    ...token,
+                    ...session.user,
+                };
+            }
+
             if (user) {
                 return {
                     ...token,
@@ -89,7 +98,7 @@ export const authOptions: NextAuthOptions = {
     },
     session: {
         strategy: "jwt",
-        maxAge: 30 * 24 * 60 * 60, //30 jours
+        maxAge: 30 * 24 * 60 * 60, //30 days
     },
     secret: process.env.NEXTAUTH_SECRET,
 };

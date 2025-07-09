@@ -103,6 +103,8 @@ const MainNav = (): JSX.Element => {
         return <AuthLoadingScreen text="Chargement..." />;
     }
 
+    console.log(data);
+
     const isAbsolute = MATCHED_PATH.includes(path);
 
     const handleSignOut = async () => {
@@ -116,6 +118,10 @@ const MainNav = (): JSX.Element => {
         switch (key) {
             case "logout":
                 handleSignOut();
+                break;
+
+            case "settings":
+                router.push("/settings");
                 break;
 
             default:
@@ -164,7 +170,7 @@ const MainNav = (): JSX.Element => {
                                     <DropdownMenu>
                                         <DropdownMenuTrigger className="hidden lg:block">
                                             <Avatar
-                                                email={data.user.email!}
+                                                image={data.user.image ?? ""}
                                                 name={data.user.name!}
                                                 className="!size-[2.1em]"
                                             />
@@ -178,7 +184,7 @@ const MainNav = (): JSX.Element => {
                                     <div className="avatar block lg:hidden">
                                         <Avatar
                                             className="!size-7 lg:!size-7"
-                                            email={data.user.email!}
+                                            image={data.user.image ?? ""}
                                             name={data.user.name!}
                                             onClick={() => setIsOpen(!isOpen)}
                                         />

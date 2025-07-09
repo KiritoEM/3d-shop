@@ -2,9 +2,9 @@ import { cookies } from "next/headers";
 import AccountPreview from "@/components/AccountPreview";
 import Error from "@/components/error";
 import Block from "@/features/user-settings/components/Block";
-import UserInfoForm from "@/features/user-settings/components/UserInfoForm";
+import ChangeUserInfo from "@/features/user-settings/components/ChangeUserInfo";
 import { fetchUserInfo } from "@/features/user-settings/services/userServices";
-import { validateSession } from "@/features/user-settings/utilities/sessionUtilities";
+import { validateSession } from "@/features/user-settings/utilities/serverSessionUtilities";
 import { authOptions } from "@/lib/auth";
 
 const UserSetting = async (): Promise<JSX.Element> => {
@@ -36,9 +36,11 @@ const UserSetting = async (): Promise<JSX.Element> => {
                         title="Informations personnelles"
                         description="Personnalisez votre compte utilisateur et assurez-vous que vos coordonnées sont correctes"
                     >
-                        <UserInfoForm
-                            name={userInfo.name}
+                        <ChangeUserInfo
+                            id={userInfo.id}
+                            image={userInfo.image}
                             email={userInfo.email}
+                            name={userInfo.name}
                         />
                     </Block>
                 </div>

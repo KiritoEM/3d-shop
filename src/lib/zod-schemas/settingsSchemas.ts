@@ -20,4 +20,7 @@ export const settingsSchema = z.discriminatedUnion("mode", [
 ]);
 
 export type ISettingsSchema = z.infer<typeof settingsSchema>;
-export type IUserSettingsSchema = z.infer<typeof userSettingsSchema>;
+export type IUserSettingsSchema = Omit<
+    z.infer<typeof userSettingsSchema>,
+    "mode"
+>;

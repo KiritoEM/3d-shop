@@ -66,3 +66,18 @@ export const cleanTextForSpeech = (str: string) => {
 };
 
 export const isDevelopment = process.env.NODE_ENV === "development";
+
+export function pickObjectField<T, K extends keyof T>(
+    object: T,
+    keys: K[],
+): Pick<T, K> {
+    const result = {} as Pick<T, K>;
+
+    keys.forEach((k) => {
+        if (object[k]) {
+            result[k] = object[k];
+        }
+    });
+
+    return result;
+}

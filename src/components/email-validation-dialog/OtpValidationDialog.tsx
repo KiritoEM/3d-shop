@@ -2,7 +2,7 @@
 
 import { FC, RefObject, useCallback, useState } from "react";
 import { toast } from "react-toastify";
-import { useDialog } from "@/hooks/useDialog";
+import { useFormDialog } from "@/hooks/useFormDialog";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import OTP from "@/lib/otp";
 import { Button } from "../ui/button";
@@ -22,7 +22,7 @@ type OtpValidationDialogProps = {
 const OtpValidationDialog: FC<OtpValidationDialogProps> = ({
     otpRef,
 }): JSX.Element => {
-    const { open, email, setDialogState } = useDialog();
+    const { open, email, setDialogState, setStatus } = useFormDialog();
     const [inputValue, setInputValue] = useState<string>("");
 
     const validateOTPCode = useCallback(() => {
@@ -31,11 +31,13 @@ const OtpValidationDialog: FC<OtpValidationDialogProps> = ({
                 type: "success",
                 theme: "colored",
             });
+            setStatus("success");
         } else {
             toast("Code OTP non valide veuillez réessayer", {
                 type: "error",
                 theme: "colored",
             });
+            setStatus("failed");
         }
 
         setDialogState(false);

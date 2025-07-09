@@ -95,6 +95,14 @@ export const CORRESPONDING_VISEME = {
     Z: "viseme_SS", // "Z" (Hissing)
 };
 
+export const IMAGE_TYPES: string[] = [
+    "image/jpeg",
+    "image/png",
+    "image/gif",
+    "image/webp",
+    "image/svg+xml",
+];
+
 export enum ERROR_CODE {
     BAD_REQUEST = 400,
     UNAUTHORIZED = 401,
