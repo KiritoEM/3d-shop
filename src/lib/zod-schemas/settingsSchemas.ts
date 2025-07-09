@@ -15,11 +15,29 @@ const userSettingsSchema = baseSettingsSchema.extend({
         .email("Format d'email invalide"),
 });
 
+export const securitySchema = z.object({
+    password: z
+        .string()
+        .min(8, "Le mot de passe doit contenir au moins 8 caractères")
+        .regex(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+            "Le mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre",
+        ),
+    newPassword: z
+        .string()
+        .min(8, "Le nouveau mot de passe doit contenir au moins 8 caractères")
+        .regex(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+            "Le mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre",
+        ),
+});
+
 export const settingsSchema = z.discriminatedUnion("mode", [
     userSettingsSchema,
 ]);
 
 export type ISettingsSchema = z.infer<typeof settingsSchema>;
+export type ISecuritySchema = z.infer<typeof securitySchema>;
 export type IUserSettingsSchema = Omit<
     z.infer<typeof userSettingsSchema>,
     "mode"

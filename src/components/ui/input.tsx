@@ -23,15 +23,17 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
 type PasswordInputTypes = {
     placeholder: string;
     field: any;
+    className?: string;
 };
 
 const PasswordInput: React.FC<PasswordInputTypes> = ({
     placeholder,
     field,
+    className,
 }) => {
     const [showPassword, setShowPassword] = React.useState<boolean>(false);
     return (
-        <div className="password-input relative">
+        <div className={cn("password-input relative", className)}>
             <Input
                 className="pr-8"
                 placeholder={placeholder}

@@ -6,6 +6,7 @@ import ChangeUserInfo from "@/features/user-settings/components/ChangeUserInfo";
 import { fetchUserInfo } from "@/features/user-settings/services/userServices";
 import { validateSession } from "@/features/user-settings/utilities/serverSessionUtilities";
 import { authOptions } from "@/lib/auth";
+import SecurityForm from "@/features/user-settings/components/SecurityForm";
 
 const UserSetting = async (): Promise<JSX.Element> => {
     const token = (await cookies()).get("session_id");
@@ -42,6 +43,13 @@ const UserSetting = async (): Promise<JSX.Element> => {
                             email={userInfo.email}
                             name={userInfo.name}
                         />
+                    </Block>
+
+                    <Block
+                        title="Mot de passe et sécurité"
+                        description="Changez votre mot de passe ou ajouter des authentifications à deux facteurs"
+                    >
+                        <SecurityForm id={userInfo?.id} />
                     </Block>
                 </div>
             </div>

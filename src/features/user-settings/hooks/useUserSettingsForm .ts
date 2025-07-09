@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { updateSession } from "../utilities/clientSessionUtilities";
 import { pickObjectField } from "@/lib/utils";
 import { User } from "@prisma/client";
+import { useSession } from "next-auth/react";
 
 const useUserSettingsForm = (
     watchedValues: IUserSettingsSchema,
@@ -14,6 +15,7 @@ const useUserSettingsForm = (
     uploadedAvatar: File | null,
     dialogStatus: "success" | "failed",
     submitAction: Function,
+    update: Function,
 ) => {
     const [isDisabled, setDisabled] = useState<boolean>(true);
     const otpRef = useRef<OTP>(new OTP());
@@ -46,11 +48,12 @@ const useUserSettingsForm = (
                     type: "error",
                 });
             } else {
-                updateSession(
+                await updateSession(
                     pickObjectField<User, keyof User>(
                         updatedUserResponse.data as User,
                         ["name", "email", "image"],
                     ),
+                    update,
                 );
 
                 toast(updatedUserResponse.message, {
@@ -63,7 +66,7 @@ const useUserSettingsForm = (
         if (dialogStatus === "success") {
             handleUpdateUser();
         }
-    }, [dialogStatus, submitAction]);
+    }, [dialogStatus, submitAction, initialData.id]);
 
     return {
         dataSubmittedRef,

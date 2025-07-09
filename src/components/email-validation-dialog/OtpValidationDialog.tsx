@@ -22,7 +22,7 @@ type OtpValidationDialogProps = {
 const OtpValidationDialog: FC<OtpValidationDialogProps> = ({
     otpRef,
 }): JSX.Element => {
-    const { open, email, setDialogState, setStatus } = useFormDialog();
+    const { open, email, setDialogState, status, setStatus } = useFormDialog();
     const [inputValue, setInputValue] = useState<string>("");
 
     const validateOTPCode = useCallback(() => {

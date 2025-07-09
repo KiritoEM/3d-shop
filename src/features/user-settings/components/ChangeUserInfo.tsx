@@ -63,7 +63,7 @@ const ChangeUserInfo: FC<ChangeUserInfoProps> = ({
 
     const { update } = useSession();
     const { setDialogState, setEmail, status } = useFormDialog();
-    const { handleUploadFile, uploadedFile, resetField } = useUploadFile(
+    const { handleUploadFile, uploadedFile } = useUploadFile(
         "IMAGE",
         IMAGE_TYPES,
     );
@@ -74,6 +74,7 @@ const ChangeUserInfo: FC<ChangeUserInfoProps> = ({
             uploadedFile,
             status,
             updateUser,
+            update,
         );
 
     //handle email for otp validation
@@ -141,6 +142,7 @@ const ChangeUserInfo: FC<ChangeUserInfoProps> = ({
                             updatedUserResponse.data as User,
                             ["name", "email", "image"],
                         ),
+                        update,
                     );
 
                     toast(updatedUserResponse.message, {

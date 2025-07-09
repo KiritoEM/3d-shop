@@ -42,9 +42,7 @@ const AdminLoginForm = (): JSX.Element => {
                         type: "error",
                         theme: "colored",
                     });
-                }
-
-                if (response.status === "success") {
+                } else {
                     form.reset();
                     toast(response.message, {
                         type: "success",

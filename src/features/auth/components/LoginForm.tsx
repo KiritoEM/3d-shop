@@ -76,9 +76,7 @@ const LoginForm: FC<LoginFormProps> = ({ callbackUrl, error }): JSX.Element => {
                     } else {
                         callbackUrl && redirect(callbackUrl);
                     }
-                }
-
-                if (response?.error) {
+                } else if (response?.error) {
                     toast("Email ou mot de passe incorrect", {
                         type: "error",
                         theme: "colored",

@@ -1,8 +1,6 @@
 "use client";
 
 import { isDevelopment } from "@/lib/utils";
-import { DefaultSession } from "next-auth";
-import { useSession } from "next-auth/react";
 
 interface IprovidedSession {
     name?: string | null;
@@ -10,10 +8,11 @@ interface IprovidedSession {
     image?: string | null;
 }
 
-export const updateSession = async (providedSession: IprovidedSession) => {
+export const updateSession = async (
+    providedSession: IprovidedSession,
+    update: Function,
+) => {
     try {
-        const { update } = useSession();
-
         const sessionUpdated = await update({
             user: {
                 image: providedSession?.image,
@@ -24,9 +23,7 @@ export const updateSession = async (providedSession: IprovidedSession) => {
 
         if (!sessionUpdated) return;
 
-        setTimeout(() => {
-            window.location.reload();
-        }, 100);
+        window.location.reload();
     } catch (err) {
         isDevelopment && console.error(err);
     }
