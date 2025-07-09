@@ -65,7 +65,7 @@ const SecurityForm: FC<SecurityFormProps> = ({ id }): JSX.Element => {
                             <FormControl>
                                 <PasswordInput
                                     field={field}
-                                    className="w-full max-w-[440px]"
+                                    className="w-full max-w-[360px] lg:max-w-[400px] xl:max-w-[440px]"
                                     placeholder="Votre ancien mot de passe"
                                 />
                             </FormControl>
@@ -80,7 +80,7 @@ const SecurityForm: FC<SecurityFormProps> = ({ id }): JSX.Element => {
                             <FormControl>
                                 <PasswordInput
                                     field={field}
-                                    className="w-full max-w-[440px]"
+                                    className="w-full max-w-[360px] lg:max-w-[400px] xl:max-w-[440px]"
                                     placeholder="Votre nouveau mot de passe"
                                 />
                             </FormControl>

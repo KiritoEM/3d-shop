@@ -23,10 +23,12 @@ const UserSetting = async (): Promise<JSX.Element> => {
         <section className="user-settings mb-12 mt-[126px] w-full overflow-hidden">
             <div className="container">
                 <header>
-                    <h3 className="font-michroma text-4xl">Paramètres</h3>
+                    <h3 className="font-michroma text-3xl lg:text-4xl">
+                        Paramètres
+                    </h3>
                 </header>
 
-                <div className="user-settings__content mt-12 space-y-14">
+                <div className="user-settings__content mt-12 space-y-12 lg:space-y-14">
                     <AccountPreview
                         email={userInfo.email}
                         name={userInfo.name}

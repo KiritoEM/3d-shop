@@ -19,8 +19,8 @@ const AvatarUploader: FC<AvatarUploaderProps> = ({
     uploadedAvatar,
 }): JSX.Element => {
     return (
-        <div className="avatar-uploader mt-4 flex h-fit w-[60%] justify-center">
-            <div className="mr-18 relative w-fit">
+        <div className="avatar-uploader mt-4 flex h-fit w-full sm:w-[50%] sm:justify-center lg:w-[65%] xl:w-[60%]">
+            <div className="2xl:mr-18 relative mr-4 w-fit">
                 <div className="edit-btn absolute bottom-3 left-3">
                     <Button size="sm" asChild>
                         <label htmlFor="upload-avatar-input">
@@ -40,12 +40,12 @@ const AvatarUploader: FC<AvatarUploaderProps> = ({
                     <Avatar
                         image={previewAvatar}
                         name={name}
-                        className="!size-80 object-cover"
+                        className="lg:!size-74 !size-60 object-cover md:!size-64 xl:!size-80"
                     />
                 ) : (
                     <img
                         src={uploadedAvatar}
-                        className="size-80 rounded-full object-cover"
+                        className="lg:size-74 size-60 rounded-full object-cover md:size-64 xl:size-80"
                     />
                 )}
             </div>
