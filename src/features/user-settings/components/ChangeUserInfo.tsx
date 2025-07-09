@@ -156,7 +156,7 @@ const ChangeUserInfo: FC<ChangeUserInfoProps> = ({
 
     return (
         <Fragment>
-            <div className="change-personal-info flex flex-col sm:flex-row items-center gap-10 lg:gap-6">
+            <div className="change-personal-info flex flex-col items-center gap-10 sm:flex-row lg:gap-6">
                 <div className="personal-info__form w-full sm:w-[50%] lg:w-[45%] xl:w-[40%]">
                     <Form {...form}>
                         <form

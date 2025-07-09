@@ -24,9 +24,7 @@ const ThemeToggle = (): JSX.Element | null => {
     const { setTheme, theme } = useTheme();
     const path = usePathname();
 
-    const isMatchedPath = MATCHED_PATH.find(
-        (path) => path === path.toLowerCase(),
-    );
+    const isMatchedPath = MATCHED_PATH.includes(path.toLowerCase());
 
     const handleToggleTheme = (theme: string) => {
         if ("startViewTransition" in document) {
