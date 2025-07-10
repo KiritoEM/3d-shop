@@ -1,3 +1,4 @@
+import { use } from "react";
 import { create } from "zustand";
 
 type StatusType = "success" | "failed";
@@ -16,7 +17,7 @@ type DialogActions = {
 
 type DialogStore = DialogState & DialogActions;
 
-export const useFormDialog = create<DialogStore>()((set, get) => ({
+const useFormDialog = create<DialogStore>()((set, get) => ({
     open: false,
     email: "",
     status: "failed",
@@ -26,3 +27,5 @@ export const useFormDialog = create<DialogStore>()((set, get) => ({
     setEmail: (value: string) => set({ email: value }),
     setStatus: (status: StatusType) => set({ status }),
 }));
+
+export default useFormDialog;

@@ -6,4 +6,5 @@ export type ISidebarMenuItem = {
     ActiveIcon?: FC<IconProps>;
     label: string;
     url?: string;
+    isClosed?: boolean;
 };
