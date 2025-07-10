@@ -4,7 +4,6 @@ import { SIDEBAR_DATA } from "@/constants/constants";
 import { ISidebarMenuItem } from "@/constants/types";
 import { Logo } from "@/icons";
 import { cn } from "@/lib/utils";
-import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 import React, { FC, ReactNode } from "react";
 
@@ -38,17 +37,25 @@ const MenuItem: FC<ISidebarMenuItem> = ({
     const path = usePathname();
     const isActive = url ? path.startsWith(url.toLowerCase()) : false;
     return (
-        <article className="menu-item hover:bg-primary/8 flex cursor-pointer items-center space-x-4 rounded-lg px-3 py-3">
+        <article
+            className={cn(
+                "menu-item flex cursor-pointer items-center space-x-4 rounded-lg px-3 py-3",
+                !isActive && "hover:bg-primary/10 group",
+            )}
+        >
+            {isActive && (
+                <div className="bg-primary absolute -left-[13.8px] h-[48px] w-5 rounded-lg" />
+            )}
             {isActive && ActiveIcon ? (
                 <ActiveIcon className="text-primary size-5" />
             ) : (
-                <Icon className="text-muted-foreground size-5" />
+                <Icon className="text-muted-foreground size-5 group-hover:text-white" />
             )}{" "}
             <span
                 className={cn(
                     isActive
                         ? "font-medium text-white"
-                        : "text-muted-foreground",
+                        : "text-muted-foreground group-hover:text-white",
                 )}
             >
                 {label}
@@ -59,8 +66,8 @@ const MenuItem: FC<ISidebarMenuItem> = ({
 
 const Sidebar = (): JSX.Element => {
     return (
-        <aside className="sidebar p fixed inset-y-0 left-0 z-10 hidden w-[320px] p-4 lg:flex">
-            <nav className="sidebar__container bg-gray flex w-full flex-col rounded-3xl px-4 py-6">
+        <aside className="sidebar fixed inset-y-0 left-0 z-10 hidden w-[320px] p-4 lg:flex">
+            <nav className="sidebar__container bg-gray relative flex w-full flex-col overflow-x-hidden rounded-3xl px-4 pt-8">
                 <Logo className="main-nav__logo ml-2 w-32 cursor-pointer text-[#0D0D0D] sm:w-40 lg:w-40 dark:text-white" />
 
                 <div className="menu-items mt-14 flex flex-col space-y-8">

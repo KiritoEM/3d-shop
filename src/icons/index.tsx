@@ -210,23 +210,23 @@ export const Logout: React.FC<IconProps> = ({ ...props }) => {
                 <path
                     d="M17.3311 18.4168C17.3181 20.7731 17.213 22.0492 16.381 22.8812C15.4287 23.8335 13.8969 23.8335 10.8332 23.8335H9.74989C6.68514 23.8335 5.1533 23.8335 4.20105 22.8812C3.24989 21.9301 3.24989 20.3972 3.24989 17.3335L3.24989 8.66683C3.24989 5.60316 3.24989 4.07025 4.20105 3.11908C5.15439 2.16683 6.68514 2.16683 9.74989 2.16683H10.8332C13.8969 2.16683 15.4287 2.16683 16.381 3.11908C17.213 3.95108 17.3181 5.22725 17.3311 7.5835"
                     stroke="currentColor"
-                    stroke-opacity="0.8"
-                    stroke-width="1.625"
-                    stroke-linecap="round"
+                    strokeOpacity="0.8"
+                    strokeWidth="1.625"
+                    strokeLinecap="round"
                 />
                 <path
                     d="M17.3333 4.875C19.8868 4.875 21.164 4.875 21.957 5.668C22.75 6.46208 22.75 7.73825 22.75 10.2917V15.7083C22.75 18.2618 22.75 19.539 21.957 20.332C21.164 21.125 19.8868 21.125 17.3333 21.125"
                     stroke="currentColor"
-                    stroke-opacity="0.8"
-                    stroke-width="1.625"
+                    strokeOpacity="0.8"
+                    strokeWidth="1.625"
                 />
                 <path
                     d="M9.75 13.0003L19.5 13.0003M19.5 13.0003L17.3333 10.8337M19.5 13.0003L17.3333 15.167"
                     stroke="currentColor"
-                    stroke-opacity="0.8"
-                    stroke-width="1.625"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeOpacity="0.8"
+                    strokeWidth="1.625"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                 />
             </g>
         </svg>
