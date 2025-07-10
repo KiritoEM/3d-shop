@@ -67,7 +67,7 @@ const MenuItem: FC<ISidebarMenuItem> = ({
 const Sidebar = (): JSX.Element => {
     return (
         <aside className="sidebar fixed inset-y-0 left-0 z-10 hidden w-[320px] p-4 lg:flex">
-            <nav className="sidebar__container bg-gray relative flex w-full flex-col overflow-x-hidden rounded-3xl px-4 pt-8">
+            <nav className="sidebar__container bg-gray relative flex w-full flex-col overflow-x-hidden rounded-2xl px-4 pt-8">
                 <Logo className="main-nav__logo ml-2 w-32 cursor-pointer text-[#0D0D0D] sm:w-40 lg:w-40 dark:text-white" />
 
                 <div className="menu-items mt-14 flex flex-col space-y-8">
