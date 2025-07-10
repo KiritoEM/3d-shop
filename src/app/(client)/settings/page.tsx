@@ -4,13 +4,13 @@ import Error from "@/components/error";
 import Block from "@/features/user-settings/components/Block";
 import ChangeUserInfo from "@/features/user-settings/components/ChangeUserInfo";
 import { fetchUserInfo } from "@/features/user-settings/services/userServices";
-import { validateSession } from "@/features/user-settings/utilities/serverSessionUtilities";
 import { authOptions } from "@/lib/auth";
 import SecurityForm from "@/features/user-settings/components/SecurityForm";
+import { validateSession } from "@/lib/session-utilities/serverSessionUtilities";
 
 const UserSetting = async (): Promise<JSX.Element> => {
-    const token = (await cookies()).get("session_id");
-    const userSession = await validateSession(authOptions);
+    const token = (await cookies()).get("next-auth.session-token");
+    const userSession = await validateSession(authOptions, "settings");
     const response = await fetchUserInfo(userSession, token?.value ?? "");
 
     if (!response.ok) {

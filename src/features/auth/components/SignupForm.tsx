@@ -18,6 +18,9 @@ import { signup } from "../actions/authActions";
 import { useRouter } from "next/navigation";
 import { FC, useTransition } from "react";
 import { toast } from "react-toastify";
+import useRecaptcha from "@/hooks/useRecaptcha";
+import ReCAPTCHA from "react-google-recaptcha";
+import { verifyRecaptcha } from "@/services/recaptchaServices";
 
 type SignupFormProps = {
     redirectUrl: string;
@@ -36,10 +39,29 @@ const SignupForm: FC<SignupFormProps> = ({ redirectUrl }): JSX.Element => {
         },
     });
     const [isPending, startTransition] = useTransition();
+    const {
+        recaptachaRef,
+        recaptchaValue,
+        getRecaptchaValue,
+        handleChangeCaptcha,
+    } = useRecaptcha();
 
     const onSubmit = (data: IAuthData) => {
         startTransition(async () => {
             if (data.mode === "signup") {
+                //Check recaptcha
+                const recaptchaResponse = (await verifyRecaptcha(
+                    getRecaptchaValue() as string,
+                )) as any;
+
+                if (recaptchaResponse.status === "error") {
+                    toast(recaptchaResponse.message, {
+                        type: "error",
+                        theme: "colored",
+                    });
+                    return;
+                }
+
                 const response = await signup(data);
 
                 if (response.status === "success") {
@@ -133,10 +155,19 @@ const SignupForm: FC<SignupFormProps> = ({ redirectUrl }): JSX.Element => {
                             )}
                         />
 
+                        <ReCAPTCHA
+                            ref={recaptachaRef}
+                            sitekey={
+                                process.env
+                                    .NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string
+                            }
+                            onChange={(token) => handleChangeCaptcha(token!)}
+                        />
+
                         <Button
                             className="mt-1 h-10 w-full"
                             type="submit"
-                            disabled={isPending}
+                            disabled={isPending || !recaptchaValue}
                         >
                             {isPending
                                 ? "Inscription en cours..."

@@ -11,12 +11,26 @@ export type SessionUserWithId = {
     image?: string;
 };
 
-export const validateSession = async (options: typeof authOptions) => {
+export const validateSession = async (
+    options: typeof authOptions,
+    callback: string,
+) => {
     const serverSession = await getServerSession(options);
 
     if (!serverSession || !serverSession.user) {
-        redirect("/login?callbackUrl=settings");
+        redirect(`/login?callbackUrl=${callback}`);
     }
 
     return serverSession.user as SessionUserWithId;
+};
+
+export const redirectIfAuthentificated = async (
+    options: typeof authOptions,
+    callback: string,
+) => {
+    const serverSession = await getServerSession(options);
+
+    if (serverSession && serverSession?.user) {
+        redirect(`/${callback}`);
+    }
 };

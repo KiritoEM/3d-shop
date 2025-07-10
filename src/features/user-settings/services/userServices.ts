@@ -1,6 +1,6 @@
 "use server";
 
-import { SessionUserWithId } from "../utilities/serverSessionUtilities";
+import { SessionUserWithId } from "../../../lib/utilities/serverSessionUtilities";
 
 export const fetchUserInfo = async (
     userSession: SessionUserWithId,

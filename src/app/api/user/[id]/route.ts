@@ -9,9 +9,13 @@ const handler = async (
     try {
         const { id } = await params;
 
+        console.log(id);
+
         const userInfo = await prisma.user.findUnique({
             where: { id },
         });
+
+        console.log(userInfo);
 
         if (!userInfo) {
             return NextResponse.json(

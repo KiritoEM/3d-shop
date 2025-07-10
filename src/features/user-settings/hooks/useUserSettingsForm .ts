@@ -4,10 +4,9 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import OTP from "@/lib/otp";
 import { IUserSettingsSchema } from "@/lib/zod-schemas/settingsSchemas";
 import { toast } from "react-toastify";
-import { updateSession } from "../utilities/clientSessionUtilities";
 import { pickObjectField } from "@/lib/utils";
 import { User } from "@prisma/client";
-import { useSession } from "next-auth/react";
+import { updateSession } from "@/lib/session-utilities/clientSessionUtilities";
 
 const useUserSettingsForm = (
     watchedValues: IUserSettingsSchema,

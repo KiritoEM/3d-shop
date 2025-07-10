@@ -26,9 +26,9 @@ import { IMAGE_TYPES } from "@/constants/constants";
 import { updateUser } from "../actions/userSettingsActions";
 import useUserSettingsForm from "../hooks/useUserSettingsForm ";
 import AvatarUploader from "./AvatarUploader";
-import { updateSession } from "../utilities/clientSessionUtilities";
 import { pickObjectField } from "@/lib/utils";
 import { User } from "@prisma/client";
+import { updateSession } from "@/lib/session-utilities/clientSessionUtilities";
 
 const OtpValidationDialog = dynamic(
     () => import("@/components/email-validation-dialog/OtpValidationDialog"),

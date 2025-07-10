@@ -1,4 +1,4 @@
-import type { Awaitable, NextAuthOptions, User } from "next-auth";
+import type { NextAuthOptions, User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";

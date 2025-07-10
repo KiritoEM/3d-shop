@@ -18,6 +18,9 @@ import FacialTrigger from "./FacialTrigger";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { loginAdmin } from "../actions/authActions";
+import useRecaptcha from "@/hooks/useRecaptcha";
+import { verifyRecaptcha } from "@/services/recaptchaServices";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const AdminLoginForm = (): JSX.Element => {
     const form = useForm<IAuthData>({
@@ -31,10 +34,28 @@ const AdminLoginForm = (): JSX.Element => {
     });
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
+    const {
+        recaptachaRef,
+        recaptchaValue,
+        getRecaptchaValue,
+        handleChangeCaptcha,
+    } = useRecaptcha();
 
     const onSubmit = (data: IAuthData) => {
         startTransition(async () => {
             if (data.mode === "admin_login") {
+                const recaptchaResponse = (await verifyRecaptcha(
+                    getRecaptchaValue() as string,
+                )) as any;
+
+                if (recaptchaResponse.status === "error") {
+                    toast(recaptchaResponse.message, {
+                        type: "error",
+                        theme: "colored",
+                    });
+                    return;
+                }
+
                 const response = await loginAdmin(data);
 
                 if (response.status === "error") {
@@ -99,10 +120,19 @@ const AdminLoginForm = (): JSX.Element => {
                             )}
                         />
 
+                        <ReCAPTCHA
+                            ref={recaptachaRef}
+                            sitekey={
+                                process.env
+                                    .NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string
+                            }
+                            onChange={(token) => handleChangeCaptcha(token!)}
+                        />
+
                         <Button
                             className="mt-1 h-10 w-full"
                             type="submit"
-                            disabled={isPending}
+                            disabled={isPending || !recaptchaValue}
                         >
                             {isPending
                                 ? "Connexion en cours..."

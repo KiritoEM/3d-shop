@@ -20,7 +20,9 @@ const Block: FC<BlockProps> = ({
                 )}
             </header>
 
-            <div className="page-block__content mt-6 sm:mt-8 text-sm">{children}</div>
+            <div className="page-block__content mt-6 text-sm sm:mt-8">
+                {children}
+            </div>
         </div>
     );
 };

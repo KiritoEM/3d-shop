@@ -20,6 +20,9 @@ import { redirect, useRouter } from "next/navigation";
 import { FC, useEffect, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
+import ReCAPTCHA from "react-google-recaptcha";
+import useRecaptcha from "@/hooks/useRecaptcha";
+import { verifyRecaptcha } from "@/services/recaptchaServices";
 
 type LoginFormProps = {
     callbackUrl: string;
@@ -39,6 +42,12 @@ const LoginForm: FC<LoginFormProps> = ({ callbackUrl, error }): JSX.Element => {
     });
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
+    const {
+        recaptachaRef,
+        recaptchaValue,
+        getRecaptchaValue,
+        handleChangeCaptcha,
+    } = useRecaptcha();
 
     //for existing email handling
     useEffect(() => {
@@ -53,9 +62,23 @@ const LoginForm: FC<LoginFormProps> = ({ callbackUrl, error }): JSX.Element => {
         }
     }, [error]);
 
+    //form handling
     const onSubmit = (data: IAuthData) => {
         startTransition(async () => {
             if (data.mode === "login") {
+                //Check recaptcha
+                const recaptchaResponse = (await verifyRecaptcha(
+                    getRecaptchaValue() as string,
+                )) as any;
+
+                if (recaptchaResponse.status === "error") {
+                    toast(recaptchaResponse.message, {
+                        type: "error",
+                        theme: "colored",
+                    });
+                    return;
+                }
+
                 if (!callbackUrl) {
                     router.replace("/");
                 }
@@ -100,7 +123,7 @@ const LoginForm: FC<LoginFormProps> = ({ callbackUrl, error }): JSX.Element => {
                         <FormField
                             control={form.control}
                             name="email"
-                            render={({ field, fieldState }) => (
+                            render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
@@ -136,10 +159,19 @@ const LoginForm: FC<LoginFormProps> = ({ callbackUrl, error }): JSX.Element => {
                             Mot de passe oublié?
                         </p>
 
+                        <ReCAPTCHA
+                            ref={recaptachaRef}
+                            sitekey={
+                                process.env
+                                    .NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string
+                            }
+                            onChange={(token) => handleChangeCaptcha(token!)}
+                        />
+
                         <Button
                             className="mt-1 h-10 w-full"
                             type="submit"
-                            disabled={isPending}
+                            disabled={isPending || !recaptchaValue}
                         >
                             {isPending
                                 ? "Connexion en cours..."
