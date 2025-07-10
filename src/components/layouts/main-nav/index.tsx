@@ -70,6 +70,51 @@ const SoundLottie = () => {
     );
 };
 
+type MenuItemsProps = {
+    data: typeof NAV_DATA;
+    path: string;
+};
+
+const MenuItems: FC<MenuItemsProps> = ({ data, path }): JSX.Element => {
+    return (
+        <ul className="menu-items hidden space-x-8 lg:flex">
+            {data.map((item, index) => (
+                <li key={index}>
+                    <Link
+                        href={item.url ?? "/"}
+                        className={cn(
+                            "menu-items__label",
+                            path === item.url && "text-primary",
+                        )}
+                    >
+                        {item.label}
+                    </Link>
+                </li>
+            ))}
+        </ul>
+    );
+};
+
+type MenuIconProps = {
+    isOpen: boolean;
+    openNav: () => void;
+};
+
+const NavMenuIcon: FC<MenuIconProps> = ({ isOpen, openNav }): JSX.Element => {
+    return (
+        <div
+            className="menu-icon bg-primary block cursor-pointer rounded-xl p-2 px-4 md:p-3 md:px-5 lg:hidden"
+            onClick={openNav}
+        >
+            {!isOpen ? (
+                <MenuIcon className="size-5 sm:size-6 md:size-7" />
+            ) : (
+                <X className="size-5 sm:size-6 md:size-7" />
+            )}
+        </div>
+    );
+};
+
 type DropdownMenuActionsProps = {
     actions: (key: string) => void;
 };
@@ -92,9 +137,9 @@ const DropdownMenuAuthentificatedActions: FC<DropdownMenuActionsProps> = ({
     );
 };
 
+// Main nav component
 const MainNav = (): JSX.Element => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const { theme } = useTheme();
     const path = usePathname();
     const router = useRouter();
     const { data, status } = useSession();
@@ -102,8 +147,6 @@ const MainNav = (): JSX.Element => {
     if (status === "loading") {
         return <AuthLoadingScreen text="Chargement..." />;
     }
-
-    console.log(data);
 
     const isAbsolute = MATCHED_PATH.includes(path);
 
@@ -139,29 +182,14 @@ const MainNav = (): JSX.Element => {
             >
                 <div className="main-nav__container sm2:py-2 container flex items-center justify-between py-5 lg:py-3">
                     <Logo
-                        color={theme === "light" ? "#0D0D0D" : "#ffffff"}
-                        className="main-nav__logo lg:w-38 w-32 cursor-pointer sm:w-40"
+                        className="main-nav__logo lg:w-38 w-32 cursor-pointer text-[#0D0D0D] sm:w-40 dark:text-white"
                         onClick={() => router.push("/")}
                     />
 
                     <div className="actions flex items-center space-x-3 md:space-x-8 lg:space-x-10">
-                        <ul className="menu-items hidden space-x-8 lg:flex">
-                            {NAV_DATA.map((item, index) => (
-                                <li key={index}>
-                                    <Link
-                                        href={item.url ?? "/"}
-                                        className={cn(
-                                            "menu-items__label",
-                                            path === item.url && "text-primary",
-                                        )}
-                                    >
-                                        {item.label}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-
                         <div className="actions__container ml-3 flex items-center space-x-3 md:space-x-4 lg:space-x-6 xl:ml-5">
+                            <MenuItems data={NAV_DATA} path={path} />
+
                             <SoundLottie />
 
                             {status === "authenticated" && data.user ? (
@@ -191,16 +219,10 @@ const MainNav = (): JSX.Element => {
                                     </div>
                                 </Fragment>
                             ) : (
-                                <div
-                                    className="menu-icon bg-primary block cursor-pointer rounded-xl p-2 px-4 md:p-3 md:px-5 lg:hidden"
-                                    onClick={() => setIsOpen(!isOpen)}
-                                >
-                                    {!isOpen ? (
-                                        <MenuIcon className="size-5 sm:size-6 md:size-7" />
-                                    ) : (
-                                        <X className="size-5 sm:size-6 md:size-7" />
-                                    )}
-                                </div>
+                                <NavMenuIcon
+                                    isOpen={isOpen}
+                                    openNav={() => setIsOpen(!isOpen)}
+                                />
                             )}
                         </div>
                     </div>

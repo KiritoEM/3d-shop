@@ -37,7 +37,7 @@ export const middleware = async (request: NextRequest) => {
 
         if (!isTokenExpired && pathname === "/admin/login") {
             return NextResponse.redirect(
-                new URL("/admin/statistics", request.url),
+                new URL("/admin/dashboard", request.url),
             );
         }
     }

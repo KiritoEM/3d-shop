@@ -1,6 +1,15 @@
+import {
+    Admin,
+    Dashboard,
+    DashboardActive,
+    Logout,
+    Product,
+    Transactions,
+    Users,
+} from "@/icons";
 import { LogOut, Moon, Settings, Sun } from "lucide-react";
-import { signOut } from "next-auth/react";
 import { useMediaQuery } from "react-responsive";
+import { ISidebarMenuItem } from "./types";
 
 export const NAV_DATA = [
     {
@@ -16,6 +25,44 @@ export const NAV_DATA = [
         url: "/recommandations",
     },
 ];
+
+export const SIDEBAR_DATA: Record<string, ISidebarMenuItem[]> = {
+    menu: [
+        {
+            Icon: Dashboard,
+            ActiveIcon: DashboardActive,
+            label: "Dashboard",
+            url: "/admin/dashboard",
+        },
+        {
+            Icon: Transactions,
+            ActiveIcon: DashboardActive,
+            label: "Paiements",
+            url: "/admin/payment",
+        },
+        {
+            Icon: Product,
+            ActiveIcon: DashboardActive,
+            label: "Produits",
+        },
+        {
+            Icon: Users,
+            ActiveIcon: DashboardActive,
+            label: "Utilisateurs",
+        },
+        {
+            Icon: Admin,
+            ActiveIcon: DashboardActive,
+            label: "Administrateurs",
+        },
+    ],
+    general: [
+        {
+            Icon: Logout,
+            label: "Se déconnecter",
+        },
+    ],
+};
 
 export const NAV_DATA_AUTHENTICATED = [
     {

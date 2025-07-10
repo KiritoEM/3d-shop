@@ -54,10 +54,7 @@ const ThemeToggle = (): JSX.Element | null => {
                         isMatchedPath ? "hidden lg:flex" : "flex",
                     )}
                 >
-                    <Palette
-                        className="w-[24px] md:w-[28px] lg:w-[26px]"
-                        color={theme === "light" ? "#ffffff" : "#E45826"}
-                    />
+                    <Palette className="w-[24px] text-white md:w-[28px] lg:w-[26px] dark:text-[#E45826]" />
                 </div>
             </DropdownMenuTrigger>
 
