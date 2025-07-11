@@ -9,7 +9,7 @@ import { IResponseType } from "../../../types";
 import { hashData } from "@/lib/hash";
 import { isDevelopment } from "@/lib/utils";
 import { AdminInfo, User } from "@prisma/client";
-import { createSession } from "@/lib/session";
+import { createSession } from "@/lib/dbSession";
 
 export const signup = async (
     data: ISignupSchema,
@@ -79,7 +79,7 @@ export const loginAdmin = async (
         }
 
         //create session if login successfull
-        await createSession();
+        await createSession({ method: "FORM" }, checkedAdminInfo.id);
 
         return {
             status: "success",

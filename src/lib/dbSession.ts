@@ -16,6 +16,7 @@ type IcreateSessionArg = {
 
 export const createSession = async (
     arg: IcreateSessionArg = { method: "FORM" },
+    id: string,
 ) => {
     const generatedToken = generateToken();
     const userAgent = (await headers()).get("user-agent"); //get user-agent
@@ -29,6 +30,11 @@ export const createSession = async (
             userAgent,
             method: arg.method,
             expires,
+            admin: {
+                connect: {
+                    id,
+                },
+            },
         },
     });
 

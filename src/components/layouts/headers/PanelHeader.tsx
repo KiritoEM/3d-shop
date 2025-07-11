@@ -1,7 +1,7 @@
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import useSidebar from "@/hooks/useSidebar";
-import { BellIcon, ChevronDown, Sidebar } from "lucide-react";
+import { BellIcon, Sidebar } from "lucide-react";
 
 const AdminAccount = (): JSX.Element => {
     return (

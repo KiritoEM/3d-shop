@@ -4,6 +4,7 @@ import { useCallback, useRef } from "react";
 import * as faceapi from "face-api.js";
 import { compareFace, handleLabelFace } from "@/lib/faceapi";
 import { AdminFacialRecognition } from "@prisma/client";
+import { useAuthentificationStatus } from "./useAuthentificationStatus";
 
 const useFaceDetection = (
     facialData: AdminFacialRecognition[],
@@ -15,6 +16,7 @@ const useFaceDetection = (
     onUnknow: () => void,
 ) => {
     const detectionIntervalRef = useRef<NodeJS.Timeout | null>(null);
+    const { setFacialId } = useAuthentificationStatus();
 
     const detectFace = useCallback(() => {
         if (detectionIntervalRef.current) {
@@ -98,6 +100,7 @@ const useFaceDetection = (
 
                                 setTimeout(async () => {
                                     if (results.label !== "unknown") {
+                                        setFacialId(results.label);
                                         onRecognized();
                                     } else {
                                         onUnknow();
