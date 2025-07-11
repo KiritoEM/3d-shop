@@ -1,6 +1,6 @@
 import { ITransaction } from "@/models/transactionModel";
 
-export const transactionsMockData : ITransaction[] = [
+export const transactionsMockData: ITransaction[] = [
     {
         id: 1,
         createdAt: "2024-06-15T10:30:00Z",
