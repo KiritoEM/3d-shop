@@ -1,22 +1,27 @@
 import { getSession } from "@/lib/dbSession";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
+export async function GET(
+    req: NextRequest,
+    { params }: { params: Promise<{ token: string }> },
+) {
     try {
-        const data = (await req.json()) as { token: string };
+        const token = (await params).token;
 
-        if (!data.token) {
+        console.log(token);
+
+        if (!token) {
             return NextResponse.json(
                 {
                     message: "No token provided",
                 },
                 {
-                    status: 400,
+                    status: 404,
                 },
             );
         }
 
-        const session = await getSession(data.token);
+        const session = await getSession(token);
 
         if (!session) {
             return NextResponse.json(
@@ -24,13 +29,12 @@ export async function POST(req: NextRequest) {
                     message: "No session found",
                 },
                 {
-                    status: 400,
+                    status: 404,
                 },
             );
         }
 
-        return NextResponse.json({
-            expires: session.expires,
+        return NextResponse.json(session, {
             status: 200,
         });
     } catch (err) {

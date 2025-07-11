@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { addPayment } from "@/features/payement/actions/paymentActions";
 import Lottie from "@/components/lotties/SuccessLottie";
 import { getStripSession } from "@/features/payement/services/paymentServices";
-import { authOptions } from "@/lib/auth";
+import { authOptions } from "@/lib/nextauth";
 import { Home } from "lucide-react";
 import { getServerSession } from "next-auth";
 import Link from "next/link";

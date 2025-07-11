@@ -56,6 +56,13 @@ export const getSession = async (token: string): Promise<Session> => {
         where: {
             token,
         },
+        include: {
+            admin: {
+                include: {
+                    adminFacial: true,
+                },
+            },
+        },
     });
 
     if (!session) {
@@ -63,4 +70,9 @@ export const getSession = async (token: string): Promise<Session> => {
     }
 
     return session;
+};
+
+export const getToken = async () => {
+    const token = (await cookies()).get("session_id");
+    return token?.value ?? null;
 };

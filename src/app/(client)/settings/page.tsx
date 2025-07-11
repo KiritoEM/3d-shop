@@ -4,7 +4,7 @@ import Error from "@/components/error";
 import Block from "@/features/user-settings/components/Block";
 import ChangeUserInfo from "@/features/user-settings/components/ChangeUserInfo";
 import { fetchUserInfo } from "@/features/user-settings/services/userServices";
-import { authOptions } from "@/lib/auth";
+import { authOptions } from "@/lib/nextauth";
 import SecurityForm from "@/features/user-settings/components/SecurityForm";
 import { validateSession } from "@/lib/session-utilities/serverSessionUtilities";
 

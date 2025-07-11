@@ -1,13 +1,24 @@
+import AuthLoadingScreen from "@/components/AuthLoadingScreen";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import useDBSession, { ISession } from "@/hooks/useDBSession";
 import useSidebar from "@/hooks/useSidebar";
 import { BellIcon, Sidebar } from "lucide-react";
+import { FC } from "react";
 
-const AdminAccount = (): JSX.Element => {
+type AdminAccountProps = Omit<ISession, "id" | "role"> & {
+    role: string;
+};
+
+const AdminAccount: FC<AdminAccountProps> = ({
+    role,
+    username,
+    image,
+}): JSX.Element => {
     return (
         <div className="admin-account flex items-center space-x-4">
             <div className="admin-account__avatar relative cursor-pointer">
-                <Avatar name="Admin_056" className="!size-12" />
+                <Avatar name={username} image={image} className="!size-12" />
 
                 {/* <div className="chevron bg-foreground absolute -bottom-[1.8px] -right-[3px] rounded-full">
                     <ChevronDown className=" text-background m-auto size-[18px]" />
@@ -15,10 +26,10 @@ const AdminAccount = (): JSX.Element => {
             </div>
 
             <div className="admin-account__info">
-                <h6 className="font-michroma text-base">admin_bazzar_056</h6>
-                <p className="text-muted-foreground mt-[2px] text-sm">
-                    Superadmin
-                </p>
+                <h6 className="font-michroma line-clamp-1 max-w-[190px] text-ellipsis text-base">
+                    {username}
+                </h6>
+                <p className="text-muted-foreground mt-[2px] text-sm">{role}</p>
             </div>
         </div>
     );
@@ -26,6 +37,12 @@ const AdminAccount = (): JSX.Element => {
 
 const PanelHeader = (): JSX.Element => {
     const { setSidebarState, closed } = useSidebar();
+    const { isLoading, session } = useDBSession();
+
+    if (isLoading) {
+        return <AuthLoadingScreen text="Chargement en cours..." />;
+    }
+
     return (
         <header className="panel-header flex justify-between">
             <Button
@@ -48,7 +65,11 @@ const PanelHeader = (): JSX.Element => {
 
                 <hr className="separator bg-muted h-[calc(100%+4px)] w-[1.4px]" />
 
-                <AdminAccount />
+                <AdminAccount
+                    username={session?.username ?? ""}
+                    role={session?.role ?? ""}
+                    image={session?.image}
+                />
             </div>
         </header>
     );

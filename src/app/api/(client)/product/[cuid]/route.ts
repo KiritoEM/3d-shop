@@ -17,6 +17,17 @@ export async function GET(
             },
         });
 
+        if (!productDetail) {
+            return NextResponse.json(
+                {
+                    message: "No product with this cuid" + cuid,
+                },
+                {
+                    status: 404,
+                },
+            );
+        }
+
         return NextResponse.json(productDetail, { status: 200 });
     } catch (err) {
         console.error(err);

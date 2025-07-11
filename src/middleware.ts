@@ -14,14 +14,7 @@ export const middleware = async (request: NextRequest) => {
         }
 
         const response = await fetch(
-            `${request.nextUrl.origin}/api/admin/session`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ token: sessionToken }),
-            },
+            `${request.nextUrl.origin}/api/admin/session/${sessionToken}`,
         );
 
         const data = await response.json();
