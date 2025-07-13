@@ -150,6 +150,21 @@ export const IMAGE_TYPES: string[] = [
     "image/svg+xml",
 ];
 
+export const MONTH_STRING = [
+    "Janvier",
+    "Février",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Août",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Décembre",
+];
+
 export enum ERROR_CODE {
     BAD_REQUEST = 400,
     UNAUTHORIZED = 401,

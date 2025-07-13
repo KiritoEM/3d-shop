@@ -1,3 +1,4 @@
+import { IUserStats } from "./../models/userModel";
 import { IUser } from "@/models/userModel";
 
 export const UsersMockData: IUser[] = [
@@ -102,3 +103,50 @@ export const UsersMockData: IUser[] = [
         updatedAt: "2024-12-18T12:45:00Z",
     },
 ];
+
+type IUserStatsMockData = Record<string, Array<IUserStats>>;
+
+export const userStatsMockData: IUserStatsMockData = {
+    "2023": [
+        { month: "1", users: 12 },
+        { month: "2", users: 15 },
+        { month: "3", users: 18 },
+        { month: "4", users: 22 },
+        { month: "5", users: 25 },
+        { month: "6", users: 28 },
+        { month: "7", users: 31 },
+        { month: "8", users: 24 },
+        { month: "9", users: 29 },
+        { month: "10", users: 33 },
+        { month: "11", users: 27 },
+        { month: "12", users: 35 },
+    ],
+    "2024": [
+        { month: "1", users: 38 },
+        { month: "2", users: 32 },
+        { month: "3", users: 29 },
+        { month: "4", users: 26 },
+        { month: "5", users: 34 },
+        { month: "6", users: 37 },
+        { month: "7", users: 31 },
+        { month: "8", users: 28 },
+        { month: "9", users: 33 },
+        { month: "10", users: 39 },
+        { month: "11", users: 25 },
+        { month: "12", users: 30 },
+    ],
+    "2025": [
+        { month: "1", users: 27 },
+        { month: "2", users: 31 },
+        { month: "3", users: 35 },
+        { month: "4", users: 29 },
+        { month: "5", users: 33 },
+        { month: "6", users: 26 },
+        { month: "7", users: 38 },
+        { month: "8", users: 32 },
+        { month: "9", users: 28 },
+        { month: "10", users: 34 },
+        { month: "11", users: 30 },
+        { month: "12", users: 36 },
+    ],
+};

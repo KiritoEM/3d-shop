@@ -8,3 +8,8 @@ export interface IUser {
     createdAt: string;
     updatedAt: string;
 }
+
+export interface IUserStats {
+    month: string;
+    users: number;
+}
