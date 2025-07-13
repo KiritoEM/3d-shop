@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
-import { BearerAccess } from "../../middlewares/BearerAcess";
+import { checkHasAccess } from "../../middlewares/BearerAcess";
 
 const handler = async (
     req: NextRequest,
@@ -43,6 +43,6 @@ const handler = async (
     }
 };
 
-const protectedHandler = BearerAccess(handler);
+const protectedHandler = checkHasAccess(handler, "nextauth");
 
 export const GET = protectedHandler;

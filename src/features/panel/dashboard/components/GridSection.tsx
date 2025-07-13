@@ -1,10 +1,8 @@
-import {
-    transactionsMockData,
-    transactionsStatsMock,
-} from "@/__mock__/transactions-mock";
+import { transactionsMockData } from "@/__mock__/transactions-mock";
 import LastTransactions from "./LastTransactions";
 import UserRadarStat from "./UserRadarStat";
 import TransactionsChart from "./TransactionsChart";
+import MostSelledProducts from "./MostSelledProducts";
 
 const GridSection = (): JSX.Element => {
     return (
@@ -14,13 +12,13 @@ const GridSection = (): JSX.Element => {
                     transactionsData={transactionsMockData.slice(0, 5)}
                 />
 
-                <TransactionsChart
-                    statsData={transactionsStatsMock[new Date().getFullYear()]}
-                />
+                <TransactionsChart />
             </div>
 
             <div className="column-2 flex flex-col gap-5">
                 <UserRadarStat />
+
+                <MostSelledProducts />
             </div>
         </div>
     );

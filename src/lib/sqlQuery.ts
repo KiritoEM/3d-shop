@@ -14,3 +14,12 @@ export const userStatsSQLQuery = (year: number | null = null): string => {
         GROUP BY EXTRACT(MONTH FROM "createdAt")
         ORDER BY month DESC`;
 };
+
+export const transactionsCountSQlQuery = (year: number): string => {
+    return `
+        SELECT
+            COUNT(*) AS count
+        FROM "transaction"
+        WHERE EXTRACT(YEAR FROM "createdAt") = ${year}
+    `;
+};

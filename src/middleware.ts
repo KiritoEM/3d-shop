@@ -19,7 +19,6 @@ export const middleware = async (request: NextRequest) => {
 
         const data = await response.json();
         const expiresTime = new Date(data.expires).getTime();
-
         const isTokenExpired = Date.now() > expiresTime;
 
         if (!response.ok || isTokenExpired) {

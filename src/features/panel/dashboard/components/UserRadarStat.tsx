@@ -69,11 +69,10 @@ const RadarStatsActions: FC<RadarStatsActionsProps> = ({
                             ],
                         })
                     }
+                    value={`${filters.monthInterval[0]}_${filters.monthInterval[1]}`}
                 >
                     <SelectTrigger className="w-fit gap-3">
-                        <SelectValue
-                            placeholder={`${MONTH_STRING[filters.monthInterval[0]]} - ${MONTH_STRING[filters.monthInterval[1] - 1]}`}
-                        />
+                        <SelectValue>{`${MONTH_STRING[filters.monthInterval[0]]} - ${MONTH_STRING[filters.monthInterval[1]]}`}</SelectValue>
                     </SelectTrigger>
 
                     <SelectContent>
@@ -124,7 +123,7 @@ const UserRadarStat: FC<UserRadarStatProps> = ({ statsData }): JSX.Element => {
     }, [new Date().getMonth()]);
 
     return (
-        <article className="last-transactions-card bg-gray rounded-lg p-6">
+        <article className="user-stats-card bg-gray rounded-lg p-6">
             <CardHeader
                 title="Utilisateurs"
                 rightSide={
