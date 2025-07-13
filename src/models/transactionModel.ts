@@ -11,3 +11,8 @@ export interface ITransaction {
     customerName: string;
     userId: string;
 }
+
+export interface ITransactionStats {
+    month: string;
+    transaction: number;
+}

@@ -17,6 +17,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { IUserStats } from "@/models/userModel";
 
 type IFilter = {
     year: number;
@@ -34,7 +35,6 @@ const RadarStatsActions: FC<RadarStatsActionsProps> = ({
     filters,
     addFilters,
 }): JSX.Element => {
-    console.log(filters.year);
     return (
         <div className="radar-action flex items-center gap-4">
             {/* <div className="radar-action__year-filter">
@@ -95,7 +95,11 @@ const chartConfig = {
 
 type IMonthInterval = [number, number];
 
-const UserRadarStat = (): JSX.Element => {
+type UserRadarStatProps = {
+    statsData?: IUserStats[];
+};
+
+const UserRadarStat: FC<UserRadarStatProps> = ({ statsData }): JSX.Element => {
     const [monthInterval, setMonthInterval] = useState<IMonthInterval>([0, 5]); //by default january - july
     const [year, setYear] = useState<number>(new Date().getFullYear());
 
@@ -134,7 +138,7 @@ const UserRadarStat = (): JSX.Element => {
 
             <ChartContainer
                 config={chartConfig}
-                className="mx-auto aspect-square max-h-[380px] w-full"
+                className="mx-auto mt-6 aspect-square max-h-[380px] w-full"
             >
                 <RadarChart data={radarData}>
                     <ChartTooltip
@@ -145,14 +149,14 @@ const UserRadarStat = (): JSX.Element => {
                     <PolarGrid />
                     <Radar
                         dataKey="users"
-                        fill="#3b82f6"
-                        stroke="#3b82f6"
+                        fill="#109384"
+                        stroke="#109384"
                         fillOpacity={0.6}
                         strokeWidth={2}
                         dot={{
                             r: 4,
                             fillOpacity: 1,
-                            fill: "#3b82f6",
+                            fill: "#109384",
                         }}
                     />
                 </RadarChart>

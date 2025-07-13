@@ -1,4 +1,4 @@
-import { ITransaction } from "@/models/transactionModel";
+import { ITransaction, ITransactionStats } from "@/models/transactionModel";
 
 export const transactionsMockData: ITransaction[] = [
     {
@@ -171,3 +171,50 @@ export const transactionsMockData: ITransaction[] = [
         userId: "cm3c4d5e6f7g8h9i0j1k2l3m",
     },
 ];
+
+type ITransactionsStatsMock = Record<string, ITransactionStats[]>;
+
+export const transactionsStatsMock: ITransactionsStatsMock = {
+    "2023": [
+        { month: "1", transaction: 245 },
+        { month: "2", transaction: 312 },
+        { month: "3", transaction: 187 },
+        { month: "4", transaction: 298 },
+        { month: "5", transaction: 356 },
+        { month: "6", transaction: 423 },
+        { month: "7", transaction: 389 },
+        { month: "8", transaction: 267 },
+        { month: "9", transaction: 334 },
+        { month: "10", transaction: 412 },
+        { month: "11", transaction: 298 },
+        { month: "12", transaction: 378 },
+    ],
+    "2024": [
+        { month: "1", transaction: 456 },
+        { month: "2", transaction: 523 },
+        { month: "3", transaction: 389 },
+        { month: "4", transaction: 467 },
+        { month: "5", transaction: 512 },
+        { month: "6", transaction: 634 },
+        { month: "7", transaction: 598 },
+        { month: "8", transaction: 445 },
+        { month: "9", transaction: 523 },
+        { month: "10", transaction: 589 },
+        { month: "11", transaction: 456 },
+        { month: "12", transaction: 567 },
+    ],
+    "2025": [
+        { month: "1", transaction: 612 },
+        { month: "2", transaction: 534 },
+        { month: "3", transaction: 678 },
+        { month: "4", transaction: 589 },
+        { month: "5", transaction: 645 },
+        { month: "6", transaction: 712 },
+        { month: "7", transaction: 398 },
+        { month: "8", transaction: 0 },
+        { month: "9", transaction: 0 },
+        { month: "10", transaction: 0 },
+        { month: "11", transaction: 0 },
+        { month: "12", transaction: 0 },
+    ],
+};
