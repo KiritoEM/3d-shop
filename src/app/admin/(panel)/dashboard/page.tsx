@@ -1,6 +1,6 @@
 import { transactionsMockData } from "@/__mock__/transactions-mock";
 import { UsersMockData } from "@/__mock__/user-mock";
-import LastTransactions from "@/features/panel/dashboard/components/LastTransactions";
+import GridSection from "@/features/panel/dashboard/components/GridSection";
 import StatisticsSection from "@/features/panel/dashboard/components/StatisticsSection";
 
 const Dashboard = (): JSX.Element => {
@@ -14,15 +14,7 @@ const Dashboard = (): JSX.Element => {
                 }}
             />
 
-            <div className="mt-8 grid grid-cols-2 gap-5">
-                <div className="column-1 flex flex-col gap-5">
-                    <LastTransactions
-                        transactionsData={transactionsMockData.slice(0, 5)}
-                    />
-                </div>
-
-                <div className="column-2 flex flex-col gap-5"></div>
-            </div>
+            <GridSection />
         </section>
     );
 };

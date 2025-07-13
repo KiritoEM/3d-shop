@@ -15,8 +15,6 @@ const handler = async (
             where: { id },
         });
 
-        console.log(userInfo);
-
         if (!userInfo) {
             return NextResponse.json(
                 { message: `No user found with id: ${id}` },

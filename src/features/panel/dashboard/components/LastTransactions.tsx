@@ -7,7 +7,10 @@ import { formatIntoPrice } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
 
 type LastTransactionsProps = {
-    transactionsData: ITransaction[];
+    transactionsData: Pick<
+        ITransaction,
+        "id" | "amount" | "createdAt" | "customerName" | "customerEmail"
+    >[];
 };
 
 const LastTransactions: FC<LastTransactionsProps> = ({
@@ -29,8 +32,8 @@ const LastTransactions: FC<LastTransactionsProps> = ({
 
             <Table className="last-transactions-card__table mt-8">
                 <TableBody>
-                    {transactionsData.map((transaction, index) => (
-                        <TableRow key={index}>
+                    {transactionsData.map((transaction) => (
+                        <TableRow key={transaction.id}>
                             <TableCell className="flex items-center gap-5">
                                 <div className="avatar flex">
                                     <Avatar
