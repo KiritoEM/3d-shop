@@ -14,5 +14,5 @@ export interface ITransaction {
 
 export interface ITransactionStats {
     month: string;
-    transaction: number;
+    count: number;
 }

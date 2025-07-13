@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 import { Product } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { checkHasAccess } from "../middlewares/BearerAcess";
 
 export async function POST(req: NextRequest) {
     try {
@@ -69,3 +70,37 @@ export async function POST(req: NextRequest) {
         );
     }
 }
+
+const handler = async (req: NextRequest) => {
+    try {
+        const { searchParams } = new URL(req.url);
+        const paginationParam = searchParams.get("pagination");
+        const pagination = paginationParam
+            ? parseInt(paginationParam, 10)
+            : undefined;
+
+        const transactionsData = await prisma.transaction.findMany({
+            ...(pagination && {
+                take: pagination,
+            }),
+            orderBy: {
+                createdAt: "desc",
+            },
+        });
+
+        return NextResponse.json({ transactionsData }, { status: 200 });
+    } catch (error) {
+        console.error("Error when getting transactions data: ", error);
+        return NextResponse.json(
+            {
+                message: "Internal server error",
+                error: error instanceof Error ? error.message : "Unknown error",
+            },
+            { status: 500 },
+        );
+    }
+};
+
+const protectedHandler = checkHasAccess(handler);
+
+export const GET = protectedHandler;

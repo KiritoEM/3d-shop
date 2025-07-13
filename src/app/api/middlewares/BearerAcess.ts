@@ -41,7 +41,6 @@ export const checkHasAccess = (
             //JWT validation
             else if (type === "jwt") {
                 const DBSession = await getSession(token);
-                console.log(Date.now(), new Date(DBSession.expires).getTime());
                 const isTokenExpired =
                     Date.now() > new Date(DBSession.expires).getTime();
 

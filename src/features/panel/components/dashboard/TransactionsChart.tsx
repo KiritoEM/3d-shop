@@ -7,7 +7,6 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart";
-import CardHeader from "./CardHeader";
 import { MONTH_STRING } from "@/constants/constants";
 import { transactionsStatsMock } from "@/__mock__/transactions-mock";
 import {
@@ -17,6 +16,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { ITransactionStats } from "@/models/transactionModel";
+import CardHeader from "./CardHeader";
+import { useFilterData } from "../../hooks/useFilterData";
 
 type ChartStatsActionsProps = {
     years: number[];
@@ -56,16 +58,33 @@ const ChartStatsActions: FC<ChartStatsActionsProps> = ({
 };
 
 const chartConfig = {
-    transaction: {
+    count: {
         label: "Transaction",
         color: "hsl(var(--chart-1))",
     },
 };
 
-const TransactionsChart = (): JSX.Element => {
-    const [year, setYear] = useState<number>(new Date().getFullYear());
+type TransactionsChartProps = {
+    statsData?: ITransactionStats[];
+};
 
-    const chartData = transactionsStatsMock[year].map((item) => ({
+const TransactionsChart: FC<TransactionsChartProps> = ({
+    statsData,
+}): JSX.Element => {
+    const { year, setYear } = useFilterData();
+
+    if (!Array.isArray(statsData) || statsData.length === 0) {
+        return (
+            <article className="user-stats-card bg-gray rounded-lg p-6">
+                <CardHeader title="Stats transactions" rightSide={<></>} />
+                <div className="flex h-[310px] items-center justify-center">
+                    <p>Aucune donnée disponible</p>
+                </div>
+            </article>
+        );
+    }
+
+    const chartData = statsData.map((item) => ({
         ...item,
         month: MONTH_STRING[Number(item.month)],
     }));
@@ -98,16 +117,17 @@ const TransactionsChart = (): JSX.Element => {
                             tickFormatter={(value) => value.slice(0, 3)}
                         />
                         <YAxis
-                            dataKey="transaction"
+                            dataKey="count"
                             tickLine={false}
                             tickMargin={8}
+                            // allowDataOverflow={true}
                         />
                         <ChartTooltip
                             cursor={false}
                             content={<ChartTooltipContent hideLabel />}
                         />
                         <Line
-                            dataKey="transaction"
+                            dataKey="count"
                             type="natural"
                             stroke="#109384"
                             strokeWidth={2}

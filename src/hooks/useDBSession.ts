@@ -3,19 +3,18 @@
 import { getToken } from "@/lib/dbSession";
 import { isDevelopment } from "@/lib/utils";
 import { AdminFacialRecognition, AdminInfo } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 export type ISession = Pick<AdminInfo, "id" | "username" | "role"> & {
     image?: string;
 };
 
 const useDBSession = () => {
-    const [isLoading, setLoading] = useState<boolean>(false);
+    const [isLoading, setLoading] = useState<boolean>(true);
     const [session, setSession] = useState<ISession | null>(null);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const fetchDBSession = async () => {
-            setLoading(true);
             try {
                 const token = await getToken();
 

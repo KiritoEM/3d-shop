@@ -1,9 +1,12 @@
-export const userStatsSQLQuery = (year: number | null = null): string => {
+export const statsSQLQuery = (
+    table: string,
+    year: number | null = null,
+): string => {
     return `
         SELECT 
             EXTRACT(MONTH FROM "createdAt") AS month,
             COUNT(*) AS count
-        FROM "user"
+        FROM "${table}"
         ${
             year
                 ? `

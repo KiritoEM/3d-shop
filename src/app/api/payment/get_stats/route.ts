@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { statsSQLQuery } from "@/lib/sqlQuery";
+import { NextRequest, NextResponse } from "next/server";
 import { checkHasAccess } from "../../middlewares/BearerAcess";
 
 const handler = async (req: NextRequest) => {
@@ -8,21 +8,29 @@ const handler = async (req: NextRequest) => {
         const { searchParams } = new URL(req.url);
         const yearParam = searchParams.get("year");
         const year = yearParam ? parseInt(yearParam, 10) : undefined;
-        const sqlQuery = statsSQLQuery("user", year);
 
-        const usersStats = (await prisma.$queryRawUnsafe(sqlQuery)) as {
+        if (!year) {
+            return NextResponse.json(
+                { message: "No year provided in Query" },
+                { status: 404 },
+            );
+        }
+
+        const sqlQuery = statsSQLQuery("transaction", year);
+
+        const transactionsStats = (await prisma.$queryRawUnsafe(sqlQuery)) as {
             month: number;
             count: number;
         }[];
 
-        const dataToSerialize = usersStats.map((item) => ({
+        const dataToSerialize = transactionsStats.map((item) => ({
             ...item,
             count: Number(item.count),
         }));
 
         return NextResponse.json({ stats: dataToSerialize }, { status: 200 });
     } catch (error) {
-        console.error("Error in getStats for user: ", error);
+        console.error("Error in getStats for transactions: ", error);
         return NextResponse.json(
             {
                 message: "Internal server error",

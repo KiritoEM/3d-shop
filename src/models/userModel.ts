@@ -11,5 +11,5 @@ export interface IUser {
 
 export interface IUserStats {
     month: string;
-    users: number;
+    count: number;
 }

@@ -2,13 +2,11 @@
 
 import { FC, useLayoutEffect, useState } from "react";
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts";
-import CardHeader from "./CardHeader";
 import {
     ChartContainer,
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart";
-import { userStatsMockData } from "@/__mock__/user-mock";
 import { MONTH_STRING } from "@/constants/constants";
 import {
     Select,
@@ -18,6 +16,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { IUserStats } from "@/models/userModel";
+import CardHeader from "./CardHeader";
 
 type IFilter = {
     year: number;
@@ -86,7 +85,7 @@ const RadarStatsActions: FC<RadarStatsActionsProps> = ({
 };
 
 const chartConfig = {
-    users: {
+    count: {
         label: "Utilisateurs",
         color: "hsl(var(--chart-1))",
     },
@@ -95,19 +94,36 @@ const chartConfig = {
 type IMonthInterval = [number, number];
 
 type UserRadarStatProps = {
-    statsData?: IUserStats[];
+    statsData: IUserStats[];
 };
 
 const UserRadarStat: FC<UserRadarStatProps> = ({ statsData }): JSX.Element => {
     const [monthInterval, setMonthInterval] = useState<IMonthInterval>([0, 5]); //by default january - july
     const [year, setYear] = useState<number>(new Date().getFullYear());
 
-    const radarData = userStatsMockData[new Date().getFullYear()]
-        .slice(monthInterval[0], monthInterval[1])
-        .map((item) => ({
-            ...item,
-            month: MONTH_STRING[Number(item.month) - 1],
-        }));
+    if (!Array.isArray(statsData) || statsData.length === 0) {
+        return (
+            <article className="user-stats-card bg-gray rounded-lg p-6">
+                <CardHeader title="Utilisateurs" rightSide={<></>} />
+                <div className="flex h-[310px] items-center justify-center">
+                    <p>Aucune donnée disponible</p>
+                </div>
+            </article>
+        );
+    }
+
+    const radarData =
+        statsData.length > 5
+            ? statsData
+                  .slice(monthInterval[0], monthInterval[1])
+                  .map((item) => ({
+                      ...item,
+                      month: MONTH_STRING[Number(item.month) - 1],
+                  }))
+            : statsData.map((item) => ({
+                  ...item,
+                  month: MONTH_STRING[Number(item.month) - 1],
+              }));
 
     const handleFilter = (filter: Partial<IFilter>) => {
         filter.monthInterval && setMonthInterval(filter.monthInterval);
@@ -147,7 +163,7 @@ const UserRadarStat: FC<UserRadarStatProps> = ({ statsData }): JSX.Element => {
                     <PolarAngleAxis dataKey="month" />
                     <PolarGrid />
                     <Radar
-                        dataKey="users"
+                        dataKey="count"
                         fill="#109384"
                         stroke="#109384"
                         fillOpacity={0.6}

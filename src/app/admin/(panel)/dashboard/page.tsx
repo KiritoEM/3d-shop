@@ -1,7 +1,7 @@
 import { transactionsMockData } from "@/__mock__/transactions-mock";
 import { UsersMockData } from "@/__mock__/user-mock";
-import GridSection from "@/features/panel/dashboard/components/GridSection";
-import StatisticsSection from "@/features/panel/dashboard/components/StatisticsSection";
+import GridSection from "@/features/panel/components/dashboard/GridSection";
+import StatisticsSection from "@/features/panel/components/dashboard/StatisticsSection";
 import { getToken } from "@/lib/dbSession";
 
 const Dashboard = async (): Promise<JSX.Element> => {
@@ -43,7 +43,7 @@ const Dashboard = async (): Promise<JSX.Element> => {
                 }}
             />
 
-            <GridSection />
+            <GridSection token={token!} />
         </section>
     );
 };
