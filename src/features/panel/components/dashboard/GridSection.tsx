@@ -30,7 +30,7 @@ const GridSection: FC<GridSectionProps> = ({ token }): JSX.Element => {
         transactionsFilledData,
     } = useDashboardData(token);
     return (
-        <div className="mt-8 grid grid-cols-2 gap-5">
+        <div className="mt-8 gap-5 sm:grid lg:grid-cols-2">
             <div className="column-1 flex flex-col gap-5">
                 {isLastTransactionsDataLoading ? (
                     <SkeletonFallback />

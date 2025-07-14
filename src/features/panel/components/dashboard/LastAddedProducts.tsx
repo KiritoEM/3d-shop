@@ -4,6 +4,7 @@ import { IProduct } from "@/models/productModel";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { formatIntoPrice } from "@/lib/utils";
 import CardHeader from "./CardHeader";
+import { useMediaQuery } from "react-responsive";
 
 type LastAddedProductssProps = {
     productsData: IProduct[];
@@ -12,6 +13,10 @@ type LastAddedProductssProps = {
 const LastAddedProducts: FC<LastAddedProductssProps> = ({
     productsData,
 }): JSX.Element => {
+    const isLg = useMediaQuery({
+        query: "(min-width: 1024px) and (max-width: 1279px)",
+    });
+
     if (!Array.isArray(productsData) || productsData.length === 0) {
         return (
             <article className="user-stats-card bg-gray rounded-lg p-6">
@@ -26,19 +31,22 @@ const LastAddedProducts: FC<LastAddedProductssProps> = ({
         );
     }
 
-    console.log(productsData);
-
     return (
         <article className="last-added_product-card bg-gray rounded-lg p-6">
             <CardHeader
                 title="Produits ajoutés récemment"
+                className="!text-[20px] xl:text-xl"
                 rightSide={
-                    <Link
-                        href=""
-                        className="text-primary cursor-pointer text-sm hover:font-semibold"
-                    >
-                        Voir tout
-                    </Link>
+                    !isLg ? (
+                        <Link
+                            href=""
+                            className="text-primary cursor-pointer text-sm hover:font-semibold"
+                        >
+                            Voir tout
+                        </Link>
+                    ) : (
+                        <></>
+                    )
                 }
             />
 

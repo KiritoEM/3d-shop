@@ -106,21 +106,21 @@ const TransactionsChart: FC<TransactionsChartProps> = ({
                 }
             />
 
-            <div className="mt-6">
+            <div className="relative -left-8 mt-6">
                 <ChartContainer config={chartConfig}>
                     <LineChart accessibilityLayer data={chartData}>
                         <CartesianGrid vertical={false} />
-                        <XAxis
-                            dataKey="month"
-                            tickLine={false}
-                            tickMargin={12}
-                            tickFormatter={(value) => value.slice(0, 3)}
-                        />
                         <YAxis
                             dataKey="count"
                             tickLine={false}
                             tickMargin={8}
                             // allowDataOverflow={true}
+                        />
+                        <XAxis
+                            dataKey="month"
+                            tickLine={false}
+                            tickMargin={12}
+                            tickFormatter={(value) => value.slice(0, 3)}
                         />
                         <ChartTooltip
                             cursor={false}

@@ -7,4 +7,5 @@ export type ISidebarMenuItem = {
     label: string;
     url?: string;
     isClosed?: boolean;
+    isLg?: boolean
 };
