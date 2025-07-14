@@ -16,6 +16,7 @@ type IcreateSessionArg = {
 
 export const createSession = async (
     arg: IcreateSessionArg = { method: "FORM" },
+    id: string,
 ) => {
     const generatedToken = generateToken();
     const userAgent = (await headers()).get("user-agent"); //get user-agent
@@ -29,6 +30,11 @@ export const createSession = async (
             userAgent,
             method: arg.method,
             expires,
+            admin: {
+                connect: {
+                    id,
+                },
+            },
         },
     });
 
@@ -50,6 +56,13 @@ export const getSession = async (token: string): Promise<Session> => {
         where: {
             token,
         },
+        include: {
+            admin: {
+                include: {
+                    adminFacial: true,
+                },
+            },
+        },
     });
 
     if (!session) {
@@ -57,4 +70,9 @@ export const getSession = async (token: string): Promise<Session> => {
     }
 
     return session;
+};
+
+export const getToken = async () => {
+    const token = (await cookies()).get("session_id");
+    return token?.value ?? null;
 };

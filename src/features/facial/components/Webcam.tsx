@@ -1,17 +1,28 @@
 "use client";
 
-import { AdminFacialRecognition } from "@prisma/client";
+import { AdminFacialRecognition, AdminInfo } from "@prisma/client";
 import SuccessLottie from "@/components/lotties/SuccessLottie";
 import FailLottie from "@/components/lotties/FailLottie";
 import { cn } from "@/lib/utils";
 import useFacialRecognition from "../hooks/useFacialRecognition";
 import { useEffect, useState, useTransition } from "react";
-import { getAllFaces } from "../actions/facial-actions";
+import { getAdminById, getAllFaces } from "../actions/facialActions";
+import { useAuthentificationStatus } from "../hooks/useAuthentificationStatus";
+import { createSession } from "@/lib/dbSession";
+import { useRouter } from "next/navigation";
 
 const Webcam = (): JSX.Element => {
     const [isPending, startTransition] = useTransition();
     const [facesData, setFacesData] = useState<AdminFacialRecognition[]>([]);
+    const router = useRouter();
+    const { authStatus, facialId, sessionCreated, setSessionState } =
+        useAuthentificationStatus();
+    const { canvasRef, videoRef, isLoadingWebcam } = useFacialRecognition(
+        facesData,
+        isPending,
+    );
 
+    //fetching all faces
     useEffect(() => {
         const fetchFacesData = () => {
             startTransition(async () => {
@@ -20,18 +31,62 @@ const Webcam = (): JSX.Element => {
             });
         };
         fetchFacesData();
-    }, []);
 
-    const { canvasRef, videoRef, isLoadingWebcam, authentificationStatus } =
-        useFacialRecognition(facesData, isPending);
+        return () => setFacesData([]);
+    }, [getAllFaces]);
+
+    //fetching admin info when face detected, create session and redirection
+    useEffect(() => {
+        if (authStatus === "Authentificated") {
+            const fetchInfoAndCreateSession = async () => {
+                const adminInfo = (await getAdminById(facialId!)) as AdminInfo;
+
+                if (adminInfo) {
+                    await createSession(
+                        { method: "FACIAL_RECOGNITION" },
+                        adminInfo.id,
+                    )
+                        .then(() => {
+                            setSessionState("Created");
+                            router.replace("/admin/dashboard");
+                        })
+                        .catch(() => {
+                            setSessionState("Error");
+                        });
+                }
+            };
+
+            fetchInfoAndCreateSession();
+        }
+    }, [authStatus]);
 
     const BASE_STYLE_CONTAINER =
         "flex h-full w-full flex-col items-center justify-center space-y-4 rounded-lg bg-input dark:bg-[#262626]";
 
     return (
         <div className="webcam relative mt-4 flex !h-[360px] w-full items-center justify-center p-0">
+            {/* Error handling */}
+            {!isLoadingWebcam &&
+                authStatus !== "Pending" &&
+                sessionCreated === "Error" && (
+                    <div
+                        className={cn(
+                            "webcam__unknow relative z-50 p-6",
+                            BASE_STYLE_CONTAINER,
+                            "border-2 border-red-500 shadow-xl",
+                        )}
+                    >
+                        <FailLottie />
+                        <div className="texts flex flex-col items-center space-y-3 text-center">
+                            <h4 className="text-lg font-bold text-red-600">
+                                Un erreur s'est produit
+                            </h4>
+                        </div>
+                    </div>
+                )}
+
             {/* Loading State */}
-            {isLoadingWebcam && authentificationStatus === "Pending" && (
+            {isLoadingWebcam && authStatus === "Pending" && !sessionCreated && (
                 <div
                     className={cn(
                         "webcam__loading absolute z-40",
@@ -39,8 +94,8 @@ const Webcam = (): JSX.Element => {
                         "shadow-lg backdrop-blur-md",
                     )}
                 >
-                    <div className="border-primary h-10 w-10 animate-spin rounded-full border-4 border-b-transparent"></div>
-                    <h4 className="text-primary font-semibold">
+                    <div className="border-foreground h-10 w-10 animate-spin rounded-full border-4 border-b-transparent"></div>
+                    <h4 className="text-foreground font-semibold">
                         Chargement de la caméra...
                     </h4>
                 </div>
@@ -48,7 +103,8 @@ const Webcam = (): JSX.Element => {
 
             {/* Success State */}
             {!isLoadingWebcam &&
-                authentificationStatus === "Authentificated" && (
+                authStatus === "Authentificated" &&
+                sessionCreated && (
                     <div
                         className={cn(
                             "webcam__authentificated relative z-50",
@@ -64,7 +120,7 @@ const Webcam = (): JSX.Element => {
                 )}
 
             {/* Failure State */}
-            {!isLoadingWebcam && authentificationStatus === "Unknow" && (
+            {!isLoadingWebcam && authStatus === "Unknow" && !sessionCreated && (
                 <div
                     className={cn(
                         "webcam__unknow relative z-50 p-6",
@@ -92,7 +148,7 @@ const Webcam = (): JSX.Element => {
                 className={cn(
                     "!h-full !w-full rounded-lg object-cover transition-all duration-500",
                     isLoadingWebcam && "scale-95 opacity-0 blur-sm",
-                    authentificationStatus !== "Pending" && "hidden",
+                    authStatus !== "Pending" && "hidden",
                 )}
                 muted
                 playsInline
@@ -103,7 +159,7 @@ const Webcam = (): JSX.Element => {
                 ref={canvasRef}
                 className={cn(
                     "output_canvas pointer-events-none absolute left-0 top-0 !h-full !w-full rounded-lg transition-all duration-500",
-                    authentificationStatus !== "Pending" && "hidden",
+                    authStatus !== "Pending" && "hidden",
                 )}
                 style={{ height: "100%", objectFit: "cover" }}
             />

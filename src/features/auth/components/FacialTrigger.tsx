@@ -17,10 +17,7 @@ const FacialTrigger = (): JSX.Element => {
     return (
         <FacialDialogWrapper>
             <Button variant="outline" className="h-10 w-full space-x-5">
-                <Facial
-                    color={theme === "dark" ? "#ffffff" : "#0D0D0D"}
-                    className="mr-1 hidden !size-5 sm:block"
-                />{" "}
+                <Facial className="mr-1 hidden !size-5 text-[#0D0D0D] sm:block dark:text-white" />{" "}
                 Par reconnaissance faciale
             </Button>
         </FacialDialogWrapper>

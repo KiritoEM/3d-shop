@@ -78,10 +78,13 @@ model Session {
   isActive     Boolean  @default(true)
   userAgent    String?
   method SessionMethod @default(FACIAL_RECOGNITION)
+  adminId String?
 
   //timespan
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  admin AdminInfo? @relation(fields:[adminId], references: [id], onDelete: Cascade)
 
   @@map("session")
 }
@@ -118,11 +121,11 @@ model AdminInfo {
   username String @unique
   password String 
   role AdminRole @default(SUPERADMIN)
+  adminFacial AdminFacialRecognition?
+  sesions Session[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  adminFacial AdminFacialRecognition?
 
   @@unique([username, password])
   @@map("admin_info")

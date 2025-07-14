@@ -81,3 +81,27 @@ export function pickObjectField<T, K extends keyof T>(
 
     return result;
 }
+
+export function fillDataGroupbyMonth<
+    T extends { month: number; count: number },
+>(data: T[]) {
+    let resultData = [];
+
+    for (let i = 0; i < 12; i++) {
+        const hasMonthData = data.some((item) => Number(item.month) === i);
+
+        if (hasMonthData) {
+            resultData.push({
+                month: `${i}`,
+                count: data.find((item) => Number(item.month) === i)?.count,
+            });
+        } else {
+            resultData.push({
+                month: `${i}`,
+                count: 0,
+            });
+        }
+    }
+
+    return resultData;
+}

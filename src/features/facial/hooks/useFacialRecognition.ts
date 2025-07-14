@@ -3,34 +3,17 @@
 import { useEffect, useRef, useState } from "react";
 import { AdminFacialRecognition } from "@prisma/client";
 import { loadModels } from "@/lib/faceapi";
-import { createSession } from "@/lib/session";
-import { useRouter } from "next/navigation";
 import useWebcam from "./useWebcam";
 import useFaceDetection from "./useFaceDetection";
-
-export type IAuthStatus = "Authentificated" | "Unknow" | "Pending";
+import { useAuthentificationStatus } from "./useAuthentificationStatus";
 
 const useFacialRecognition = (
     facialData: AdminFacialRecognition[],
     isLoadingFaces: boolean,
 ) => {
-    const router = useRouter();
     const isLoadingFacesRef = useRef<boolean>(isLoadingFaces);
     const [modelsLoaded, setLoadingModel] = useState<boolean>(false);
-    const [authentificationStatus, setAuthentificationStatus] =
-        useState<IAuthStatus>("Pending");
-
-    const onRecognizedFace = async () => {
-        setAuthentificationStatus("Authentificated");
-        await createSession({
-            method: "FACIAL_RECOGNITION",
-        });
-        router.replace("/admin/statistics");
-    };
-
-    const onUnknowFace = async () => {
-        setAuthentificationStatus("Unknow");
-    };
+    const { setAuthStatus, sessionCreated } = useAuthentificationStatus();
 
     //Webcam custom hook
     const {
@@ -43,6 +26,14 @@ const useFacialRecognition = (
         closeWebcam,
         startVideo,
     } = useWebcam();
+
+    const onRecognizedFace = async () => {
+        setAuthStatus("Authentificated");
+    };
+
+    const onUnknowFace = async () => {
+        setAuthStatus("Unknow");
+    };
 
     //Face_detection custom hook
     const { detectFace, stopDetection } = useFaceDetection(
@@ -102,7 +93,6 @@ const useFacialRecognition = (
         streamRef,
         isLoadingWebcam,
         modelsLoaded,
-        authentificationStatus,
         detectFace,
     };
 };

@@ -1,6 +1,10 @@
+import { getSession } from "@/lib/dbSession";
 import { NextRequest, NextResponse } from "next/server";
 
-export const BearerAccess = (handler: Function) => {
+export const checkHasAccess = (
+    handler: Function,
+    type: "nextauth" | "jwt" = "jwt",
+) => {
     return async (req: NextRequest, context: any) => {
         try {
             const headers = req.headers;
@@ -24,9 +28,31 @@ export const BearerAccess = (handler: Function) => {
                 );
             }
 
-            if (token.length < 32) {
+            //Nextauth validation
+            if (type === "nextauth") {
+                if (token.length < 32) {
+                    return NextResponse.json(
+                        { message: "Invalid session token" },
+                        { status: 401 },
+                    );
+                }
+            }
+
+            //JWT validation
+            else if (type === "jwt") {
+                const DBSession = await getSession(token);
+                const isTokenExpired =
+                    Date.now() > new Date(DBSession.expires).getTime();
+
+                if (isTokenExpired) {
+                    return NextResponse.json(
+                        { message: "Token was expired" },
+                        { status: 401 },
+                    );
+                }
+            } else {
                 return NextResponse.json(
-                    { message: "Invalid session token" },
+                    { message: "Unauthorized request, uknow token type" },
                     { status: 401 },
                 );
             }

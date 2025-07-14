@@ -14,19 +14,11 @@ export const middleware = async (request: NextRequest) => {
         }
 
         const response = await fetch(
-            `${request.nextUrl.origin}/api/admin/session`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ token: sessionToken }),
-            },
+            `${request.nextUrl.origin}/api/admin/session/${sessionToken}`,
         );
 
         const data = await response.json();
         const expiresTime = new Date(data.expires).getTime();
-
         const isTokenExpired = Date.now() > expiresTime;
 
         if (!response.ok || isTokenExpired) {
@@ -37,7 +29,7 @@ export const middleware = async (request: NextRequest) => {
 
         if (!isTokenExpired && pathname === "/admin/login") {
             return NextResponse.redirect(
-                new URL("/admin/statistics", request.url),
+                new URL("/admin/dashboard", request.url),
             );
         }
     }
