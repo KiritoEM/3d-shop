@@ -1,3 +1,5 @@
+import { IUser } from "./userModel";
+
 export interface ITransaction {
     id: number;
     createdAt: string;
@@ -10,6 +12,7 @@ export interface ITransaction {
     customerEmail: string;
     customerName: string;
     userId: string;
+    user?: IUser;
 }
 
 export interface ITransactionStats {

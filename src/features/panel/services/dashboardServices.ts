@@ -36,3 +36,13 @@ export const getLastTransactions = async (
 
     return response.json();
 };
+
+export const getLastProducts = async (token: string) => {
+    const response = await fetch(`/api/products/recent`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    return response.json();
+};

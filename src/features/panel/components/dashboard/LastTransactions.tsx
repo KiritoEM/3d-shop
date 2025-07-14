@@ -9,7 +9,12 @@ import { Avatar } from "@/components/ui/avatar";
 type LastTransactionsProps = {
     transactionsData: Pick<
         ITransaction,
-        "id" | "amount" | "createdAt" | "customerName" | "customerEmail"
+        | "id"
+        | "amount"
+        | "createdAt"
+        | "customerName"
+        | "customerEmail"
+        | "user"
     >[];
 };
 
@@ -20,7 +25,7 @@ const LastTransactions: FC<LastTransactionsProps> = ({
         return (
             <article className="user-stats-card bg-gray rounded-lg p-6">
                 <CardHeader title="Dernières transactions" rightSide={<></>} />
-                <div className="flex h-[240px] items-center justify-center">
+                <div className="flex h-[200px] items-center justify-center">
                     <p>Aucune donnée disponible</p>
                 </div>
             </article>
@@ -49,6 +54,7 @@ const LastTransactions: FC<LastTransactionsProps> = ({
                                 <div className="avatar flex">
                                     <Avatar
                                         name={transaction.customerName}
+                                        image={transaction.user?.image ?? ""}
                                         className="!size-8"
                                     />
                                 </div>
@@ -58,7 +64,7 @@ const LastTransactions: FC<LastTransactionsProps> = ({
                             <TableCell>
                                 {formatIntoPrice(transaction.amount)}€
                             </TableCell>
-                            <TableCell>
+                            <TableCell className="text-blue-500">
                                 {new Date(
                                     transaction.createdAt,
                                 ).toLocaleDateString()}

@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useLayoutEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts";
 import {
     ChartContainer,
@@ -130,7 +130,7 @@ const UserRadarStat: FC<UserRadarStatProps> = ({ statsData }): JSX.Element => {
         filter.year && setYear(filter.year);
     };
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (new Date().getMonth() > monthInterval[1]) {
             setMonthInterval([6, 11]);
         } else {

@@ -83,6 +83,9 @@ const handler = async (req: NextRequest) => {
             ...(pagination && {
                 take: pagination,
             }),
+            include: {
+                user: true,
+            },
             orderBy: {
                 createdAt: "desc",
             },
