@@ -250,3 +250,20 @@ export const Logout: React.FC<IconProps> = ({ ...props }) => {
         </svg>
     );
 };
+
+export const Filter: React.FC<IconProps> = ({ ...props }) => {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 22 22"
+            {...props}
+        >
+            <path
+                stroke="#fff"
+                strokeLinecap="round"
+                d="M4.584 11V3.667m12.833 14.666v-2.75m-12.833 2.75v-3.666m12.833-2.75v-8.25M11 6.416v-2.75m0 14.666v-8.25M4.583 14.667a1.833 1.833 0 1 0 0-3.667 1.833 1.833 0 0 0 0 3.667ZM11 10.083a1.833 1.833 0 1 0 0-3.667 1.833 1.833 0 0 0 0 3.667ZM17.417 15.583a1.833 1.833 0 1 0 0-3.666 1.833 1.833 0 0 0 0 3.666Z"
+            ></path>
+        </svg>
+    );
+};

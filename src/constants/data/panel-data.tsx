@@ -1,4 +1,8 @@
-export const STATISTICS_CARD_DATA = {
+import { IStatisticCard } from "../types";
+
+type IStatisticCardData = Record<string, IStatisticCard>;
+
+export const STATISTICS_CARD_DATA: IStatisticCardData = {
     users: {
         badgeBg: "rgba(250, 180, 103, 0.20)",
         icon: "/icons/users-illustration.svg",
@@ -16,3 +20,5 @@ export const STATISTICS_CARD_DATA = {
         label: "Transactions",
     },
 };
+
+export const PAYMENT_COLUMNS = [];

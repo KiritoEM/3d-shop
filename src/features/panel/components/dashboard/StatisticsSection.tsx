@@ -4,16 +4,9 @@ import { ArrowRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { STATISTICS_CARD_DATA } from "@/constants/data/panel-data";
 import { cn } from "@/lib/utils";
+import { IStatisticCard } from "@/constants/types";
 
-type StatisticCardProps = {
-    icon: string;
-    badgeBg: string;
-    statistic: number;
-    label: string;
-    iconClass?: string;
-};
-
-const StatisticCard: FC<StatisticCardProps> = ({
+const StatisticCard: FC<IStatisticCard> = ({
     badgeBg,
     icon,
     label,
@@ -48,7 +41,7 @@ const StatisticCard: FC<StatisticCardProps> = ({
                 variant="ghost"
                 className="absolute right-5 top-5 cursor-pointer !px-0  !py-0"
             >
-                <ArrowRightIcon className="size-6 md:size-8 -rotate-45 stroke-1" />
+                <ArrowRightIcon className="size-6 -rotate-45 stroke-1 md:size-8" />
             </Button>
         </article>
     );

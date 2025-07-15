@@ -7,5 +7,13 @@ export type ISidebarMenuItem = {
     label: string;
     url?: string;
     isClosed?: boolean;
-    isLg?: boolean
+    isLg?: boolean;
+};
+
+export type IStatisticCard = {
+    icon: string;
+    badgeBg: string;
+    statistic?: number;
+    label: string;
+    iconClass?: string;
 };
