@@ -47,11 +47,11 @@ const TableFiltering: FC<TableFilteringProps> = ({
 }): JSX.Element => {
     const [dropdownFilterValue, setFilterValue] = useState<string>("createdAt");
     return (
-        <div className="payment-table-controls mb-6 mt-12 flex w-full items-center justify-between">
+        <div className="payment-table-controls mb-6 mt-12 flex w-full items-center justify-between gap-4">
             <InputWithIcon
                 Icon={<Search className="text-muted-foreground size-4" />}
                 placeholder={placeholder}
-                className="w-full max-w-[364px]"
+                className="w-full max-w-[364px] text-sm sm:text-base"
                 value={inputValue}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     onInputFilterChange(e.target.value)
@@ -61,7 +61,8 @@ const TableFiltering: FC<TableFilteringProps> = ({
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="outline">
-                        <Filter className="!text-foreground !size-5" /> Filtrer
+                        <Filter className="!text-foreground !size-5" />{" "}
+                        <span className="hidden sm:block">Filtrer</span>
                     </Button>
                 </DropdownMenuTrigger>
 
@@ -104,7 +105,7 @@ const PaginationActions: FC<PaginationActionsProps> = ({
     isNextDisabled,
 }): JSX.Element => {
     return (
-        <div className="pagination-actions flex items-center justify-between gap-2 py-6">
+        <div className="pagination-actions flex items-center justify-between gap-4 py-6">
             <div className="pagination-actions__indicator">
                 <p className="text-muted-foreground">
                     {totalRow ? `Page ${currentRow}/${totalRow}` : null}
@@ -117,7 +118,7 @@ const PaginationActions: FC<PaginationActionsProps> = ({
                     onClick={onPrevPage}
                     disabled={isPrevDisabled}
                 >
-                    <ChevronLeft /> Précendent
+                    <ChevronLeft /> <span className="hidden sm:block">Précendent</span>
                 </Button>
 
                 <Button
@@ -125,7 +126,7 @@ const PaginationActions: FC<PaginationActionsProps> = ({
                     onClick={onNextPage}
                     disabled={isNextDisabled}
                 >
-                    <ChevronRight /> Suivant
+                    <ChevronRight /> <span className="hidden sm:block">Suivant</span>
                 </Button>
             </div>
         </div>

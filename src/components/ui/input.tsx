@@ -69,13 +69,13 @@ const InputWithIcon: React.FC<InputWithIconProps> = ({
     return (
         <div className={cn("password-input relative", className)}>
             {iconPlace === "left" && (
-                <div className="icon absolute left-3 top-1/2 -translate-y-1/2 cursor-pointer">
+                <div className="icon  hidden sm:block absolute left-3 top-1/2 -translate-y-1/2 cursor-pointer">
                     {Icon}
                 </div>
             )}
 
             <Input
-                className={iconPlace === "right" ? "pr-8" : "pl-9"}
+                className={iconPlace === "right" ? "pr-8" : "sm:pl-9"}
                 placeholder={placeholder}
                 {...props}
             />
