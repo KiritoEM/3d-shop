@@ -4,6 +4,7 @@ import PanelHeader from "@/components/layouts/headers/PanelHeader";
 import Sidebar from "@/components/layouts/navbars/sidebar";
 import useSidebar from "@/hooks/useSidebar";
 import { cn } from "@/lib/utils";
+import { useMediaQuery } from "react-responsive";
 
 export default function LandingLayout({
     children,
@@ -11,16 +12,19 @@ export default function LandingLayout({
     children: React.ReactNode;
 }>) {
     const { closed } = useSidebar();
+    const isLg = useMediaQuery({
+        query: "(min-width: 1024px) and (max-width: 1279px)",
+    });
     return (
-        <main className="panel w-full">
+        <main className="panel w-full overflow-x-hidden">
             <Sidebar />
 
             <div
                 className={cn(
-                    "panel__content  p-4 pr-6",
-                    closed
+                    "panel__content p-4 pr-6",
+                    closed || isLg
                         ? "ml-[110px] w-[calc(100%-110px)]"
-                        : "w-[calc(100%-320px] ml-[320px]",
+                        : "xl:w-[calc(100%-304px] 2xl:w-[calc(100%-320px xl:ml-[304px] 2xl:ml-[320px]",
                 )}
             >
                 <PanelHeader />

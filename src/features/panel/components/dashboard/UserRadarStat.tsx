@@ -153,7 +153,7 @@ const UserRadarStat: FC<UserRadarStatProps> = ({ statsData }): JSX.Element => {
 
             <ChartContainer
                 config={chartConfig}
-                className="mx-auto mt-6 aspect-square max-h-[380px] w-full"
+                className="!md:max-h-[380px] mx-auto mt-6 aspect-square !max-h-[280px] w-full"
             >
                 <RadarChart data={radarData}>
                     <ChartTooltip

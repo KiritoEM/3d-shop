@@ -1,19 +1,15 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
+import React, { FC, Fragment, JSX, useEffect, useRef, useState } from "react";
+import { useMediaQuery } from "react-responsive";
+import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
+import { DotLottiePlayer } from "@dotlottie/react-player";
 import { NAV_DATA, NAV_DATA_AUTHENTICATED } from "@/constants/constants";
 import usePlaySound from "@/hooks/usePlaySound";
 import { Logo } from "@/icons";
-import { DotLottiePlayer } from "@dotlottie/react-player";
-import { MenuIcon, X } from "lucide-react";
-import React, { FC, Fragment, JSX, useEffect, useRef, useState } from "react";
-import { useMediaQuery } from "react-responsive";
-import NavResponsive from "./components/NavResponsive";
-import { useTheme } from "next-themes";
-import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
-import "@dotlottie/react-player/dist/index.css";
-import { signOut, useSession } from "next-auth/react";
 import { Avatar } from "@/components/ui/avatar";
 import {
     DropdownMenu,
@@ -22,6 +18,10 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import AuthLoadingScreen from "@/components/AuthLoadingScreen";
+import NavMenuIcon from "./components/MenuIcon";
+import NavResponsive from "./components/NavResponsive";
+
+import "@dotlottie/react-player/dist/index.css";
 
 const MATCHED_PATH: string[] = ["/"];
 
@@ -92,26 +92,6 @@ const MenuItems: FC<MenuItemsProps> = ({ data, path }): JSX.Element => {
                 </li>
             ))}
         </ul>
-    );
-};
-
-type MenuIconProps = {
-    isOpen: boolean;
-    openNav: () => void;
-};
-
-const NavMenuIcon: FC<MenuIconProps> = ({ isOpen, openNav }): JSX.Element => {
-    return (
-        <div
-            className="menu-icon bg-primary block cursor-pointer rounded-xl p-2 px-4 md:p-3 md:px-5 lg:hidden"
-            onClick={openNav}
-        >
-            {!isOpen ? (
-                <MenuIcon className="size-5 sm:size-6 md:size-7" />
-            ) : (
-                <X className="size-5 sm:size-6 md:size-7" />
-            )}
-        </div>
     );
 };
 

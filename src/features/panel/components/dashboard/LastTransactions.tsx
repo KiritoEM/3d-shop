@@ -33,7 +33,7 @@ const LastTransactions: FC<LastTransactionsProps> = ({
     }
 
     return (
-        <article className="last-transactions-card bg-gray rounded-lg p-6">
+        <article className="last-transactions-card w-full bg-gray rounded-lg p-6">
             <CardHeader
                 title="Dernières transactions"
                 rightSide={

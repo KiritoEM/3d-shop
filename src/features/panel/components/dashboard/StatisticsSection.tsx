@@ -4,16 +4,9 @@ import { ArrowRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { STATISTICS_CARD_DATA } from "@/constants/data/panel-data";
 import { cn } from "@/lib/utils";
+import { IStatisticCard } from "@/constants/types";
 
-type StatisticCardProps = {
-    icon: string;
-    badgeBg: string;
-    statistic: number;
-    label: string;
-    iconClass?: string;
-};
-
-const StatisticCard: FC<StatisticCardProps> = ({
+const StatisticCard: FC<IStatisticCard> = ({
     badgeBg,
     icon,
     label,
@@ -21,7 +14,7 @@ const StatisticCard: FC<StatisticCardProps> = ({
     iconClass,
 }): JSX.Element => {
     return (
-        <article className="statistic-card bg-gray relative flex flex-col justify-between gap-8 rounded-lg p-6">
+        <article className="statistic-card bg-gray relative flex w-full flex-col justify-between gap-8 rounded-lg p-6">
             <div
                 className={cn(
                     "statistic-card__badge relative w-fit rounded-full p-2",
@@ -39,14 +32,16 @@ const StatisticCard: FC<StatisticCardProps> = ({
 
             <div className="statistic-card__info">
                 <p>{label}</p>
-                <h2 className="font-michroma mt-2 text-4xl">{statistic}</h2>
+                <h2 className="font-michroma mt-2 text-3xl xl:text-4xl">
+                    {statistic}
+                </h2>
             </div>
 
             <Button
                 variant="ghost"
                 className="absolute right-5 top-5 cursor-pointer !px-0  !py-0"
             >
-                <ArrowRightIcon className="size-8 -rotate-45 stroke-1" />
+                <ArrowRightIcon className="size-6 -rotate-45 stroke-1 md:size-8" />
             </Button>
         </article>
     );
@@ -64,7 +59,7 @@ const StatisticsSection: FC<StatisticsSectionProps> = ({
     statistics,
 }): JSX.Element => {
     return (
-        <div className="dashboard__statistics grid grid-cols-3 place-content-center gap-5">
+        <div className="dashboard__statistics flex flex-col place-content-center gap-5 sm:grid sm:grid-cols-3">
             <StatisticCard
                 badgeBg={STATISTICS_CARD_DATA["users"].badgeBg}
                 icon={STATISTICS_CARD_DATA["users"].icon}

@@ -20,13 +20,12 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
     );
 }
 
-type PasswordInputTypes = {
+type PasswordInputProps = {
     placeholder: string;
     field: any;
-    className?: string;
-};
+} & React.ComponentProps<"input">;
 
-const PasswordInput: React.FC<PasswordInputTypes> = ({
+const PasswordInput: React.FC<PasswordInputProps> = ({
     placeholder,
     field,
     className,
@@ -54,4 +53,38 @@ const PasswordInput: React.FC<PasswordInputTypes> = ({
     );
 };
 
-export { Input, PasswordInput };
+type InputWithIconProps = {
+    placeholder: string;
+    Icon: JSX.Element;
+    iconPlace?: "left" | "right";
+} & React.ComponentProps<"input">;
+
+const InputWithIcon: React.FC<InputWithIconProps> = ({
+    placeholder,
+    className,
+    Icon,
+    iconPlace = "left",
+}) => {
+    return (
+        <div className={cn("password-input relative", className)}>
+            {iconPlace === "left" && (
+                <div className="icon absolute left-3 top-1/2 -translate-y-1/2 cursor-pointer">
+                    {Icon}
+                </div>
+            )}
+
+            <Input
+                className={iconPlace === "right" ? "pr-8" : "pl-9"}
+                placeholder={placeholder}
+            />
+
+            {iconPlace === "right" && (
+                <div className="icon absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer">
+                    {Icon}
+                </div>
+            )}
+        </div>
+    );
+};
+
+export { Input, PasswordInput, InputWithIcon };
