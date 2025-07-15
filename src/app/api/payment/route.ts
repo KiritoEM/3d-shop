@@ -91,7 +91,7 @@ const handler = async (req: NextRequest) => {
             },
         });
 
-        return NextResponse.json({ transactionsData }, { status: 200 });
+        return NextResponse.json(transactionsData, { status: 200 });
     } catch (error) {
         console.error("Error when getting transactions data: ", error);
         return NextResponse.json(

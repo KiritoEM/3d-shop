@@ -33,7 +33,7 @@ const LastTransactions: FC<LastTransactionsProps> = ({
     }
 
     return (
-        <article className="last-transactions-card w-full bg-gray rounded-lg p-6">
+        <article className="last-transactions-card bg-gray w-full rounded-lg p-6">
             <CardHeader
                 title="Dernières transactions"
                 rightSide={
@@ -50,7 +50,7 @@ const LastTransactions: FC<LastTransactionsProps> = ({
                 <TableBody>
                     {transactionsData.map((transaction) => (
                         <TableRow key={transaction.id}>
-                            <TableCell className="flex items-center gap-5">
+                            <TableCell className="flex items-center gap-4">
                                 <div className="avatar flex">
                                     <Avatar
                                         name={transaction.customerName}

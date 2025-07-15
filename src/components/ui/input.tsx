@@ -64,6 +64,7 @@ const InputWithIcon: React.FC<InputWithIconProps> = ({
     className,
     Icon,
     iconPlace = "left",
+    ...props
 }) => {
     return (
         <div className={cn("password-input relative", className)}>
@@ -76,6 +77,7 @@ const InputWithIcon: React.FC<InputWithIconProps> = ({
             <Input
                 className={iconPlace === "right" ? "pr-8" : "pl-9"}
                 placeholder={placeholder}
+                {...props}
             />
 
             {iconPlace === "right" && (

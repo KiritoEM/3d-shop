@@ -141,7 +141,7 @@ export const transactionsMockData: ITransaction[] = [
         status: "PENDING",
         updatedAt: "2024-05-25T14:20:00Z",
         customerEmail: "alice.martin@example.com",
-        customerName: "Alice Martin",
+        customerName: "Alice M",
         userId: "cm1a2b3c4d5e6f7g8h9i0j1k",
     },
     {

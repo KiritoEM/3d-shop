@@ -1,18 +1,12 @@
 "use client";
 
 import { FC } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
 import LastTransactions from "./LastTransactions";
 import LastAddedProducts from "./LastAddedProducts";
 import TransactionsChart from "./TransactionsChart";
 import UserRadarStat from "./UserRadarStat";
 import useDashboardData from "../../hooks/useDashboardData";
-
-const SkeletonFallback = () => (
-    <Skeleton className="user-card-skeleton flex h-[400px] items-center justify-center rounded-lg">
-        <div className="h-9 w-9 animate-spin rounded-full border-b-2 border-current"></div>
-    </Skeleton>
-);
+import SkeletonFallback from "../SkeletonFallback";
 
 type GridSectionProps = {
     token: string;

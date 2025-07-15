@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import SectionHeader from "@/features/panel/components/SectionHeader";
-import TableControls from "@/features/panel/components/TableControls";
+import TableRendering from "@/features/panel/components/transactions/TableRendering";
 import { ArrowUp } from "lucide-react";
 
-const Payment = (): JSX.Element => {
+const Transactions = async (): Promise<JSX.Element> => {
     return (
         <section className="payment mt-8">
             <SectionHeader
@@ -15,9 +15,9 @@ const Payment = (): JSX.Element => {
                 }
             />
 
-            <TableControls placeholder="Nom de client..." />
+            <TableRendering />
         </section>
     );
 };
 
-export default Payment;
+export default Transactions;
