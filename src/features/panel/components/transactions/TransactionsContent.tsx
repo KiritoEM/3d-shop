@@ -1,7 +1,6 @@
 "use client";
 
 import { DataTable } from "@/components/ui/data-table";
-import { TRANSACTIONS_COLUMNS } from "@/constants/data/panel-data";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { ArrowUp } from "lucide-react";
@@ -31,8 +30,8 @@ const TransactionsContent: FC<TransactionsContentProps> = () => {
 
     const handleDownloadCSV = () => {
         const data = makeCSV(
-            Object.keys(transactionsMockData[0]),
-            transactionsMockData,
+            Object.keys(transactionsData[0]),
+            transactionsData,
         );
         download(data, "payments-statistics");
     };
@@ -44,9 +43,7 @@ const TransactionsContent: FC<TransactionsContentProps> = () => {
                 rightSide={
                     <Button
                         onClick={handleDownloadCSV}
-                        disabled={
-                            transactionsMockData.length === 0 || isLoading
-                        }
+                        disabled={transactionsData.length === 0 || isLoading}
                     >
                         <ArrowUp /> Exporter en CSV
                     </Button>
@@ -58,7 +55,7 @@ const TransactionsContent: FC<TransactionsContentProps> = () => {
             ) : (
                 <DataTable
                     inputPlaceholder="Nom de client..."
-                    columns={TRANSACTIONS_COLUMNS}
+                    columns={transactionsData}
                     data={sortedData}
                 />
             )}

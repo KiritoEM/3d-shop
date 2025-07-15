@@ -11,7 +11,9 @@ const SectionHeader: FC<SectionHeaderProps> = ({
 }): JSX.Element => {
     return (
         <header className="flex items-center justify-between">
-            <h3 className="font-michroma text-2xl sm:text-3xl xl:text-4xl">{title}</h3>
+            <h3 className="font-michroma text-2xl sm:text-3xl xl:text-4xl">
+                {title}
+            </h3>
 
             <div className="hidden sm:block">{rightSide}</div>
         </header>
