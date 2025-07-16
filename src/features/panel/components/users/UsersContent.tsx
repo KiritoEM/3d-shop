@@ -6,8 +6,9 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { USERS_COLUMNS } from "@/constants/data/panel-data";
-import { usersMockData } from "@/__mock__/user-mock";
 import { sortDataByDate } from "@/lib/utils";
+import { IUser } from "@/models/userModel";
+import { download, makeCSV } from "@/lib/CSVUtilities";
 import SectionHeader from "../SectionHeader";
 import { getPaginatedUsers } from "../../services/usersServices";
 import SkeletonFallback from "../SkeletonFallback";
@@ -34,6 +35,29 @@ const UsersContent = (): JSX.Element => {
         return sortDataByDate(dataToSort);
     }, [usersData]);
 
+    const handleDownloadCSV = () => {
+        if (!usersData || usersData.length === 0) {
+            console.warn("Aucune donnée à exporter");
+            return;
+        }
+
+        type IUserCSVData = Omit<IUser, "password" | "updatedAt" | "accounts">;
+
+        const userCSVKeys = [
+            "id",
+            "email",
+            "image",
+            "name",
+            "emailVerified",
+        ] as (keyof IUserCSVData)[];
+
+        const data = makeCSV<IUserCSVData, keyof IUserCSVData>(
+            usersData,
+            userCSVKeys,
+        );
+        download(data, "payments-statistics");
+    };
+
     return (
         <Fragment>
             <SectionHeader
@@ -41,12 +65,10 @@ const UsersContent = (): JSX.Element => {
                 description="Liste des utilisateurs de la plateforme"
                 rightSide={
                     <Button
-                    // onClick={handleDownloadCSV}
-                    // disabled={
-                    //     !transactionsData ||
-                    //     transactionsData.length === 0 ||
-                    //     isLoading
-                    // }
+                        onClick={handleDownloadCSV}
+                        disabled={
+                            !usersData || usersData.length === 0 || isLoading
+                        }
                     >
                         <ArrowUp /> Exporter en CSV
                     </Button>
