@@ -1,4 +1,7 @@
-const makeCSV = <T extends Record<string, any>>(keys: string[], data: T[]) => {
+const makeCSV = <T extends Record<string, any>, K extends keyof T>(
+    data: T[],
+    keys: K[],
+) => {
     const csvRows = [];
 
     csvRows.push(keys.join(",")); //push keys into array
@@ -12,7 +15,7 @@ const makeCSV = <T extends Record<string, any>>(keys: string[], data: T[]) => {
     return csvRows.join("\n");
 };
 
-const download = (data: any, filename: string) => {
+const download = <T extends BlobPart>(data: T, filename: string) => {
     const blob = new Blob([data], { type: "text/csv" });
 
     const url = URL.createObjectURL(blob);

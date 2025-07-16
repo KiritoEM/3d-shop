@@ -8,7 +8,11 @@ import { ISidebarMenuItem } from "@/constants/types";
 import useSidebar from "@/hooks/useSidebar";
 import { Logo, LogoWithoutLabel } from "@/icons";
 import { cn } from "@/lib/utils";
-import NavResponsive from "./NavResponsive";
+import dynamic from "next/dynamic";
+
+const NavResponsive = dynamic(() => import("./NavResponsive"), {
+    ssr: false,
+});
 
 type MenuBlockProps = {
     title: string;

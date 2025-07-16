@@ -20,7 +20,7 @@ import {
     ISettingsSchema,
     settingsSchema,
 } from "@/lib/zod-schemas/settingsSchemas";
-import { useFormDialog } from "@/hooks/useFormDialog";
+import useFormDialog from "@/hooks/useFormDialog";
 import useUploadFile from "@/hooks/useUploadFile";
 import { IMAGE_TYPES } from "@/constants/constants";
 import { updateUser } from "../actions/userSettingsActions";

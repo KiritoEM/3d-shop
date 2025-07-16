@@ -2,9 +2,9 @@
 
 import { getToken } from "@/lib/dbSession";
 
-export const getPaginatedTransactions = async () => {
+export const getPaginatedUsers = async () => {
     const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/payment`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/user`,
         {
             headers: {
                 Authorization: `Bearer ${await getToken()}`,

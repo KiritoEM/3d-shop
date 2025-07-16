@@ -74,15 +74,15 @@ export async function POST(req: NextRequest) {
 const handler = async (req: NextRequest) => {
     try {
         const { searchParams } = new URL(req.url);
-        const paginationParam = searchParams.get("pagination");
-        const pagination = paginationParam
-            ? parseInt(paginationParam, 10)
-            : undefined;
+        const paginationCount = Number(searchParams.get("pagination_count"));
+        const paginationSkip = Number(searchParams.get("pagination_skip"));
 
         const transactionsData = await prisma.transaction.findMany({
-            ...(pagination && {
-                take: pagination,
-            }),
+            ...(paginationCount &&
+                paginationSkip && {
+                    take: paginationCount,
+                    skip: paginationSkip,
+                }),
             include: {
                 user: true,
             },

@@ -1,37 +1,68 @@
 "use client";
 
-import { DataTable } from "@/components/ui/data-table";
-import { useQuery } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
+import { Fragment, useMemo } from "react";
 import { ArrowUp } from "lucide-react";
-import { transactionsMockData } from "@/__mock__/transactions-mock";
+import { useQuery } from "@tanstack/react-query";
+import { DataTable } from "@/components/ui/data-table";
+import { Button } from "@/components/ui/button";
+import { TRANSACTIONS_COLUMNS } from "@/constants/data/panel-data";
 import { download, makeCSV } from "@/lib/CSVUtilities";
-import { getAllTransactions } from "../../services/transactionsServices";
-import { FC, Fragment, useMemo } from "react";
+import { sortDataByDate } from "@/lib/utils";
+import { getPaginatedTransactions } from "../../services/transactionsServices";
 import SkeletonFallback from "../SkeletonFallback";
 import SectionHeader from "../SectionHeader";
+import { ITransaction } from "@/models/transactionModel";
 
-type TransactionsContentProps = {};
+const FILTER_OPTIONS = [
+    {
+        label: "Date",
+        value: "createdAt",
+    },
+    {
+        label: "amount",
+        value: "Montant",
+    },
+];
 
-const TransactionsContent: FC<TransactionsContentProps> = () => {
+const TransactionsContent = () => {
     const { data: transactionsData, isLoading } = useQuery({
         queryKey: ["transactionsTable"],
-        queryFn: () => getAllTransactions(),
+        queryFn: () => getPaginatedTransactions(),
     });
 
     const sortedData = useMemo(() => {
-        return [...transactionsMockData].sort((a, b) => {
-            return (
-                new Date(b.createdAt).getTime() -
-                new Date(a.createdAt).getTime()
-            );
-        });
-    }, []);
+        const dataToSort = transactionsData || [];
+        return sortDataByDate(dataToSort);
+    }, [transactionsData]);
 
     const handleDownloadCSV = () => {
-        const data = makeCSV(
-            Object.keys(transactionsData[0]),
+        if (!transactionsData || transactionsData.length === 0) {
+            console.warn("Aucune donnée à exporter");
+            return;
+        }
+
+        type ITransactionCSVData = Omit<
+            ITransaction,
+            | "updatedAt"
+            | "currency"
+            | "userId"
+            | "user"
+            | "stripePaymentIntentId"
+        >;
+
+        const transactionCSVKeys = [
+            "createdAt",
+            "amount",
+            "id",
+            "stripeChargeId",
+            "status",
+            "customerEmail",
+            "customerName",
+        ] as (keyof ITransactionCSVData)[];
+
+        const data = makeCSV<ITransactionCSVData, keyof ITransactionCSVData>(
             transactionsData,
+            transactionCSVKeys,
         );
         download(data, "payments-statistics");
     };
@@ -43,7 +74,11 @@ const TransactionsContent: FC<TransactionsContentProps> = () => {
                 rightSide={
                     <Button
                         onClick={handleDownloadCSV}
-                        disabled={transactionsData.length === 0 || isLoading}
+                        disabled={
+                            !transactionsData ||
+                            transactionsData.length === 0 ||
+                            isLoading
+                        }
                     >
                         <ArrowUp /> Exporter en CSV
                     </Button>
@@ -55,7 +90,9 @@ const TransactionsContent: FC<TransactionsContentProps> = () => {
             ) : (
                 <DataTable
                     inputPlaceholder="Nom de client..."
-                    columns={transactionsData}
+                    inputValueFilter="customerName"
+                    filterOptions={FILTER_OPTIONS}
+                    columns={TRANSACTIONS_COLUMNS}
                     data={sortedData}
                 />
             )}

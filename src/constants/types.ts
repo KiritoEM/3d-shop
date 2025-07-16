@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { IconProps } from "@/icons";
 import { ITransaction } from "@/models/transactionModel";
+import { IUser } from "@/models/userModel";
 
 export type ISidebarMenuItem = {
     Icon: FC<IconProps>;
@@ -21,5 +22,16 @@ export type IStatisticCard = {
 
 export type ITransactionsColumns = Pick<
     ITransaction,
-    "id" | "customerName" | "customerEmail" | "createdAt" | "status" | "amount"
+    | "id"
+    | "customerName"
+    | "customerEmail"
+    | "createdAt"
+    | "status"
+    | "amount"
+    | "user"
+>;
+
+export type IUsersColumns = Pick<
+    IUser,
+    "id" | "name" | "email" | "image" | "createdAt" | "accounts"
 >;

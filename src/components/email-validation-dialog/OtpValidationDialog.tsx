@@ -2,7 +2,6 @@
 
 import { FC, RefObject, useCallback, useState } from "react";
 import { toast } from "react-toastify";
-import { useFormDialog } from "@/hooks/useFormDialog";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import OTP from "@/lib/otp";
 import { Button } from "../ui/button";
@@ -14,6 +13,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "../ui/dialog";
+import useFormDialog from "@/hooks/useFormDialog";
 
 type OtpValidationDialogProps = {
     otpRef: RefObject<OTP>;

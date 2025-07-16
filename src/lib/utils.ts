@@ -105,3 +105,11 @@ export function fillDataGroupbyMonth<
 
     return resultData;
 }
+
+export const sortDataByDate = (data: any) => {
+    return [...data].sort((a, b) => {
+        return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+    });
+};

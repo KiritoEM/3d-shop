@@ -32,9 +32,15 @@ import {
 import { InputWithIcon } from "./input";
 import { Button } from "./button";
 
+type IFilterOptions = {
+    label: string;
+    value: string;
+};
+
 type TableFilteringProps = {
     placeholder: string;
     inputValue: string;
+    dropdownOptions: IFilterOptions[];
     onInputFilterChange: (value: string) => void;
     onDropdownChange: (value: string) => void;
 };
@@ -42,6 +48,7 @@ type TableFilteringProps = {
 const TableFiltering: FC<TableFilteringProps> = ({
     placeholder,
     inputValue,
+    dropdownOptions,
     onInputFilterChange,
     onDropdownChange,
 }): JSX.Element => {
@@ -74,12 +81,11 @@ const TableFiltering: FC<TableFilteringProps> = ({
                             setFilterValue(value);
                         }}
                     >
-                        <DropdownMenuRadioItem value="createdAt">
-                            Date
-                        </DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="amount">
-                            Montant
-                        </DropdownMenuRadioItem>
+                        {dropdownOptions.map((opt) => (
+                            <DropdownMenuRadioItem value={opt.value}>
+                                {opt.label}
+                            </DropdownMenuRadioItem>
+                        ))}
                     </DropdownMenuRadioGroup>
                 </DropdownMenuContent>
             </DropdownMenu>
@@ -118,7 +124,8 @@ const PaginationActions: FC<PaginationActionsProps> = ({
                     onClick={onPrevPage}
                     disabled={isPrevDisabled}
                 >
-                    <ChevronLeft /> <span className="hidden sm:block">Précendent</span>
+                    <ChevronLeft />{" "}
+                    <span className="hidden sm:block">Précendent</span>
                 </Button>
 
                 <Button
@@ -126,7 +133,8 @@ const PaginationActions: FC<PaginationActionsProps> = ({
                     onClick={onNextPage}
                     disabled={isNextDisabled}
                 >
-                    <ChevronRight /> <span className="hidden sm:block">Suivant</span>
+                    <ChevronRight />{" "}
+                    <span className="hidden sm:block">Suivant</span>
                 </Button>
             </div>
         </div>
@@ -137,12 +145,16 @@ interface DataTableProps<TData, TValue> extends React.ComponentProps<"table"> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     inputPlaceholder: string;
+    inputValueFilter: string;
+    filterOptions: IFilterOptions[];
 }
 
 function DataTable<TData, TValue>({
     columns,
     data,
     inputPlaceholder,
+    inputValueFilter,
+    filterOptions,
     ...props
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([]);
@@ -180,12 +192,13 @@ function DataTable<TData, TValue>({
                 placeholder={inputPlaceholder}
                 inputValue={
                     (table
-                        .getColumn("customerName")
+                        .getColumn(inputValueFilter)
                         ?.getFilterValue() as string) ?? ""
                 }
+                dropdownOptions={filterOptions}
                 onInputFilterChange={(value: string) =>
                     table
-                        .getColumn("customerName")
+                        .getColumn(inputValueFilter)
                         ?.setFilterValue(value.trim())
                 }
                 onDropdownChange={(value: string) => {
