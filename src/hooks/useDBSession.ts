@@ -12,6 +12,7 @@ export type ISession = Pick<AdminInfo, "id" | "username" | "role"> & {
 const useDBSession = () => {
     const [isLoading, setLoading] = useState<boolean>(true);
     const [session, setSession] = useState<ISession | null>(null);
+    const [token, setToken] = useState<string | null>(null);
 
     useLayoutEffect(() => {
         const fetchDBSession = async () => {
@@ -21,6 +22,8 @@ const useDBSession = () => {
                 if (!token) {
                     throw new Error("No token found");
                 }
+
+                setToken(token);
 
                 const response = await fetch(`/api/admin/session/${token}`);
 
@@ -48,6 +51,7 @@ const useDBSession = () => {
     }, []);
 
     return {
+        token,
         isLoading,
         session,
     };

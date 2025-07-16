@@ -10,6 +10,7 @@ export type ISidebarMenuItem = {
     url?: string;
     isClosed?: boolean;
     isLg?: boolean;
+    fn?: () => void;
 };
 
 export type IStatisticCard = {

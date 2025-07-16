@@ -72,6 +72,25 @@ export const getSession = async (token: string): Promise<Session> => {
     return session;
 };
 
+export const deleteSession = async (token: string): Promise<boolean> => {
+    const session = await getSession(token);
+
+    if (!session) return false;
+
+    const deletedSession = await prisma.session.delete({
+        where: {
+            token,
+        },
+    });
+
+    if (!deletedSession) return false;
+
+    const cookiesStore = await cookies();
+
+    cookiesStore.delete("session_id");
+    return true;
+};
+
 export const getToken = async () => {
     const token = (await cookies()).get("session_id");
     return token?.value ?? null;

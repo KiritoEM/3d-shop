@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import { FC, Fragment } from "react";
-import { Logo } from "@/icons";
+import { Logo, Logout } from "@/icons";
 import { LOGO_BASE_STYLE, MenuBlock, MenuItem } from ".";
 import { cn } from "@/lib/utils";
 import { SIDEBAR_DATA } from "@/constants/constants";
@@ -49,14 +49,20 @@ const NavResponsive: FC<NavResponsiveProps> = ({
                         </MenuBlock>
 
                         <MenuBlock title="GENERAL" isClosed={false}>
-                            {SIDEBAR_DATA.general.map((item, index) => (
+                            {/* {SIDEBAR_DATA.general.map((item, index) => (
                                 <MenuItem
                                     key={index}
                                     isClosed={false}
                                     isLg={false}
                                     {...item}
                                 />
-                            ))}
+                            ))} */}
+                            <MenuItem
+                                isClosed={false}
+                                isLg={false}
+                                Icon={Logout}
+                                label="Se déconnecter"
+                            />
                         </MenuBlock>
                     </div>
                 </nav>

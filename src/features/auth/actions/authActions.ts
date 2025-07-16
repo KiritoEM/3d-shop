@@ -9,7 +9,7 @@ import { IResponseType } from "../../../types";
 import { hashData } from "@/lib/hash";
 import { isDevelopment } from "@/lib/utils";
 import { AdminInfo, User } from "@prisma/client";
-import { createSession } from "@/lib/dbSession";
+import { createSession, deleteSession } from "@/lib/dbSession";
 
 export const signup = async (
     data: ISignupSchema,
@@ -39,7 +39,7 @@ export const signup = async (
         if (!createdUser) {
             return {
                 status: "error",
-                message: "Un erreur s'est produit",
+                message: "Veuillez vérifier le nom d'admin et le mot de passe admin",
             };
         }
 
@@ -71,11 +71,10 @@ export const loginAdmin = async (
         });
 
         if (!checkedAdminInfo) {
-            return {
+             return {
                 status: "error",
-                message:
-                    "Veuillez vérifier le nom d'admin et le mot de passe admin",
-            };
+                message: "Un erreur s'est produit",
+            }
         }
 
         //create session if login successfull
@@ -92,6 +91,29 @@ export const loginAdmin = async (
         return {
             status: "error",
             message: "Un erreur s'est produit lors de la connexion",
+        };
+    }
+};
+
+export const logoutAdmin = async (
+    token: string,
+): Promise<IResponseType<null>> => {
+    try {
+        const isSessionDeleted = await deleteSession(token);
+
+        if (!isSessionDeleted) {
+            throw new Error();
+        }
+
+        return {
+            status: "success",
+            message: "Deconnexion reussis",
+        };
+    } catch (err) {
+        isDevelopment && console.error(err);
+        return {
+            status: "error",
+            message: "Un erreur s'est produit lors de la deconnexion",
         };
     }
 };

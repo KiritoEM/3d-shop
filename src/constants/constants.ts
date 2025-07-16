@@ -55,14 +55,10 @@ export const SIDEBAR_DATA: Record<string, ISidebarMenuItem[]> = {
             Icon: Admin,
             ActiveIcon: DashboardActive,
             label: "Administrateurs",
+            fn: () => {},
         },
     ],
-    general: [
-        {
-            Icon: Logout,
-            label: "Se déconnecter",
-        },
-    ],
+    general: [],
 };
 
 export const NAV_DATA_AUTHENTICATED = [
