@@ -1,8 +1,6 @@
 import {
-    Admin,
     Dashboard,
     DashboardActive,
-    Logout,
     Product,
     Transactions,
     Users,
@@ -50,13 +48,7 @@ export const SIDEBAR_DATA: Record<string, ISidebarMenuItem[]> = {
             ActiveIcon: DashboardActive,
             label: "Utilisateurs",
             url: "/admin/users",
-        },
-        {
-            Icon: Admin,
-            ActiveIcon: DashboardActive,
-            label: "Administrateurs",
-            fn: () => {},
-        },
+        }
     ],
     general: [],
 };

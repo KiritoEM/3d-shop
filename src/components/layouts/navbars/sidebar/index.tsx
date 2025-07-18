@@ -3,16 +3,16 @@
 import { usePathname, useRouter } from "next/navigation";
 import React, { FC, Fragment, ReactNode } from "react";
 import { useMediaQuery } from "react-responsive";
+import { toast } from "react-toastify";
+import dynamic from "next/dynamic";
 import { SIDEBAR_DATA } from "@/constants/constants";
 import { ISidebarMenuItem } from "@/constants/types";
 import useSidebar from "@/hooks/useSidebar";
-import { Logo, Logout, LogoWithoutLabel } from "@/icons";
+import { Admin, Logo, Logout, LogoWithoutLabel } from "@/icons";
 import { cn, isFunction } from "@/lib/utils";
-import dynamic from "next/dynamic";
 import { logoutAdmin } from "@/features/auth/actions/authActions";
 import useDBSession from "@/hooks/useDBSession";
 import AuthLoadingScreen from "@/components/AuthLoadingScreen";
-import { toast } from "react-toastify";
 
 const NavResponsive = dynamic(() => import("./NavResponsive"), {
     ssr: false,
@@ -91,16 +91,18 @@ export const MenuItem: FC<
 export const LOGO_BASE_STYLE =
     "main-nav__logo ml-2 cursor-pointer text-[#0D0D0D] dark:text-white";
 
-const Sidebar = (): JSX.Element => {
+const Sidebar: FC = (): JSX.Element => {
     const { closed, isSidebarResponsiveOpen, setResponsiveSidebarState } =
         useSidebar();
-    const { token } = useDBSession();
+    const { session, token } = useDBSession();
     const isLg = useMediaQuery({
         query: "(min-width: 1024px) and (max-width: 1279px)",
     });
     const router = useRouter();
 
-    if (!token) {
+    const isSuperAdmin = session?.role === "SUPERADMIN";
+
+    if (!token || !session) {
         return <AuthLoadingScreen text="Chargement en cours..." />;
     }
 
@@ -155,6 +157,15 @@ const Sidebar = (): JSX.Element => {
                                     {...item}
                                 />
                             ))}
+
+                            {isSuperAdmin && (
+                                <MenuItem
+                                    isClosed={closed || isLg}
+                                    isLg={isLg}
+                                    Icon={Admin}
+                                    label="Administrateurs"
+                                />
+                            )}
                         </MenuBlock>
 
                         <MenuBlock title="GENERAL" isClosed={closed || isLg}>
@@ -180,6 +191,7 @@ const Sidebar = (): JSX.Element => {
 
             <NavResponsive
                 isOpen={isSidebarResponsiveOpen}
+                isSuperAdmin={isSuperAdmin}
                 closeSidebar={() => setResponsiveSidebarState(false)}
             />
         </Fragment>

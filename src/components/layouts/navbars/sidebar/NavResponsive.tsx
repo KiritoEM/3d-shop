@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import { FC, Fragment } from "react";
-import { Logo, Logout } from "@/icons";
+import { Admin, Logo, Logout } from "@/icons";
 import { LOGO_BASE_STYLE, MenuBlock, MenuItem } from ".";
 import { cn } from "@/lib/utils";
 import { SIDEBAR_DATA } from "@/constants/constants";
@@ -8,11 +8,13 @@ import { Button } from "@/components/ui/button";
 
 type NavResponsiveProps = {
     isOpen: boolean;
+    isSuperAdmin: boolean;
     closeSidebar: () => void;
 };
 
 const NavResponsive: FC<NavResponsiveProps> = ({
     isOpen,
+    isSuperAdmin,
     closeSidebar,
 }): JSX.Element => {
     return (
@@ -46,6 +48,15 @@ const NavResponsive: FC<NavResponsiveProps> = ({
                                     {...item}
                                 />
                             ))}
+
+                            {isSuperAdmin && (
+                                <MenuItem
+                                    isClosed={false}
+                                    isLg={false}
+                                    Icon={Admin}
+                                    label="Administrateurs"
+                                />
+                            )}
                         </MenuBlock>
 
                         <MenuBlock title="GENERAL" isClosed={false}>
