@@ -20,15 +20,15 @@ import {
     ISettingsSchema,
     settingsSchema,
 } from "@/lib/zod-schemas/settingsSchemas";
-import useFormDialog from "@/hooks/useFormDialog";
 import useUploadFile from "@/hooks/useUploadFile";
 import { IMAGE_TYPES } from "@/constants/constants";
-import { updateUser } from "../actions/userSettingsActions";
-import useUserSettingsForm from "../hooks/useUserSettingsForm ";
-import AvatarUploader from "./AvatarUploader";
 import { pickObjectField } from "@/lib/utils";
 import { User } from "@prisma/client";
 import { updateSession } from "@/lib/sessions/clientSessionUtilities";
+import { useFormDialog } from "@/store/formDialog";
+import { updateUser } from "../actions/userSettingsActions";
+import useUserSettingsForm from "../hooks/useUserSettingsForm ";
+import AvatarUploader from "./AvatarUploader";
 
 const OtpValidationDialog = dynamic(
     () => import("@/components/email-validation-dialog/OtpValidationDialog"),

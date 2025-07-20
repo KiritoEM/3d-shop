@@ -4,7 +4,7 @@ import AuthLoadingScreen from "@/components/AuthLoadingScreen";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import useDBSession from "@/hooks/useDBSession";
-import useSidebar from "@/hooks/useSidebar";
+import { useSidebar } from "@/store/sidebar";
 import { IDBSession } from "@/types";
 import NavMenuIcon from "../navbars/main-nav/components/MenuIcon";
 

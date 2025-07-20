@@ -7,7 +7,6 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { DotLottiePlayer } from "@dotlottie/react-player";
 import { NAV_DATA, NAV_DATA_AUTHENTICATED } from "@/constants/constants";
-import usePlaySound from "@/hooks/usePlaySound";
 import { Logo } from "@/icons";
 import { cn } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
@@ -17,6 +16,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { usePlaySound } from "@/store/sound";
 import AuthLoadingScreen from "@/components/AuthLoadingScreen";
 import NavMenuIcon from "./components/MenuIcon";
 import NavResponsive from "./components/NavResponsive";

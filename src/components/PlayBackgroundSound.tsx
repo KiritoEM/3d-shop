@@ -1,7 +1,7 @@
 "use client";
 
-import usePlaySound from "@/hooks/usePlaySound";
 import { useLayoutEffect, useRef } from "react";
+import { usePlaySound } from "@/store/sound";
 
 const PlayBackgroundSound = (): JSX.Element => {
     const audioRef = useRef<HTMLAudioElement | null>(null);

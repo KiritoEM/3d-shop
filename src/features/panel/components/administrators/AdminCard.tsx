@@ -23,6 +23,7 @@ const AdminCardFlexible: FC<AdminCardFlexibleProps> = ({
                             ? adminFacial?.image
                             : "/default-avatar.webp"
                     }
+                    className="object-cover object-center"
                     alt="admin-avatar"
                 />
             </div>

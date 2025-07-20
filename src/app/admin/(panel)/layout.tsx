@@ -1,10 +1,10 @@
 "use client";
 
+import { useMediaQuery } from "react-responsive";
 import PanelHeader from "@/components/layouts/headers/PanelHeader";
 import Sidebar from "@/components/layouts/navbars/sidebar";
-import useSidebar from "@/hooks/useSidebar";
 import { cn } from "@/lib/utils";
-import { useMediaQuery } from "react-responsive";
+import { useSidebar } from "@/store/sidebar";
 
 export default function LandingLayout({
     children,

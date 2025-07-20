@@ -15,4 +15,4 @@ const usePlaySound = create<SoundStore>((set) => ({
     togglePlaySound: () => set((state) => ({ isPlaying: !state.isPlaying })),
 }));
 
-export default usePlaySound;
+export { usePlaySound };
