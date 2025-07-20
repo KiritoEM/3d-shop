@@ -26,3 +26,5 @@ export type SessionwithFacial = Session & {
         adminFacial: AdminFacialRecognition | null;
     };
 };
+
+export type IfileType = "IMAGE" | "VIDEO";

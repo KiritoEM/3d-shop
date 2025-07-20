@@ -1,9 +1,8 @@
 "use client";
 
+import { IfileType } from "@/types";
 import { useState } from "react";
 import { toast } from "react-toastify";
-
-type IfileType = "IMAGE" | "VIDEO";
 
 const useUploadFile = (fileType: IfileType, requiredFileType: string[]) => {
     const [uploadedFile, setFile] = useState<File | null>(null);
@@ -13,42 +12,54 @@ const useUploadFile = (fileType: IfileType, requiredFileType: string[]) => {
             case "IMAGE":
                 return 5 * 1024 * 1024; // 5mb
             case "VIDEO":
-                return 100 * 1024 * 1024; //100mb
+                return 100 * 1024 * 1024; // 100mb
+            default:
+                return 10 * 1024 * 1024; // 10mb
+        }
+    };
+
+    const getToast = (type: "TYPE_ERROR" | "SIZE-ERROR", maxSize?: number) => {
+        switch (type) {
+            case "TYPE_ERROR":
+                toast(
+                    `Type de fichier invalide, téléchargez uniquement un ${fileType.toLowerCase()}`,
+                    {
+                        type: "error",
+                        theme: "colored",
+                    },
+                );
+                break;
+            case "SIZE-ERROR":
+                toast(
+                    `La taille du fichier doit être inférieur à ${maxSize} MB`,
+                    {
+                        type: "error",
+                        theme: "colored",
+                    },
+                );
+                break;
 
             default:
-                return 10 * 1024 * 1024;
+                break;
         }
     };
 
     const handleUploadFile = (
-        e: React.ChangeEvent<HTMLInputElement>,
+        file: File | undefined | null,
         maxSize: number = getDefaultMaxSize(fileType),
     ) => {
-        if (!e.target.files) return;
-
-        const file = e.target.files[0];
+        if (!file) {
+            setFile(null);
+            return;
+        }
 
         if (!requiredFileType.includes(file.type)) {
-            toast(
-                `Type de fichier invalide, téléchargez uniquement un ${fileType.toLowerCase()}`,
-                {
-                    type: "error",
-                    theme: "colored",
-                },
-            );
-
+            getToast("TYPE_ERROR");
             return;
         }
 
         if (maxSize && file.size > maxSize) {
-            toast(
-                `La taille du fichier doit être inférieur à ${maxSize / 1024 / 1024} mb`,
-                {
-                    type: "error",
-                    theme: "colored",
-                },
-            );
-
+            getToast("SIZE-ERROR", Math.round(maxSize / 1024 / 1024));
             return;
         }
 

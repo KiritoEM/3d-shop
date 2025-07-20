@@ -1,6 +1,17 @@
-import { Avatar } from "@/components/ui/avatar";
-import { IAdminInfo } from "@/models/adminModel";
+"use client";
+
+import { MoreHorizontalIcon, Trash2 } from "lucide-react";
 import { FC } from "react";
+import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { IAdminInfo } from "@/models/adminModel";
+import { deleteAdminById } from "../../actions/adminActions";
+import { toast } from "react-toastify";
 
 type AdminCardFlexibleProps = Omit<
     IAdminInfo,
@@ -14,8 +25,38 @@ const AdminCardFlexible: FC<AdminCardFlexibleProps> = ({
     createdAt,
     adminFacial,
 }): JSX.Element => {
+    const deleteAdmin = async (id: string) => {
+        const response = await deleteAdminById(id);
+
+        toast(response.message, {
+            type: response.status === "error" ? "error" : "success",
+            theme: "colored",
+        });
+    };
+
     return (
-        <article className="admin-card flex w-full flex-col items-center gap-4 rounded-lg border bg-[#2e3033] p-4 sm:gap-8 sm:p-4 md:flex-row xl:gap-6">
+        <article className="admin-card relative flex w-full flex-col items-center gap-4 rounded-lg border bg-[#2e3033] p-4 sm:gap-8 sm:p-4 md:flex-row xl:gap-6">
+            {/* More button */}
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button
+                        variant="ghost"
+                        className="absolute right-3 top-3 rounded-full"
+                    >
+                        <MoreHorizontalIcon />
+                    </Button>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent className="w-56" align="start">
+                    <DropdownMenuItem onClick={() => deleteAdmin(id)}>
+                        <span className="text-destructive hover:text-destructive flex items-center gap-3">
+                            <Trash2 className="text-destructive" /> Supprimer le
+                            compte
+                        </span>
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+
             <div className="aspect-[4/3] max-h-[184px] w-full overflow-hidden rounded-xl md:!h-20 md:!w-20 md:flex-shrink-0 lg:!h-[100px] lg:!w-[100px] 2xl:!h-28 2xl:!w-28">
                 <img
                     src={

@@ -1,15 +1,13 @@
 import { FC, ReactNode } from "react";
-import { Button } from "@/components/ui/button";
 import {
     Dialog,
-    DialogClose,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import { useFormDialog } from "@/store/formDialog";
 
 type AdminDialogProps = {
     trigger: ReactNode;
@@ -20,11 +18,12 @@ const AdminDialog: FC<AdminDialogProps> = ({
     trigger,
     content,
 }): JSX.Element => {
+    const { open, setDialogState } = useFormDialog();
     return (
-        <Dialog open>
+        <Dialog open={open} onOpenChange={() => setDialogState(!open)}>
             <DialogTrigger asChild>{trigger}</DialogTrigger>
 
-            <DialogContent className="sm:max-w-[460px]">
+            <DialogContent className="scrollable-section overflow-y-auto sm:max-h-[84vh] sm:max-w-[470px]">
                 <DialogHeader>
                     <DialogTitle className="font-michroma">
                         Ajouter un compte
