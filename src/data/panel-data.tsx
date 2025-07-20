@@ -4,7 +4,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { formatIntoPrice } from "@/lib/utils";
-import { IStatisticCard, ITransactionsColumns, IUsersColumns } from "../types";
+import { IStatisticCard, ITransactionsColumns, IUsersColumns } from "../constants/types";
 
 type IStatisticCardData = Record<string, IStatisticCard>;
 

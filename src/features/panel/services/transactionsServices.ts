@@ -1,6 +1,6 @@
 "use server";
 
-import { getToken } from "@/lib/dbSession";
+import { getToken } from "@/lib/sessions/dbSession";
 
 export const getPaginatedTransactions = async () => {
     const response = await fetch(

@@ -6,7 +6,7 @@ import { IUserSettingsSchema } from "@/lib/zod-schemas/settingsSchemas";
 import { toast } from "react-toastify";
 import { pickObjectField } from "@/lib/utils";
 import { User } from "@prisma/client";
-import { updateSession } from "@/lib/session-utilities/clientSessionUtilities";
+import { updateSession } from "@/lib/sessions/clientSessionUtilities";
 
 const useUserSettingsForm = (
     watchedValues: IUserSettingsSchema,

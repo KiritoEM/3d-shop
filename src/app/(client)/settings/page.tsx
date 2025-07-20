@@ -6,7 +6,7 @@ import ChangeUserInfo from "@/features/user-settings/components/ChangeUserInfo";
 import { fetchUserInfo } from "@/features/user-settings/services/userServices";
 import { authOptions } from "@/lib/nextauth";
 import SecurityForm from "@/features/user-settings/components/SecurityForm";
-import { validateSession } from "@/lib/session-utilities/serverSessionUtilities";
+import { validateSession } from "@/lib/sessions/serverSessionUtilities";
 
 const UserSetting = async (): Promise<JSX.Element> => {
     const token = (await cookies()).get("next-auth.session-token");

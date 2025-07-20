@@ -2,7 +2,7 @@
 
 import TextFadedScroll from "@/components/animations/TextFadedScroll";
 import { useScrollDefaultOptions } from "@/constants/constants";
-import { ABOUT_DATA } from "@/constants/data/landing-data";
+import { ABOUT_DATA } from "@/data/landing-data";
 import { AboutCardTypes } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";

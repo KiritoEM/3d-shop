@@ -164,6 +164,7 @@ const Sidebar: FC = (): JSX.Element => {
                                     isLg={isLg}
                                     Icon={Admin}
                                     label="Administrateurs"
+                                    url="/admin/administrator"
                                 />
                             )}
                         </MenuBlock>

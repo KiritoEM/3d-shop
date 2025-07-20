@@ -19,7 +19,7 @@ import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { loginAdmin } from "../actions/authActions";
 import useRecaptcha from "@/hooks/useRecaptcha";
-import { verifyRecaptcha } from "@/lib/services/recaptchaServices";
+import { verifyRecaptcha } from "@/services/recaptchaServices";
 import ReCAPTCHA from "react-google-recaptcha";
 
 const AdminLoginForm = (): JSX.Element => {

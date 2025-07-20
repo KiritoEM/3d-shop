@@ -8,7 +8,7 @@ import useFacialRecognition from "../hooks/useFacialRecognition";
 import { useEffect, useState, useTransition } from "react";
 import { getAdminById, getAllFaces } from "../actions/facialActions";
 import { useAuthentificationStatus } from "../hooks/useAuthentificationStatus";
-import { createSession } from "@/lib/dbSession";
+import { createSession } from "@/lib/sessions/dbSession";
 import { useRouter } from "next/navigation";
 
 const Webcam = (): JSX.Element => {

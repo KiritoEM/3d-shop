@@ -37,7 +37,7 @@
     --color-popover: var(--popover);
     --color-card-foreground: var(--card-foreground);
     --color-card: var(--card);
-    --color-gray : var(--gray);
+    --color-gray: var(--gray);
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
@@ -45,6 +45,8 @@
     --font-dm-mono: var(--font-dm-mono);
     --font-michroma: var(--font-michroma);
     --breakpoint-sm2: 392px;
+    --breakpoint-sm3: 590px;
+
 }
 
 :root {

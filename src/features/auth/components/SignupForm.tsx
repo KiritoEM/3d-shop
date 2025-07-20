@@ -20,7 +20,7 @@ import { FC, useTransition } from "react";
 import { toast } from "react-toastify";
 import useRecaptcha from "@/hooks/useRecaptcha";
 import ReCAPTCHA from "react-google-recaptcha";
-import { verifyRecaptcha } from "@/lib/services/recaptchaServices";
+import { verifyRecaptcha } from "@/services/recaptchaServices";
 
 type SignupFormProps = {
     redirectUrl: string;

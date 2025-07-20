@@ -5,7 +5,7 @@ import { ArrowUp } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { DataTable } from "@/components/ui/data-table";
 import { Button } from "@/components/ui/button";
-import { TRANSACTIONS_COLUMNS } from "@/constants/data/panel-data";
+import { TRANSACTIONS_COLUMNS } from "@/data/panel-data";
 import { download, makeCSV } from "@/lib/CSVUtilities";
 import { sortDataByDate } from "@/lib/utils";
 import { getPaginatedTransactions } from "../../services/transactionsServices";

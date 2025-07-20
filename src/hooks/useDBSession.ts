@@ -1,17 +1,14 @@
 "use client";
 
-import { getToken } from "@/lib/dbSession";
-import { isDevelopment } from "@/lib/utils";
-import { AdminFacialRecognition, AdminInfo } from "@prisma/client";
 import { useLayoutEffect, useState } from "react";
-
-export type ISession = Pick<AdminInfo, "id" | "username" | "role"> & {
-    image?: string;
-};
+import { AdminFacialRecognition, AdminInfo } from "@prisma/client";
+import { getToken } from "@/lib/sessions/dbSession";
+import { isDevelopment } from "@/lib/utils";
+import { IDBSession } from "@/types";
 
 const useDBSession = () => {
     const [isLoading, setLoading] = useState<boolean>(true);
-    const [session, setSession] = useState<ISession | null>(null);
+    const [session, setSession] = useState<IDBSession | null>(null);
     const [token, setToken] = useState<string | null>(null);
 
     useLayoutEffect(() => {
@@ -28,16 +25,13 @@ const useDBSession = () => {
                 const response = await fetch(`/api/admin/session/${token}`);
 
                 if (response.ok) {
-                    const adminInfo = (await response.json())
-                        .admin as AdminInfo & {
-                        adminFacial: AdminFacialRecognition;
-                    };
+                    const session = (await response.json()) as IDBSession;
 
                     setSession({
-                        id: adminInfo.id,
-                        username: adminInfo.username,
-                        role: adminInfo.role,
-                        image: adminInfo.adminFacial.image ?? null,
+                        id: session.id,
+                        username: session.username,
+                        role: session.role,
+                        image: session.image ?? "",
                     });
                 }
             } catch (err) {

@@ -1,7 +1,8 @@
 import { generateAIChat } from "@/lib/laingchain";
 import { NextRequest, NextResponse } from "next/server";
+import { checkHasAccess } from "../../middlewares/auth";
 
-export async function POST(req: NextRequest): Promise<NextResponse> {
+const handler = async (req: NextRequest): Promise<NextResponse> => {
     try {
         const data = (await req.json()) as { prompt?: string };
 
@@ -51,4 +52,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
             { status: 500 },
         );
     }
-}
+};
+
+const protectedHandler = checkHasAccess(handler, "nextauth");
+
+export const POST = protectedHandler;

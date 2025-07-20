@@ -2,7 +2,7 @@
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { FilterCard } from "./card";
-import { CUSTOMISATION_FILTER_OPTS } from "@/constants/data/store-data";
+import { CUSTOMISATION_FILTER_OPTS } from "@/data/store-data";
 import { DualRangeSlider } from "@/components/ui/ranger-slider";
 import { FC } from "react";
 import { normalizeStr } from "@/lib/utils";
