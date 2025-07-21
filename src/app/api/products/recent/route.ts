@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { checkHasAccess } from "../../middlewares/BearerAcess";
+import { checkHasAccess } from "../../middlewares/auth";
 
 const handler = async (req: NextRequest) => {
     try {

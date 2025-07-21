@@ -58,7 +58,14 @@ function Button({
             disabled={isLoading}
             {...props}
         >
-            <Slottable>{children}</Slottable>
+            <Slottable>
+                <>
+                    {isLoading && (
+                        <div className="spinner h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                    )}
+                    {children}
+                </>
+            </Slottable>
         </Comp>
     );
 }

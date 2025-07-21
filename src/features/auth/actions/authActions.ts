@@ -9,7 +9,7 @@ import { IResponseType } from "../../../types";
 import { hashData } from "@/lib/hash";
 import { isDevelopment } from "@/lib/utils";
 import { AdminInfo, User } from "@prisma/client";
-import { createSession, deleteSession } from "@/lib/dbSession";
+import { createSession, deleteSession } from "@/lib/sessions/dbSession";
 
 export const signup = async (
     data: ISignupSchema,

@@ -1,4 +1,4 @@
-import { getSession } from "@/lib/dbSession";
+import { getSession } from "@/lib/sessions/dbSession";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -7,8 +7,6 @@ export async function GET(
 ) {
     try {
         const token = (await params).token;
-
-        console.log(token);
 
         if (!token) {
             return NextResponse.json(

@@ -43,8 +43,8 @@ model User {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   
-  accounts     Account[]     
-  transactions Transaction[]
+  accounts     Account[]
+  transactions Transaction[]  
 
   @@map("user")
 }

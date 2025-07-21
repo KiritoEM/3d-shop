@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { statsSQLQuery } from "@/lib/sqlQuery";
-import { checkHasAccess } from "../../middlewares/BearerAcess";
+import { checkHasAccess } from "../../middlewares/auth";
 
 const handler = async (req: NextRequest) => {
     try {

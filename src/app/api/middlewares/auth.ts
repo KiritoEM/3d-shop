@@ -1,9 +1,13 @@
-import { getSession } from "@/lib/dbSession";
+import { AdminInfo, AdminRole, Session } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { getSession } from "@/lib/sessions/dbSession";
+import { isSuperAdmin } from "@/lib/utils";
+import { IDBSession } from "@/types";
 
 export const checkHasAccess = (
     handler: Function,
     type: "nextauth" | "jwt" = "jwt",
+    adminRole: AdminRole = "ADMIN",
 ) => {
     return async (req: NextRequest, context: any) => {
         try {
@@ -41,8 +45,23 @@ export const checkHasAccess = (
             //JWT validation
             else if (type === "jwt") {
                 const DBSession = await getSession(token);
+
+                if (adminRole === "SUPERADMIN") {
+                    const isSuperAdmin = await checkSuperadminAccess(DBSession);
+
+                    if (!isSuperAdmin) {
+                        return NextResponse.json(
+                            {
+                                message:
+                                    "This action needs superadmin privileges",
+                            },
+                            { status: 401 },
+                        );
+                    }
+                }
+
                 const isTokenExpired =
-                    Date.now() > new Date(DBSession.expires).getTime();
+                    Date.now() > new Date(DBSession.expires!).getTime();
 
                 if (isTokenExpired) {
                     return NextResponse.json(
@@ -75,4 +94,14 @@ export const checkHasAccess = (
             );
         }
     };
+};
+
+export const checkSuperadminAccess = (
+    sessionPayload: IDBSession,
+): Promise<IDBSession> => {
+    return new Promise((resolve, reject) => {
+        if (sessionPayload.role && !isSuperAdmin(sessionPayload.role)) reject();
+
+        resolve(sessionPayload);
+    });
 };

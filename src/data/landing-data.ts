@@ -1,4 +1,4 @@
-import { AboutCardTypes } from "../../lib/types";
+import { AboutCardTypes } from "../lib/types";
 
 export const ABOUT_DATA: AboutCardTypes[] = [
     {

@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import { toast } from "react-toastify";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -116,4 +117,31 @@ export const sortDataByDate = (data: any) => {
 
 export const isFunction = (func: unknown): func is Function => {
     return typeof func === "function";
+};
+
+export const isSuperAdmin = (role: unknown): role is "SUPERADMIN" => {
+    return role === "SUPERADMIN";
+};
+
+export const generatePassword = (length: number = 12) => {
+    const LOWER = "abcdefghijklmnopqrstuvwxyz";
+    const UPPER = LOWER.toUpperCase();
+    const NUM = "0123456789";
+    const chars = LOWER + UPPER + NUM;
+    let passwordGen = "";
+
+    for (let i = 0; i < length; i++) {
+        const randomIdx = Math.floor(Math.random() * chars.length);
+        passwordGen += chars[randomIdx];
+    }
+
+    return passwordGen;
+};
+
+export const copyTextClipboard = (value: any) => {
+    navigator.clipboard.writeText(value);
+
+    toast("Texte copié dans le presse-papier", {
+        type: "success",
+    });
 };

@@ -9,7 +9,7 @@ type AvatarUploaderProps = {
     previewAvatar?: string;
     uploadedAvatar?: string;
     name: string;
-    uploadAvatar: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    uploadAvatar: (file: File | undefined | null) => void;
 };
 
 const AvatarUploader: FC<AvatarUploaderProps> = ({
@@ -32,7 +32,9 @@ const AvatarUploader: FC<AvatarUploaderProps> = ({
                         type="file"
                         className="hidden"
                         id="upload-avatar-input"
-                        onChange={uploadAvatar}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            uploadAvatar(e.target.files?.[0])
+                        }
                     />
                 </div>
 

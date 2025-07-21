@@ -2,7 +2,7 @@ import { FC } from "react";
 import Image from "next/image";
 import { ArrowRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { STATISTICS_CARD_DATA } from "@/constants/data/panel-data";
+import { STATISTICS_CARD_DATA } from "@/data/panel-data";
 import { cn } from "@/lib/utils";
 import { IStatisticCard } from "@/constants/types";
 

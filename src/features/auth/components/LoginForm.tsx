@@ -15,14 +15,14 @@ import { Input, PasswordInput } from "@/components/ui/input";
 import GoogleAuth from "./GoogleAuth";
 import Separator from "./Separator";
 import Link from "next/link";
-import { toast } from "react-toastify"; 
+import { toast } from "react-toastify";
 import { redirect, useRouter } from "next/navigation";
 import { FC, useEffect, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
 import ReCAPTCHA from "react-google-recaptcha";
 import useRecaptcha from "@/hooks/useRecaptcha";
-import { verifyRecaptcha } from "@/lib/services/recaptchaServices";
+import { verifyRecaptcha } from "@/services/recaptchaServices";
 
 type LoginFormProps = {
     callbackUrl: string;
@@ -171,7 +171,8 @@ const LoginForm: FC<LoginFormProps> = ({ callbackUrl, error }): JSX.Element => {
                         <Button
                             className="mt-1 h-10 w-full"
                             type="submit"
-                            disabled={isPending || !recaptchaValue}
+                            disabled={!recaptchaValue}
+                            isLoading={isPending}
                         >
                             {isPending
                                 ? "Connexion en cours..."

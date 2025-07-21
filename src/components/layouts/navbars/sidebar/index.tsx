@@ -7,12 +7,12 @@ import { toast } from "react-toastify";
 import dynamic from "next/dynamic";
 import { SIDEBAR_DATA } from "@/constants/constants";
 import { ISidebarMenuItem } from "@/constants/types";
-import useSidebar from "@/hooks/useSidebar";
 import { Admin, Logo, Logout, LogoWithoutLabel } from "@/icons";
 import { cn, isFunction } from "@/lib/utils";
 import { logoutAdmin } from "@/features/auth/actions/authActions";
 import useDBSession from "@/hooks/useDBSession";
 import AuthLoadingScreen from "@/components/AuthLoadingScreen";
+import { useSidebar } from "@/store/sidebar";
 
 const NavResponsive = dynamic(() => import("./NavResponsive"), {
     ssr: false,
@@ -164,6 +164,7 @@ const Sidebar: FC = (): JSX.Element => {
                                     isLg={isLg}
                                     Icon={Admin}
                                     label="Administrateurs"
+                                    url="/admin/administrator"
                                 />
                             )}
                         </MenuBlock>

@@ -1,6 +1,6 @@
 import SignupForm from "@/features/auth/components/SignupForm";
 import { authOptions } from "@/lib/nextauth";
-import { redirectIfAuthentificated } from "@/lib/session-utilities/serverSessionUtilities";
+import { redirectIfAuthentificated } from "@/lib/sessions/serverSessionUtilities";
 
 const Signup = async ({
     searchParams,

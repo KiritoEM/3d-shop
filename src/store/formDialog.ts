@@ -1,4 +1,3 @@
-import { use } from "react";
 import { create } from "zustand";
 
 type StatusType = "success" | "failed";
@@ -28,4 +27,4 @@ const useFormDialog = create<DialogStore>()((set, get) => ({
     setStatus: (status: StatusType) => set({ status }),
 }));
 
-export default useFormDialog;
+export { useFormDialog };

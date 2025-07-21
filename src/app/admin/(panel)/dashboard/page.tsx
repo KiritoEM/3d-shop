@@ -1,6 +1,6 @@
 import GridSection from "@/features/panel/components/dashboard/GridSection";
 import StatisticsSection from "@/features/panel/components/dashboard/StatisticsSection";
-import { getToken } from "@/lib/dbSession";
+import { getToken } from "@/lib/sessions/dbSession";
 
 const Dashboard = async (): Promise<JSX.Element> => {
     const token = await getToken();

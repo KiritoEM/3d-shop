@@ -20,7 +20,7 @@ import { FC, useTransition } from "react";
 import { toast } from "react-toastify";
 import useRecaptcha from "@/hooks/useRecaptcha";
 import ReCAPTCHA from "react-google-recaptcha";
-import { verifyRecaptcha } from "@/lib/services/recaptchaServices";
+import { verifyRecaptcha } from "@/services/recaptchaServices";
 
 type SignupFormProps = {
     redirectUrl: string;
@@ -167,7 +167,8 @@ const SignupForm: FC<SignupFormProps> = ({ redirectUrl }): JSX.Element => {
                         <Button
                             className="mt-1 h-10 w-full"
                             type="submit"
-                            disabled={isPending || !recaptchaValue}
+                            disabled={!recaptchaValue}
+                            isLoading={isPending}
                         >
                             {isPending
                                 ? "Inscription en cours..."

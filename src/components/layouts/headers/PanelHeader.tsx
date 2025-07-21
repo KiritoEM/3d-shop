@@ -1,13 +1,14 @@
+import { BellIcon, Sidebar } from "lucide-react";
+import { FC } from "react";
 import AuthLoadingScreen from "@/components/AuthLoadingScreen";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import useDBSession, { ISession } from "@/hooks/useDBSession";
-import useSidebar from "@/hooks/useSidebar";
-import { BellIcon, Sidebar } from "lucide-react";
-import { FC } from "react";
+import useDBSession from "@/hooks/useDBSession";
+import { useSidebar } from "@/store/sidebar";
+import { IDBSession } from "@/types";
 import NavMenuIcon from "../navbars/main-nav/components/MenuIcon";
 
-type AdminAccountProps = Omit<ISession, "id" | "role"> & {
+type AdminAccountProps = Omit<IDBSession, "id" | "role"> & {
     role: string;
 };
 

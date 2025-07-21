@@ -1,4 +1,4 @@
-import { SYSTEM_PROMPT } from "@/constants/data/prompt-data";
+import { SYSTEM_PROMPT } from "@/data/prompt-data";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { ChatGroq } from "@langchain/groq";
 

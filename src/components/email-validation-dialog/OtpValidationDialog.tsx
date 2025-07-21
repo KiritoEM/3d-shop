@@ -13,7 +13,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "../ui/dialog";
-import useFormDialog from "@/hooks/useFormDialog";
+import { useFormDialog } from "@/store/formDialog";
 
 type OtpValidationDialogProps = {
     otpRef: RefObject<OTP>;

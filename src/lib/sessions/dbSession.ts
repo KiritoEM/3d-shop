@@ -2,8 +2,9 @@
 
 import crypto from "crypto";
 import { headers, cookies } from "next/headers";
-import { prisma } from "./prisma";
-import { Session } from "@prisma/client";
+import { IDBSession, SessionwithFacial } from "@/types";
+import { prisma } from "../prisma";
+import { AdminFacialRecognition, AdminInfo, Session } from "@prisma/client";
 
 const generateToken = () => {
     const randomBytes = crypto.randomBytes(32).toString("hex");
@@ -51,8 +52,8 @@ export const createSession = async (
     });
 };
 
-export const getSession = async (token: string): Promise<Session> => {
-    const session = await prisma.session.findUnique({
+export const getSession = async (token: string): Promise<IDBSession> => {
+    const session = (await prisma.session.findUnique({
         where: {
             token,
         },
@@ -63,13 +64,19 @@ export const getSession = async (token: string): Promise<Session> => {
                 },
             },
         },
-    });
+    })) as SessionwithFacial;
 
     if (!session) {
         throw new Error("Session not found");
     }
 
-    return session;
+    return {
+        id: session.id,
+        username: session.admin?.username!,
+        role: session.admin?.role!,
+        image: session.admin?.adminFacial?.image ?? "",
+        expires: session.expires,
+    };
 };
 
 export const deleteSession = async (token: string): Promise<boolean> => {

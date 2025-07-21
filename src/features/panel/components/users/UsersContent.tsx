@@ -5,7 +5,7 @@ import { ArrowUp } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
-import { USERS_COLUMNS } from "@/constants/data/panel-data";
+import { USERS_COLUMNS } from "@/data/panel-data";
 import { sortDataByDate } from "@/lib/utils";
 import { IUser } from "@/models/userModel";
 import { download, makeCSV } from "@/lib/CSVUtilities";
