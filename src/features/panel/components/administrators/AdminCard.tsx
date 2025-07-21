@@ -44,7 +44,7 @@ const AdminCardFlexible: FC<AdminCardFlexibleProps> = ({
     }
 
     return (
-        <article className="admin-card relative flex w-full flex-col items-center gap-4 rounded-lg border bg-[#2e3033] p-4 sm:gap-8 sm:p-4 md:flex-row xl:gap-6">
+        <article className="admin-card relative flex w-full flex-col items-center gap-4 rounded-lg border p-4 sm:gap-8 sm:p-4 md:flex-row xl:gap-6 dark:bg-[#242426]">
             {/* More button */}
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
