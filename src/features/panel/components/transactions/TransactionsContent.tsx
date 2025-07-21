@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useMemo } from "react";
+import { Fragment, useCallback, useMemo } from "react";
 import { ArrowUp } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { DataTable } from "@/components/ui/data-table";
@@ -32,48 +32,48 @@ const TransactionsContent = () => {
         queryKey: ["transactionsTable", skip],
         queryFn: () => getPaginatedTransactions(skip),
     });
-    const paginatedTransactionsData = transactionsData.paginatedData;
-    const totalDataCount = transactionsData.totalCount;
 
     const sortedData = useMemo(() => {
-        const dataToSort = paginatedTransactionsData || [];
+        const dataToSort = transactionsData?.paginatedData || [];
         return sortDataByDate(dataToSort);
-    }, [paginatedTransactionsData]);
+    }, [transactionsData]);
 
-    const handleDownloadCSV = () => {
-        if (
-            !paginatedTransactionsData ||
-            paginatedTransactionsData.length === 0
-        ) {
-            console.warn("Aucune donnée à exporter");
-            return;
-        }
+    const handleDownloadCSV = useCallback(() => {
+        () => {
+            if (
+                !transactionsData?.paginatedData ||
+                transactionsData?.paginatedData.length === 0
+            ) {
+                console.warn("Aucune donnée à exporter");
+                return;
+            }
 
-        type ITransactionCSVData = Omit<
-            ITransaction,
-            | "updatedAt"
-            | "currency"
-            | "userId"
-            | "user"
-            | "stripePaymentIntentId"
-        >;
+            type ITransactionCSVData = Omit<
+                ITransaction,
+                | "updatedAt"
+                | "currency"
+                | "userId"
+                | "user"
+                | "stripePaymentIntentId"
+            >;
 
-        const transactionCSVKeys = [
-            "createdAt",
-            "amount",
-            "id",
-            "stripeChargeId",
-            "status",
-            "customerEmail",
-            "customerName",
-        ] as (keyof ITransactionCSVData)[];
+            const transactionCSVKeys = [
+                "createdAt",
+                "amount",
+                "id",
+                "stripeChargeId",
+                "status",
+                "customerEmail",
+                "customerName",
+            ] as (keyof ITransactionCSVData)[];
 
-        const data = makeCSV<ITransactionCSVData, keyof ITransactionCSVData>(
-            transactionsData,
-            transactionCSVKeys,
-        );
-        download(data, "payments-statistics");
-    };
+            const data = makeCSV<
+                ITransactionCSVData,
+                keyof ITransactionCSVData
+            >(transactionsData, transactionCSVKeys);
+            download(data, "payments-statistics");
+        };
+    }, [transactionsData]);
 
     return (
         <Fragment>
@@ -83,8 +83,8 @@ const TransactionsContent = () => {
                     <Button
                         onClick={handleDownloadCSV}
                         disabled={
-                            !paginatedTransactionsData ||
-                            paginatedTransactionsData.length === 0 ||
+                            !transactionsData?.paginatedData ||
+                            transactionsData?.paginatedData.length === 0 ||
                             isLoading
                         }
                     >
@@ -102,7 +102,7 @@ const TransactionsContent = () => {
                     filterOptions={FILTER_OPTIONS}
                     columns={TRANSACTIONS_COLUMNS}
                     data={sortedData}
-                    totalDataCount={totalDataCount}
+                    totalDataCount={transactionsData?.totalCount}
                 />
             )}
         </Fragment>

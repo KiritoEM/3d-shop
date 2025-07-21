@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useMemo } from "react";
+import { Fragment, useCallback, useMemo } from "react";
 import { ArrowUp } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -29,19 +29,20 @@ const UsersContent = (): JSX.Element => {
     const { skip } = usePagination();
 
     const { data: usersData, isLoading } = useQuery({
-        queryKey: ["transactionsTable", skip],
+        queryKey: ["usersTable", skip],
         queryFn: () => getPaginatedUsers(skip),
     });
-    const paginatedUsersData = usersData.paginatedData;
-    const totalDataCount = usersData.totalCount;
 
     const sortedData = useMemo(() => {
-        const dataToSort = paginatedUsersData || [];
+        const dataToSort = usersData?.paginatedData || [];
         return sortDataByDate(dataToSort);
-    }, [paginatedUsersData]);
+    }, [usersData]);
 
-    const handleDownloadCSV = () => {
-        if (!paginatedUsersData || paginatedUsersData.length === 0) {
+    const handleDownloadCSV = useCallback(() => {
+        if (
+            !usersData?.paginatedData ||
+            usersData?.paginatedData.length === 0
+        ) {
             console.warn("Aucune donnée à exporter");
             return;
         }
@@ -57,11 +58,11 @@ const UsersContent = (): JSX.Element => {
         ] as (keyof IUserCSVData)[];
 
         const data = makeCSV<IUserCSVData, keyof IUserCSVData>(
-            usersData,
+            usersData.paginatedData,
             userCSVKeys,
         );
         download(data, "payments-statistics");
-    };
+    }, [usersData]);
 
     return (
         <Fragment>
@@ -72,8 +73,9 @@ const UsersContent = (): JSX.Element => {
                     <Button
                         onClick={handleDownloadCSV}
                         disabled={
-                            !paginatedUsersData ||
-                            paginatedUsersData.length === 0 ||
+                            !usersData ||
+                            !usersData?.paginatedData ||
+                            usersData?.paginatedData.length === 0 ||
                             isLoading
                         }
                     >
@@ -91,7 +93,7 @@ const UsersContent = (): JSX.Element => {
                     filterOptions={FILTER_OPTIONS}
                     columns={USERS_COLUMNS}
                     data={sortedData}
-                    totalDataCount={totalDataCount}
+                    totalDataCount={usersData?.totalCount}
                 />
             )}
         </Fragment>
