@@ -1,7 +1,6 @@
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
-import { Product } from "@prisma/client";
-import { NextRequest, NextResponse } from "next/server";
 import { checkHasAccess } from "../middlewares/auth";
 
 export async function POST(req: NextRequest) {
@@ -77,6 +76,8 @@ const handler = async (req: NextRequest) => {
         const paginationCount = Number(searchParams.get("pagination_count"));
         const paginationSkip = Number(searchParams.get("pagination_skip"));
 
+        const transactionsDataLength = await prisma.transaction.count();
+
         const transactionsData = await prisma.transaction.findMany({
             ...(paginationCount &&
                 paginationSkip && {
@@ -91,7 +92,13 @@ const handler = async (req: NextRequest) => {
             },
         });
 
-        return NextResponse.json(transactionsData, { status: 200 });
+        return NextResponse.json(
+            {
+                paginatedData: transactionsData,
+                totalCount: transactionsDataLength,
+            },
+            { status: 200 },
+        );
     } catch (error) {
         console.error("Error when getting transactions data: ", error);
         return NextResponse.json(

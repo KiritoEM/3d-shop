@@ -8,10 +8,11 @@ import { Button } from "@/components/ui/button";
 import { TRANSACTIONS_COLUMNS } from "@/data/panel-data";
 import { download, makeCSV } from "@/lib/CSVUtilities";
 import { sortDataByDate } from "@/lib/utils";
+import { ITransaction } from "@/models/transactionModel";
+import { usePagination } from "@/store/pagination";
 import { getPaginatedTransactions } from "../../services/transactionsServices";
 import SkeletonFallback from "../SkeletonFallback";
 import SectionHeader from "../SectionHeader";
-import { ITransaction } from "@/models/transactionModel";
 
 const FILTER_OPTIONS = [
     {
@@ -25,18 +26,25 @@ const FILTER_OPTIONS = [
 ];
 
 const TransactionsContent = () => {
+    const { skip } = usePagination();
+
     const { data: transactionsData, isLoading } = useQuery({
-        queryKey: ["transactionsTable"],
-        queryFn: () => getPaginatedTransactions(),
+        queryKey: ["transactionsTable", skip],
+        queryFn: () => getPaginatedTransactions(skip),
     });
+    const paginatedTransactionsData = transactionsData.paginatedData;
+    const totalDataCount = transactionsData.totalCount;
 
     const sortedData = useMemo(() => {
-        const dataToSort = transactionsData || [];
+        const dataToSort = paginatedTransactionsData || [];
         return sortDataByDate(dataToSort);
-    }, [transactionsData]);
+    }, [paginatedTransactionsData]);
 
     const handleDownloadCSV = () => {
-        if (!transactionsData || transactionsData.length === 0) {
+        if (
+            !paginatedTransactionsData ||
+            paginatedTransactionsData.length === 0
+        ) {
             console.warn("Aucune donnée à exporter");
             return;
         }
@@ -75,8 +83,8 @@ const TransactionsContent = () => {
                     <Button
                         onClick={handleDownloadCSV}
                         disabled={
-                            !transactionsData ||
-                            transactionsData.length === 0 ||
+                            !paginatedTransactionsData ||
+                            paginatedTransactionsData.length === 0 ||
                             isLoading
                         }
                     >
@@ -94,6 +102,7 @@ const TransactionsContent = () => {
                     filterOptions={FILTER_OPTIONS}
                     columns={TRANSACTIONS_COLUMNS}
                     data={sortedData}
+                    totalDataCount={totalDataCount}
                 />
             )}
         </Fragment>

@@ -12,6 +12,7 @@ import { download, makeCSV } from "@/lib/CSVUtilities";
 import SectionHeader from "../SectionHeader";
 import { getPaginatedUsers } from "../../services/usersServices";
 import SkeletonFallback from "../SkeletonFallback";
+import { usePagination } from "@/store/pagination";
 
 const FILTER_OPTIONS = [
     {
@@ -25,18 +26,22 @@ const FILTER_OPTIONS = [
 ];
 
 const UsersContent = (): JSX.Element => {
+    const { skip } = usePagination();
+
     const { data: usersData, isLoading } = useQuery({
-        queryKey: ["transactionsTable"],
-        queryFn: () => getPaginatedUsers(),
+        queryKey: ["transactionsTable", skip],
+        queryFn: () => getPaginatedUsers(skip),
     });
+    const paginatedUsersData = usersData.paginatedData;
+    const totalDataCount = usersData.totalCount;
 
     const sortedData = useMemo(() => {
-        const dataToSort = usersData || [];
+        const dataToSort = paginatedUsersData || [];
         return sortDataByDate(dataToSort);
-    }, [usersData]);
+    }, [paginatedUsersData]);
 
     const handleDownloadCSV = () => {
-        if (!usersData || usersData.length === 0) {
+        if (!paginatedUsersData || paginatedUsersData.length === 0) {
             console.warn("Aucune donnée à exporter");
             return;
         }
@@ -67,7 +72,9 @@ const UsersContent = (): JSX.Element => {
                     <Button
                         onClick={handleDownloadCSV}
                         disabled={
-                            !usersData || usersData.length === 0 || isLoading
+                            !paginatedUsersData ||
+                            paginatedUsersData.length === 0 ||
+                            isLoading
                         }
                     >
                         <ArrowUp /> Exporter en CSV
@@ -84,6 +91,7 @@ const UsersContent = (): JSX.Element => {
                     filterOptions={FILTER_OPTIONS}
                     columns={USERS_COLUMNS}
                     data={sortedData}
+                    totalDataCount={totalDataCount}
                 />
             )}
         </Fragment>

@@ -12,7 +12,7 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
-import React, { FC, Fragment, useState } from "react";
+import React, { FC, Fragment, useEffect, useState } from "react";
 import { Filter } from "@/icons";
 import {
     DropdownMenu,
@@ -21,6 +21,7 @@ import {
     DropdownMenuRadioItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { usePagination } from "@/store/pagination";
 import {
     Table,
     TableBody,
@@ -95,7 +96,7 @@ const TableFiltering: FC<TableFilteringProps> = ({
 
 type PaginationActionsProps = {
     totalRow: number;
-    currentRow: number;
+    currentPage: number;
     isPrevDisabled: boolean;
     isNextDisabled: boolean;
     onNextPage: () => void;
@@ -104,17 +105,24 @@ type PaginationActionsProps = {
 
 const PaginationActions: FC<PaginationActionsProps> = ({
     totalRow,
-    currentRow,
+    currentPage,
     onNextPage,
     onPrevPage,
     isPrevDisabled,
     isNextDisabled,
 }): JSX.Element => {
+    const { take, setPagination } = usePagination();
+
+    useEffect(() => {
+        if (currentPage === 0) return;
+        setPagination({ skip: (currentPage - 1) * take });
+    }, [currentPage, take]);
+
     return (
         <div className="pagination-actions flex items-center justify-between gap-4 py-6">
             <div className="pagination-actions__indicator">
                 <p className="text-muted-foreground">
-                    {totalRow ? `Page ${currentRow}/${totalRow}` : null}
+                    {totalRow ? `Page ${currentPage}/${totalRow}` : null}
                 </p>
             </div>
 
@@ -143,6 +151,7 @@ const PaginationActions: FC<PaginationActionsProps> = ({
 
 interface DataTableProps<TData, TValue> extends React.ComponentProps<"table"> {
     columns: ColumnDef<TData, TValue>[];
+    totalDataCount: number;
     data: TData[];
     inputPlaceholder: string;
     inputValueFilter: string;
@@ -154,6 +163,7 @@ function DataTable<TData, TValue>({
     data,
     inputPlaceholder,
     inputValueFilter,
+    totalDataCount,
     filterOptions,
     ...props
 }: DataTableProps<TData, TValue>) {
@@ -263,8 +273,8 @@ function DataTable<TData, TValue>({
             </Table>
 
             <PaginationActions
-                totalRow={table.getPageCount()}
-                currentRow={
+                totalRow={totalDataCount}
+                currentPage={
                     table.getRowCount() !== 0
                         ? table.getState().pagination.pageIndex + 1
                         : 0
