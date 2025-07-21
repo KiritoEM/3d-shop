@@ -2,8 +2,9 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useRef, useTransition } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -14,17 +15,21 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input, InputWithIcon } from "@/components/ui/input";
-import useRecaptcha from "@/hooks/useRecaptcha";
 import { addAdminSchema, IAddAdminSchema } from "@/lib/zod-schemas/adminSchema";
 import useUploadFile from "@/hooks/useUploadFile";
 import FileUploader from "@/components/ui/file-uploader";
 import { IMAGE_TYPES } from "@/constants/constants";
 import { DialogClose } from "@/components/ui/dialog";
 import { copyTextClipboard, generatePassword } from "@/lib/utils";
-import { Copy } from "lucide-react";
-import { createNewAdmin } from "../../actions/adminActions";
-import { toast } from "react-toastify";
 import { useFormDialog } from "@/store/formDialog";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { createNewAdmin } from "../../actions/adminActions";
 
 const AddAccountForm = (): JSX.Element => {
     const form = useForm<IAddAdminSchema>({
@@ -35,12 +40,6 @@ const AddAccountForm = (): JSX.Element => {
         },
     });
     const [isPending, startTransition] = useTransition();
-    const {
-        recaptachaRef,
-        recaptchaValue,
-        getRecaptchaValue,
-        handleChangeCaptcha,
-    } = useRecaptcha();
     const { handleUploadFile, resetField, uploadedFile } = useUploadFile(
         "IMAGE",
         IMAGE_TYPES,
@@ -54,6 +53,7 @@ const AddAccountForm = (): JSX.Element => {
 
     const onSubmit = (data: IAddAdminSchema) => {
         startTransition(async () => {
+            console.log(data);
             const response = await createNewAdmin({
                 ...data,
                 image: (uploadedFile as File) ?? null,
@@ -107,6 +107,31 @@ const AddAccountForm = (): JSX.Element => {
                         </FormItem>
                     )}
                 />
+                <FormField
+                    control={form.control}
+                    name="role"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Role de l'admin</FormLabel>
+                            <Select
+                                onValueChange={field.onChange}
+                            >
+                                <FormControl>
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="Séléctionner le role" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent className="w-full">
+                                    <SelectItem value="SUPERADMIN">
+                                        SUPERADMIN
+                                    </SelectItem>
+                                    <SelectItem value="ADMIN">ADMIN</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
                 <div>
                     <InputWithIcon
                         iconPlace="right"
@@ -125,21 +150,11 @@ const AddAccountForm = (): JSX.Element => {
                         placeholder=""
                     />
                 </div>
-                <ReCAPTCHA
-                    ref={recaptachaRef}
-                    sitekey={
-                        process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string
-                    }
-                    onChange={(token) => handleChangeCaptcha(token!)}
-                />
                 <div className="dialog-footer mt-4 flex justify-end space-x-4">
                     <DialogClose asChild>
                         <Button variant="outline">Annuler</Button>
                     </DialogClose>
-                    <Button
-                        type="submit"
-                        disabled={isPending || !recaptchaValue}
-                    >
+                    <Button type="submit" isLoading={isPending}>
                         {isPending ? "Création..." : "Créer"}
                     </Button>
                 </div>{" "}

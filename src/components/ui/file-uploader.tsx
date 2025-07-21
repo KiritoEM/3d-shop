@@ -12,7 +12,7 @@ interface IFileUploaderProps extends React.ComponentProps<"label"> {
     FileType: IfileType;
     onFileSelected: (e: File) => void;
     reset: () => void;
-    maxFileNameLength?: number; 
+    maxFileNameLength?: number;
 }
 
 const DEFAULT_DESCRIPTION = `<span class='font-medium text-violet-400'>Cliquer pour télécharger</span> votre fichier ou <span class='font-medium text-violet-400'>glisser le</span>`;
@@ -99,7 +99,7 @@ const FileUploader: FC<IFileUploaderProps> = ({
                     </div>
                 </label>
             ) : (
-                <div className="file-preview relative flex h-full w-full items-center justify-between overflow-hidden mt-4">
+                <div className="file-preview relative mt-4 flex h-full w-full items-center justify-between overflow-hidden">
                     <div className="file-info flex items-center gap-5">
                         <img
                             src={URL.createObjectURL(uploadedFile)}

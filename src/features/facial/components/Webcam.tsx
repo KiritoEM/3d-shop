@@ -63,6 +63,8 @@ const Webcam = (): JSX.Element => {
     const BASE_STYLE_CONTAINER =
         "flex h-full w-full flex-col items-center justify-center space-y-4 rounded-lg bg-input dark:bg-[#262626]";
 
+    console.log(isLoadingWebcam, authStatus, sessionCreated);
+
     return (
         <div className="webcam relative mt-4 flex !h-[360px] w-full items-center justify-center p-0">
             {/* Error handling */}
@@ -86,20 +88,22 @@ const Webcam = (): JSX.Element => {
                 )}
 
             {/* Loading State */}
-            {isLoadingWebcam && authStatus === "Pending" && !sessionCreated && (
-                <div
-                    className={cn(
-                        "webcam__loading absolute z-40",
-                        BASE_STYLE_CONTAINER,
-                        "shadow-lg backdrop-blur-md",
-                    )}
-                >
-                    <div className="border-foreground h-10 w-10 animate-spin rounded-full border-4 border-b-transparent"></div>
-                    <h4 className="text-foreground font-semibold">
-                        Chargement de la caméra...
-                    </h4>
-                </div>
-            )}
+            {isLoadingWebcam &&
+                authStatus === "Pending" &&
+                sessionCreated === "Pending" && (
+                    <div
+                        className={cn(
+                            "webcam__loading absolute z-40",
+                            BASE_STYLE_CONTAINER,
+                            "shadow-lg backdrop-blur-md",
+                        )}
+                    >
+                        <div className="border-foreground h-10 w-10 animate-spin rounded-full border-4 border-b-transparent"></div>
+                        <h4 className="text-foreground font-semibold">
+                            Chargement de la caméra...
+                        </h4>
+                    </div>
+                )}
 
             {/* Success State */}
             {!isLoadingWebcam &&
@@ -120,7 +124,7 @@ const Webcam = (): JSX.Element => {
                 )}
 
             {/* Failure State */}
-            {!isLoadingWebcam && authStatus === "Unknow" && !sessionCreated && (
+            {!isLoadingWebcam && authStatus === "Unknow" && (
                 <div
                     className={cn(
                         "webcam__unknow relative z-50 p-6",

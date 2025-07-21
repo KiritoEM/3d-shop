@@ -7,6 +7,10 @@ import { deleteFile, uploadFileLocal } from "@/lib/uploadFile";
 import { isDevelopment } from "@/lib/utils";
 import { IAddAdminSchema } from "@/lib/zod-schemas/adminSchema";
 import { IResponseType } from "@/types";
+import { revalidatePath } from "next/cache";
+import { getSession, getToken } from "@/lib/sessions/dbSession";
+import { redirect } from "next/navigation";
+import { logoutAdmin } from "@/features/auth/actions/authActions";
 
 export const createNewAdmin = async (
     data: IAddAdminSchema & { image?: File; password: string },
@@ -45,6 +49,7 @@ export const createNewAdmin = async (
                 data: {
                     username: data.username,
                     password: data.password,
+                    role: data.role
                 },
             });
 
@@ -63,6 +68,8 @@ export const createNewAdmin = async (
 
             return adminInfoAdded;
         });
+
+        revalidatePath("/admin/administrator");
 
         return {
             status: "success",
@@ -112,6 +119,16 @@ export const deleteAdminById = async (
                 throw new Error();
             }
         }
+
+        const token = await getToken();
+        const currentSession = await getSession(token ?? "");
+
+        if (currentSession.id === adminId) {
+            await logoutAdmin(token ?? "");
+            redirect("/admin/login");
+        }
+
+        revalidatePath("/admin/administrator");
 
         return {
             status: "success",

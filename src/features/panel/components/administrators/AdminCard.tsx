@@ -1,7 +1,7 @@
 "use client";
 
 import { MoreHorizontalIcon, Trash2 } from "lucide-react";
-import { FC } from "react";
+import { FC, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -12,6 +12,7 @@ import {
 import { IAdminInfo } from "@/models/adminModel";
 import { deleteAdminById } from "../../actions/adminActions";
 import { toast } from "react-toastify";
+import AuthLoadingScreen from "@/components/AuthLoadingScreen";
 
 type AdminCardFlexibleProps = Omit<
     IAdminInfo,
@@ -25,14 +26,22 @@ const AdminCardFlexible: FC<AdminCardFlexibleProps> = ({
     createdAt,
     adminFacial,
 }): JSX.Element => {
-    const deleteAdmin = async (id: string) => {
-        const response = await deleteAdminById(id);
+    const [isPending, startTransition] = useTransition();
 
-        toast(response.message, {
-            type: response.status === "error" ? "error" : "success",
-            theme: "colored",
+    const handleDeleteAdmin = (id: string) => {
+        startTransition(async () => {
+            const response = await deleteAdminById(id);
+
+            toast(response.message, {
+                type: response.status === "error" ? "error" : "success",
+                theme: "colored",
+            });
         });
     };
+
+    if (isPending) {
+        return <AuthLoadingScreen text="Suppresion de l'admin..." />;
+    }
 
     return (
         <article className="admin-card relative flex w-full flex-col items-center gap-4 rounded-lg border bg-[#2e3033] p-4 sm:gap-8 sm:p-4 md:flex-row xl:gap-6">
@@ -48,7 +57,7 @@ const AdminCardFlexible: FC<AdminCardFlexibleProps> = ({
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent className="w-56" align="start">
-                    <DropdownMenuItem onClick={() => deleteAdmin(id)}>
+                    <DropdownMenuItem onClick={() => handleDeleteAdmin(id)}>
                         <span className="text-destructive hover:text-destructive flex items-center gap-3">
                             <Trash2 className="text-destructive" /> Supprimer le
                             compte
@@ -57,14 +66,14 @@ const AdminCardFlexible: FC<AdminCardFlexibleProps> = ({
                 </DropdownMenuContent>
             </DropdownMenu>
 
-            <div className="aspect-[4/3] max-h-[184px] w-full overflow-hidden rounded-xl md:!h-20 md:!w-20 md:flex-shrink-0 lg:!h-[100px] lg:!w-[100px] 2xl:!h-28 2xl:!w-28">
+            <div className="admin-card__image aspect-[4/3] max-h-[184px] w-full overflow-hidden rounded-xl md:!h-20 md:!w-20 md:flex-shrink-0 lg:!h-[100px] lg:!w-[100px] 2xl:!h-28 2xl:!w-28">
                 <img
                     src={
                         adminFacial?.image
                             ? adminFacial?.image
                             : "/default-avatar.webp"
                     }
-                    className="object-cover object-center"
+                    className="h-full w-full object-cover object-center"
                     alt="admin-avatar"
                 />
             </div>

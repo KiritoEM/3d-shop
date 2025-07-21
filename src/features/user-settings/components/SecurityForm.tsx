@@ -91,7 +91,8 @@ const SecurityForm: FC<SecurityFormProps> = ({ id }): JSX.Element => {
                 <Button
                     type="submit"
                     className="min-w-[120px]"
-                    disabled={isPending || isDisabled}
+                    disabled={isDisabled}
+                    isLoading={isPending}
                 >
                     {isPending ? "Mise à jour..." : "Mettre à jour"}
                 </Button>
