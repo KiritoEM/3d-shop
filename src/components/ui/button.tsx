@@ -3,7 +3,6 @@
 import * as React from "react";
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
-
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
@@ -36,36 +35,42 @@ const buttonVariants = cva(
     },
 );
 
+interface ButtonProps
+    extends React.ComponentProps<"button">,
+        VariantProps<typeof buttonVariants> {
+    asChild?: boolean;
+    isLoading?: boolean;
+}
+
 function Button({
     className,
     variant,
     size,
     isLoading = false,
-    children,
     asChild = false,
+    children,
     ...props
-}: React.ComponentProps<"button"> &
-    VariantProps<typeof buttonVariants> & {
-        asChild?: boolean;
-        isLoading?: boolean;
-    }) {
+}: ButtonProps) {
     const Comp = asChild ? Slot : "button";
 
     return (
         <Comp
-            data-slot="button"
             className={cn(buttonVariants({ variant, size, className }))}
             disabled={isLoading}
             {...props}
         >
-            <Slottable>
-                <>
-                    {isLoading && (
-                        <div className="spinner h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-                    )}
-                    {children}
-                </>
-            </Slottable>
+            {asChild ? (
+                children
+            ) : (
+                <Slottable>
+                    <>
+                        {isLoading && (
+                            <div className="spinner h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                        )}
+                        {children}
+                    </>
+                </Slottable>
+            )}
         </Comp>
     );
 }
