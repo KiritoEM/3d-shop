@@ -71,14 +71,14 @@ export const MenuItem: FC<
             {isActive && ActiveIcon ? (
                 <ActiveIcon className="text-primary size-5" />
             ) : (
-                <Icon className="text-muted-foreground size-5 group-hover:text-white" />
+                <Icon className="text-muted-foreground size-5 group-hover:text-foreground" />
             )}{" "}
             {!isClosed && !isLg && (
                 <span
                     className={cn(
                         isActive
-                            ? "font-medium text-white"
-                            : "text-muted-foreground group-hover:text-white",
+                            ? "text-foreground font-medium"
+                            : "text-muted-foreground group-hover:text-foreground",
                     )}
                 >
                     {label}

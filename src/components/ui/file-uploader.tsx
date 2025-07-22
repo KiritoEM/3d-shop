@@ -77,7 +77,7 @@ const FileUploader: FC<IFileUploaderProps> = ({
                     <div className="file-uploader__field flex h-fit w-fit flex-col items-center gap-4">
                         <div className="text-background border-3 border-gray flex h-10 w-10 items-center justify-center rounded-lg bg-white">
                             {" "}
-                            <UploadCloud className="size-6" />
+                            <UploadCloud className="text-foreground size-6" />
                         </div>
 
                         <p

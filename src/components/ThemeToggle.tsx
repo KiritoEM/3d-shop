@@ -1,9 +1,10 @@
 "use client";
 
-import useViewportDimension from "@/hooks/useViewportDimension";
+import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import { Palette } from "@/icons";
 import { cn } from "@/lib/utils";
-import { useTheme } from "next-themes";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,9 +14,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { THEME_OPTIONS } from "@/constants/constants";
-import { useEffect, useState } from "react";
-import { animateSideCannons } from "./animations/confetti";
-import { usePathname } from "next/navigation";
+import { startViewTransition } from "@/lib/theme";
 
 const MATCHED_PATH = ["/recommandations"];
 
@@ -25,15 +24,6 @@ const ThemeToggle = (): JSX.Element | null => {
     const path = usePathname();
 
     const isMatchedPath = MATCHED_PATH.includes(path.toLowerCase());
-
-    const handleToggleTheme = (theme: string) => {
-        if ("startViewTransition" in document) {
-            document.startViewTransition(() => {
-                animateSideCannons();
-                setTheme(theme);
-            });
-        }
-    };
 
     useEffect(() => {
         setMounted(true);
@@ -77,7 +67,9 @@ const ThemeToggle = (): JSX.Element | null => {
                                 theme === opt.value &&
                                     "border-primary text-primary pointer-events-none border",
                             )}
-                            onClick={() => handleToggleTheme(opt.value)}
+                            onClick={() =>
+                                startViewTransition(() => setTheme(opt.value))
+                            }
                         >
                             <div
                                 className={`theme flex items-center space-x-2 ${theme === opt.value ? "text-primary" : "text-[#0D0D0D]"} cursor-pointer`}

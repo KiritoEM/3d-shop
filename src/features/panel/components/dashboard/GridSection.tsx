@@ -39,7 +39,7 @@ const GridSection: FC<GridSectionProps> = ({ token }): JSX.Element => {
                 )}
             </div>
 
-            <div className="column-2 flex flex-col gap-5">
+            <div className="column-2 flex flex-col gap-5 mt-5 lg:mt-0">
                 {isUsersDataLoading ? (
                     <SkeletonFallback />
                 ) : (

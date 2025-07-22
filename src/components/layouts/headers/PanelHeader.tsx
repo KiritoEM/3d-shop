@@ -1,4 +1,5 @@
-import { BellIcon, Sidebar } from "lucide-react";
+import { BellIcon, Moon, Sidebar, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 import { FC } from "react";
 import AuthLoadingScreen from "@/components/AuthLoadingScreen";
 import { Avatar } from "@/components/ui/avatar";
@@ -7,6 +8,7 @@ import useDBSession from "@/hooks/useDBSession";
 import { useSidebar } from "@/store/sidebar";
 import { IDBSession } from "@/types";
 import NavMenuIcon from "../navbars/main-nav/components/MenuIcon";
+import { startViewTransition } from "@/lib/theme";
 
 type AdminAccountProps = Omit<IDBSession, "id" | "role"> & {
     role: string;
@@ -23,7 +25,7 @@ const AdminAccount: FC<AdminAccountProps> = ({
                 <Avatar
                     name={username}
                     image={image}
-                    className="!size-10 md:!size-11 xl:!size-12"
+                    className="!size-10 md:!size-11"
                 />
             </div>
 
@@ -47,6 +49,9 @@ const PanelHeader = (): JSX.Element => {
         setResponsiveSidebarState,
     } = useSidebar();
     const { isLoading, session } = useDBSession();
+    const { theme, setTheme } = useTheme();
+
+    const isDark = theme === "dark";
 
     if (isLoading) {
         return <AuthLoadingScreen text="Chargement en cours..." />;
@@ -73,13 +78,37 @@ const PanelHeader = (): JSX.Element => {
             />
 
             <div className="panel-header__actions relative flex items-center space-x-4 md:space-x-6">
-                <Button
-                    className="notifications-trigger bg-gray !h-10 !w-10 rounded-full !px-0 !py-0 transition-transform duration-100 md:!h-11 md:!w-11  xl:!h-12 xl:!w-12 hover:[&>svg]:scale-110"
-                    size="lg"
-                    variant="secondary"
-                >
-                    <BellIcon className="m-auto size-4 xl:size-5" />
-                </Button>
+                <div className="space-x-4 md:space-x-4">
+                    <Button
+                        className="notifications-trigger bg-gray !h-10 !w-10 rounded-full !px-0 !py-0 transition-transform duration-100 md:!h-11 md:!w-11 hover:[&>svg]:scale-110"
+                        size="lg"
+                        variant="secondary"
+                    >
+                        <BellIcon className="m-auto size-4" />
+                    </Button>
+
+                    <Button
+                        className="notifications-trigger bg-gray !h-10 !w-10 rounded-full !px-0 !py-0 transition-transform duration-100 md:!h-11 md:!w-11 hover:[&>svg]:scale-110"
+                        size="lg"
+                        variant="secondary"
+                        title={
+                            isDark
+                                ? "Changer en mode Light"
+                                : "Changer en mode Dark"
+                        }
+                        onClick={() =>
+                            startViewTransition(() =>
+                                setTheme(isDark ? "light" : "dark"),
+                            )
+                        }
+                    >
+                        {theme === "dark" ? (
+                            <Sun className="m-auto size-4" />
+                        ) : (
+                            <Moon className="m-auto size-4" />
+                        )}
+                    </Button>
+                </div>
 
                 <hr className="separator bg-muted hidden h-[calc(100%+4px)] w-[1.4px] sm:block" />
 

@@ -113,9 +113,7 @@ const AddAccountForm = (): JSX.Element => {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Role de l'admin</FormLabel>
-                            <Select
-                                onValueChange={field.onChange}
-                            >
+                            <Select onValueChange={field.onChange}>
                                 <FormControl>
                                     <SelectTrigger className="w-full">
                                         <SelectValue placeholder="Séléctionner le role" />

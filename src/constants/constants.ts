@@ -48,7 +48,7 @@ export const SIDEBAR_DATA: Record<string, ISidebarMenuItem[]> = {
             ActiveIcon: DashboardActive,
             label: "Utilisateurs",
             url: "/admin/users",
-        }
+        },
     ],
     general: [],
 };

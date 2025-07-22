@@ -190,7 +190,6 @@ const RecommandationsBot = (): JSX.Element => {
                                     item.role === "user" ? (
                                         <div className="user-avatar w-12">
                                             <Avatar
-                                                email={data?.user?.email!}
                                                 name={data?.user?.name!}
                                                 className=" !size-10 !rounded-lg object-cover md:!size-12"
                                             />
