@@ -1,4 +1,5 @@
 import { AdminFacialRecognition, AdminInfo, Session } from "@prisma/client";
+import { Session as NextauthSession } from "next-auth";
 
 export type IResponseType<T = null> = {
     message: string;
@@ -28,3 +29,7 @@ export type SessionwithFacial = Session & {
 };
 
 export type IfileType = "IMAGE" | "VIDEO";
+
+export type INextauthSession = NextauthSession["user"] & {
+    accessToken?: string;
+};

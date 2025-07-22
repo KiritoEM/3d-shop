@@ -5,9 +5,14 @@ import { FC } from "react";
 import axios from "axios";
 import { isDevelopment } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { INextauthSession } from "@/types";
 import { useRecommandation } from "../hooks/useRecommandation";
 
-const PromptInput: FC = (): JSX.Element => {
+type PromptInputProps = {
+    session: INextauthSession;
+};
+
+const PromptInput: FC<PromptInputProps> = ({ session }): JSX.Element => {
     const { setChat, setLoading } = useRecommandation();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -21,12 +26,22 @@ const PromptInput: FC = (): JSX.Element => {
 
         setChat({ role: "user", message: userMessage });
         setLoading(true);
-        input.value = "";
+        input.value = "";   
+
+        console.log(session);
 
         try {
-            const response = await axios.post(`/api/bot_recommandation`, {
-                prompt: userMessage,
-            });
+            const response = await axios.post(
+                `/api/bot_recommandation`,
+                {
+                    prompt: userMessage,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${session?.accessToken}`,
+                    },
+                },
+            );
 
             setChat({
                 role: "bot",

@@ -167,7 +167,7 @@ const SignupForm: FC<SignupFormProps> = ({ redirectUrl }): JSX.Element => {
                         <Button
                             className="mt-1 h-10 w-full"
                             type="submit"
-                            disabled={!recaptchaValue}
+                            disabled={isPending || !recaptchaValue}
                             isLoading={isPending}
                         >
                             {isPending

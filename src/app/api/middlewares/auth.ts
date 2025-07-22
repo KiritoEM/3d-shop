@@ -2,7 +2,8 @@ import { AdminInfo, AdminRole, Session } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/sessions/dbSession";
 import { isSuperAdmin } from "@/lib/utils";
-import { IDBSession } from "@/types";
+import { IDBSession, INextauthSession } from "@/types";
+import { decodeJWT } from "@/lib/jwt";
 
 export const checkHasAccess = (
     handler: Function,
@@ -34,12 +35,12 @@ export const checkHasAccess = (
 
             //Nextauth validation
             if (type === "nextauth") {
-                if (token.length < 32) {
-                    return NextResponse.json(
-                        { message: "Invalid session token" },
-                        { status: 401 },
-                    );
-                }
+                const payload = decodeJWT<INextauthSession>(
+                    token,
+                    process.env.NEXTAUTH_SECRET as string,
+                );
+
+                checkIsExpired(Number(payload.exp) * 1000);
             }
 
             //JWT validation
@@ -60,15 +61,7 @@ export const checkHasAccess = (
                     }
                 }
 
-                const isTokenExpired =
-                    Date.now() > new Date(DBSession.expires!).getTime();
-
-                if (isTokenExpired) {
-                    return NextResponse.json(
-                        { message: "Token was expired" },
-                        { status: 401 },
-                    );
-                }
+                checkIsExpired(new Date(DBSession?.expires!).getTime());
             } else {
                 return NextResponse.json(
                     { message: "Unauthorized request, uknow token type" },
@@ -94,6 +87,17 @@ export const checkHasAccess = (
             );
         }
     };
+};
+
+const checkIsExpired = (expires: number) => {
+    const isTokenExpired = Date.now() > expires;
+
+    if (isTokenExpired) {
+        return NextResponse.json(
+            { message: "Token was expired" },
+            { status: 401 },
+        );
+    }
 };
 
 export const checkSuperadminAccess = (

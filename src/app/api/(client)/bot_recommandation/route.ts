@@ -38,15 +38,15 @@ const handler = async (req: NextRequest): Promise<NextResponse> => {
                 status: 200,
             },
         );
-    } catch (err) {
-        console.error("Bot API Error:", err);
+    } catch (error) {
+        console.error("Bot API Error:", error);
 
         return NextResponse.json(
             {
                 message: "Internal Server Error",
                 error:
                     process.env.NODE_ENV === "development"
-                        ? String(err)
+                        ? String(error)
                         : undefined,
             },
             { status: 500 },

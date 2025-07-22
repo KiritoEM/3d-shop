@@ -1,7 +1,6 @@
 "use client";
 
 import { useLayoutEffect, useState } from "react";
-import { AdminFacialRecognition, AdminInfo } from "@prisma/client";
 import { getToken } from "@/lib/sessions/dbSession";
 import { isDevelopment } from "@/lib/utils";
 import { IDBSession } from "@/types";

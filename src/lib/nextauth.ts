@@ -4,6 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./prisma";
 import { compareData } from "./hash";
+import { createJWTToken } from "./jwt";
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
@@ -14,7 +15,6 @@ export const authOptions: NextAuthOptions = {
         }),
         CredentialsProvider({
             name: "Credentials",
-
             credentials: {
                 email: { label: "Email", type: "text" },
                 password: { label: "Password", type: "password" },
@@ -47,7 +47,7 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        async signIn({ user, account, profile }) {
+        async signIn({ account, profile }) {
             if (account?.provider === "google") {
                 const existingUser = await prisma.user.findUnique({
                     where: { email: profile?.email },
@@ -70,13 +70,13 @@ export const authOptions: NextAuthOptions = {
                 ...session,
                 user: {
                     ...session.user,
+                    accessToken: token.accessToken ?? "",
                     id: token.id,
                 },
             };
         },
-        async jwt({ token, user, trigger, session }) {
+        async jwt({ token, user, trigger, session, account }) {
             if (trigger === "update") {
-                //when updating session in clien-side
                 return {
                     ...token,
                     ...session.user,
@@ -84,11 +84,42 @@ export const authOptions: NextAuthOptions = {
             }
 
             if (user) {
-                return {
-                    ...token,
-                    id: (user as unknown as User).id,
-                };
+                token.id = (user as unknown as User).id;
             }
+
+            if (account) {
+                if (account.type === "credentials") {
+                    const tokenPayload = {
+                        id: token.id || (user as User)?.id,
+                        name: token.name || (user as User)?.name,
+                        email: token.email || (user as User)?.email,
+                        picture: token.picture || (user as User)?.image,
+                        sub: token.sub || (user as User)?.id,
+                    };
+
+                    token.accessToken = createJWTToken(
+                        process.env.NEXTAUTH_SECRET as string,
+                        tokenPayload,
+                    );
+                } else {
+                    token.accessToken = account.access_token;
+                }
+            }
+
+            if (!token.accessToken && token.id) {
+                const tokenPayload = {
+                    id: token.id,
+                    name: token.name,
+                    email: token.email,
+                    picture: token.picture,
+                    sub: token.sub,
+                };
+                token.accessToken = createJWTToken(
+                    process.env.NEXTAUTH_SECRET as string,
+                    tokenPayload,
+                );
+            }
+
             return token;
         },
     },
@@ -98,7 +129,7 @@ export const authOptions: NextAuthOptions = {
     },
     session: {
         strategy: "jwt",
-        maxAge: 30 * 24 * 60 * 60, //30 days
+        maxAge: 30 * 24 * 60 * 60, // 30 days
     },
     secret: process.env.NEXTAUTH_SECRET,
 };

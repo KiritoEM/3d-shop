@@ -1,25 +1,26 @@
 "use client";
 
 import { FC, ReactNode, useState } from "react";
-import PromptInput from "./PromptInput";
-import { useSession } from "next-auth/react";
-import AuthLoadingScreen from "@/components/AuthLoadingScreen";
-import { Avatar } from "@/components/ui/avatar";
-import { cleanTextForSpeech, cn } from "@/lib/utils";
-import { IChatRole, useRecommandation } from "../hooks/useRecommandation";
-import { Skeleton } from "@/components/ui/skeleton";
-import Markdown from "markdown-to-jsx";
-import { useSpeech } from "react-text-to-speech";
-import { Button } from "@/components/ui/button";
-import { Check, Copy, StopCircle, Volume2 } from "lucide-react";
-import copy from "copy-to-clipboard";
-import { toast } from "react-toastify";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { useRemark } from "react-remarkify";
-import { useSpeechAvatar } from "../hooks/useSpeechAvatar";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
+import { useSession } from "next-auth/react";
+import { useSpeech } from "react-text-to-speech";
+import Markdown from "markdown-to-jsx";
+import { Check, Copy, StopCircle, Volume2 } from "lucide-react";
+import copy from "copy-to-clipboard";
+import { toast } from "react-toastify";
+import { INextauthSession } from "@/types";
+import AuthLoadingScreen from "@/components/AuthLoadingScreen";
+import { Avatar } from "@/components/ui/avatar";
+import { cleanTextForSpeech, cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useSpeechAvatar } from "../hooks/useSpeechAvatar";
+import { IChatRole, useRecommandation } from "../hooks/useRecommandation";
+import PromptInput from "./PromptInput";
 
 type ChatItemProps = {
     role: IChatRole;
@@ -212,7 +213,7 @@ const RecommandationsBot = (): JSX.Element => {
             )}
 
             <div className="input-container mb-6 flex w-full items-center">
-                <PromptInput />
+                <PromptInput session={data?.user as INextauthSession} />
             </div>
         </div>
     );
