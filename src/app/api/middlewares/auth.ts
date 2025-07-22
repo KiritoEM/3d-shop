@@ -71,7 +71,6 @@ const handleNextAuth = async (
     context: any,
 ): Promise<NextResponse> => {
     const session = await getServerSession(authOptions);
-    console.log("Session: ", session);
     if (!session) {
         return unauthorizedResponse("No valid session found");
     }

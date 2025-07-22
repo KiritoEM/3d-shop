@@ -4,7 +4,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./prisma";
 import { compareData } from "./hash";
-import { createJWTToken } from "./jwt";
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
@@ -65,15 +64,6 @@ export const authOptions: NextAuthOptions = {
             }
             return true;
         },
-        async session({ session, token }) {
-            return {
-                ...session,
-                user: {
-                    ...session.user,
-                    id: token.id,
-                },
-            };
-        },
         async jwt({ token, user, trigger, session }) {
             if (trigger === "update") {
                 return {
@@ -84,9 +74,22 @@ export const authOptions: NextAuthOptions = {
 
             if (user) {
                 token.id = user.id;
+                token.name = user.name;
+                token.email = user.email;
+                token.image = user.image;
             }
 
             return token;
+        },
+        async session({ session, token }) {
+            return {
+                ...session,
+                user: {
+                    ...session.user,
+                    id: token.id,
+                    image: token.image as string,
+                },
+            };
         },
     },
     pages: {

@@ -63,7 +63,7 @@ const ChangeUserInfo: FC<ChangeUserInfoProps> = ({
 
     const watchedValues = form.watch();
 
-    const { update } = useSession();
+    const { update, data } = useSession();
     const { setDialogState, setEmail, status } = useFormDialog();
     const { handleUploadFile, uploadedFile } = useUploadFile(
         "IMAGE",
@@ -139,6 +139,10 @@ const ChangeUserInfo: FC<ChangeUserInfoProps> = ({
                         type: "error",
                     });
                 } else {
+                    console.log(
+                        "Données utilisateur mises à jour :",
+                        updatedUserResponse.data,
+                    );
                     updateSession(
                         pickObjectField<User, keyof User>(
                             updatedUserResponse.data as User,

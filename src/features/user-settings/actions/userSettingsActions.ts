@@ -2,7 +2,7 @@
 
 import { compareData, hashData } from "@/lib/hash";
 import { prisma } from "@/lib/prisma";
-import { uploadFileLocal } from "@/lib/uploadFile";
+import { deleteFile, uploadFileLocal } from "@/lib/uploadFile";
 import { isDevelopment } from "@/lib/utils";
 import {
     ISecuritySchema,
@@ -10,6 +10,7 @@ import {
 } from "@/lib/zod-schemas/settingsSchemas";
 import { IResponseType } from "@/types";
 import { User } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 import path from "node:path";
 
 export const updateUser = async (
@@ -17,26 +18,6 @@ export const updateUser = async (
     id: string,
 ): Promise<IResponseType<User | null>> => {
     try {
-        let imagePath: string = data.image as string;
-
-        if (data.image instanceof File) {
-            const {
-                status,
-                message,
-                data: imageUploadedPath,
-            } = await uploadFileLocal(
-                data.image as File,
-                "uploaded-client-avatars",
-                `${data.name.replaceAll(" ", "_").toLowerCase()}${path.extname(data.image.name)}`,
-            );
-
-            if (status === "error") {
-                throw new Error(message);
-            }
-
-            imagePath = imageUploadedPath!;
-        }
-
         const updatedUser = await prisma.$transaction(async (tx) => {
             const user = await tx.user.findUnique({
                 where: {
@@ -48,6 +29,30 @@ export const updateUser = async (
                 throw new Error("No user found with id: " + id);
             }
 
+            if (user.image) {
+                await deleteFile(user.image);
+            }
+
+            let imagePath: string = data.image as string;
+
+            if (data.image instanceof File) {
+                const {
+                    status,
+                    message,
+                    data: imageUploadedPath,
+                } = await uploadFileLocal(
+                    data.image as File,
+                    "uploaded-client-avatars",
+                    `${id.replaceAll(" ", "_").toLowerCase()}${path.extname(data.image.name)}`,
+                );
+
+                if (status === "error") {
+                    throw new Error(message);
+                }
+
+                imagePath = imageUploadedPath!;
+            }
+
             return await tx.user.update({
                 data: {
                     image: imagePath,
@@ -55,7 +60,7 @@ export const updateUser = async (
                     email: data.email,
                 },
                 where: {
-                    id: user?.id,
+                    id: user.id,
                 },
             });
         });
@@ -67,6 +72,8 @@ export const updateUser = async (
                     "Un erreur s'est produit lors de la mise à jour des informations",
             };
         }
+
+        revalidatePath("/settings");
 
         return {
             status: "success",
@@ -102,8 +109,6 @@ export const updateUserPassword = async (
                 throw new Error("Current password didn't match");
             }
 
-            console.log("Password match");
-
             return await tx.user.update({
                 data: {
                     password: await hashData(data.newPassword),
@@ -111,6 +116,8 @@ export const updateUserPassword = async (
                 where: { id: user?.id },
             });
         });
+
+        revalidatePath("/settings");
 
         return {
             status: "success",

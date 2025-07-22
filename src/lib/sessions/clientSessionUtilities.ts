@@ -13,18 +13,26 @@ export const updateSession = async (
     update: Function,
 ) => {
     try {
+        console.log("Données envoyées à updateSession :", providedSession);
         const sessionUpdated = await update({
             user: {
-                image: providedSession?.image,
-                email: providedSession?.email,
-                name: providedSession?.name,
+                image: providedSession?.image || "",
+                email: providedSession?.email || "",
+                name: providedSession?.name || "",
             },
         });
+        console.log("Session mise à jour :", sessionUpdated);
 
-        if (!sessionUpdated) return;
+        if (!sessionUpdated) {
+            console.error("Échec de la mise à jour de la session");
+            return false;
+        }
 
         window.location.reload();
+
+        return true;
     } catch (err) {
-        isDevelopment && console.error(err);
+        console.error("Erreur lors de la mise à jour de la session :", err);
+        return false;
     }
 };

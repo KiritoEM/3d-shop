@@ -65,7 +65,7 @@ export const deleteFile = async (
 
         return {
             status: "success",
-            message: "Fichier uploadé avec succés",
+            message: "Fichier supprimé avec succés",
         };
     } catch (err) {
         return {
