@@ -1,111 +1,111 @@
-import { AdminInfo, AdminRole, Session } from "@prisma/client";
-import { NextRequest, NextResponse } from "next/server";
+import { AdminRole } from "@prisma/client";
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
 import { getSession } from "@/lib/sessions/dbSession";
-import { isSuperAdmin } from "@/lib/utils";
-import { IDBSession, INextauthSession } from "@/types";
-import { decodeJWT } from "@/lib/jwt";
+import { INextauthSession, NextRequestWithId } from "@/types";
+import { authOptions } from "@/lib/nextauth";
+import {
+    checkIsSuperadmin,
+    isTokenExpired,
+    unauthorizedResponse,
+} from "@/lib/server-utils";
+
+interface AuthConfig {
+    type?: "nextauth" | "db_session";
+    adminRole?: AdminRole;
+}
 
 export const checkHasAccess = (
-    handler: Function,
-    type: "nextauth" | "jwt" = "jwt",
-    adminRole: AdminRole = "ADMIN",
+    handler: (req: NextRequestWithId, context: any) => Promise<NextResponse>,
+    { type = "db_session", adminRole = "ADMIN" }: AuthConfig = {},
 ) => {
-    return async (req: NextRequest, context: any) => {
+    return async (
+        req: NextRequestWithId,
+        context: any,
+    ): Promise<NextResponse> => {
         try {
-            const headers = req.headers;
-
-            if (
-                !headers.get("Authorization") ||
-                !headers.get("Authorization")?.startsWith("Bearer")
-            ) {
-                return NextResponse.json(
-                    { message: "Unauthorized request" },
-                    { status: 401 },
-                );
-            }
-
-            const token = req.headers.get("Authorization")?.slice(7);
-
-            if (!token) {
-                return NextResponse.json(
-                    { message: "No token provided" },
-                    { status: 401 },
-                );
-            }
-
-            //Nextauth validation
             if (type === "nextauth") {
-                const payload = decodeJWT<INextauthSession>(
-                    token,
-                    process.env.NEXTAUTH_SECRET as string,
-                );
+                // Handle next-auth sessions
+                return await handleNextAuth(req, handler, context);
+            } else if (type === "db_session") {
+                const authHeader = req.headers.get("Authorization");
 
-                checkIsExpired(Number(payload.exp) * 1000);
-            }
-
-            //JWT validation
-            else if (type === "jwt") {
-                const DBSession = await getSession(token);
-
-                if (adminRole === "SUPERADMIN") {
-                    const isSuperAdmin = await checkSuperadminAccess(DBSession);
-
-                    if (!isSuperAdmin) {
-                        return NextResponse.json(
-                            {
-                                message:
-                                    "This action needs superadmin privileges",
-                            },
-                            { status: 401 },
-                        );
-                    }
+                if (!authHeader || !authHeader.startsWith("Bearer ")) {
+                    return unauthorizedResponse(
+                        "Missing or invalid Authorization header",
+                    );
                 }
 
-                checkIsExpired(new Date(DBSession?.expires!).getTime());
-            } else {
-                return NextResponse.json(
-                    { message: "Unauthorized request, uknow token type" },
-                    { status: 401 },
+                const token = authHeader.split(" ")[1];
+                if (!token) {
+                    return unauthorizedResponse("No token provided");
+                }
+
+                return await handleDBSession(
+                    req,
+                    token,
+                    adminRole,
+                    handler,
+                    context,
                 );
             }
 
-            const response = await handler(req, context);
-            return response;
-        } catch (err) {
-            console.error("Bearer access error: ", err);
+            return unauthorizedResponse("Unknown token type");
+        } catch (error) {
+            console.error("Authentication error:", error);
+            const message =
+                error instanceof Error
+                    ? error.message
+                    : "An unexpected error occurred";
             return NextResponse.json(
-                {
-                    error: "Internal server error",
-                    message:
-                        err instanceof Error
-                            ? err.message
-                            : "An unexpected error occurred",
-                },
-                {
-                    status: 500,
-                },
+                { error: "Internal server error", message },
+                { status: 500 },
             );
         }
     };
 };
 
-const checkIsExpired = (expires: number) => {
-    const isTokenExpired = Date.now() > expires;
-
-    if (isTokenExpired) {
-        return NextResponse.json(
-            { message: "Token was expired" },
-            { status: 401 },
-        );
+const handleNextAuth = async (
+    req: NextRequestWithId,
+    handler: (req: NextRequestWithId, context: any) => Promise<NextResponse>,
+    context: any,
+): Promise<NextResponse> => {
+    const session = await getServerSession(authOptions);
+    console.log("Session: ", session);
+    if (!session) {
+        return unauthorizedResponse("No valid session found");
     }
+
+    const expires = new Date(session.expires).getTime();
+    if (isTokenExpired(expires)) {
+        return unauthorizedResponse("Token has expired");
+    }
+
+    req.userId = (session.user as INextauthSession).id ?? null;
+    return await handler(req, context);
 };
 
-export const checkSuperadminAccess = (
-    sessionPayload: IDBSession,
-): Promise<IDBSession> => {
-    return new Promise((resolve, reject) => {
-        if (sessionPayload.role && !isSuperAdmin(sessionPayload.role)) reject();
+const handleDBSession = async (
+    req: NextRequestWithId,
+    token: string,
+    adminRole: AdminRole,
+    handler: (req: NextRequestWithId, context: any) => Promise<NextResponse>,
+    context: any,
+): Promise<NextResponse> => {
+    const dbSession = await getSession(token);
 
-        resolve(sessionPayload);
-    });
+    if (adminRole === "SUPERADMIN") {
+        try {
+            await checkIsSuperadmin(dbSession);
+        } catch {
+            return unauthorizedResponse("Superadmin privileges required");
+        }
+    }
+
+    const expires = new Date(dbSession?.expires!).getTime();
+    if (isTokenExpired(expires)) {
+        return unauthorizedResponse("Token has expired");
+    }
+
+    return await handler(req, context);
 };

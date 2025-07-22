@@ -11,7 +11,7 @@ const Dashboard = async (): Promise<JSX.Element> => {
     };
 
     const statsResponse = await Promise.all([
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/count`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/count`, {
             ...reqHeader,
         }),
         fetch(

@@ -24,7 +24,6 @@ type IFilter = {
 };
 
 type RadarStatsActionsProps = {
-    // years: number[];
     filters: IFilter;
     addFilters: (filter: Partial<IFilter>) => void;
 };
@@ -36,28 +35,6 @@ const RadarStatsActions: FC<RadarStatsActionsProps> = ({
 }): JSX.Element => {
     return (
         <div className="radar-action flex items-center gap-4">
-            {/* <div className="radar-action__year-filter">
-                <Select
-                    onValueChange={(value) =>
-                        addFilters({ year: Number(value) })
-                    }
-                >
-                    <SelectTrigger className="w-fit gap-3">
-                        <SelectValue placeholder={`${filters.year}`} />
-                    </SelectTrigger>
-
-                    <SelectContent>
-                        {years
-                            .filter((year) => year !== filters.year)
-                            .map((year) => (
-                                <SelectItem value={`${year}`}>
-                                    {year}
-                                </SelectItem>
-                            ))}
-                    </SelectContent>
-                </Select>
-            </div> */}
-
             <div className="radar-action__month-interval">
                 <Select
                     onValueChange={(value) =>

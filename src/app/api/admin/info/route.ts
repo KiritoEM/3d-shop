@@ -27,6 +27,6 @@ const handler = async (req: NextRequest) => {
     }
 };
 
-const protectedHandler = checkHasAccess(handler, "jwt", "SUPERADMIN");
+const protectedHandler = checkHasAccess(handler);
 
 export const GET = protectedHandler;

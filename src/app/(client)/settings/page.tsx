@@ -1,23 +1,31 @@
-import { cookies } from "next/headers";
+import { headers } from "next/headers";
 import AccountPreview from "@/components/AccountPreview";
 import Error from "@/components/error";
 import Block from "@/features/user-settings/components/Block";
 import ChangeUserInfo from "@/features/user-settings/components/ChangeUserInfo";
-import { fetchUserInfo } from "@/features/user-settings/services/userServices";
 import { authOptions } from "@/lib/nextauth";
 import SecurityForm from "@/features/user-settings/components/SecurityForm";
 import { validateSession } from "@/lib/sessions/serverSessionUtilities";
+import { IUser } from "@/models/userModel";
 
 const UserSetting = async (): Promise<JSX.Element> => {
-    const token = (await cookies()).get("next-auth.session-token");
-    const userSession = await validateSession(authOptions, "settings");
-    const response = await fetchUserInfo(userSession, token?.value ?? "");
+    await validateSession(authOptions, "settings");
+    const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/user`,
+        {
+            credentials: "include",
+            headers: await headers(),
+        },
+    );
 
     if (!response.ok) {
         return <Error error="Un erreur s'est produit" />;
     }
 
-    const userInfo = (await response.json()).user;
+    const userInfo = (await response.json()).user as IUser;
+    const authentificatedOAuth = userInfo.accounts.some(
+        (acc) => acc.type === "oauth",
+    );
 
     return (
         <section className="user-settings mb-12 mt-[126px] w-full overflow-hidden">
@@ -32,7 +40,7 @@ const UserSetting = async (): Promise<JSX.Element> => {
                     <AccountPreview
                         email={userInfo.email}
                         name={userInfo.name}
-                        image={userInfo.image}
+                        image={userInfo.image ?? ""}
                     />
 
                     <Block
@@ -41,18 +49,21 @@ const UserSetting = async (): Promise<JSX.Element> => {
                     >
                         <ChangeUserInfo
                             id={userInfo.id}
-                            image={userInfo.image}
+                            image={userInfo.image ?? ""}
                             email={userInfo.email}
                             name={userInfo.name}
+                            isOAuth={authentificatedOAuth}
                         />
                     </Block>
 
-                    <Block
-                        title="Mot de passe et sécurité"
-                        description="Changez votre mot de passe ou ajouter des authentifications à deux facteurs"
-                    >
-                        <SecurityForm id={userInfo?.id} />
-                    </Block>
+                    {!authentificatedOAuth && (
+                        <Block
+                            title="Mot de passe et sécurité"
+                            description="Changez votre mot de passe ou ajouter des authentifications à deux facteurs"
+                        >
+                            <SecurityForm id={userInfo?.id} />
+                        </Block>
+                    )}
                 </div>
             </div>
         </section>

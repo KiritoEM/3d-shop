@@ -14,5 +14,6 @@ export const decodeJWT = <T>(
     token: string,
     secretKey: string,
 ): JwtPayload & T => {
+    console.log(secretKey);
     return jwt.verify(token, secretKey) as JwtPayload & T;
 };

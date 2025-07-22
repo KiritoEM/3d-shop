@@ -14,7 +14,6 @@ const AccountPreview: FC<AccountPreviewProps> = ({
     name,
     image,
 }): JSX.Element => {
-    console.log(image);
     return (
         <div className="account-preview hidden w-fit items-center gap-6 rounded-lg border p-5 sm:flex xl:p-6">
             <Avatar name={name} image={image} className="!size-17" />

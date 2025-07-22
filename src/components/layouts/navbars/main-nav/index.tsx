@@ -125,7 +125,7 @@ const MainNav = (): JSX.Element => {
     const { data, status } = useSession();
 
     if (status === "loading") {
-        return <AuthLoadingScreen text="Chargement..." />;
+        return <AuthLoadingScreen text="Chargement en cours..." />;
     }
 
     const isAbsolute = MATCHED_PATH.includes(path);

@@ -70,12 +70,11 @@ export const authOptions: NextAuthOptions = {
                 ...session,
                 user: {
                     ...session.user,
-                    accessToken: token.accessToken ?? "",
                     id: token.id,
                 },
             };
         },
-        async jwt({ token, user, trigger, session, account }) {
+        async jwt({ token, user, trigger, session }) {
             if (trigger === "update") {
                 return {
                     ...token,
@@ -84,40 +83,7 @@ export const authOptions: NextAuthOptions = {
             }
 
             if (user) {
-                token.id = (user as unknown as User).id;
-            }
-
-            if (account) {
-                if (account.type === "credentials") {
-                    const tokenPayload = {
-                        id: token.id || (user as User)?.id,
-                        name: token.name || (user as User)?.name,
-                        email: token.email || (user as User)?.email,
-                        picture: token.picture || (user as User)?.image,
-                        sub: token.sub || (user as User)?.id,
-                    };
-
-                    token.accessToken = createJWTToken(
-                        process.env.NEXTAUTH_SECRET as string,
-                        tokenPayload,
-                    );
-                } else {
-                    token.accessToken = account.access_token;
-                }
-            }
-
-            if (!token.accessToken && token.id) {
-                const tokenPayload = {
-                    id: token.id,
-                    name: token.name,
-                    email: token.email,
-                    picture: token.picture,
-                    sub: token.sub,
-                };
-                token.accessToken = createJWTToken(
-                    process.env.NEXTAUTH_SECRET as string,
-                    tokenPayload,
-                );
+                token.id = user.id;
             }
 
             return token;

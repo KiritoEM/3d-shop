@@ -42,6 +42,7 @@ type ChangeUserInfoProps = {
     image: string;
     email: string;
     name: string;
+    isOAuth?: boolean;
 };
 
 const ChangeUserInfo: FC<ChangeUserInfoProps> = ({
@@ -49,6 +50,7 @@ const ChangeUserInfo: FC<ChangeUserInfoProps> = ({
     image,
     email,
     name,
+    isOAuth = false,
 }): JSX.Element => {
     const form = useForm<ISettingsSchema>({
         resolver: zodResolver(settingsSchema),
@@ -156,8 +158,8 @@ const ChangeUserInfo: FC<ChangeUserInfoProps> = ({
 
     return (
         <Fragment>
-            <div className="change-personal-info flex flex-col items-center gap-10 sm:flex-row lg:gap-6">
-                <div className="personal-info__form w-full sm:w-[50%] lg:w-[45%] xl:w-[40%]">
+            <div className="change-personal-info flex flex-col items-start gap-10 sm:flex-row lg:gap-6">
+                <div className="personal-info__form relative w-full sm:top-12 sm:w-[50%] lg:w-[45%] xl:w-[40%]">
                     <Form {...form}>
                         <form
                             className="space-y-7"
@@ -192,9 +194,14 @@ const ChangeUserInfo: FC<ChangeUserInfoProps> = ({
                                                 className="w-full max-w-[440px]"
                                                 type="email"
                                                 placeholder="Entrez votre email"
+                                                disabled={isOAuth}
                                                 {...field}
                                             />
                                         </FormControl>
+                                        <FormLabel className="text-muted-foreground text-xs">
+                                            {isOAuth &&
+                                                `Impossible de changer l'email si vous avez créé votre compte en se connectant avec Google`}
+                                        </FormLabel>
                                     </FormItem>
                                 )}
                             />

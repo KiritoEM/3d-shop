@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { FC } from "react";
+import { FC, useState } from "react";
 import axios from "axios";
 import { isDevelopment } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -14,21 +14,17 @@ type PromptInputProps = {
 
 const PromptInput: FC<PromptInputProps> = ({ session }): JSX.Element => {
     const { setChat, setLoading } = useRecommandation();
+    const [inputValue, setInputValue] = useState<string>("");
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const form = e.currentTarget;
-        const input = form["prompt"] as HTMLInputElement;
-        const userMessage = input.value.trim();
-
+        const userMessage = inputValue.trim();
         if (!userMessage) return;
 
         setChat({ role: "user", message: userMessage });
         setLoading(true);
-        input.value = "";   
-
-        console.log(session);
+        setInputValue("");
 
         try {
             const response = await axios.post(
@@ -38,7 +34,7 @@ const PromptInput: FC<PromptInputProps> = ({ session }): JSX.Element => {
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${session?.accessToken}`,
+                        credentials: "include",
                     },
                 },
             );
@@ -58,6 +54,7 @@ const PromptInput: FC<PromptInputProps> = ({ session }): JSX.Element => {
             setLoading(false);
         }
     };
+
     return (
         <form
             method="POST"
@@ -69,12 +66,17 @@ const PromptInput: FC<PromptInputProps> = ({ session }): JSX.Element => {
                     name="prompt"
                     className="scrollable-section !h-full w-full resize-none text-sm outline-none md:text-base"
                     autoComplete="off"
+                    value={inputValue}
+                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                        setInputValue(e.target.value);
+                    }}
                     placeholder="Ecrire votre description..."
                 />
 
                 <div className="btn-cta flex h-full items-end">
                     <Button
                         type="submit"
+                        disabled={inputValue.trim().length === 0}
                         className="send-btn bg-primary hover:bg-primary/90 duration-400 group h-9 w-9 cursor-pointer rounded-full !px-0 !py-0 transition-all lg:h-10 lg:w-10"
                     >
                         <Image

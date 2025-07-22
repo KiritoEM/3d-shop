@@ -1,6 +1,6 @@
 export const getUsersGroupbyMonth = async (token: string) => {
     const response = await fetch(
-        `/api/user/get_stats?year=${new Date().getFullYear()}`,
+        `/api/users/get_stats?year=${new Date().getFullYear()}`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,

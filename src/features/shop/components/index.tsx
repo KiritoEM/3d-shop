@@ -1,12 +1,12 @@
 "use client";
 
-import ProductCard from "@/features/shop/components/ProductCard";
 import React, { Fragment, useRef, useState } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
-import useShopData from "@/features/shop/hooks/shop/useShopData";
-import SearchInput from "@/components/SearchInput";
 import dynamic from "next/dynamic";
 import { FilterIcon } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import ProductCard from "@/features/shop/components/ProductCard";
+import useShopData from "@/features/shop/hooks/shop/useShopData";
+import SearchInput from "@/components/SearchInput";
 
 const FilterbarLoaderSkeletons = () => (
     <aside className="filter-bar-skeletons fixed hidden h-[calc(100vh-110px)] w-full max-w-[310px] space-y-8 pb-8 lg:block xl:max-w-[325px]">
@@ -49,6 +49,7 @@ const ShopContent = (): JSX.Element => {
     return (
         <Fragment>
             <Fragment>
+                {/* Sidebar for desktop and plus */}
                 <FilterSidebar
                     categories={categories ?? []}
                     priceRange={priceRange!}
@@ -73,6 +74,7 @@ const ShopContent = (): JSX.Element => {
                         Notre Shop
                     </h2>
 
+                    {/* Header actions */}
                     <div className="header__actions flex space-x-3">
                         <div
                             className="filter-btn bg-input flex h-9 items-center rounded-lg px-3 lg:hidden"

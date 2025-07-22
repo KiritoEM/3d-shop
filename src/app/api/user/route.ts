@@ -1,38 +1,35 @@
-import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
 import { checkHasAccess } from "../middlewares/auth";
+import { NextRequestWithId } from "@/types";
 
-const handler = async (req: NextRequest) => {
+const handler = async (req: NextRequestWithId) => {
     try {
-        const { searchParams } = new URL(req.url);
-        const paginationCount = Number(searchParams.get("pagination_count"));
-        const paginationSkip = Number(searchParams.get("pagination_skip"));
-
-        const usersDataLength = await prisma.user.count();
-
-        const usersData = await prisma.user.findMany({
-            ...(paginationCount &&
-                paginationSkip && {
-                    take: paginationCount,
-                    skip: paginationSkip,
-                }),
+        const userInfo = await prisma.user.findUnique({
+            where: { id: req.userId },
             include: {
                 accounts: true,
             },
-            orderBy: {
-                createdAt: "desc",
-            },
         });
+
+        if (!userInfo) {
+            return NextResponse.json(
+                { message: `No user found with id: ${req.userId}` },
+                { status: 404 },
+            );
+        }
 
         return NextResponse.json(
             {
-                paginatedData: usersData,
-                totalCount: usersDataLength,
+                message: "User fetched successfully",
+                user: userInfo,
             },
-            { status: 200 },
+            {
+                status: 200,
+            },
         );
     } catch (error) {
-        console.error("Error in getStats for user: ", error);
+        console.error("Error in user handler:", error);
         return NextResponse.json(
             {
                 message: "Internal server error",
@@ -43,5 +40,6 @@ const handler = async (req: NextRequest) => {
     }
 };
 
-const protectedHandler = checkHasAccess(handler);
+const protectedHandler = checkHasAccess(handler, { type: "nextauth" });
+
 export const GET = protectedHandler;

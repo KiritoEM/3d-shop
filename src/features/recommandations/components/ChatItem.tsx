@@ -1,26 +1,18 @@
-"use client";
-
 import { FC, ReactNode, useState } from "react";
 import { useRemark } from "react-remarkify";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
-import { useSession } from "next-auth/react";
 import { useSpeech } from "react-text-to-speech";
 import Markdown from "markdown-to-jsx";
 import { Check, Copy, StopCircle, Volume2 } from "lucide-react";
 import copy from "copy-to-clipboard";
 import { toast } from "react-toastify";
-import { INextauthSession } from "@/types";
-import AuthLoadingScreen from "@/components/AuthLoadingScreen";
-import { Avatar } from "@/components/ui/avatar";
 import { cleanTextForSpeech, cn } from "@/lib/utils";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useSpeechAvatar } from "../hooks/useSpeechAvatar";
-import { IChatRole, useRecommandation } from "../hooks/useRecommandation";
-import PromptInput from "./PromptInput";
+import { IChatRole } from "../hooks/useRecommandation";
 
 type ChatItemProps = {
     role: IChatRole;
@@ -142,7 +134,7 @@ const ChatItem: FC<ChatItemProps> = ({ image, message, role, name }) => {
 };
 
 // Chat skeleton card
-const ChatItemSkeleton = () => {
+export const ChatItemSkeleton = () => {
     return (
         <article className="chat-item-skeleton flex w-full items-start gap-6">
             <Skeleton className="avatar-skeleton h-10 w-10 rounded-lg md:h-12 md:w-12" />
@@ -156,67 +148,4 @@ const ChatItemSkeleton = () => {
     );
 };
 
-const RecommandationsBot = (): JSX.Element => {
-    const { data, status } = useSession();
-    const { chats, loading } = useRecommandation();
-
-    if (status === "loading")
-        return <AuthLoadingScreen text="Chargement en cours..." />;
-
-    return (
-        <div className="recommandations-bot relative flex h-full w-full flex-col justify-between gap-6 lg:w-[48%] xl:w-[43%]">
-            {chats.length === 0 && (
-                <div className="recommandations-bot__header mb-6 flex flex-col gap-4">
-                    <h1 className="font-michroma text-3xl leading-tight 2xl:text-4xl">
-                        Comment puis-je vous aider ?
-                    </h1>
-                    <p className="text-foreground/80">
-                        Décrivez le produit ou service que vous recherchez et
-                        notre assistant commercial IA vous proposera les
-                        meilleures recommandations et conseils personnalisés
-                        pour répondre à vos besoins.
-                    </p>
-                </div>
-            )}
-
-            {chats.length > 0 && (
-                <ScrollArea className="chat-wrapper scrollable-section border-foreground/45 flex h-[calc(100vh-315px)] w-full flex-col overflow-y-auto rounded-xl border lg:h-[calc(100vh-275px)]">
-                    <div className="chat-container  mb-2 flex w-[98%] flex-col space-y-10 p-5 lg:mb-4">
-                        {chats.map((item, index) => (
-                            <ChatItem
-                                key={index}
-                                role={item.role}
-                                message={item.message}
-                                image={
-                                    item.role === "user" ? (
-                                        <div className="user-avatar w-12">
-                                            <Avatar
-                                                name={data?.user?.name!}
-                                                className=" !size-10 !rounded-lg object-cover md:!size-12"
-                                            />
-                                        </div>
-                                    ) : (
-                                        "/ai-avatar.png"
-                                    )
-                                }
-                                name={
-                                    item.role === "user"
-                                        ? data?.user?.name?.split(" ")[0]!
-                                        : "Bazzar AI"
-                                }
-                            />
-                        ))}
-
-                        {loading && <ChatItemSkeleton />}
-                    </div>
-                </ScrollArea>
-            )}
-
-            <div className="input-container mb-6 flex w-full items-center">
-                <PromptInput session={data?.user as INextauthSession} />
-            </div>
-        </div>
-    );
-};
-
-export default RecommandationsBot;
+export default ChatItem;

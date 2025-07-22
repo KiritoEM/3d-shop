@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState, useTransition } from "react";
+import { toast } from "react-toastify";
 import OTP from "@/lib/otp";
 import { IUserSettingsSchema } from "@/lib/zod-schemas/settingsSchemas";
-import { toast } from "react-toastify";
 import { pickObjectField } from "@/lib/utils";
 import { User } from "@prisma/client";
 import { updateSession } from "@/lib/sessions/clientSessionUtilities";
