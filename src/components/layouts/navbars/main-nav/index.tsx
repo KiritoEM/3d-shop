@@ -128,9 +128,6 @@ const MainNav = (): JSX.Element => {
         return <AuthLoadingScreen text="Chargement en cours..." />;
     }
 
-    console.log("Session data: ", data);
-
-
     const isAbsolute = MATCHED_PATH.includes(path);
 
     const handleSignOut = async () => {

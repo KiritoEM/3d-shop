@@ -12,8 +12,6 @@ type AvatarProps = {
 };
 
 const Avatar: FC<AvatarProps> = ({ name, onClick, image, className }) => {
-    console.log("Image: ", image);
-
     return (
         <ReactAvatar
             round
