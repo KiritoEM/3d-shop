@@ -2,6 +2,7 @@ import {
     Dashboard,
     DashboardActive,
     Product,
+    ProductActive,
     Transactions,
     Users,
 } from "@/icons";
@@ -40,8 +41,9 @@ export const SIDEBAR_DATA: Record<string, ISidebarMenuItem[]> = {
         },
         {
             Icon: Product,
-            ActiveIcon: DashboardActive,
+            ActiveIcon: ProductActive,
             label: "Produits",
+            url: "/admin/products",
         },
         {
             Icon: Users,
