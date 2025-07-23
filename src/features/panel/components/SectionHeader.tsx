@@ -19,7 +19,7 @@ const SectionHeader: FC<SectionHeaderProps> = ({
                 </h3>
 
                 {description?.length && (
-                    <p className="heading__description text-muted-foreground mt-4">
+                    <p className="heading__description text-muted-foreground mt-3">
                         {description}
                     </p>
                 )}

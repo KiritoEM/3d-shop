@@ -119,7 +119,7 @@ const PaginationActions: FC<PaginationActionsProps> = ({
     useEffect(() => {
         if (currentPage === 0) return;
         onPageChange({ skip: (currentPage - 1) * rowRendered });
-    }, [currentPage, rowRendered, onPageChange]);
+    }, [currentPage]);
 
     return (
         <div className="pagination-actions flex items-center justify-between gap-4 py-6">
@@ -159,7 +159,7 @@ interface DataTableProps<TData, TValue> extends React.ComponentProps<"table"> {
     inputPlaceholder: string;
     inputValueFilter: string;
     filterOptions: IFilterOptions[];
-    onPageChange: (params: IPagination) => void; // Renommé ici
+    onPageChange: (params: IPagination) => void;
 }
 
 function DataTable<TData, TValue>({
@@ -169,7 +169,7 @@ function DataTable<TData, TValue>({
     inputValueFilter,
     totalDataCount,
     filterOptions,
-    onPageChange, // Renommé ici
+    onPageChange,
     ...props
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([]);
@@ -220,7 +220,7 @@ function DataTable<TData, TValue>({
                     setSorting([
                         {
                             id: value,
-                            desc: true,
+                            desc: value === "createdAt",
                         },
                     ]);
                 }}
@@ -278,7 +278,7 @@ function DataTable<TData, TValue>({
             </Table>
 
             <PaginationActions
-                totalRow={totalDataCount}
+                totalRow={table.getPageCount()}
                 rowRendered={10}
                 currentPage={
                     table.getRowCount() !== 0

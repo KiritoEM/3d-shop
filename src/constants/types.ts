@@ -2,6 +2,7 @@ import { FC } from "react";
 import { IconProps } from "@/icons";
 import { ITransaction } from "@/models/transactionModel";
 import { IUser } from "@/models/userModel";
+import { IProduct } from "@/models/productModel";
 
 export type ISidebarMenuItem = {
     Icon: FC<IconProps>;
@@ -35,4 +36,9 @@ export type ITransactionsColumns = Pick<
 export type IUsersColumns = Pick<
     IUser,
     "id" | "name" | "email" | "image" | "createdAt" | "accounts"
+>;
+
+export type IProductsColumns = Pick<
+    IProduct,
+    "id" | "name" | "description" | "price" | "category" | "createdAt"
 >;
