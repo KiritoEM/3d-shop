@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import dynamic from "next/dynamic";
 import { SIDEBAR_DATA } from "@/constants/constants";
 import { ISidebarMenuItem } from "@/constants/types";
-import { Admin, Logo, Logout, LogoWithoutLabel } from "@/icons";
+import { Admin, AdminActive, Logo, Logout, LogoWithoutLabel } from "@/icons";
 import { cn, isFunction } from "@/lib/utils";
 import { logoutAdmin } from "@/features/auth/actions/authActions";
 import useDBSession from "@/hooks/useDBSession";
@@ -71,7 +71,7 @@ export const MenuItem: FC<
             {isActive && ActiveIcon ? (
                 <ActiveIcon className="text-primary size-5" />
             ) : (
-                <Icon className="text-muted-foreground size-5 group-hover:text-foreground" />
+                <Icon className="text-muted-foreground group-hover:text-foreground size-5" />
             )}{" "}
             {!isClosed && !isLg && (
                 <span
@@ -163,6 +163,7 @@ const Sidebar: FC = (): JSX.Element => {
                                     isClosed={closed || isLg}
                                     isLg={isLg}
                                     Icon={Admin}
+                                    ActiveIcon={AdminActive}
                                     label="Administrateurs"
                                     url="/admin/administrator"
                                 />
