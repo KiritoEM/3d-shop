@@ -11,16 +11,16 @@ const Dashboard = async (): Promise<JSX.Element> => {
     };
 
     const statsResponse = await Promise.all([
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/count`, {
+        fetch(`${process.env.API_URL}/api/users/count`, {
             ...reqHeader,
         }),
         fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/payment/count?year=${new Date().getFullYear()}`,
+            `${process.env.API_URL}/api/payment/count?year=${new Date().getFullYear()}`,
             {
                 ...reqHeader,
             },
         ),
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/count`, {
+        fetch(`${process.env.API_URL}/api/products/count`, {
             ...reqHeader,
         }),
     ]);

@@ -8,7 +8,7 @@ import AdministratorLoading from "./loading";
 const Admin = async (): Promise<JSX.Element> => {
     const token = await getToken();
     const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/admin/info`,
+        `${process.env.API_URL}/api/admin/info`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,

@@ -16,7 +16,10 @@ const Block: FC<BlockProps> = ({
             <header className="page-block__header">
                 <h5 className="text-2xl">{title}</h5>
                 {description && (
-                    <p className="text-muted-foreground mt-2">{description}</p>
+                    <p
+                        className="text-muted-foreground mt-2"
+                        dangerouslySetInnerHTML={{ __html: description }}
+                    />
                 )}
             </header>
 

@@ -7,16 +7,15 @@ import { authOptions } from "@/lib/nextauth";
 import SecurityForm from "@/features/user-settings/components/SecurityForm";
 import { validateSession } from "@/lib/sessions/serverSessionUtilities";
 import { IUser } from "@/models/userModel";
+import DeleteAccount from "@/features/user-settings/components/DeleteAccount";
+import SettingsHeader from "@/features/user-settings/components/SettingsHeader";
 
 const UserSetting = async (): Promise<JSX.Element> => {
     await validateSession(authOptions, "settings");
-    const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/user`,
-        {
-            credentials: "include",
-            headers: await headers(),
-        },
-    );
+    const response = await fetch(`${process.env.API_URL}/api/user`, {
+        credentials: "include",
+        headers: await headers(),
+    });
 
     if (!response.ok) {
         return <Error error="Un erreur s'est produit" />;
@@ -30,11 +29,7 @@ const UserSetting = async (): Promise<JSX.Element> => {
     return (
         <section className="user-settings mb-12 mt-[126px] w-full overflow-hidden">
             <div className="container">
-                <header>
-                    <h3 className="font-michroma text-3xl lg:text-4xl">
-                        Paramètres
-                    </h3>
-                </header>
+                <SettingsHeader />
 
                 <div className="user-settings__content mt-12 space-y-12 lg:space-y-14">
                     <AccountPreview
@@ -64,6 +59,13 @@ const UserSetting = async (): Promise<JSX.Element> => {
                             <SecurityForm id={userInfo?.id} />
                         </Block>
                     )}
+
+                    <Block
+                        title="Supprimer votre compte"
+                        description="Supprimez définitivement votre compte et toutes les données associées. <br/> Cette action est irréversible."
+                    >
+                        <DeleteAccount id={userInfo?.id} />
+                    </Block>
                 </div>
             </div>
         </section>

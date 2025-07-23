@@ -19,15 +19,7 @@ export const updateUser = async (
 ): Promise<IResponseType<User | null>> => {
     try {
         const updatedUser = await prisma.$transaction(async (tx) => {
-            const user = await tx.user.findUnique({
-                where: {
-                    id,
-                },
-            });
-
-            if (!user) {
-                throw new Error("No user found with id: " + id);
-            }
+            const user = await getUser(tx, id);
 
             if (user.image) {
                 await deleteFile(user.image);
@@ -96,13 +88,7 @@ export const updateUserPassword = async (
 ): Promise<IResponseType<User | null>> => {
     try {
         const updatedUser = await prisma.$transaction(async (tx) => {
-            const user = await tx.user.findUnique({
-                where: { id },
-            });
-
-            if (!user) {
-                throw new Error("No user found with id: " + id);
-            }
+            const user = await getUser(tx, id);
 
             if (!(await compareData(data.password, user.password!))) {
                 console.log("password did'nt match");
@@ -144,4 +130,49 @@ export const updateUserPassword = async (
                 "Un erreur s'est produit lors de la mise à jour des informations",
         };
     }
+};
+export const deleteUser = async (
+    id: string,
+): Promise<IResponseType<User | null>> => {
+    try {
+        const deletedUser = await prisma.$transaction(async (tx) => {
+            const user = await getUser(tx, id);
+
+            if (user.image) {
+                await deleteFile(user.image);
+            }
+
+            return await tx.user.delete({
+                where: { id: user?.id },
+            });
+        });
+
+        revalidatePath("/settings");
+
+        return {
+            status: "success",
+            message: "Utilisateur supprimé",
+            data: deletedUser,
+        };
+    } catch (err) {
+        isDevelopment && console.error("error: ", err);
+
+        return {
+            status: "error",
+            message:
+                "Un erreur s'est produit lors de la suppression de l'utilisateur",
+        };
+    }
+};
+
+const getUser = async (tx: any, id: string): Promise<User> => {
+    const user = await tx.user.findUnique({
+        where: { id },
+    });
+
+    if (!user) {
+        throw new Error("No user found with id: " + id);
+    }
+
+    return user;
 };

@@ -48,6 +48,7 @@ const Chatbot = (): JSX.Element => {
                                         <div className="user-avatar w-12">
                                             <Avatar
                                                 name={data?.user?.name!}
+                                                image={data?.user?.image ?? ""}
                                                 className=" !size-10 !rounded-lg object-cover md:!size-12"
                                             />
                                         </div>

@@ -1,57 +1,69 @@
 services:
-    postgres:
-        image: postgres:17-alpine
-        container_name: postgres_db
-        ports:
-            - "5432:5432"
-        environment:
-            POSTGRES_USER: ${db_user}
-            POSTGRES_PASSWORD: ${db_pwd}
-            POSTGRES_DB: ${postgres_db}
-            PGPORT: 5432
-        networks:
-            - app_network
-        volumes:
-            - pg_data:/var/lib/postgresql/data
-            - ./data_import:/import_data
-        healthcheck:
-            test:
-                [
-                    "CMD-SHELL",
-                    "pg_isready -U ${db_user} -d ${postgres_db} -p 5432",
-                ]
-            interval: 10s
-            timeout: 5s
-            retries: 5
-        restart: unless-stopped
+  postgres:
+    image: postgres:17-alpine
+    container_name: postgres_db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PWD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      PGPORT: 5432
+    networks:
+      - app_network
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./data_import:/import_data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${DB_USER} -d ${POSTGRES_DB} -p 5432",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
 
-    next-app:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        container_name: bazzar_container
-        ports:
-            - "3002:3000"
-            - "5555:5555"
-        environment:
-            DATABASE_URL: postgresql://${db_user}:${db_pwd}@postgres:5432/${postgres_db}
-            NEXTAUTH_URL: ${nextauth_url}
-            NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${stripe_pusblishable_key}
-            NEXT_PUBLIC_STRIPE_SECRET_KEY: ${stripe_secret_key}
-            NEXT_PUBLIC_HASHING_SECRET_KEY: ${hashing_secret_key}
-            NEXTAUTH_SECRET: ${nextauth_secret}
-            GOOGLE_CLIENT_ID: ${google_client_id}
-            GOOGLE_CLIENT_SECRET: ${google_client_secret}
-            GROQ_API_KEY: ${groq_api_key}
-        networks:
-            - app_network
-        depends_on:
-            postgres:
-                condition: service_healthy
-        restart: unless-stopped
+  next-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bazzar_container
+    ports:
+      - "3000:3000"
+      - "5555:5555"
+    environment:
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PWD}@postgres:5432/${POSTGRES_DB}
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      ADMIN_ST_USERNAME: ${ADMIN_ST_USERNAME}
+      ADMIN_ST_PASSWORD: ${ADMIN_ST_PASSWORD}
+      RESEND_API_KEY: ${RESEND_API_KEY}
+      FROM_EMAIL: ${FROM_EMAIL}
+      SMTP_NAME: ${SMTP_NAME}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_SERVICE: ${SMTP_SERVICE}
+      RECAPTCHA_SITE_SECRET: ${RECAPTCHA_SITE_SECRET}
+      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+      NEXT_PUBLIC_STRIPE_SECRET_KEY: ${NEXT_PUBLIC_STRIPE_SECRET_KEY}
+      NEXT_PUBLIC_HASHING_SECRET_KEY: ${NEXT_PUBLIC_HASHING_SECRET_KEY}
+      API_URL: ${API_URL}
+      NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ${NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+    networks:
+      - app_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
 
 networks:
-    app_network:
+  app_network:
+    driver: bridge
 
 volumes:
-    pg_data:
+  pg_data:

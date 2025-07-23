@@ -78,7 +78,7 @@ const AdminCardFlexible: FC<AdminCardFlexibleProps> = ({
                 />
             </div>
             <div className="card-info flex w-full min-w-0 flex-col justify-center gap-2">
-                <div className="card-info__badge bg-gray m-0 w-max rounded-full px-3 py-1 text-xs sm:py-2 sm:text-[15px]">
+                <div className="card-info__badge bg-gray dark:bg-background m-0 w-max rounded-full px-3 py-1 text-xs sm:py-2 sm:text-[15px]">
                     <p className="truncate">{role.toLowerCase()}</p>
                 </div>
                 <h6 className="card-info__admin-name line-clamp-2 overflow-ellipsis text-lg font-medium leading-tight lg:text-xl xl:text-lg 2xl:text-xl">
