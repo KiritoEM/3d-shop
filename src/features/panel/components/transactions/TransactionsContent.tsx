@@ -9,7 +9,7 @@ import { TRANSACTIONS_COLUMNS } from "@/data/panel-data";
 import { download, makeCSV } from "@/lib/CSVUtilities";
 import { sortDataByDate } from "@/lib/utils";
 import { ITransaction } from "@/models/transactionModel";
-import { usePagination } from "@/store/pagination";
+import usePagination from "@/hooks/usePagination";
 import { getPaginatedTransactions } from "../../services/transactionsServices";
 import SkeletonFallback from "../SkeletonFallback";
 import SectionHeader from "../SectionHeader";
@@ -26,11 +26,11 @@ const FILTER_OPTIONS = [
 ];
 
 const TransactionsContent = () => {
-    const { skip } = usePagination();
+    const { paginationOpt, handleChangePagination } = usePagination();
 
     const { data: transactionsData, isLoading } = useQuery({
-        queryKey: ["transactionsTable", skip],
-        queryFn: () => getPaginatedTransactions(skip),
+        queryKey: ["transactionsTable", paginationOpt.skip],
+        queryFn: () => getPaginatedTransactions(paginationOpt.skip),
     });
 
     const sortedData = useMemo(() => {
@@ -103,6 +103,7 @@ const TransactionsContent = () => {
                     columns={TRANSACTIONS_COLUMNS}
                     data={sortedData}
                     totalDataCount={transactionsData?.totalCount}
+                    onPageChange={handleChangePagination}
                 />
             )}
         </Fragment>

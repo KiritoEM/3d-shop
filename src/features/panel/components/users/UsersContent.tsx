@@ -9,10 +9,10 @@ import { USERS_COLUMNS } from "@/data/panel-data";
 import { sortDataByDate } from "@/lib/utils";
 import { IUser } from "@/models/userModel";
 import { download, makeCSV } from "@/lib/CSVUtilities";
+import usePagination from "@/hooks/usePagination";
 import SectionHeader from "../SectionHeader";
 import { getPaginatedUsers } from "../../services/usersServices";
 import SkeletonFallback from "../SkeletonFallback";
-import { usePagination } from "@/store/pagination";
 
 const FILTER_OPTIONS = [
     {
@@ -26,11 +26,11 @@ const FILTER_OPTIONS = [
 ];
 
 const UsersContent = (): JSX.Element => {
-    const { skip } = usePagination();
+    const { paginationOpt, handleChangePagination } = usePagination();
 
     const { data: usersData, isLoading } = useQuery({
-        queryKey: ["usersTable", skip],
-        queryFn: () => getPaginatedUsers(skip),
+        queryKey: ["usersTable", paginationOpt.skip],
+        queryFn: () => getPaginatedUsers(paginationOpt.skip),
     });
 
     const sortedData = useMemo(() => {
@@ -94,6 +94,7 @@ const UsersContent = (): JSX.Element => {
                     columns={USERS_COLUMNS}
                     data={sortedData}
                     totalDataCount={usersData?.totalCount}
+                    onPageChange={handleChangePagination}
                 />
             )}
         </Fragment>

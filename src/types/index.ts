@@ -1,6 +1,6 @@
-import { AdminFacialRecognition, AdminInfo, Session } from "@prisma/client";
 import { Session as NextauthSession } from "next-auth";
 import { NextRequest } from "next/server";
+import { AdminFacialRecognition, AdminInfo, Session } from "@prisma/client";
 
 export type IResponseType<T = null> = {
     message: string;
@@ -38,4 +38,9 @@ export type INextauthSession = NextauthSession["user"] & {
 
 export interface NextRequestWithId extends NextRequest {
     userId?: string;
+}
+
+export interface IPagination {
+    take?: number;
+    skip: number;
 }

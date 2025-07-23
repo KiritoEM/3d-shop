@@ -21,7 +21,8 @@ import {
     DropdownMenuRadioItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { usePagination } from "@/store/pagination";
+import { IPagination } from "@/types";
+
 import {
     Table,
     TableBody,
@@ -96,27 +97,29 @@ const TableFiltering: FC<TableFilteringProps> = ({
 
 type PaginationActionsProps = {
     totalRow: number;
+    rowRendered: number;
     currentPage: number;
     isPrevDisabled: boolean;
     isNextDisabled: boolean;
     onNextPage: () => void;
     onPrevPage: () => void;
+    onPageChange: (params: IPagination) => void;
 };
 
 const PaginationActions: FC<PaginationActionsProps> = ({
     totalRow,
+    rowRendered,
     currentPage,
-    onNextPage,
-    onPrevPage,
     isPrevDisabled,
     isNextDisabled,
+    onNextPage,
+    onPrevPage,
+    onPageChange,
 }): JSX.Element => {
-    const { take, setPagination } = usePagination();
-
     useEffect(() => {
         if (currentPage === 0) return;
-        setPagination({ skip: (currentPage - 1) * take });
-    }, [currentPage, take]);
+        onPageChange({ skip: (currentPage - 1) * rowRendered });
+    }, [currentPage, rowRendered, onPageChange]);
 
     return (
         <div className="pagination-actions flex items-center justify-between gap-4 py-6">
@@ -133,7 +136,7 @@ const PaginationActions: FC<PaginationActionsProps> = ({
                     disabled={isPrevDisabled}
                 >
                     <ChevronLeft />{" "}
-                    <span className="hidden sm:block">Précendent</span>
+                    <span className="hidden sm:block">Précédent</span>
                 </Button>
 
                 <Button
@@ -156,6 +159,7 @@ interface DataTableProps<TData, TValue> extends React.ComponentProps<"table"> {
     inputPlaceholder: string;
     inputValueFilter: string;
     filterOptions: IFilterOptions[];
+    onPageChange: (params: IPagination) => void; // Renommé ici
 }
 
 function DataTable<TData, TValue>({
@@ -165,6 +169,7 @@ function DataTable<TData, TValue>({
     inputValueFilter,
     totalDataCount,
     filterOptions,
+    onPageChange, // Renommé ici
     ...props
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([]);
@@ -274,6 +279,7 @@ function DataTable<TData, TValue>({
 
             <PaginationActions
                 totalRow={totalDataCount}
+                rowRendered={10}
                 currentPage={
                     table.getRowCount() !== 0
                         ? table.getState().pagination.pageIndex + 1
@@ -283,6 +289,7 @@ function DataTable<TData, TValue>({
                 isPrevDisabled={!table.getCanPreviousPage()}
                 onPrevPage={() => table.previousPage()}
                 onNextPage={() => table.nextPage()}
+                onPageChange={onPageChange}
             />
         </Fragment>
     );
