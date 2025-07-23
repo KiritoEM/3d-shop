@@ -13,7 +13,5 @@ export const getPaginatedUsers = async (skip: number) => {
         },
     );
 
-    console.log("response", response);
-
     return response.json();
 };

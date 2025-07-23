@@ -49,7 +49,7 @@ export const createNewAdmin = async (
                 data: {
                     username: data.username,
                     password: data.password,
-                    role: data.role
+                    role: data.role,
                 },
             });
 
@@ -137,18 +137,11 @@ export const deleteAdminById = async (
         };
     } catch (err) {
         isDevelopment &&
-            console.error("Erreur lors de la création de l'admin:", err);
-
-        if (err instanceof Error && err.message === "Admin exist already") {
-            return {
-                status: "error",
-                message: "L'administrateur avec ce nom existe déja",
-            };
-        }
+            console.error("Erreur lors de la suppresion de l'admin:", err);
 
         return {
             status: "error",
-            message: "Erreur lors de la création de l'admin",
+            message: "Erreur lors de la suppresion de l'admin",
             data: null,
         };
     }
