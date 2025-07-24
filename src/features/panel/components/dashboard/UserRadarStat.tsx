@@ -116,7 +116,7 @@ const UserRadarStat: FC<UserRadarStatProps> = ({ statsData }): JSX.Element => {
     }, [new Date().getMonth()]);
 
     return (
-        <article className="user-stats-card bg-gray rounded-lg p-6">
+        <article className="user-stats-card border dark:bg-gray rounded-lg p-6 dark:border-0">
             <CardHeader
                 title="Utilisateurs"
                 rightSide={

@@ -14,7 +14,7 @@ const StatisticCard: FC<IStatisticCard> = ({
     iconClass,
 }): JSX.Element => {
     return (
-        <article className="statistic-card bg-gray relative flex w-full flex-col justify-between gap-8 rounded-lg p-6">
+        <article className="statistic-card dark:bg-gray relative flex w-full flex-col justify-between gap-8 rounded-lg border p-6 dark:border-0">
             <div
                 className={cn(
                     "statistic-card__badge relative w-fit rounded-full p-2",

@@ -65,7 +65,7 @@ const UsersContent = (): JSX.Element => {
     }, [usersData]);
 
     return (
-        <Fragment>
+        <div className="users-content">
             <SectionHeader
                 title="Utilisateurs"
                 description="Liste des utilisateurs de la plateforme"
@@ -97,7 +97,7 @@ const UsersContent = (): JSX.Element => {
                     onPageChange={handleChangePagination}
                 />
             )}
-        </Fragment>
+        </div>
     );
 };
 

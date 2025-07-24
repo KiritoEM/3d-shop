@@ -147,7 +147,7 @@ const LoginForm: FC<LoginFormProps> = ({ callbackUrl, error }): JSX.Element => {
                                     <FormControl>
                                         <PasswordInput
                                             placeholder="Votre mot de passe"
-                                            field={field}
+                                            {...field}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -171,7 +171,7 @@ const LoginForm: FC<LoginFormProps> = ({ callbackUrl, error }): JSX.Element => {
                         <Button
                             className="mt-1 h-10 w-full"
                             type="submit"
-                            disabled={isPending|| !recaptchaValue}
+                            disabled={isPending || !recaptchaValue}
                             isLoading={isPending}
                         >
                             {isPending

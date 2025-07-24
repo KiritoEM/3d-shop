@@ -42,7 +42,7 @@ const ProductsContent = (): JSX.Element => {
     }, [productsData]);
 
     return (
-        <Fragment>
+        <div className="products-content">
             <SectionHeader
                 title="Produits"
                 description="Listes des produits dans la plateforme"
@@ -69,7 +69,7 @@ const ProductsContent = (): JSX.Element => {
                     onPageChange={handleChangePagination}
                 />
             )}
-        </Fragment>
+        </div>
     );
 };
 

@@ -94,7 +94,7 @@ const TransactionsChart: FC<TransactionsChartProps> = ({
     );
 
     return (
-        <article className="transactions-stats-transactions-card bg-gray rounded-lg p-6">
+        <article className="transactions-stats-transactions-card dark:bg-gray rounded-lg border p-6 dark:border-0">
             <CardHeader
                 title="Stats transactions"
                 rightSide={

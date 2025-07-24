@@ -33,31 +33,37 @@ const Stepper: FC<StepperProps> = ({
     const stepsRef = useRef<HTMLDivElement[]>([]);
 
     useEffect(() => {
-        setStepsLength(steps.length); //add steps length to store
-    }, [steps.length]);
+        setStepsLength(steps.length); // Add steps length to store
+    }, [steps.length, setStepsLength]);
 
     useEffect(() => {
-        setMargins({
-            marginLeft: stepsRef.current[0].offsetWidth / 2,
-            marginRight: stepsRef.current[steps.length - 1].offsetWidth / 2,
-        });
-    }, [stepsRef, steps.length]);
+        if (
+            stepsRef.current[0] &&
+            stepsRef.current[steps.length - 1] &&
+            steps.length > 0
+        ) {
+            setMargins({
+                marginLeft: stepsRef.current[0].offsetWidth / 2,
+                marginRight: stepsRef.current[steps.length - 1].offsetWidth / 2,
+            });
+        }
+    }, [steps.length]);
 
-    const ActiveComponent = steps[currentStep - 1].component;
+    const ActiveComponent = steps[currentStep - 1]?.component;
 
     return (
         <div className={cn("stepper", className)} {...props}>
             <StepperIndicators
                 className={stepperIndicatorsClass ?? ""}
                 steps={steps}
-                currentStep={currentStep}
-                isComplete={isComplete}
                 stepsRef={stepsRef}
                 margins={margins}
+                isComplete={isComplete}
+                renderCustomIndicatorNode={renderCustomIndicatorNode}
             />
 
-            <div className="stepper__component mx-auto mt-16 w-fit">
-                <ActiveComponent />
+            <div className="stepper__component mt-18 mx-auto w-fit">
+                {ActiveComponent ? <ActiveComponent /> : null}
             </div>
         </div>
     );
@@ -67,9 +73,8 @@ interface StepperIndicators {
     className: string;
     steps: IStep[];
     stepsRef: RefObject<HTMLDivElement[]>;
-    currentStep: number;
-    isComplete: boolean;
     margins: IMargins;
+    isComplete: boolean;
     renderCustomIndicatorNode?: ICustomIndicatorNode;
 }
 
@@ -77,41 +82,37 @@ const StepperIndicators: FC<StepperIndicators> = ({
     className,
     steps,
     stepsRef,
-    currentStep,
-    isComplete,
     margins,
+    isComplete,
     renderCustomIndicatorNode,
 }): JSX.Element => {
-    const calculateProgressBar = () => {
-        return ((currentStep - 1) / (steps.length - 1)) * 100;
-    };
+    const { currentStep } = useStepper();
+
     return (
         <div
             className={cn(
-                "stepper__indicators relative mx-auto flex max-w-[800px] items-center justify-between",
+                "stepper__indicators relative mx-auto flex max-w-[510px] items-center justify-between",
                 className,
             )}
         >
             {steps.map((step, index) => (
-                <div className="step relative flex flex-col space-y-3">
+                <div key={step.name} className="step relative">
                     {renderCustomIndicatorNode ? (
                         renderCustomIndicatorNode(index + 1, currentStep)
                     ) : (
                         <div
-                            key={step.name}
-                            ref={(el: HTMLDivElement) => {
-                                stepsRef.current[index] = el;
+                            ref={(el: HTMLDivElement | null) => {
+                                if (el) stepsRef.current[index] = el;
                             }}
                             className={cn(
-                                "step__numerotation bg-gray font-michroma relative z-20 grid h-9 w-9 cursor-pointer place-content-center rounded-full text-[15px]",
+                                "step__numeration bg-gray font-michroma relative z-20 grid h-9 w-9 cursor-pointer place-content-center rounded-full text-[15px]",
                                 (currentStep >= index + 1 || isComplete) &&
                                     "bg-primary",
                             )}
                         >
                             <p className="step__number">
-                                {" "}
                                 {currentStep > index + 1 || isComplete ? (
-                                    <span>&#10003;</span>
+                                    <span>✓</span>
                                 ) : (
                                     index + 1
                                 )}
@@ -122,8 +123,6 @@ const StepperIndicators: FC<StepperIndicators> = ({
                     <p
                         className={cn(
                             "step__name text-muted-foreground absolute left-1/2 top-12 w-max -translate-x-1/2 text-[15px]",
-                            currentStep >= index + 1 ||
-                                (isComplete && "text-primary"),
                         )}
                     >
                         {step.name}
@@ -132,21 +131,44 @@ const StepperIndicators: FC<StepperIndicators> = ({
             ))}
 
             {/* Progress Bar */}
+            <StepperProgressBar
+                margins={margins}
+                currentStep={currentStep}
+                stepsLength={steps.length}
+            />
+        </div>
+    );
+};
+
+interface StepperProgressBar {
+    margins: IMargins;
+    currentStep: number;
+    stepsLength: number;
+}
+
+const StepperProgressBar: FC<StepperProgressBar> = ({
+    margins,
+    currentStep,
+    stepsLength,
+}): JSX.Element => {
+    const calculateProgressBar = () => {
+        if (stepsLength <= 1) return 0;
+        return ((currentStep - 1) / (stepsLength - 1)) * 100;
+    };
+
+    return (
+        <div
+            className="progress-bar bg-gray absolute left-0 top-1/2 z-10 h-1 -translate-y-1/2"
+            style={{
+                width: `calc(100% - ${margins.marginLeft + margins.marginRight}px)`,
+                marginLeft: margins.marginLeft,
+                marginRight: margins.marginRight,
+            }}
+        >
             <div
-                className="progress-bar bg-gray absolute left-0 top-1/2 z-10 h-2 -translate-y-1/2"
-                style={{
-                    width: `calc(100% - ${
-                        margins.marginLeft + margins.marginRight
-                    }px)`,
-                    marginLeft: margins.marginLeft,
-                    marginRight: margins.marginRight,
-                }}
-            >
-                <div
-                    style={{ width: `${calculateProgressBar()}%` }}
-                    className="progress-bar__bar bg-primary h-full transition-all duration-300 ease-out"
-                />
-            </div>
+                style={{ width: `${calculateProgressBar()}%` }}
+                className="progress-bar__bar bg-primary h-full transition-all duration-300 ease-out"
+            />
         </div>
     );
 };

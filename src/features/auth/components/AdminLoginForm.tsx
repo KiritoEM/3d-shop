@@ -112,7 +112,7 @@ const AdminLoginForm = (): JSX.Element => {
                                     <FormControl>
                                         <PasswordInput
                                             placeholder="Mot de passe admin"
-                                            field={field}
+                                            {...field}
                                         />
                                     </FormControl>
                                     <FormMessage />

@@ -147,7 +147,7 @@ const SignupForm: FC<SignupFormProps> = ({ redirectUrl }): JSX.Element => {
                                     <FormControl>
                                         <PasswordInput
                                             placeholder="Créer votre mot de passe"
-                                            field={field}
+                                            {...field}
                                         />
                                     </FormControl>
                                     <FormMessage />

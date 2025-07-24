@@ -134,14 +134,14 @@ const Sidebar: FC = (): JSX.Element => {
                         <LogoWithoutLabel
                             className={cn(
                                 LOGO_BASE_STYLE,
-                                "w-32 sm:w-40 lg:w-9",
+                                "w-32 sm:w-40 lg:w-8",
                             )}
                         />
                     ) : (
                         <Logo
                             className={cn(
                                 LOGO_BASE_STYLE,
-                                "w-32 sm:w-40 lg:w-40",
+                                "w-32 sm:w-40 lg:w-36",
                             )}
                         />
                     )}

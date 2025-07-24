@@ -22,12 +22,10 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
 
 type PasswordInputProps = {
     placeholder: string;
-    field: any;
 } & React.ComponentProps<"input">;
 
 const PasswordInput: React.FC<PasswordInputProps> = ({
     placeholder,
-    field,
     className,
 }) => {
     const [showPassword, setShowPassword] = React.useState<boolean>(false);
@@ -37,7 +35,6 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
                 className="pr-8"
                 placeholder={placeholder}
                 type={showPassword ? "text" : "password"}
-                {...field}
             />
             <div
                 className="eye-icon absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
@@ -75,7 +72,7 @@ const InputWithIcon: React.FC<InputWithIconProps> = ({
             )}
 
             <Input
-                className={iconPlace === "right" ? "pr-8" : "sm:pl-9"}
+                className={iconPlace === "right" ? "pr-8" : "pl-10"}
                 placeholder={placeholder}
                 {...props}
             />

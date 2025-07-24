@@ -23,7 +23,7 @@ const LastTransactions: FC<LastTransactionsProps> = ({
 }): JSX.Element => {
     if (!Array.isArray(transactionsData) || transactionsData.length === 0) {
         return (
-            <article className="user-stats-card bg-gray rounded-lg p-6">
+            <article className="user-stats-card dark:bg-gray rounded-lg border p-6 dark:border-0">
                 <CardHeader title="Dernières transactions" rightSide={<></>} />
                 <div className="flex h-[200px] items-center justify-center">
                     <p>Aucune donnée disponible</p>
@@ -33,7 +33,7 @@ const LastTransactions: FC<LastTransactionsProps> = ({
     }
 
     return (
-        <article className="last-transactions-card bg-gray w-full rounded-lg p-6">
+        <article className="last-transactions-card dark:bg-gray w-full rounded-lg border p-6 dark:border-0">
             <CardHeader
                 title="Dernières transactions"
                 rightSide={

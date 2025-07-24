@@ -76,7 +76,7 @@ const TransactionsContent = () => {
     }, [transactionsData]);
 
     return (
-        <Fragment>
+        <div className="transactions-content">
             <SectionHeader
                 title="Paiements"
                 rightSide={
@@ -106,7 +106,7 @@ const TransactionsContent = () => {
                     onPageChange={handleChangePagination}
                 />
             )}
-        </Fragment>
+        </div>
     );
 };
 

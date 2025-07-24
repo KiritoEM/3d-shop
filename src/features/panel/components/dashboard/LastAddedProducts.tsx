@@ -19,7 +19,7 @@ const LastAddedProducts: FC<LastAddedProductssProps> = ({
 
     if (!Array.isArray(productsData) || productsData.length === 0) {
         return (
-            <article className="user-stats-card bg-gray rounded-lg p-6">
+            <article className="user-stats-card dark:bg-gray rounded-lg border p-6 dark:border-0">
                 <CardHeader
                     title="Produits ajoutés récemment"
                     rightSide={<></>}
@@ -32,7 +32,7 @@ const LastAddedProducts: FC<LastAddedProductssProps> = ({
     }
 
     return (
-        <article className="last-added_product-card bg-gray rounded-lg p-6">
+        <article className="last-added_product-card dark:bg-gray rounded-lg border p-6 dark:border-0">
             <CardHeader
                 title="Produits ajoutés récemment"
                 className="!text-[20px] xl:text-xl"
