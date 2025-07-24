@@ -31,13 +31,15 @@ const Dashboard = async (): Promise<JSX.Element> => {
         statsResponse[2].json(),
     ]);
 
+    console.log(usersStats, transactionsStats, productsStats);
+
     return (
         <section className="dashboard mt-8">
             <StatisticsSection
                 statistics={{
                     users: usersStats.count,
-                    products: transactionsStats.count,
-                    transactions: productsStats.count,
+                    products: productsStats.count,
+                    transactions: transactionsStats.count,
                 }}
             />
 

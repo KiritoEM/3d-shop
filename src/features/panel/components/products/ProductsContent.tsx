@@ -11,6 +11,8 @@ import usePagination from "@/hooks/usePagination";
 import SkeletonFallback from "../SkeletonFallback";
 import SectionHeader from "../SectionHeader";
 import { getPaginatedProducts } from "../../services/productsServices";
+import Link from "next/link";
+import { useSidebar } from "@/store/sidebar";
 
 const FILTER_OPTIONS = [
     {
@@ -29,13 +31,12 @@ const FILTER_OPTIONS = [
 
 const ProductsContent = (): JSX.Element => {
     const { paginationOpt, handleChangePagination } = usePagination();
+    const { setSidebarState } = useSidebar();
 
     const { data: productsData, isLoading } = useQuery({
         queryKey: ["products", paginationOpt.skip],
         queryFn: () => getPaginatedProducts(paginationOpt.skip),
     });
-
-    console.log(productsData);
 
     const sortedData = useMemo(() => {
         const dataToSort = productsData?.paginatedData || [];
@@ -48,9 +49,14 @@ const ProductsContent = (): JSX.Element => {
                 title="Produits"
                 description="Listes des produits dans la plateforme"
                 rightSide={
-                    <Button>
-                        <Plus />
-                        Ajouter un produit
+                    <Button asChild>
+                        <Link
+                            href="/admin/products/create"
+                            onClick={() => setSidebarState(true)}
+                        >
+                            <Plus />
+                            Ajouter un produit
+                        </Link>
                     </Button>
                 }
             />
