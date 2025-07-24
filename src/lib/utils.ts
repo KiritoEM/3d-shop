@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import path from "node:path";
 import { toast } from "react-toastify";
 import { twMerge } from "tailwind-merge";
 
@@ -144,4 +145,21 @@ export const copyTextClipboard = (value: any) => {
     toast("Texte copié dans le presse-papier", {
         type: "success",
     });
+};
+
+export const truncateFileName = (fileName: string, maxLength: number): string => {
+    if (fileName.length <= maxLength) {
+        return fileName;
+    }
+
+    const extension = path.extname(fileName);
+    const nameWithoutExt = path.basename(fileName, extension);
+
+    const availableLength = maxLength - extension.length - 3;
+
+    if (availableLength <= 0) {
+        return `...${extension}`;
+    }
+
+    return `${nameWithoutExt.slice(0, availableLength)}...${extension}`;
 };

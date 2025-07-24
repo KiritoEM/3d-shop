@@ -1,9 +1,9 @@
-import SectionHeader from "@/features/panel/components/SectionHeader";
+import CreateProductContent from "@/features/panel/components/products/CreateProductContent";
 
 const CreateProduct = (): JSX.Element => {
     return (
         <section className="create-product mt-8">
-            <SectionHeader title="Ajout de produit" />
+            <CreateProductContent />
         </section>
     );
 };

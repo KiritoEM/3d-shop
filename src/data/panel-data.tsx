@@ -16,6 +16,9 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { IStep } from "@/types";
+import AddProductForm from "@/features/panel/components/products/AddProductForm";
+import AddProductStudio from "@/features/panel/components/products/AddProductStudio";
 
 type IStatisticCardData = Record<string, IStatisticCard>;
 
@@ -297,5 +300,16 @@ export const PRODUCTS_COLUMNS: ColumnDef<IProductsColumns>[] = [
                 </DropdownMenu>
             );
         },
+    },
+];
+
+export const MULTIFORM_DATA: IStep[] = [
+    {
+        name: "Informations sur le produit",
+        component: AddProductForm,
+    },
+    {
+        name: "Personnaliser le produit",
+        component: AddProductStudio,
     },
 ];

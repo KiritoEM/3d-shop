@@ -8,15 +8,15 @@ export type IResponseType<T = null> = {
     data?: T;
 };
 
-export type EmailTemplateType = "sendOTP";
-
-export interface OTPEmailProps {
+export type OTPEmailProps = {
     validationCode: string;
-}
+};
 
-export interface EmailTemplateProps {
+export type EmailTemplateProps = {
     sendOTP: OTPEmailProps;
-}
+};
+
+export type EmailTemplateType = "sendOTP";
 
 export type IDBSession = Pick<AdminInfo, "id" | "username" | "role"> & {
     image?: string;
@@ -29,6 +29,15 @@ export type SessionwithFacial = Session & {
     };
 };
 
+export type NextRequestWithId = NextRequest & {
+    userId?: string;
+};
+
+export type IPagination = {
+    take?: number;
+    skip: number;
+};
+
 export type IfileType = "IMAGE" | "VIDEO";
 
 export type INextauthSession = NextauthSession["user"] & {
@@ -36,11 +45,7 @@ export type INextauthSession = NextauthSession["user"] & {
     accessToken?: string;
 };
 
-export interface NextRequestWithId extends NextRequest {
-    userId?: string;
-}
-
-export interface IPagination {
-    take?: number;
-    skip: number;
-}
+export type IStep = {
+    name: string;
+    component: React.ComponentType;
+};

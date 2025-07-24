@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useMemo } from "react";
+import Link from "next/link";
 import { Plus } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { DataTable } from "@/components/ui/data-table";
@@ -46,9 +47,11 @@ const ProductsContent = (): JSX.Element => {
                 title="Produits"
                 description="Listes des produits dans la plateforme"
                 rightSide={
-                    <Button>
-                        <Plus />
-                        Ajouter un produit
+                    <Button asChild>
+                        <Link href="/admin/products/create">
+                            <Plus />
+                            Ajouter un produit
+                        </Link>
                     </Button>
                 }
             />
