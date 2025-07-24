@@ -3,26 +3,29 @@
 import { FC, RefObject, useEffect, useRef, useState } from "react";
 import { IStep } from "@/types";
 import { cn } from "@/lib/utils";
-import { Button } from "./button";
+import { useStepper } from "@/store/stepper";
 
 type IMargins = {
     marginLeft: number;
     marginRight: number;
 };
 
+type ICustomIndicatorNode = (step: number, stepIndex: number) => JSX.Element;
+
 export interface StepperProps extends React.ComponentProps<"div"> {
     steps: IStep[];
     stepperIndicatorsClass?: string;
+    renderCustomIndicatorNode?: ICustomIndicatorNode;
 }
 
 const Stepper: FC<StepperProps> = ({
     steps,
     className,
     stepperIndicatorsClass,
+    renderCustomIndicatorNode,
     ...props
 }): JSX.Element => {
-    const [currentStep, setCurrentStep] = useState<number>(1);
-    const [isComplete, setComplete] = useState<boolean>(false);
+    const { currentStep, isComplete, setStepsLength } = useStepper();
     const [margins, setMargins] = useState<IMargins>({
         marginLeft: 0,
         marginRight: 0,
@@ -30,22 +33,15 @@ const Stepper: FC<StepperProps> = ({
     const stepsRef = useRef<HTMLDivElement[]>([]);
 
     useEffect(() => {
+        setStepsLength(steps.length); //add steps length to store
+    }, [steps.length]);
+
+    useEffect(() => {
         setMargins({
             marginLeft: stepsRef.current[0].offsetWidth / 2,
             marginRight: stepsRef.current[steps.length - 1].offsetWidth / 2,
         });
     }, [stepsRef, steps.length]);
-
-    const handleNextStep = () => {
-        setCurrentStep((prevStep) => {
-            if (prevStep !== steps.length) {
-                return prevStep + 1;
-            } else {
-                setComplete(true);
-                return prevStep;
-            }
-        });
-    };
 
     const ActiveComponent = steps[currentStep - 1].component;
 
@@ -60,15 +56,9 @@ const Stepper: FC<StepperProps> = ({
                 margins={margins}
             />
 
-            <div className="stepper__component mt-12">
+            <div className="stepper__component mx-auto mt-16 w-fit">
                 <ActiveComponent />
             </div>
-
-            {!isComplete && (
-                <Button className="btn" onClick={handleNextStep}>
-                    {currentStep === steps.length ? "Finish" : "Next"}
-                </Button>
-            )}
         </div>
     );
 };
@@ -80,6 +70,7 @@ interface StepperIndicators {
     currentStep: number;
     isComplete: boolean;
     margins: IMargins;
+    renderCustomIndicatorNode?: ICustomIndicatorNode;
 }
 
 const StepperIndicators: FC<StepperIndicators> = ({
@@ -89,6 +80,7 @@ const StepperIndicators: FC<StepperIndicators> = ({
     currentStep,
     isComplete,
     margins,
+    renderCustomIndicatorNode,
 }): JSX.Element => {
     const calculateProgressBar = () => {
         return ((currentStep - 1) / (steps.length - 1)) * 100;
@@ -96,33 +88,46 @@ const StepperIndicators: FC<StepperIndicators> = ({
     return (
         <div
             className={cn(
-                "stepper__indicator relative mx-auto flex max-w-[900px] items-center justify-between",
+                "stepper__indicators relative mx-auto flex max-w-[800px] items-center justify-between",
                 className,
             )}
         >
             {steps.map((step, index) => (
-                <div className="step flex flex-col space-y-3">
-                    <div
-                        key={step.name}
-                        ref={(el: HTMLDivElement) => {
-                            stepsRef.current[index] = el;
-                        }}
-                        className={cn(
-                            "step__numerotation bg-gray font-michroma relative z-20 grid h-10 w-10 cursor-pointer place-content-center rounded-full text-sm",
+                <div className="step relative flex flex-col space-y-3">
+                    {renderCustomIndicatorNode ? (
+                        renderCustomIndicatorNode(index + 1, currentStep)
+                    ) : (
+                        <div
+                            key={step.name}
+                            ref={(el: HTMLDivElement) => {
+                                stepsRef.current[index] = el;
+                            }}
+                            className={cn(
+                                "step__numerotation bg-gray font-michroma relative z-20 grid h-9 w-9 cursor-pointer place-content-center rounded-full text-[15px]",
+                                (currentStep >= index + 1 || isComplete) &&
+                                    "bg-primary",
+                            )}
+                        >
+                            <p className="step__number">
+                                {" "}
+                                {currentStep > index + 1 || isComplete ? (
+                                    <span>&#10003;</span>
+                                ) : (
+                                    index + 1
+                                )}
+                            </p>
+                        </div>
+                    )}
 
-                            (currentStep >= index + 1 || isComplete) &&
-                                "bg-primary",
+                    <p
+                        className={cn(
+                            "step__name text-muted-foreground absolute left-1/2 top-12 w-max -translate-x-1/2 text-[15px]",
+                            currentStep >= index + 1 ||
+                                (isComplete && "text-primary"),
                         )}
                     >
-                        <p className="step__number">
-                            {" "}
-                            {currentStep >= index + 1 || isComplete ? (
-                                <span>&#10003;</span>
-                            ) : (
-                                index + 1
-                            )}
-                        </p>
-                    </div>
+                        {step.name}
+                    </p>
                 </div>
             ))}
 
@@ -139,7 +144,7 @@ const StepperIndicators: FC<StepperIndicators> = ({
             >
                 <div
                     style={{ width: `${calculateProgressBar()}%` }}
-                    className="progress-bar__bar bg-primary duration-3 h-full transition-all ease-out"
+                    className="progress-bar__bar bg-primary h-full transition-all duration-300 ease-out"
                 />
             </div>
         </div>
