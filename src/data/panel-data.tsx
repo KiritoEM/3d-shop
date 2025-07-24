@@ -251,7 +251,7 @@ export const PRODUCTS_COLUMNS: ColumnDef<IProductsColumns>[] = [
         header: "Description",
         cell: ({ row }) => (
             <div
-                className="flex min-w-[600px]  max-w-[800px]"
+                className="flex w-[610px]"
                 style={{ whiteSpace: "normal", overflowWrap: "break-word" }}
             >
                 <p>{row.getValue("description")}</p>

@@ -27,8 +27,7 @@ export interface IProduct {
     updatedAt: string;
     cuid: string;
     category: {
-        id?: number;
         name: string;
     };
-    customisationConfigs?: CustomisationConfigs;
+    customisationConfigs: CustomisationConfigs;
 }
