@@ -74,7 +74,7 @@ const Uploader3dFile: FC<Upload3dFileProps> = ({
 
 const AddProductStudio = (): JSX.Element => {
     const { formData } = useStepper();
-    const { setModel, model } = useStudio();
+    const { model, setModel, setArrayBuffer } = useStudio();
 
     const handleFileSelected = useCallback((file: File) => {
         if (validate3DModel(file, 50 * 1024 * 1024)) {
@@ -84,6 +84,7 @@ const AddProductStudio = (): JSX.Element => {
                     reader.result as ArrayBuffer,
                 );
                 setModel(modelFromBlob);
+                setArrayBuffer(reader.result as ArrayBuffer);
             };
             reader.readAsArrayBuffer(file);
         }
