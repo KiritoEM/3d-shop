@@ -52,7 +52,7 @@ const Stepper: FC<StepperProps> = ({
     const ActiveComponent = steps[currentStep - 1]?.component;
 
     return (
-        <div className={cn("stepper", className)} {...props}>
+        <div className={cn("stepper w-full", className)} {...props}>
             <StepperIndicators
                 className={stepperIndicatorsClass ?? ""}
                 steps={steps}
@@ -62,7 +62,7 @@ const Stepper: FC<StepperProps> = ({
                 renderCustomIndicatorNode={renderCustomIndicatorNode}
             />
 
-            <div className="stepper__component mt-18 mx-auto w-fit">
+            <div className="stepper__component mt-18">
                 {ActiveComponent ? <ActiveComponent /> : null}
             </div>
         </div>

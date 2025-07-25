@@ -6,7 +6,7 @@ import { fetchProductByCuid } from "../services/productDetailsServices";
 import ProductDetails from "./ProductDetails";
 import { useProductCustomiser } from "../hooks/useProductCustomiser";
 import { Skeleton } from "@/components/ui/skeleton";
-import ProductViewCanvas from "@/components/3d-models/product/ViewCanvas";
+import ProductViewCanvas from "@/components/3d-models/product/canvas/ProductViewCanvas";
 
 type ProductContentProps = {
     cuid: string;

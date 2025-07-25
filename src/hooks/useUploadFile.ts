@@ -1,8 +1,8 @@
 "use client";
 
-import { IfileType } from "@/types";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { IfileType } from "@/types";
+import { validateFileType } from "@/lib/utils";
 
 const useUploadFile = (fileType: IfileType, requiredFileType: string[]) => {
     const [uploadedFile, setFile] = useState<File | null>(null);
@@ -18,52 +18,24 @@ const useUploadFile = (fileType: IfileType, requiredFileType: string[]) => {
         }
     };
 
-    const getToast = (type: "TYPE_ERROR" | "SIZE-ERROR", maxSize?: number) => {
-        switch (type) {
-            case "TYPE_ERROR":
-                toast(
-                    `Type de fichier invalide, téléchargez uniquement un ${fileType.toLowerCase()}`,
-                    {
-                        type: "error",
-                        theme: "colored",
-                    },
-                );
-                break;
-            case "SIZE-ERROR":
-                toast(
-                    `La taille du fichier doit être inférieur à ${maxSize} MB`,
-                    {
-                        type: "error",
-                        theme: "colored",
-                    },
-                );
-                break;
-
-            default:
-                break;
-        }
-    };
-
     const handleUploadFile = (
         file: File | undefined | null,
         maxSize: number = getDefaultMaxSize(fileType),
     ) => {
         if (!file) {
-            setFile(null);
             return;
         }
 
-        if (!requiredFileType.includes(file.type)) {
-            getToast("TYPE_ERROR");
-            return;
-        }
+        const isValidFile = validateFileType(
+            file,
+            requiredFileType,
+            maxSize,
+            
+        );
 
-        if (maxSize && file.size > maxSize) {
-            getToast("SIZE-ERROR", Math.round(maxSize / 1024 / 1024));
-            return;
+        if (isValidFile) {
+            setFile(file);
         }
-
-        setFile(file);
     };
 
     const resetField = () => {

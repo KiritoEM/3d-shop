@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import { cn, truncateFileName } from "@/lib/utils";
 import { IfileType } from "@/types";
 import useDragNDrop from "@/hooks/useDragNDrop";
+import { handleInputFileChange } from "@/lib/utils";
 import { Button } from "./button";
 
 interface IFileUploaderProps extends React.ComponentProps<"label"> {
@@ -10,7 +11,7 @@ interface IFileUploaderProps extends React.ComponentProps<"label"> {
     uploadedFile: File | null;
     FileType: IfileType;
     maxFileNameLength?: number;
-    onFileSelected: (e: File) => void;
+    onFileSelected: (file: File) => void;
     reset: () => void;
 }
 
@@ -33,11 +34,6 @@ const FileUploader: FC<IFileUploaderProps> = ({
         handleDragOver,
         handleDrop,
     } = useDragNDrop(onFileSelected);
-
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        onFileSelected(e.target.files?.[0] as File);
-    };
 
     const renderMediaPreview = (type: IfileType): JSX.Element | null => {
         switch (type) {
@@ -75,7 +71,7 @@ const FileUploader: FC<IFileUploaderProps> = ({
                     <div className="file-uploader__field flex h-fit w-fit flex-col items-center gap-4">
                         <div className="text-background border-3 border-gray flex h-10 w-10 items-center justify-center rounded-lg bg-white">
                             {" "}
-                            <UploadCloud className="text-foreground size-6" />
+                            <UploadCloud className="text-background size-6" />
                         </div>
 
                         <p
@@ -92,7 +88,7 @@ const FileUploader: FC<IFileUploaderProps> = ({
                             id="input-uploader"
                             onChange={(
                                 e: React.ChangeEvent<HTMLInputElement>,
-                            ) => handleFileChange(e)}
+                            ) => handleInputFileChange(onFileSelected, e)}
                         />
                     </div>
                 </label>

@@ -3,7 +3,7 @@
 import path from "node:path";
 import { AdminInfo } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
-import { deleteFile, uploadFileLocal } from "@/lib/uploadFile";
+import { deleteFile, uploadFileLocal } from "@/lib/uploadLocalFile";
 import { isDevelopment } from "@/lib/utils";
 import { IAddAdminSchema } from "@/lib/zod-schemas/adminSchema";
 import { IResponseType } from "@/types";

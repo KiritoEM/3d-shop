@@ -1,6 +1,7 @@
 "use client";
 
 import { create } from "zustand";
+import { IObjectEntity } from "@/types";
 
 type StepperState = {
     currentStep: number;
@@ -13,7 +14,7 @@ type StepperActions = {
     setStep: (step: number) => void;
     setStepsLength: (length: number) => void;
     setIsComplete: () => void;
-    setFormData: (formData: { key: string; value: string }) => void;
+    setFormData: (formData: IObjectEntity) => void;
 };
 
 type StepperStore = StepperState & StepperActions;
@@ -36,7 +37,7 @@ const useStepper = create<StepperStore>((set, get) => ({
             }
         }),
     setIsComplete: () => set({ isComplete: true }),
-    setFormData: (formData: { key: string; value: string }) => {
+    setFormData: (formData: IObjectEntity) => {
         return set((state) => ({
             formData: {
                 ...state.formData,

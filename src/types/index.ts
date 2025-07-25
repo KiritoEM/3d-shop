@@ -38,7 +38,7 @@ export type IPagination = {
     skip: number;
 };
 
-export type IfileType = "IMAGE" | "VIDEO";
+export type IfileType = "IMAGE" | "VIDEO" | "MODEL_3D";
 
 export type INextauthSession = NextauthSession["user"] & {
     id: string;
@@ -49,3 +49,9 @@ export type IStep = {
     name: string;
     component: React.ComponentType;
 };
+
+
+export type IObjectEntity = {
+    key: string;
+    value: string
+}

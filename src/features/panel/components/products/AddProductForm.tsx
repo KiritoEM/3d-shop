@@ -35,7 +35,7 @@ const AddProductForm = (): JSX.Element => {
         queryKey: ["categories"],
         queryFn: () => fetchCategories(),
     });
-    const { setStep, setFormData, formData } = useStepper();
+    const { setStep, setFormData } = useStepper();
     const form = useForm<IAddProductSchema>({
         resolver: zodResolver(addProductSchema),
     });
@@ -45,13 +45,13 @@ const AddProductForm = (): JSX.Element => {
         Object.entries(data).forEach(([key, value]) => {
             setFormData({ key, value });
         });
-        setStep(2);
+        setStep(2); //move to next-step
         setSidebarState(true);
     };
 
     return (
         <Form {...form}>
-            <div className="product-form mb-4 w-[400px]">
+            <div className="product-form mx-auto  mb-4 w-[400px]">
                 <h3 className="font-michroma text-center text-xl leading-tight">
                     Ajouter les informations sur <br />
                     le produit

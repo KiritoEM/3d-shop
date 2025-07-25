@@ -1,3 +1,4 @@
+import { IfileType } from "@/types";
 import { clsx, type ClassValue } from "clsx";
 import path from "node:path";
 import { toast } from "react-toastify";
@@ -147,7 +148,10 @@ export const copyTextClipboard = (value: any) => {
     });
 };
 
-export const truncateFileName = (fileName: string, maxLength: number): string => {
+export const truncateFileName = (
+    fileName: string,
+    maxLength: number,
+): string => {
     if (fileName.length <= maxLength) {
         return fileName;
     }
@@ -162,4 +166,101 @@ export const truncateFileName = (fileName: string, maxLength: number): string =>
     }
 
     return `${nameWithoutExt.slice(0, availableLength)}...${extension}`;
+};
+
+export const handleInputFileChange = (
+    onFileSelected: (e: File) => void,
+    e: React.ChangeEvent<HTMLInputElement>,
+) => {
+    e.preventDefault();
+    onFileSelected(e.target.files?.[0] as File);
+};
+
+// File handling
+const getFiletypeName = (fileType: IfileType) => {
+    switch (fileType) {
+        case "IMAGE":
+            return "image";
+        case "VIDEO":
+            return "vidéo";
+        case "MODEL_3D":
+            return "model 3d";
+
+        default:
+            break;
+    }
+};
+
+const getToast = (params: {
+    type: "TYPE_ERROR" | "SIZE-ERROR";
+    maxSize?: number;
+    fileType?: IfileType;
+}) => {
+    switch (params.type) {
+        case "TYPE_ERROR":
+            toast(
+                `Type de fichier invalide, téléchargez uniquement un ${getFiletypeName(params.fileType!)}`,
+                {
+                    type: "error",
+                    theme: "colored",
+                },
+            );
+            break;
+        case "SIZE-ERROR":
+            toast(
+                `La taille du fichier doit être inférieur à ${params.maxSize} MB`,
+                {
+                    type: "error",
+                    theme: "colored",
+                },
+            );
+            break;
+
+        default:
+            break;
+    }
+};
+
+export const validateFileType = <T extends string[]>(
+    file: File,
+    requiredFileType: T,
+    maxSize?: number,
+    fileType?: IfileType,
+): boolean => {
+    console.log("file: ", file.type);
+    if (!requiredFileType.includes(file.type)) {
+        getToast({ type: "TYPE_ERROR", fileType: fileType });
+        return false;
+    }
+
+    if (maxSize && file.size > maxSize) {
+        getToast({
+            type: "SIZE-ERROR",
+            maxSize: Math.round(maxSize / 1024 / 1024),
+        });
+        return false;
+    }
+
+    return true;
+};
+
+export const validate3DModel = (file: File, maxSize?: number): boolean => {
+    if (!file) return false;
+
+    const extname = path.extname(file.name).slice(1);
+
+    if (extname !== "glb" && extname !== "gltf") {
+        getToast({ type: "TYPE_ERROR", fileType: "MODEL_3D" });
+        return false;
+    }
+
+    if (maxSize && file.size > maxSize) {
+        getToast({
+            type: "SIZE-ERROR",
+            maxSize: Math.round(maxSize / 1024 / 1024),
+        });
+        return false;
+    }
+
+    return true;
 };
