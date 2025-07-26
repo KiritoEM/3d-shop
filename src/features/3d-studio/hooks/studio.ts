@@ -1,14 +1,15 @@
 "use client";
 
 import { create } from "zustand";
+import { IGLTFModel } from "@/types";
 
 type StudioState = {
-    model: Record<string, any> | null;
+    model: IGLTFModel | null;
     arrayBuffer: ArrayBuffer | null;
 };
 
 type StudioActions = {
-    setModel: (model: Record<string, any>) => void;
+    setModel: (model: IGLTFModel) => void;
     setArrayBuffer: (arrayBuffer: ArrayBuffer) => void;
 };
 
@@ -19,6 +20,6 @@ export const useStudio = create<StudioStore>((set) => ({
     arrayBuffer: null,
 
     //Actions
-    setModel: (model: Record<string, any>) => set({ model: model }),
+    setModel: (model: IGLTFModel) => set({ model }),
     setArrayBuffer: (arrayBuffer: ArrayBuffer) => set({ arrayBuffer }),
 }));

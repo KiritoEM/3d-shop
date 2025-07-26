@@ -1,34 +1,37 @@
 import * as THREE from "three";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { GLTF, GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { IGLTFModel } from "@/types";
 
 export const loadBlobModel = (
     arrayBuffer: ArrayBuffer,
-): Record<string, any> => {
-    let modelData: Record<string, any> = {};
+): Promise<IGLTFModel> => {
+    return new Promise((resolve, reject) => {
+        const gltfLoader = new GLTFLoader();
+        gltfLoader.parse(arrayBuffer, "/", (gltf: GLTF) => {
+            let materials: { [key: string]: THREE.Material } = {};
 
-    const gltfLoader = new GLTFLoader();
-    gltfLoader.parse(arrayBuffer, "/", (gltf) => {
-        let materials: { [key: string]: THREE.Material } = {};
+            gltf.scene.traverse((child) => {
+                if (child instanceof THREE.Mesh) {
+                    const meshMaterials = Array.isArray(child.material)
+                        ? child.material
+                        : [child.material];
 
-        gltf.scene.traverse((child) => {
-            if (child instanceof THREE.Mesh) {
-                const meshMaterials = Array.isArray(child.material)
-                    ? child.material
-                    : [child.material];
+                    meshMaterials.forEach((material: THREE.Material) => {
+                        const materialName = material.name;
+                        materials[materialName] = material;
+                    });
+                }
+            });
 
-                meshMaterials.forEach((material: THREE.Material) => {
-                    const materialName = material.name;
-                    materials[materialName] = material;
-                });
+            if (!Object.keys(gltf).length) {
+                reject(new Error("No gltf extracted from uploaded models"));
             }
+
+            resolve({
+                scene: gltf.scene,
+                animations: gltf.animations,
+                materials,
+            });
         });
-
-        modelData = {
-            scene: gltf.scene,
-            animations: gltf.animations,
-            materials,
-        };
     });
-
-    return modelData;
 };

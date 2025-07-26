@@ -264,3 +264,7 @@ export const validate3DModel = (file: File, maxSize?: number): boolean => {
 
     return true;
 };
+
+export type Prettify<T> = {
+    [K in keyof T]: T[K];
+};

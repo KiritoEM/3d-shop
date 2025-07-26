@@ -5,9 +5,15 @@ import { FC, useCallback } from "react";
 import Studio from "@/features/3d-studio/components/Studio";
 import { useStudio } from "@/features/3d-studio/hooks/studio";
 import useDragNDrop from "@/hooks/useDragNDrop";
-import { cn, handleInputFileChange, validate3DModel } from "@/lib/utils";
+import {
+    cn,
+    handleInputFileChange,
+    isDevelopment,
+    validate3DModel,
+} from "@/lib/utils";
 import { useStepper } from "@/store/stepper";
 import { loadBlobModel } from "@/lib/gltfModel";
+import { toast } from "react-toastify";
 
 type Upload3dFileProps = {
     onFileSelected: (file: File) => void;
@@ -79,12 +85,28 @@ const AddProductStudio = (): JSX.Element => {
     const handleFileSelected = useCallback((file: File) => {
         if (validate3DModel(file, 50 * 1024 * 1024)) {
             const reader = new FileReader();
-            reader.onload = () => {
-                const modelFromBlob = loadBlobModel(
-                    reader.result as ArrayBuffer,
-                );
-                setModel(modelFromBlob);
-                setArrayBuffer(reader.result as ArrayBuffer);
+            reader.onload = async () => {
+                try {
+                    const modelFromBlob = await loadBlobModel(
+                        reader.result as ArrayBuffer,
+                    );
+                    console.log(modelFromBlob);
+                    setModel(modelFromBlob);
+                    setArrayBuffer(reader.result as ArrayBuffer);
+                } catch (err) {
+                    isDevelopment &&
+                        console.error(
+                            "An error was occured when loading gltf: ",
+                            err,
+                        );
+                    toast(
+                        "Un erreur s'est produit lors du téléchargement du model",
+                        {
+                            type: "error",
+                            theme: "colored",
+                        },
+                    );
+                }
             };
             reader.readAsArrayBuffer(file);
         }

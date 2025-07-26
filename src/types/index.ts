@@ -1,6 +1,8 @@
 import { Session as NextauthSession } from "next-auth";
 import { NextRequest } from "next/server";
 import { AdminFacialRecognition, AdminInfo, Session } from "@prisma/client";
+import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { Prettify } from "@/lib/utils";
 
 export type IResponseType<T = null> = {
     message: string;
@@ -18,10 +20,12 @@ export type EmailTemplateProps = {
 
 export type EmailTemplateType = "sendOTP";
 
-export type IDBSession = Pick<AdminInfo, "id" | "username" | "role"> & {
-    image?: string;
-    expires?: Date;
-};
+export type IDBSession = Prettify<
+    Pick<AdminInfo, "id" | "username" | "role"> & {
+        image?: string;
+        expires?: Date;
+    }
+>;
 
 export type SessionwithFacial = Session & {
     admin: AdminInfo & {
@@ -40,18 +44,25 @@ export type IPagination = {
 
 export type IfileType = "IMAGE" | "VIDEO" | "MODEL_3D";
 
-export type INextauthSession = NextauthSession["user"] & {
-    id: string;
-    accessToken?: string;
-};
+export type INextauthSession = Prettify<
+    NextauthSession["user"] & {
+        id: string;
+        accessToken?: string;
+    }
+>;
 
 export type IStep = {
     name: string;
     component: React.ComponentType;
 };
 
-
 export type IObjectEntity = {
     key: string;
-    value: string
-}
+    value: string;
+};
+
+export type IGLTFModel = Prettify<
+    Pick<GLTF, "scene" | "animations"> & {
+        materials: Record<string, any>;
+    }
+>;
