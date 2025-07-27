@@ -82,33 +82,36 @@ const AddProductStudio = (): JSX.Element => {
     const { formData } = useStepper();
     const { model, setModel, setArrayBuffer } = useStudio();
 
-    const handleFileSelected = useCallback((file: File) => {
+    const handleFileSelected = useCallback(async (file: File) => {
         if (validate3DModel(file, 50 * 1024 * 1024)) {
-            const reader = new FileReader();
-            reader.onload = async () => {
-                try {
-                    const modelFromBlob = await loadBlobModel(
-                        reader.result as ArrayBuffer,
-                    );
-                    console.log(modelFromBlob);
-                    setModel(modelFromBlob);
-                    setArrayBuffer(reader.result as ArrayBuffer);
-                } catch (err) {
-                    isDevelopment &&
-                        console.error(
-                            "An error was occured when loading gltf: ",
-                            err,
-                        );
-                    toast(
-                        "Un erreur s'est produit lors du téléchargement du model",
-                        {
-                            type: "error",
-                            theme: "colored",
-                        },
-                    );
-                }
-            };
-            reader.readAsArrayBuffer(file);
+            // const reader = new FileReader();
+            // reader.onload = async () => {
+            //     try {
+            //         const modelFromBlob = await loadBlobModel(
+            //             reader.result as ArrayBuffer,
+            //         );
+            //         setModel(modelFromBlob);
+            //         setArrayBuffer(reader.result as ArrayBuffer);
+            //     } catch (err) {
+            //         isDevelopment &&
+            //             console.error(
+            //                 "An error was occured when loading gltf: ",
+            //                 err,
+            //             );
+            //         toast(
+            //             "Un erreur s'est produit lors du téléchargement du model",
+            //             {
+            //                 type: "error",
+            //                 theme: "colored",
+            //             },
+            //         );
+            //     }
+            // };
+            // reader.readAsArrayBuffer(file);
+            // const modelFromBlob = await loadBlobModel(
+            //     "/uploaded-models/iphone_16_pro_max.glb",
+            // );
+            // setModel(modelFromBlob);
         }
     }, []);
 
@@ -116,14 +119,15 @@ const AddProductStudio = (): JSX.Element => {
         <div
             className={cn(
                 "add-product-studio w-full overflow-hidden rounded-xl",
-                model && "border-gray border-2",
+                "border-gray border-2",
             )}
         >
-            {!model ? (
+            <Studio model={model!} />
+            {/* {!model ? (
                 <Uploader3dFile onFileSelected={handleFileSelected} />
             ) : (
                 <Studio model={model} />
-            )}
+            )} */}
         </div>
     );
 };
