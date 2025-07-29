@@ -5,8 +5,8 @@ import * as THREE from "three";
 import { Stage, OrbitControls, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Config3D } from "@/models/productModel";
-import Lights from "../Lights";
-import Loader from "../Loader";
+import Lights from "./Lights";
+import Loader from "./Loader";
 
 type ProductViewCanvasProps = {
     modelPath: string;

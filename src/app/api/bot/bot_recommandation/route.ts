@@ -1,9 +1,11 @@
-import { generateAIChat } from "@/lib/laingchain";
+import { generateAIChat } from "@/lib/laingchain/generateText";
+import { grokModel } from "@/lib/laingchain/models";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
     try {
         const data = (await req.json()) as { prompt?: string };
+        const AIModel = grokModel();
 
         if (!data.prompt) {
             return NextResponse.json(
@@ -11,12 +13,12 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
                     message: "No data provided",
                 },
                 {
-                    status: 400,
+                    status: 404,
                 },
             );
         }
 
-        const result = await generateAIChat(data.prompt);
+        const result = await generateAIChat(data.prompt, AIModel);
 
         if (!result) {
             return NextResponse.json(
@@ -24,17 +26,17 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
                     message: "No response from AI",
                 },
                 {
-                    status: 400,
+                    status: 404,
                 },
             );
         }
 
         return NextResponse.json(
             {
-                message: result,
+                message: result.content,
             },
             {
-                status: 200,
+                status: 201,
             },
         );
     } catch (error) {

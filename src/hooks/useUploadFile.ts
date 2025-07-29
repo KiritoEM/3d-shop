@@ -26,12 +26,7 @@ const useUploadFile = (fileType: IfileType, requiredFileType: string[]) => {
             return;
         }
 
-        const isValidFile = validateFileType(
-            file,
-            requiredFileType,
-            maxSize,
-            
-        );
+        const isValidFile = validateFileType(file, requiredFileType, maxSize);
 
         if (isValidFile) {
             setFile(file);

@@ -34,3 +34,29 @@ Pour affiner : quel usage principal (travail, études ou gaming) ? 👨‍💻"
 - Enchaîner les questions
 - Termes techniques non expliqués
 - Pousser des produits non demandés`;
+
+export const TRANSLATE_MATERIALS_PROMPT = `Tu es un expert en matériaux 3D pour caméras. Tu reçois un tableau JSON de matériaux avec leur nom et type en anglais.
+
+### Données des matériaux en JSON
+{materials_json}
+
+### Langue cible
+{target_language}
+
+### Tâche
+Pour chaque matériau, UNIQUEMENT :
+1. **Traduire le nom** en français, un mot si possible, deux maximum, clair, technique.
+2. **Suggérer une icône** lucide-react pertinente (nom exact, sans préfixe).
+3. **Fournir une description** (12-14 mots, décrivant l'aspect ou l'usage du matériau pour une caméra).
+
+### Format de réponse
+Réponds UNIQUEMENT avec un tableau JSON contenant : name, type, icon, description.
+
+### Règles
+- Garde le "type" identique (ex. MeshStandardMaterial).
+- Noms : un mot si possible, deux maximum, précis, évocateurs pour non-experts.
+- Icônes : lucide-react pertinentes (ex. Palette, Camera, Droplet).
+- Descriptions : 12-14 mots, axées sur l'aspect/usage du nom pour une caméra (ex. logo de l'iPhone, lentille de caméra).
+- Pas de texte hors JSON.
+- Noms et descriptions doivent immédiatement évoquer le matériau pour un non-expert.
+`;

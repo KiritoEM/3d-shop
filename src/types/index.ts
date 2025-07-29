@@ -66,3 +66,8 @@ export type IGLTFModel = Prettify<
         materials: Record<string, any>;
     }
 >;
+
+export type I3DMaterial = {
+    name: string;
+    type: string;
+};

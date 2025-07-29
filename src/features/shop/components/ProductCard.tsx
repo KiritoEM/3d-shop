@@ -3,7 +3,7 @@
 import { Info } from "lucide-react";
 import Link from "next/link";
 import { FC } from "react";
-import ProductViewCanvas from "@/components/3d-models/product/canvas/ProductViewCanvas";
+import ProductViewCanvas from "@/components/3d-models/product/ProductViewCanvas";
 import { Button } from "@/components/ui/button";
 import useShopStore from "@/features/shop/hooks/shop/shopStore";
 import { formatIntoPrice } from "@/lib/utils";

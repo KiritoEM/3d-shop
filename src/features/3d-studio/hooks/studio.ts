@@ -34,7 +34,8 @@ export const useStudio = create<StudioStore>((set, get) => ({
     setCameraDistance: (distance: number) => set({ cameraDistance: distance }),
     setCameraAction: (action: ICameraActions) => {
         const currentDistance = get().cameraDistance;
-        const zoomStep = CAMERA_ZOOM;
+        const zoomStep = CAMERA_ZOOM - 0.24;
+
         switch (action) {
             case "ZOOM_IN":
                 return set({

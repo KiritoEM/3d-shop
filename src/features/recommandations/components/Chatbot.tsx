@@ -71,7 +71,7 @@ const Chatbot = (): JSX.Element => {
             )}
 
             <div className="input-container mb-6 flex w-full items-center">
-                <PromptInput session={data?.user as INextauthSession} />
+                <PromptInput />
             </div>
         </div>
     );
