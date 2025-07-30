@@ -2,8 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { isDevelopment } from "@/lib/utils";
-import { Home } from "lucide-react";
-import Link from "next/link";
+import { Home, RefreshCcw } from "lucide-react";
 import { FC, useEffect } from "react";
 
 const Error: FC<{ error: string }> = ({ error }): JSX.Element => {
@@ -19,9 +18,7 @@ const Error: FC<{ error: string }> = ({ error }): JSX.Element => {
                 Désolé, quelque chose s'est mal passé.
             </p>
             <Button className="mt-3 rounded-full" asChild>
-                <Link href="/shop">
-                    <Home /> Revenir au shop
-                </Link>
+                <RefreshCcw /> Actualiser
             </Button>
         </section>
     );

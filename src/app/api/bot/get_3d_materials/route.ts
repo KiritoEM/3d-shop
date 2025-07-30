@@ -36,10 +36,9 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        return NextResponse.json(
-            { translatedMaterials: JSON.parse(translatedMaterials.content) },
-            { status: 201 },
-        );
+        return NextResponse.json(JSON.parse(translatedMaterials.content), {
+            status: 201,
+        });
     } catch (error) {
         console.error(
             "An error occured when getting 3d materials from AI:",

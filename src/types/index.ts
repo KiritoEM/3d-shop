@@ -3,6 +3,7 @@ import { NextRequest } from "next/server";
 import { AdminFacialRecognition, AdminInfo, Session } from "@prisma/client";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { Prettify } from "@/lib/utils";
+import { Material } from "three";
 
 export type IResponseType<T = null> = {
     message: string;
@@ -63,7 +64,7 @@ export type IObjectEntity = {
 
 export type IGLTFModel = Prettify<
     Pick<GLTF, "scene" | "animations"> & {
-        materials: Record<string, any>;
+        materials:{ [key: string] : Material};
     }
 >;
 

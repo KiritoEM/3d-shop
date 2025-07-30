@@ -38,7 +38,7 @@ const Controller = (): JSX.Element => {
         <OrbitControls
             ref={controlsRef}
             maxDistance={2.4}
-            minDistance={1.5}
+            minDistance={1.47}
             autoRotate
             autoRotateSpeed={-0.6}
             zoomSpeed={CAMERA_ZOOM}

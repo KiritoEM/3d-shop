@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { IGLTFModel } from "@/types";
+import { I3DMaterial, IGLTFModel } from "@/types";
 import { CAMERA_ZOOM } from "@/constants/constants";
 
 type ICameraActions = "ZOOM_IN" | "ZOOM_OUT";
@@ -9,6 +9,7 @@ type StudioState = {
     arrayBuffer: ArrayBuffer | null;
     cameraDistance: number;
     cameraUpdated: boolean;
+    selectedMaterials: I3DMaterial[];
 };
 
 type StudioActions = {
@@ -17,6 +18,7 @@ type StudioActions = {
     setCameraUpdated: () => void;
     setArrayBuffer: (arrayBuffer: ArrayBuffer) => void;
     setCameraDistance: (distance: number) => void;
+    setSelectedMaterial: (material: I3DMaterial) => void;
 };
 
 type StudioStore = StudioState & StudioActions;
@@ -26,6 +28,7 @@ export const useStudio = create<StudioStore>((set, get) => ({
     arrayBuffer: null,
     cameraDistance: 2,
     cameraUpdated: false,
+    selectedMaterials: [],
 
     // Actions
     setModel: (model: IGLTFModel) => set({ model }),
@@ -51,4 +54,13 @@ export const useStudio = create<StudioStore>((set, get) => ({
                 return get();
         }
     },
+    setSelectedMaterial: (material: I3DMaterial) =>
+        set((state) => ({
+            ...state,
+            selectedMaterials: !state.selectedMaterials.some(
+                (item) => item.name !== material.name,
+            )
+                ? [...state.selectedMaterials, material]
+                : state.selectedMaterials,
+        })),
 }));

@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { IStep } from "@/types";
 import AddProductForm from "@/features/panel/components/products/AddProductForm";
-import AddProductStudio from "@/features/panel/components/products/AddProductStudio";
+import AddProductStudio from "@/features/panel/components/products/AddProductCustomisation";
 
 type IStatisticCardData = Record<string, IStatisticCard>;
 

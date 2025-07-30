@@ -36,8 +36,8 @@ const Chatbot = (): JSX.Element => {
             {chats.length === 0 && <ChatbotHeader />}
 
             {chats.length > 0 && (
-                <ScrollArea className="chat-wrapper scrollable-section border-foreground/45 flex h-[calc(100vh-315px)] w-full flex-col overflow-y-auto rounded-xl border lg:h-[calc(100vh-275px)]">
-                    <div className="chat-container  mb-2 flex w-[98%] flex-col space-y-10 p-5 lg:mb-4">
+                <ScrollArea className="chat-wrapper border-foreground/45 flex h-[calc(100vh-315px)] w-full flex-col overflow-y-auto rounded-xl border lg:h-[calc(100vh-275px)]">
+                    <div className="chat-container mb-2 flex w-[98%] flex-col space-y-10 p-5 lg:mb-4">
                         {chats.map((item, index) => (
                             <ChatItem
                                 key={index}

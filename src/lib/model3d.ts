@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { GLTF, GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { IGLTFModel } from "@/types";
+import { I3DMaterial, IGLTFModel } from "@/types";
 
 export const loadBlobModel = (
     arrayBuffer: ArrayBuffer,
@@ -34,4 +34,13 @@ export const loadBlobModel = (
             });
         });
     });
+};
+
+export const transformMaterialsIntoArray = (
+    materials: IGLTFModel["materials"],
+): I3DMaterial[] => {
+    return Object.entries(materials).map(([key, value]) => ({
+        name: key,
+        type: value.type,
+    }));
 };

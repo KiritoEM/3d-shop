@@ -43,20 +43,39 @@ export const TRANSLATE_MATERIALS_PROMPT = `Tu es un expert en matériaux 3D pour
 ### Langue cible
 {target_language}
 
+### Correspondances des matériaux originaux
+- ana_renk → couleur principale
+- cam_materyal → boîtier/corps
+- ereve → effet/surface
+- flas → flash
+- glass → verre/lentille
+- kamera/kamera1/kamera2 → corps de caméra
+- lens → objectif
+- logo → marquage/logo
+- screw → visserie
+- wallpaper → revêtement
+
 ### Tâche
-Pour chaque matériau, UNIQUEMENT :
-1. **Traduire le nom** en français, un mot si possible, deux maximum, clair, technique.
-2. **Suggérer une icône** lucide-react pertinente (nom exact, sans préfixe).
-3. **Fournir une description** (12-14 mots, décrivant l'aspect ou l'usage du matériau pour une caméra).
+Pour chaque matériau, tu dois :
+1. **Analyser le nom original** pour comprendre sa fonction réelle
+2. **Traduire précisément** en français (1 mot de préférence, 2 maximum)
+3. **Choisir une icône** lucide-react appropriée
+4. **Rédiger une description** concise (10-15 mots)
+
+### Règles strictes
+- **Noms** : courts, techniques, évocateurs (ex: "objectif" pas "lentille de caméra")
+- **Cohérence** : les matériaux similaires (kamera, kamera1, kamera2) doivent avoir des noms distinctifs
+- **Icônes** : noms exacts lucide-react (Camera, Lens, Palette, etc.)
+- **Descriptions** : précises sur l'usage dans une caméra
+- **Type** : conserve exactement le type original
+- Retourne seulement les materials persistants pas tout les materials
 
 ### Format de réponse
-Réponds UNIQUEMENT avec un tableau JSON contenant : name, type, icon, description.
+Réponds UNIQUEMENT avec un tableau JSON valide contenant pour chaque matériau : name, type, icon, description.
 
-### Règles
-- Garde le "type" identique (ex. MeshStandardMaterial).
-- Noms : un mot si possible, deux maximum, précis, évocateurs pour non-experts.
-- Icônes : lucide-react pertinentes (ex. Palette, Camera, Droplet).
-- Descriptions : 12-14 mots, axées sur l'aspect/usage du nom pour une caméra (ex. logo de l'iPhone, lentille de caméra).
-- Pas de texte hors JSON.
-- Noms et descriptions doivent immédiatement évoquer le matériau pour un non-expert.
-`;
+### Exemples attendus
+- ana_renk → "couleur" (pas "couleur principale")
+- lens → "objectif" (pas "lentille")
+- glass → "verre" (pas "verre optique")
+
+Pas de texte en dehors du JSON.`;
