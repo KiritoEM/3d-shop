@@ -17,7 +17,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { usePlaySound } from "@/store/sound";
-import AuthLoadingScreen from "@/components/AuthLoadingScreen";
+import DotLoadingScreen from "@/components/DotLoadingScreen";
 import NavMenuIcon from "./components/MenuIcon";
 import NavResponsive from "./components/NavResponsive";
 
@@ -125,7 +125,7 @@ const MainNav = (): JSX.Element => {
     const { data, status } = useSession();
 
     if (status === "loading") {
-        return <AuthLoadingScreen text="Chargement en cours..." />;
+        return <DotLoadingScreen text="Chargement en cours..." />;
     }
 
     const isAbsolute = MATCHED_PATH.includes(path);

@@ -1,7 +1,7 @@
 import { BellIcon, Moon, Sidebar, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { FC } from "react";
-import AuthLoadingScreen from "@/components/AuthLoadingScreen";
+import DotLoadingScreen from "@/components/DotLoadingScreen";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import useDBSession from "@/hooks/useDBSession";
@@ -54,7 +54,7 @@ const PanelHeader = (): JSX.Element => {
     const isDark = theme === "dark";
 
     if (isLoading) {
-        return <AuthLoadingScreen text="Chargement en cours..." />;
+        return <DotLoadingScreen text="Chargement en cours..." />;
     }
 
     return (

@@ -1,13 +1,17 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 import { OrbitControls } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useSpring } from "@react-spring/three";
 import { CAMERA_ZOOM } from "@/constants/constants";
-import { useStudio } from "@/features/3d-studio/hooks/studio";
+import { useStudio } from "@/features/3d-studio/hooks/useStudio";
 
-const Controller = (): JSX.Element => {
+type ControllerProps = {
+    isHovered: boolean;
+};
+
+const Controller: FC<ControllerProps> = ({ isHovered }): JSX.Element => {
     const { cameraDistance, cameraUpdated, setCameraDistance } = useStudio();
     const controlsRef = useRef<any>(null);
 
@@ -38,12 +42,10 @@ const Controller = (): JSX.Element => {
         <OrbitControls
             ref={controlsRef}
             maxDistance={2.4}
-            minDistance={1.47}
-            autoRotate
+            minDistance={1.6}
+            autoRotate={!isHovered}
             autoRotateSpeed={-0.6}
             zoomSpeed={CAMERA_ZOOM}
-            minPolarAngle={0}
-            maxPolarAngle={Math.PI / 1.75}
             enablePan={false}
         />
     );

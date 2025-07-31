@@ -44,3 +44,32 @@ export const transformMaterialsIntoArray = (
         type: value.type,
     }));
 };
+
+export const hasColorProperty = (
+    material: THREE.Material,
+): material is
+    | THREE.MeshStandardMaterial
+    | THREE.MeshPhongMaterial
+    | THREE.MeshBasicMaterial => {
+    return "color" in material && material.color instanceof THREE.Color;
+};
+
+export const isMeshExisting = (
+    selectedMesh: THREE.Mesh[],
+    meshToCompare: THREE.Mesh,
+) => {
+    return selectedMesh.some(
+        (meshItem) => meshItem.uuid === meshToCompare.uuid,
+    );
+};
+
+export const isMaterialTransparent = (
+    material: THREE.Material,
+): material is THREE.MeshPhysicalMaterial => {
+    return (
+        material.transparent ||
+        (material.opacity !== undefined && material.opacity < 1) ||
+        (material.type === "MeshPhysicalMaterial" &&
+            (material as THREE.MeshPhysicalMaterial).transmission > 0)
+    );
+};

@@ -1,10 +1,10 @@
 import { FC } from "react";
 
-type AuthLoadingScreenProps = {
+type DotLoadingScreenProps = {
     text?: string;
 };
 
-const AuthLoadingScreen: FC<AuthLoadingScreenProps> = ({
+const DotLoadingScreen: FC<DotLoadingScreenProps> = ({
     text = "Vérification de la session...",
 }): JSX.Element => {
     return (
@@ -19,4 +19,4 @@ const AuthLoadingScreen: FC<AuthLoadingScreenProps> = ({
     );
 };
 
-export default AuthLoadingScreen;
+export default DotLoadingScreen;

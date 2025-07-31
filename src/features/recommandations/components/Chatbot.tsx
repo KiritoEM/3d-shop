@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { INextauthSession } from "@/types";
-import AuthLoadingScreen from "@/components/AuthLoadingScreen";
+import DotLoadingScreen from "@/components/DotLoadingScreen";
 import { Avatar } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useRecommandation } from "../hooks/useRecommandation";
@@ -29,7 +29,7 @@ const Chatbot = (): JSX.Element => {
     const { chats, loading } = useRecommandation();
 
     if (status === "loading")
-        return <AuthLoadingScreen text="Chargement en cours..." />;
+        return <DotLoadingScreen text="Chargement en cours..." />;
 
     return (
         <div className="recommandations-bot relative flex h-full w-full flex-col justify-between gap-6 lg:w-[48%] xl:w-[43%]">

@@ -12,7 +12,7 @@ import {
 import { IAdminInfo } from "@/models/adminModel";
 import { deleteAdminById } from "../../actions/adminActions";
 import { toast } from "react-toastify";
-import AuthLoadingScreen from "@/components/AuthLoadingScreen";
+import DotLoadingScreen from "@/components/DotLoadingScreen";
 
 //Card options
 type CardOptionsProps = {
@@ -66,7 +66,7 @@ const AdminCard: FC<AdminCardProps> = ({
     };
 
     if (isPending) {
-        return <AuthLoadingScreen text="Suppresion de l'admin..." />;
+        return <DotLoadingScreen text="Suppresion de l'admin..." />;
     }
 
     return (
