@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { DataTable } from "@/components/ui/data-table";
 import { Button } from "@/components/ui/button";
 import { TRANSACTIONS_COLUMNS } from "@/data/panel-data";
-import { download, makeCSV } from "@/lib/CSVUtilities";
+import { download, makeCSV } from "@/lib/CSV-utilities";
 import { sortDataByDate } from "@/lib/utils";
 import { ITransaction } from "@/models/transactionModel";
 import usePagination from "@/hooks/usePagination";

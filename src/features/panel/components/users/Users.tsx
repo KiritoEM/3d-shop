@@ -8,7 +8,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { USERS_COLUMNS } from "@/data/panel-data";
 import { sortDataByDate } from "@/lib/utils";
 import { IUser } from "@/models/userModel";
-import { download, makeCSV } from "@/lib/CSVUtilities";
+import { download, makeCSV } from "@/lib/CSV-utilities";
 import usePagination from "@/hooks/usePagination";
 import SectionHeader from "../SectionHeader";
 import { getPaginatedUsers } from "../../services/usersServices";

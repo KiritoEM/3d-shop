@@ -121,10 +121,6 @@ export const isFunction = (func: unknown): func is Function => {
     return typeof func === "function";
 };
 
-export const isSuperAdmin = (role: unknown): role is "SUPERADMIN" => {
-    return role === "SUPERADMIN";
-};
-
 export const generatePassword = (length: number = 12) => {
     const LOWER = "abcdefghijklmnopqrstuvwxyz";
     const UPPER = LOWER.toUpperCase();
@@ -268,3 +264,5 @@ export const validate3DModel = (file: File, maxSize?: number): boolean => {
 export type Prettify<T> = {
     [K in keyof T]: T[K];
 };
+
+export const isServer = typeof window === "undefined";
