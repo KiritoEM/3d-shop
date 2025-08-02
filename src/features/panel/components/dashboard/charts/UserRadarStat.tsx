@@ -16,7 +16,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { IUserStats } from "@/models/userModel";
-import CardHeader from "./CardHeader";
+import CardHeader from "../CardHeader";
 
 type IFilter = {
     year: number;

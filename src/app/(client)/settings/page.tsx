@@ -1,8 +1,8 @@
 import { headers } from "next/headers";
 import AccountPreview from "@/components/AccountPreview";
-import Error from "@/components/error";
+import Error from "@/components/Error";
 import Block from "@/features/user-settings/components/Block";
-import ChangeUserInfo from "@/features/user-settings/components/ChangeUserInfo";
+import ChangeUserInfo from "@/features/user-settings/components/change-user-info/ChangeUserInfo";
 import { authOptions } from "@/lib/nextauth";
 import SecurityForm from "@/features/user-settings/components/SecurityForm";
 import { validateSession } from "@/lib/sessions/serverSessionUtilities";

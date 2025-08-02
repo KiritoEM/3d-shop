@@ -1,4 +1,4 @@
-import TransactionsContent from "@/features/panel/components/transactions/TransactionsContent";
+import TransactionsContent from "@/features/panel/components/transactions/Transactions";
 
 const Transactions = async (): Promise<JSX.Element> => {
     return (

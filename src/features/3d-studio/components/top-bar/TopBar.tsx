@@ -1,8 +1,7 @@
 "use client";
 
 import React, { FC } from "react";
-import { toast } from "react-toastify";
-import { ArrowRight, ArrowUp, Download } from "lucide-react";
+import { ArrowUp, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ZoomActions from "./ZoomActions";
 
@@ -21,9 +20,6 @@ const StudioTopBar: FC<StudioTopBarProps> = ({
                 <div className="center">
                     {!isMaterialsSelected && (
                         <header className="materials-selection-header flex flex-col items-center text-center">
-                            <h3 className="font-michroma text-xl">
-                                Sélection d'objets
-                            </h3>
                             <p className="text-muted-foreground mt-1 max-w-[530px] text-[13px]">
                                 Choisissez les éléments du modèle 3D que vous
                                 souhaitez modifier ou personnaliser{" "}

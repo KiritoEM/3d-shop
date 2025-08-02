@@ -17,7 +17,10 @@ const Error: FC<{ error: string }> = ({ error }): JSX.Element => {
             <p className="mb-2 text-lg">
                 Désolé, quelque chose s'est mal passé.
             </p>
-            <Button className="mt-3 rounded-full" asChild>
+            <Button
+                className="mt-3 rounded-full"
+                onClick={() => window.location.reload()}
+            >
                 <RefreshCcw /> Actualiser
             </Button>
         </section>

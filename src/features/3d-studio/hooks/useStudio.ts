@@ -11,6 +11,7 @@ type StudioState = {
     cameraDistance: number;
     cameraUpdated: boolean;
     selectedMaterials: I3DMaterial[];
+    materialToCustomize: I3DMaterial | null;
     selectedMeshs: THREE.Mesh[];
     hoveredMeshs: THREE.Mesh[];
 };
@@ -22,12 +23,14 @@ type StudioActions = {
     setArrayBuffer: (arrayBuffer: ArrayBuffer) => void;
     setCameraDistance: (distance: number) => void;
     setSelectedMaterial: (material: I3DMaterial) => void;
+    setMaterialToCustomize: (material: I3DMaterial) => void;
     setSelectedMaterials: (materials: I3DMaterial[]) => void;
-    setHoveredMeshs: (materials: I3DMaterial[]) => void;
+    setHoveredMeshs: (meshs: THREE.Mesh[]) => void;
     setSelectedMeshs: (meshs: THREE.Mesh[]) => void;
     resetSelectedMaterials: () => void;
     resetSelectedMeshs: () => void;
     resetHoveredMeshs: () => void;
+    resetMaterialToCustomize: () => void;
 };
 
 type StudioStore = StudioState & StudioActions;
@@ -40,6 +43,7 @@ export const useStudio = create<StudioStore>((set, get) => ({
     selectedMaterials: [],
     selectedMeshs: [],
     hoveredMeshs: [],
+    materialToCustomize: null,
 
     // Actions
     setModel: (model: IGLTFModel) => set({ model }),
@@ -67,8 +71,6 @@ export const useStudio = create<StudioStore>((set, get) => ({
     },
     setSelectedMaterials: (materials: I3DMaterial[]) =>
         set({ selectedMaterials: materials }),
-    setHoveredMeshs: (materials: I3DMaterial[]) =>
-        set({ selectedMaterials: materials }),
     setSelectedMaterial: (material: I3DMaterial) =>
         set((state) => ({
             ...state,
@@ -78,8 +80,13 @@ export const useStudio = create<StudioStore>((set, get) => ({
                 ? state.selectedMaterials //make material unique
                 : [...state.selectedMaterials, material],
         })),
+    setMaterialToCustomize: (material: I3DMaterial) =>
+        set({ materialToCustomize: material }),
+    setHoveredMeshs: (meshs: THREE.Mesh[]) => set({ hoveredMeshs: meshs }),
+
     setSelectedMeshs: (meshs: THREE.Mesh[]) => set({ selectedMeshs: meshs }),
     resetSelectedMaterials: () => set({ selectedMaterials: [] }),
     resetSelectedMeshs: () => set({ selectedMeshs: [] }),
     resetHoveredMeshs: () => set({ hoveredMeshs: [] }),
+    resetMaterialToCustomize: () => set({ materialToCustomize: null }),
 }));

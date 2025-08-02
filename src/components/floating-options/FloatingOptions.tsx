@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import ThemeToggle from "./ThemeToggle";
-import Cart from "@/features/cart/components";
+import Cart from "@/features/cart/components/Cart";
 
 const FloatingOptions = (): JSX.Element => {
     return (

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { forwardRef, useRef } from "react";
-import { useFBX, useGLTF } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 import { Mesh, Material } from "three";
 import * as THREE from "three";
 import { ModelProps } from "@/components/3d-models/types";

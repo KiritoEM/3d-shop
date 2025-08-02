@@ -10,6 +10,7 @@ import { getAdminById, getAllFaces } from "../actions/facialActions";
 import { useAuthentificationStatus } from "../hooks/useAuthentificationStatus";
 import { createSession } from "@/lib/sessions/dbSession";
 import { useRouter } from "next/navigation";
+import Camera from "@/components/webcam/Camera";
 
 const Webcam = (): JSX.Element => {
     const [isPending, startTransition] = useTransition();
@@ -147,15 +148,13 @@ const Webcam = (): JSX.Element => {
             )}
 
             {/* Video Preview */}
-            <video
+            <Camera
                 ref={videoRef}
-                className={cn(
+                cameraClass={[
                     "!h-full !w-full rounded-lg object-cover transition-all duration-500",
-                    isLoadingWebcam && "scale-95 opacity-0 blur-sm",
-                    authStatus !== "Pending" && "hidden",
-                )}
-                muted
-                playsInline
+                    isLoadingWebcam ? "scale-95 opacity-0 blur-sm" : "",
+                    authStatus !== "Pending" ? "hidden" : "",
+                ]}
             />
 
             {/* Canvas Overlay */}

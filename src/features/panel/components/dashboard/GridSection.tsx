@@ -1,10 +1,10 @@
 "use client";
 
 import { FC } from "react";
-import LastTransactions from "./LastTransactions";
-import LastAddedProducts from "./LastAddedProducts";
-import TransactionsChart from "./TransactionsChart";
-import UserRadarStat from "./UserRadarStat";
+import LastTransactions from "./tables/LastTransactions";
+import LastAddedProducts from "./tables/LastAddedProducts";
+import TransactionsChart from "./charts/TransactionsChart";
+import UserRadarStat from "./charts/UserRadarStat";
 import useDashboardData from "../../hooks/useDashboardData";
 import SkeletonFallback from "../SkeletonFallback";
 
@@ -39,7 +39,7 @@ const GridSection: FC<GridSectionProps> = ({ token }): JSX.Element => {
                 )}
             </div>
 
-            <div className="column-2 flex flex-col gap-5 mt-5 lg:mt-0">
+            <div className="column-2 mt-5 flex flex-col gap-5 lg:mt-0">
                 {isUsersDataLoading ? (
                     <SkeletonFallback />
                 ) : (

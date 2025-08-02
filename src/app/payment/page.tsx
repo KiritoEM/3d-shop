@@ -1,4 +1,4 @@
-import PaymentContent from "@/features/payement/components";
+import PaymentContent from "@/features/payement/components/Payment";
 import React from "react";
 
 const Payement = (): JSX.Element => {

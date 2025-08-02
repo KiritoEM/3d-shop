@@ -1,6 +1,6 @@
 import AdminCard from "@/features/panel/components/administrators/AdminCard";
 import { getToken } from "@/lib/sessions/dbSession";
-import Error from "@/components/error";
+import Error from "@/components/Error";
 import { IAdminInfo } from "@/models/adminModel";
 import { Suspense } from "react";
 import AdministratorLoading from "./loading";

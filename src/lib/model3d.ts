@@ -11,7 +11,7 @@ export const loadBlobModel = (
             let materials: { [key: string]: THREE.Material } = {};
 
             gltf.scene.traverse((child) => {
-                if (child instanceof THREE.Mesh) {
+                if (isMesh(child)) {
                     const meshMaterials = Array.isArray(child.material)
                         ? child.material
                         : [child.material];
@@ -72,4 +72,8 @@ export const isMaterialTransparent = (
         (material.type === "MeshPhysicalMaterial" &&
             (material as THREE.MeshPhysicalMaterial).transmission > 0)
     );
+};
+
+export const isMesh = (child: unknown): child is THREE.Mesh => {
+    return child instanceof THREE.Mesh;
 };

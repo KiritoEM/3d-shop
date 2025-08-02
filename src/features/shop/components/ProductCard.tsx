@@ -9,11 +9,10 @@ import useShopStore from "@/features/shop/hooks/shop/shopStore";
 import { formatIntoPrice } from "@/lib/utils";
 import { IProduct } from "@/models/productModel";
 
-interface ProductCardProps
-    extends Pick<
-        IProduct,
-        "cuid" | "name" | "config3D" | "modelPath" | "groundColor" | "price"
-    > {}
+type ProductCardProps = Pick<
+    IProduct,
+    "cuid" | "name" | "config3D" | "modelPath" | "groundColor" | "price"
+> & {};
 
 const ProductCard: FC<ProductCardProps> = ({
     cuid,

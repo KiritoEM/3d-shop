@@ -26,8 +26,8 @@ import { pickObjectField } from "@/lib/utils";
 import { User } from "@prisma/client";
 import { updateSession } from "@/lib/sessions/clientSessionUtilities";
 import { useFormDialog } from "@/store/formDialog";
-import { updateUser } from "../actions/userSettingsActions";
-import useUserSettingsForm from "../hooks/useUserSettingsForm ";
+import { updateUser } from "../../actions/userSettingsActions";
+import useUserSettingsForm from "../../hooks/useUserSettingsForm ";
 import AvatarUploader from "./AvatarUploader";
 
 const OtpValidationDialog = dynamic(
@@ -139,10 +139,6 @@ const ChangeUserInfo: FC<ChangeUserInfoProps> = ({
                         type: "error",
                     });
                 } else {
-                    console.log(
-                        "Données utilisateur mises à jour :",
-                        updatedUserResponse.data,
-                    );
                     updateSession(
                         pickObjectField<User, keyof User>(
                             updatedUserResponse.data as User,

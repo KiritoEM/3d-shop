@@ -1,6 +1,6 @@
 "use client";
 
-import FloatingOptions from "@/components/FloatingOptions";
+import FloatingOptions from "@/components/floating-options/FloatingOptions";
 import MainNav from "@/components/layouts/navbars/main-nav";
 import PlayBackgroundSound from "@/components/PlayBackgroundSound";
 

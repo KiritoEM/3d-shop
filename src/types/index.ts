@@ -68,12 +68,20 @@ export type IGLTFModel = Prettify<
     }
 >;
 
-export type I3DMaterial = Pick<THREE.Material, "name" | "type"> & {
+export type I3DMaterial = Pick<THREE.Material, "name"> & {
+    type?: any;
     color?: THREE.Color | string | number;
+    updatedColor?: string | null;
     roughness?: number;
     metalness?: number;
     emissive?: THREE.Color | string | number;
     opacity?: number;
     transparent?: boolean;
     [key: string]: any;
+};
+
+export type IColorEntity = {
+    label: string;
+    color: string;
+    default?: boolean;
 };

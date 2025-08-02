@@ -11,8 +11,8 @@ import { toast } from "react-toastify";
 import { cleanTextForSpeech, cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useSpeechAvatar } from "../hooks/useSpeechAvatar";
-import { IChatRole } from "../hooks/useRecommandation";
+import { useSpeechAvatar } from "../../hooks/useSpeechAvatar";
+import { IChatRole } from "../../hooks/useRecommandation";
 
 type ChatItemProps = {
     role: IChatRole;

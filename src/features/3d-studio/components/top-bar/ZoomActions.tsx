@@ -2,7 +2,7 @@
 
 import { Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useStudio } from "../hooks/useStudio";
+import { useStudio } from "../../hooks/useStudio";
 
 const BUTTON_BASE_STYLE = `!h-fit cursor-pointer !px-2 !py-2 hover:[&>svg]:scale-115 transition-all`;
 

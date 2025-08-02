@@ -17,7 +17,7 @@ const FilterbarLoaderSkeletons = () => (
 );
 
 const FilterSidebar = dynamic(
-    () => import("@/features/shop/components/Filter-sidebar"),
+    () => import("@/features/shop/components/Filter-sidebar/FilterSidebar"),
     {
         ssr: false,
         loading: () => <FilterbarLoaderSkeletons />,

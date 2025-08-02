@@ -3,22 +3,26 @@
 import { useEffect } from "react";
 import * as THREE from "three";
 import { ThreeEvent } from "@react-three/fiber";
-import { I3DMaterial } from "@/types";
-import { hasColorProperty, isMeshExisting } from "@/lib/model3d";
+import { I3DMaterial, IGLTFModel } from "@/types";
+import { hasColorProperty, isMesh, isMeshExisting } from "@/lib/model3d";
 import { useStudio } from "@/features/3d-studio/hooks/useStudio";
 
-const useStudioModel = () => {
+const useStudioModel = (scene: IGLTFModel["scene"]) => {
     const {
         selectedMeshs,
+        materialToCustomize,
         setSelectedMeshs,
         setHoveredMeshs,
         setSelectedMaterials,
         resetSelectedMaterials,
         resetSelectedMeshs,
+        resetHoveredMeshs,
+        resetMaterialToCustomize,
     } = useStudio();
 
     useEffect(() => {
         if (selectedMeshs.length === 0) {
+            resetMaterialToCustomize();
             resetSelectedMaterials();
             return;
         }
@@ -50,25 +54,51 @@ const useStudioModel = () => {
         setSelectedMaterials(newMaterials);
     }, [selectedMeshs, setSelectedMaterials, resetSelectedMaterials]);
 
+    //change material by configurator
+    useEffect(() => {
+        if (materialToCustomize) {
+            scene.traverse((child) => {
+                if (isMesh(child)) {
+                    const meshMaterials = Array.isArray(child.material)
+                        ? child.material
+                        : [child.material];
+
+                    meshMaterials.forEach((material: THREE.Material) => {
+                        if (
+                            hasColorProperty(material) &&
+                            materialToCustomize.name === material.name
+                        ) {
+                            material.color.set(
+                                materialToCustomize.updatedColor as string,
+                            );
+                            material.needsUpdate = true;
+                        }
+                    });
+                }
+            });
+        }
+    }, [materialToCustomize]);
+
     const handlePointerOut = (e: ThreeEvent<PointerEvent>) => {
         e.stopPropagation();
-        resetSelectedMeshs();
+        resetHoveredMeshs();
     };
 
     const handlePointerOver = (e: ThreeEvent<PointerEvent>) => {
         e.stopPropagation();
 
-        const mesh = e.object as THREE.Mesh;
-        if (mesh instanceof THREE.Mesh) {
+        const mesh = e.object;
+        if (isMesh(mesh)) {
             setHoveredMeshs([mesh]);
         }
     };
 
     const handleClick = (e: ThreeEvent<MouseEvent>) => {
         e.stopPropagation();
+        resetMaterialToCustomize();
 
-        const mesh = e.object as THREE.Mesh;
-        if (mesh instanceof THREE.Mesh) {
+        const mesh = e.object;
+        if (isMesh(mesh)) {
             if (isMeshExisting(selectedMeshs, mesh)) {
                 setSelectedMeshs(
                     selectedMeshs.filter(
@@ -76,6 +106,7 @@ const useStudioModel = () => {
                     ),
                 );
             } else {
+                //multiple selection using ctrlKey
                 if (e.ctrlKey) {
                     setSelectedMeshs([...selectedMeshs, mesh]);
                 } else {
@@ -86,7 +117,9 @@ const useStudioModel = () => {
     };
 
     const handlePointerMissed = () => {
+        resetMaterialToCustomize();
         resetSelectedMeshs();
+        resetHoveredMeshs();
     };
 
     return {

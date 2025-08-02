@@ -1,5 +1,5 @@
 import Link from "next/link";
-import CardHeader from "./CardHeader";
+import CardHeader from "../CardHeader";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { ITransaction } from "@/models/transactionModel";
 import { FC } from "react";

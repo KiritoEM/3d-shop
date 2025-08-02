@@ -1,4 +1,4 @@
-import CreateProductContent from "@/features/panel/components/products/CreateProductContent";
+import CreateProductContent from "@/features/panel/components/products/CreateProduct";
 
 const CreateProduct = (): JSX.Element => {
     return (

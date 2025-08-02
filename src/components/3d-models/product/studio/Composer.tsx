@@ -1,11 +1,10 @@
-"use client";
-
 import React from "react";
 import { EffectComposer, Outline } from "@react-three/postprocessing";
 import { useStudio } from "@/features/3d-studio/hooks/useStudio";
 
 const Composer = (): JSX.Element => {
-    const { selectedMeshs, hoveredMeshs } = useStudio();
+    const { hoveredMeshs, selectedMeshs } = useStudio();
+
     return (
         <EffectComposer autoClear={false}>
             {hoveredMeshs.length || selectedMeshs.length ? (

@@ -1,38 +1,43 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
     FormField,
     FormItem,
+    FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input, PasswordInput } from "@/components/ui/input";
 import { authSchema, IAuthData } from "@/lib/zod-schemas/authSchemas";
-import Separator from "./Separator";
-import FacialTrigger from "./FacialTrigger";
-import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input, PasswordInput } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { signup } from "../../actions/authActions";
 import { useRouter } from "next/navigation";
-import { loginAdmin } from "../actions/authActions";
+import { FC, useTransition } from "react";
+import { toast } from "react-toastify";
 import useRecaptcha from "@/hooks/useRecaptcha";
-import { verifyRecaptcha } from "@/services/recaptchaServices";
 import ReCAPTCHA from "react-google-recaptcha";
+import { verifyRecaptcha } from "@/services/recaptchaServices";
 
-const AdminLoginForm = (): JSX.Element => {
+type SignupFormProps = {
+    redirectUrl: string;
+};
+
+const SignupForm: FC<SignupFormProps> = ({ redirectUrl }): JSX.Element => {
+    const router = useRouter();
     const form = useForm<IAuthData>({
         resolver: zodResolver(authSchema),
         mode: "onSubmit",
         defaultValues: {
-            mode: "admin_login",
+            mode: "signup",
             name: "",
+            email: "",
             password: "",
         },
     });
-    const router = useRouter();
     const [isPending, startTransition] = useTransition();
     const {
         recaptachaRef,
@@ -43,7 +48,8 @@ const AdminLoginForm = (): JSX.Element => {
 
     const onSubmit = (data: IAuthData) => {
         startTransition(async () => {
-            if (data.mode === "admin_login") {
+            if (data.mode === "signup") {
+                //Check recaptcha
                 const recaptchaResponse = (await verifyRecaptcha(
                     getRecaptchaValue() as string,
                 )) as any;
@@ -56,35 +62,42 @@ const AdminLoginForm = (): JSX.Element => {
                     return;
                 }
 
-                const response = await loginAdmin(data);
+                const response = await signup(data);
 
-                if (response.status === "error") {
+                if (response.status === "success") {
+                    form.reset();
+                    toast(
+                        "Votre compte a été créé avec succés!!! Veuillez vous connecter pour continuer",
+                        {
+                            theme: "colored",
+                            type: "success",
+                        },
+                    );
+                    if (!redirectUrl) {
+                        router.replace("/login");
+                    } else {
+                        router.replace(`/login?callbackUrl=${redirectUrl}`);
+                    }
+                } else if (response.status === "error") {
                     toast(response.message, {
                         type: "error",
                         theme: "colored",
                     });
-                } else {
-                    form.reset();
-                    toast(response.message, {
-                        type: "success",
-                        theme: "colored",
-                    });
-                    router.replace("/admin/dashboard");
                 }
             }
         });
     };
+
     return (
         <Form {...form}>
-            <div className="signup-form bg-background/90 dark:bg-background/70 relative z-20 my-10 flex w-full max-w-[380px] flex-col items-center space-y-10 rounded-lg border px-6 py-8 md:max-w-[400px] md:px-8 md:py-10 xl:max-w-[440px] xl:px-10 xl:py-12">
-                <h1 className="signup-form__title font-michroma w-full text-center text-xl sm:text-2xl">
-                    Se connecter en tant qu'administrateur
+            <div className="signup-form bg-background/90 dark:bg-background/70 relative z-20 my-10 flex w-full max-w-[380px] flex-col items-center space-y-10 rounded-lg border px-6 py-8 md:max-w-[400px] md:px-8 md:py-10 xl:max-w-[450px] xl:px-10 xl:py-12">
+                <h1 className="signup-form__title font-michroma text-3xl">
+                    Créer un compte
                 </h1>
 
                 <div className="w-full space-y-6">
                     <form
                         className="space-y-6"
-                        method="POST"
                         onSubmit={form.handleSubmit(onSubmit)}
                     >
                         <FormField
@@ -92,11 +105,32 @@ const AdminLoginForm = (): JSX.Element => {
                             name="name"
                             render={({ field }) => (
                                 <FormItem>
+                                    <FormLabel>Nom</FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder="Nom admin"
+                                            placeholder="Votre nom complet"
                                             type="text"
                                             {...field}
+                                            disabled={isPending}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Email</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="johndoe@gmail.com"
+                                            type="email"
+                                            {...field}
+                                            disabled={isPending}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -109,9 +143,10 @@ const AdminLoginForm = (): JSX.Element => {
                             name="password"
                             render={({ field }) => (
                                 <FormItem>
+                                    <FormLabel>Confidentiel</FormLabel>
                                     <FormControl>
                                         <PasswordInput
-                                            placeholder="Mot de passe admin"
+                                            placeholder="Créer votre mot de passe"
                                             {...field}
                                         />
                                     </FormControl>
@@ -132,22 +167,28 @@ const AdminLoginForm = (): JSX.Element => {
                         <Button
                             className="mt-1 h-10 w-full"
                             type="submit"
-                            disabled={!recaptchaValue}
+                            disabled={isPending || !recaptchaValue}
                             isLoading={isPending}
                         >
                             {isPending
-                                ? "Connexion en cours..."
-                                : "Se connecter"}
+                                ? "Inscription en cours..."
+                                : "S'inscrire"}
                         </Button>
                     </form>
 
-                    <Separator />
-
-                    <FacialTrigger />
+                    <p className="signup-cta mx-auto mt-2 w-fit text-center">
+                        Vous avez déjà un compte?{" "}
+                        <Link
+                            href="/login"
+                            className="cursor-pointer text-blue-500 hover:underline"
+                        >
+                            Se connecter
+                        </Link>
+                    </p>
                 </div>
             </div>
         </Form>
     );
 };
 
-export default AdminLoginForm;
+export default SignupForm;

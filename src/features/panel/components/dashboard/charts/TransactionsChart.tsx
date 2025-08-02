@@ -17,8 +17,8 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { ITransactionStats } from "@/models/transactionModel";
-import CardHeader from "./CardHeader";
-import { useFilterData } from "../../hooks/useFilterData";
+import CardHeader from "../CardHeader";
+import { useFilterData } from "../../../hooks/useFilterData";
 
 type ChartStatsActionsProps = {
     years: number[];
