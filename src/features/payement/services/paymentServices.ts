@@ -1,4 +1,4 @@
-import { CartItemTypes } from "@/features/cart/hooks/useCart";
+import { CartItemTypes } from "@/features/cart/store/cart";
 import { stripe } from "@/lib/stripe";
 import { isDevelopment } from "@/lib/utils";
 

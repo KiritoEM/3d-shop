@@ -3,7 +3,7 @@
 import React, { FC } from "react";
 
 import { I3DMaterial } from "@/types";
-import { useStudio } from "../../hooks/useStudio";
+import { useStudio } from "../../store/studio";
 import MaterialItem from "./MaterialItem";
 
 type MaterialsListProps = {

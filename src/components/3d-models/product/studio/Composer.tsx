@@ -1,6 +1,6 @@
 import React from "react";
 import { EffectComposer, Outline } from "@react-three/postprocessing";
-import { useStudio } from "@/features/3d-studio/hooks/useStudio";
+import { useStudio } from "@/features/3d-studio/store/studio";
 
 const Composer = (): JSX.Element => {
     const { hoveredMeshs, selectedMeshs } = useStudio();

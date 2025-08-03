@@ -1,4 +1,4 @@
-import AdminCard from "@/features/panel/components/administrators/AdminCard";
+import AdminCard from "@/features/panel/components/administrators/admin-card/AdminCard";
 import { getToken } from "@/lib/sessions/dbSession";
 import Error from "@/components/Error";
 import { IAdminInfo } from "@/models/adminModel";

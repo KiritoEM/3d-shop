@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useCart } from "@/features/cart/hooks/useCart";
+import { useCart } from "@/features/cart/store/cart";
 import { cn, formatIntoPrice } from "@/lib/utils";
 import { CustomisationConfigs, IProduct } from "@/models/productModel";
 import { CheckCheck, CheckIcon, ShoppingCart } from "lucide-react";

@@ -5,7 +5,7 @@ import { AdminFacialRecognition } from "@prisma/client";
 import { loadModels } from "@/lib/faceapi";
 import useWebcam from "./useWebcam";
 import useFaceDetection from "./useFaceDetection";
-import { useAuthentificationStatus } from "./useAuthentificationStatus";
+import { useAuthentificationStatus } from "../store/authStatus";
 
 const useFacialRecognition = (
     facialData: AdminFacialRecognition[],

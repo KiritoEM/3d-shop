@@ -3,7 +3,7 @@
 import { ShoppingCart } from "lucide-react";
 import { useTheme } from "next-themes";
 import React from "react";
-import { useCart } from "../hooks/useCart";
+import { useCart } from "../store/cart";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 

@@ -3,7 +3,7 @@
 import { UploadCloud } from "lucide-react";
 import { FC, useCallback, useEffect, useState } from "react";
 import Studio from "@/features/3d-studio/components/Studio";
-import { useStudio } from "@/features/3d-studio/hooks/useStudio";
+import { useStudio } from "@/features/3d-studio/store/studio";
 import useDragNDrop from "@/hooks/useDragNDrop";
 import {
     cn,

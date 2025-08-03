@@ -5,33 +5,7 @@ import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { FC, useRef } from "react";
-
-type AuthentificatedActionsProps = {
-    actions: (key: string) => void;
-};
-
-const AuthentificatedActions: FC<AuthentificatedActionsProps> = ({
-    actions,
-}): JSX.Element => {
-    return (
-        <div className="authentified-actions flex flex-col items-center gap-2">
-            <hr className="authentified-actions__separator bg-border mt-5 h-[1px] w-full" />
-            <div className="authentified-actions__items mt-3 w-full">
-                <ul className="flex flex-col gap-5">
-                    {NAV_DATA_AUTHENTICATED.map((item, index) => (
-                        <li
-                            key={index}
-                            className="animated-label flex cursor-pointer items-center gap-3 text-base transition-opacity hover:opacity-70"
-                            onClick={() => actions(item.key)}
-                        >
-                            <item.icon /> <span>{item.label}</span>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        </div>
-    );
-};
+import AuthentificatedActions from "./AuthentificatedActions";
 
 type NavResponsiveProps = {
     isOpen: boolean;
@@ -112,7 +86,10 @@ const NavResponsive: FC<NavResponsiveProps> = ({
 
                 {/* Actions if authenticated */}
                 {sessionStatus === "authenticated" && (
-                    <AuthentificatedActions actions={actions} />
+                    <AuthentificatedActions
+                        data={NAV_DATA_AUTHENTICATED}
+                        actions={actions}
+                    />
                 )}
             </div>
         </div>

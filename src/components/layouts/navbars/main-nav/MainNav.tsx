@@ -1,11 +1,9 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import React, { FC, Fragment, JSX, useEffect, useRef, useState } from "react";
-import { useMediaQuery } from "react-responsive";
+import React, { FC, Fragment, JSX, useState } from "react";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-import { DotLottiePlayer } from "@dotlottie/react-player";
 import { NAV_DATA, NAV_DATA_AUTHENTICATED } from "@/constants/constants";
 import { Logo } from "@/icons";
 import { cn } from "@/lib/utils";
@@ -16,59 +14,14 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { usePlaySound } from "@/store/sound";
 import DotLoadingScreen from "@/components/DotLoadingScreen";
-import NavMenuIcon from "./components/MenuIcon";
-import NavResponsive from "./components/NavResponsive";
+import NavMenuIcon from "../../MenuIcon";
+import NavResponsive from "./responsive-nav/NavResponsive";
 
 import "@dotlottie/react-player/dist/index.css";
+import SoundLottie from "./SoundLottie";
 
 const MATCHED_PATH: string[] = ["/"];
-
-const SoundLottie = () => {
-    const togglePlaySound = usePlaySound((state) => state.togglePlaySound);
-    const isPlaying = usePlaySound((state) => state.isPlaying);
-    const playerRef = useRef<any>(null);
-
-    const isMobile = useMediaQuery({ query: "(max-width: 400px)" });
-
-    useEffect(() => {
-        if (playerRef.current && !isPlaying) {
-            playerRef.current.pause();
-        }
-    }, []);
-
-    const handleChangeSound = () => {
-        if (isPlaying) {
-            playerRef.current.pause();
-            togglePlaySound();
-            playerRef.current?.seek(0); //Reset animation when pausing
-        } else {
-            togglePlaySound();
-            playerRef.current.play();
-        }
-    };
-    return (
-        <div
-            className="actions__sound-lottie"
-            onClick={handleChangeSound}
-            title="Play/pause music"
-        >
-            <DotLottiePlayer
-                ref={playerRef}
-                loop
-                src="/lotties/sound.lottie"
-                background="transparent"
-                className="w-full cursor-pointer"
-                style={{
-                    width: "100%",
-                    height: `${isMobile ? "2.64em" : "4.3em"}`,
-                    objectFit: "cover",
-                }}
-            />
-        </div>
-    );
-};
 
 type MenuItemsProps = {
     data: typeof NAV_DATA;
@@ -96,15 +49,17 @@ const MenuItems: FC<MenuItemsProps> = ({ data, path }): JSX.Element => {
 };
 
 type DropdownMenuActionsProps = {
+    data: typeof NAV_DATA_AUTHENTICATED;
     actions: (key: string) => void;
 };
 
 const DropdownMenuAuthentificatedActions: FC<DropdownMenuActionsProps> = ({
+    data,
     actions,
 }) => {
     return (
         <DropdownMenuContent className="flex w-48 flex-col gap-2 p-3">
-            {NAV_DATA_AUTHENTICATED.map((item, index) => (
+            {data.map((item, index) => (
                 <DropdownMenuItem
                     key={index}
                     className="animated-label flex cursor-pointer items-center gap-3 text-base transition-opacity hover:opacity-70"
@@ -184,6 +139,7 @@ const MainNav = (): JSX.Element => {
                                             />
                                         </DropdownMenuTrigger>
                                         <DropdownMenuAuthentificatedActions
+                                            data={NAV_DATA_AUTHENTICATED}
                                             actions={handleDropdownmenuActions}
                                         />
                                     </DropdownMenu>

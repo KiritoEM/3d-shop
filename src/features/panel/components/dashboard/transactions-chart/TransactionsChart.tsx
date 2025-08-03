@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC } from "react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 import {
     ChartContainer,
@@ -9,53 +9,11 @@ import {
 } from "@/components/ui/chart";
 import { MONTH_STRING } from "@/constants/constants";
 import { transactionsStatsMock } from "@/__mock__/transactions-mock";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import { ITransactionStats } from "@/models/transactionModel";
 import CardHeader from "../CardHeader";
-import { useFilterData } from "../../../hooks/useFilterData";
-
-type ChartStatsActionsProps = {
-    years: number[];
-    selectedYear: number;
-    addYearFilter: (year: number) => void;
-};
-
-const ChartStatsActions: FC<ChartStatsActionsProps> = ({
-    years,
-    selectedYear,
-    addYearFilter,
-}): JSX.Element => {
-    return (
-        <div className="radar-action flex items-center gap-4">
-            <div className="radar-action__year-filter">
-                <Select
-                    value={`${selectedYear}`}
-                    onValueChange={(value) => addYearFilter(Number(value))}
-                >
-                    <SelectTrigger className="w-fit gap-3">
-                        <SelectValue>{selectedYear}</SelectValue>
-                    </SelectTrigger>
-
-                    <SelectContent>
-                        {years
-                            .filter((year) => year !== selectedYear)
-                            .map((year) => (
-                                <SelectItem key={year} value={`${year}`}>
-                                    {year}
-                                </SelectItem>
-                            ))}
-                    </SelectContent>
-                </Select>
-            </div>
-        </div>
-    );
-};
+import { useFilterData } from "../../../store/filteredData";
+import EmptyChart from "../../EmptySection";
+import ChartFilter from "./ChartFilter";
 
 const chartConfig = {
     count: {
@@ -74,14 +32,7 @@ const TransactionsChart: FC<TransactionsChartProps> = ({
     const { year, setYear } = useFilterData();
 
     if (!Array.isArray(statsData) || statsData.length === 0) {
-        return (
-            <article className="user-stats-card bg-gray rounded-lg p-6">
-                <CardHeader title="Stats transactions" rightSide={<></>} />
-                <div className="flex h-[310px] items-center justify-center">
-                    <p>Aucune donnée disponible</p>
-                </div>
-            </article>
-        );
+        return <EmptyChart cardTitle="Stats transactions" />;
     }
 
     const chartData = statsData.map((item) => ({
@@ -98,7 +49,7 @@ const TransactionsChart: FC<TransactionsChartProps> = ({
             <CardHeader
                 title="Stats transactions"
                 rightSide={
-                    <ChartStatsActions
+                    <ChartFilter
                         years={years}
                         selectedYear={year}
                         addYearFilter={(year: number) => setYear(year)}

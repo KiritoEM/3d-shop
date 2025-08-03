@@ -1,8 +1,8 @@
 "use client";
 
 import { useMediaQuery } from "react-responsive";
-import PanelHeader from "@/components/layouts/headers/PanelHeader";
-import Sidebar from "@/components/layouts/navbars/sidebar";
+import PanelHeader from "@/components/layouts/headers/panel-header/PanelHeader";
+import Sidebar from "@/components/layouts/navbars/sidebar/Sidebar";
 import { cn } from "@/lib/utils";
 import { useSidebar } from "@/store/sidebar";
 

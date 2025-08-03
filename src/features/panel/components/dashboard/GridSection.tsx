@@ -1,10 +1,10 @@
 "use client";
 
 import { FC } from "react";
-import LastTransactions from "./tables/LastTransactions";
-import LastAddedProducts from "./tables/LastAddedProducts";
-import TransactionsChart from "./charts/TransactionsChart";
-import UserRadarStat from "./charts/UserRadarStat";
+import LastTransactions from "./LastTransactions";
+import LastAddedProducts from "./LastAddedProducts";
+import TransactionsChart from "./transactions-chart/TransactionsChart";
+import UserRadarStat from "./users-radar-chart/UserRadarStat";
 import useDashboardData from "../../hooks/useDashboardData";
 import SkeletonFallback from "../SkeletonFallback";
 

@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { formatIntoPrice } from "@/lib/utils";
 import CardHeader from "./CardHeader";
 import { useMediaQuery } from "react-responsive";
+import EmptyChart from "../EmptySection";
 
 type LastAddedProductssProps = {
     productsData: IProduct[];
@@ -18,21 +19,11 @@ const LastAddedProducts: FC<LastAddedProductssProps> = ({
     });
 
     if (!Array.isArray(productsData) || productsData.length === 0) {
-        return (
-            <article className="user-stats-card dark:bg-gray rounded-lg border p-6 dark:border-0">
-                <CardHeader
-                    title="Produits ajoutés récemment"
-                    rightSide={<></>}
-                />
-                <div className="flex h-[200px] items-center justify-center">
-                    <p>Aucune donnée disponible</p>
-                </div>
-            </article>
-        );
+        return <EmptyChart cardTitle="Produits ajoutés récemment" />;
     }
 
     return (
-        <article className="last-added_product-card dark:bg-gray rounded-lg border p-6 dark:border-0">
+        <article className="product-card dark:bg-gray rounded-lg border p-6 dark:border-0">
             <CardHeader
                 title="Produits ajoutés récemment"
                 className="!text-[20px] xl:text-xl"
@@ -50,7 +41,7 @@ const LastAddedProducts: FC<LastAddedProductssProps> = ({
                 }
             />
 
-            <Table className="last-added_product-card__table mt-8">
+            <Table className="product-table mt-8">
                 <TableBody>
                     {productsData.map((product) => (
                         <TableRow key={product.id} className="w-full">

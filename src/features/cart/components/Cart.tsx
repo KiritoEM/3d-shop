@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import CartTrigger from "./CartTrigger";
 
-const CartContent = dynamic(() => import("./CartContent"), {
+const CartContent = dynamic(() => import("./cart-content/CartContent"), {
     ssr: false,
 });
 

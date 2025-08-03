@@ -2,14 +2,13 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import axios from "axios";
-import { isDevelopment } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { useRecommandation } from "../hooks/useRecommandation";
+import { useRecommandation } from "../store/recommandation";
+import { askBot } from "../services/botServices";
 
 const PromptInput = (): JSX.Element => {
-    const { setChat, setLoading } = useRecommandation();
     const [inputValue, setInputValue] = useState<string>("");
+    const { setChat, setLoading } = useRecommandation();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -21,33 +20,12 @@ const PromptInput = (): JSX.Element => {
         setLoading(true);
         setInputValue("");
 
-        try {
-            const response = await axios.post(
-                `/api/bot/bot_recommandation`,
-                {
-                    prompt: userMessage,
-                },
-                {
-                    headers: {
-                        credentials: "include",
-                    },
-                },
-            );
+        const botResponse = await askBot(userMessage);
 
-            setChat({
-                role: "bot",
-                message: response.data.message,
-            });
-        } catch (error: any) {
-            isDevelopment && console.error("Error from AI:", error);
-            setChat({
-                role: "bot",
-                message:
-                    "Une erreur s'est produite, veuillez réessayer plus tard.",
-            });
-        } finally {
-            setLoading(false);
-        }
+        setChat({
+            role: "bot",
+            message: botResponse.message,
+        });
     };
 
     return (

@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fillDataGroupbyMonth } from "@/lib/utils";
 import { IUserStats } from "@/models/userModel";
 import { ITransactionStats } from "@/models/transactionModel";
-import { useFilterData } from "./useFilterData";
+import { useFilterData } from "../store/filteredData";
 import {
     getLastProducts,
     getTransactionsGroupbyMonth,

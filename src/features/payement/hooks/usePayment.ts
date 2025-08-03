@@ -1,4 +1,4 @@
-import { CartItemTypes } from "@/features/cart/hooks/useCart";
+import { CartItemTypes } from "@/features/cart/store/cart";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -19,6 +19,7 @@ export const usePayment = create<PaymentStore>()(
         (set) => ({
             productsToBuy: [],
             _hasHydrated: false,
+            isLoading: true,
 
             // Actions
             setProductsToBuy: (items) => set({ productsToBuy: items }),

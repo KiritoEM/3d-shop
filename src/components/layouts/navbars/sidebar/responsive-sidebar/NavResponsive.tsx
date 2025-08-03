@@ -1,10 +1,12 @@
 import { X } from "lucide-react";
 import { FC, Fragment } from "react";
 import { Admin, Logo, Logout } from "@/icons";
-import { LOGO_BASE_STYLE, MenuBlock, MenuItem } from ".";
+import { LOGO_BASE_STYLE } from "../Sidebar";
 import { cn } from "@/lib/utils";
 import { SIDEBAR_DATA } from "@/constants/constants";
 import { Button } from "@/components/ui/button";
+import MenuBlock from "../MenuBlock";
+import MenuItem from "../MenuItem";
 
 type NavResponsiveProps = {
     isOpen: boolean;
@@ -60,14 +62,6 @@ const NavResponsive: FC<NavResponsiveProps> = ({
                         </MenuBlock>
 
                         <MenuBlock title="GENERAL" isClosed={false}>
-                            {/* {SIDEBAR_DATA.general.map((item, index) => (
-                                <MenuItem
-                                    key={index}
-                                    isClosed={false}
-                                    isLg={false}
-                                    {...item}
-                                />
-                            ))} */}
                             <MenuItem
                                 isClosed={false}
                                 isLg={false}

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { FC, Suspense, useEffect, useState } from "react";
-import * as THREE from "three";
 import { Stage, OrbitControls, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Config3D } from "@/models/productModel";
@@ -31,24 +30,6 @@ const ProductViewCanvas: FC<ProductViewCanvasProps> = ({
             }, 600);
         }
     }, [scene, materials]);
-
-    // Change color dynamic
-    useEffect(() => {
-        if (!materials || !scene) return;
-
-        if (selectedMaterials && Object.keys(selectedMaterials).length) {
-            Object.entries(selectedMaterials).forEach(([key, value]) => {
-                const material = materials[key];
-
-                if (
-                    material &&
-                    material instanceof THREE.MeshStandardMaterial
-                ) {
-                    material.color.set(value);
-                }
-            });
-        }
-    }, [selectedMaterials, materials, scene]);
 
     return (
         <div className="relative h-full w-full">

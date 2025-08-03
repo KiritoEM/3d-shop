@@ -5,7 +5,7 @@ import * as THREE from "three";
 import { ThreeEvent } from "@react-three/fiber";
 import { I3DMaterial, IGLTFModel } from "@/types";
 import { hasColorProperty, isMesh, isMeshExisting } from "@/lib/model3d";
-import { useStudio } from "@/features/3d-studio/hooks/useStudio";
+import { useStudio } from "@/features/3d-studio/store/studio";
 
 const useStudioModel = (scene: IGLTFModel["scene"]) => {
     const {

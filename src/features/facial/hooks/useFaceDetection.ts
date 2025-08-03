@@ -4,7 +4,7 @@ import { useCallback, useRef } from "react";
 import * as faceapi from "face-api.js";
 import { compareFace, handleLabelFace } from "@/lib/faceapi";
 import { AdminFacialRecognition } from "@prisma/client";
-import { useAuthentificationStatus } from "./useAuthentificationStatus";
+import { useAuthentificationStatus } from "../store/authStatus";
 
 const useFaceDetection = (
     facialData: AdminFacialRecognition[],

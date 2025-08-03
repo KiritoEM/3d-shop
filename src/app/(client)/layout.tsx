@@ -1,7 +1,7 @@
 "use client";
 
 import FloatingOptions from "@/components/floating-options/FloatingOptions";
-import MainNav from "@/components/layouts/navbars/main-nav";
+import MainNav from "@/components/layouts/navbars/main-nav/MainNav";
 import PlayBackgroundSound from "@/components/PlayBackgroundSound";
 
 export default function LandingLayout({

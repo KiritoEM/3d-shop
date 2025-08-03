@@ -1,47 +1,11 @@
 "use client";
 
-import { MoreHorizontalIcon, Trash2 } from "lucide-react";
 import { FC, useTransition } from "react";
-import { Button } from "@/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { IAdminInfo } from "@/models/adminModel";
-import { deleteAdminById } from "../../actions/adminActions";
 import { toast } from "react-toastify";
+import { IAdminInfo } from "@/models/adminModel";
 import DotLoadingScreen from "@/components/DotLoadingScreen";
-
-//Card options
-type CardOptionsProps = {
-    deleteAdmin: () => void;
-};
-
-const CardOptions: FC<CardOptionsProps> = ({ deleteAdmin }): JSX.Element => {
-    return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button
-                    variant="ghost"
-                    className="absolute right-3 top-3 rounded-full"
-                >
-                    <MoreHorizontalIcon />
-                </Button>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent className="w-56" align="start">
-                <DropdownMenuItem onClick={deleteAdmin}>
-                    <span className="text-destructive hover:text-destructive flex items-center gap-3">
-                        <Trash2 className="text-destructive" /> Supprimer le
-                        compte
-                    </span>
-                </DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
-    );
-};
+import { deleteAdminById } from "../../../actions/adminActions";
+import CardDropdown from "./CardDropdown";
 
 type AdminCardProps = Omit<IAdminInfo, "password" | "updatedAt" | "sessions">;
 
@@ -72,7 +36,7 @@ const AdminCard: FC<AdminCardProps> = ({
     return (
         <article className="admin-card relative flex w-full flex-col items-center gap-4 rounded-lg border p-4 sm:gap-8 sm:p-4 md:flex-row xl:gap-6 dark:bg-[#242426]">
             {/* More button */}
-            <CardOptions deleteAdmin={() => handleDeleteAdmin(id)} />
+            <CardDropdown deleteAdmin={() => handleDeleteAdmin(id)} />
 
             <div className="admin-card__image aspect-[4/3] max-h-[184px] w-full overflow-hidden rounded-xl md:!h-20 md:!w-20 md:flex-shrink-0 lg:!h-[100px] lg:!w-[100px] 2xl:!h-28 2xl:!w-28">
                 <img

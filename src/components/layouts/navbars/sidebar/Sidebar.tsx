@@ -1,92 +1,26 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
-import React, { FC, Fragment, ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import React, { FC, Fragment } from "react";
 import { useMediaQuery } from "react-responsive";
 import { toast } from "react-toastify";
 import dynamic from "next/dynamic";
 import { SIDEBAR_DATA } from "@/constants/constants";
-import { ISidebarMenuItem } from "@/constants/types";
 import { Admin, AdminActive, Logo, Logout, LogoWithoutLabel } from "@/icons";
-import { cn, isFunction } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { logoutAdmin } from "@/features/auth/actions/authActions";
 import useDBSession from "@/hooks/useDBSession";
 import DotLoadingScreen from "@/components/DotLoadingScreen";
 import { useSidebar } from "@/store/sidebar";
+import MenuBlock from "./MenuBlock";
+import MenuItem from "./MenuItem";
 
-const NavResponsive = dynamic(() => import("./NavResponsive"), {
-    ssr: false,
-});
-
-type MenuBlockProps = {
-    title: string;
-    children: ReactNode;
-    isClosed?: boolean;
-};
-
-export const MenuBlock: FC<MenuBlockProps> = ({
-    children,
-    title,
-    isClosed = false,
-}): JSX.Element => {
-    return (
-        <div className="menu-block">
-            {!isClosed && (
-                <header className="ml-2">
-                    <p className="text-muted-foreground/80 text-sm">
-                        {title.toUpperCase()}
-                    </p>
-                </header>
-            )}
-
-            <div className="menu-block__items mt-3 flex flex-col space-y-1">
-                {children}
-            </div>
-        </div>
-    );
-};
-
-export const MenuItem: FC<
-    ISidebarMenuItem & { isClosed: boolean; isLg: boolean }
-> = ({ ActiveIcon, isClosed, isLg, Icon, label, url, fn }): JSX.Element => {
-    const router = useRouter();
-    const path = usePathname();
-    const isActive = url ? path.startsWith(url.toLowerCase()) : false;
-
-    return (
-        <article
-            className={cn(
-                "menu-item flex cursor-pointer items-center space-x-4 rounded-lg px-3 py-3",
-                !isActive && "hover:bg-primary/10 group",
-            )}
-            onClick={() =>
-                fn && isFunction(fn)
-                    ? fn()
-                    : url && !isActive && router.push(url)
-            }
-        >
-            {isActive && (
-                <div className="bg-primary absolute -left-[14px] h-[48px] w-5 rounded-lg" />
-            )}
-            {isActive && ActiveIcon ? (
-                <ActiveIcon className="text-primary size-5" />
-            ) : (
-                <Icon className="text-muted-foreground group-hover:text-foreground size-5" />
-            )}{" "}
-            {!isClosed && !isLg && (
-                <span
-                    className={cn(
-                        isActive
-                            ? "text-foreground font-medium"
-                            : "text-muted-foreground group-hover:text-foreground",
-                    )}
-                >
-                    {label}
-                </span>
-            )}
-        </article>
-    );
-};
+const NavResponsive = dynamic(
+    () => import("./responsive-sidebar/NavResponsive"),
+    {
+        ssr: false,
+    },
+);
 
 export const LOGO_BASE_STYLE =
     "main-nav__logo ml-2 cursor-pointer text-[#0D0D0D] dark:text-white";
@@ -171,14 +105,6 @@ const Sidebar: FC = (): JSX.Element => {
                         </MenuBlock>
 
                         <MenuBlock title="GENERAL" isClosed={closed || isLg}>
-                            {/* {SIDEBAR_DATA.general.map((item, index) => (
-                                <MenuItem
-                                    key={index}
-                                    isClosed={closed || isLg}
-                                    isLg={isLg}
-                                    {...item}
-                                />
-                            ))} */}
                             <MenuItem
                                 isClosed={closed || isLg}
                                 isLg={isLg}

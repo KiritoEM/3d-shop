@@ -27,7 +27,7 @@ import { User } from "@prisma/client";
 import { updateSession } from "@/lib/sessions/clientSessionUtilities";
 import { useFormDialog } from "@/store/formDialog";
 import { updateUser } from "../../actions/userSettingsActions";
-import useUserSettingsForm from "../../hooks/useUserSettingsForm ";
+import useUserSettingsForm from "../../hooks/useSettingsForm ";
 import AvatarUploader from "./AvatarUploader";
 
 const OtpValidationDialog = dynamic(

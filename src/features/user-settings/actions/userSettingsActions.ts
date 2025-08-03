@@ -1,5 +1,8 @@
 "use server";
 
+import { User } from "@prisma/client";
+import { revalidatePath } from "next/cache";
+import path from "node:path";
 import { compareData, hashData } from "@/lib/hash";
 import { prisma } from "@/lib/prisma";
 import { deleteFile, uploadFileLocal } from "@/lib/uploadLocalFile";
@@ -9,9 +12,6 @@ import {
     IUserSettingsSchema,
 } from "@/lib/zod-schemas/settingsSchemas";
 import { IResponseType } from "@/types";
-import { User } from "@prisma/client";
-import { revalidatePath } from "next/cache";
-import path from "node:path";
 
 export const updateUser = async (
     data: IUserSettingsSchema & { image?: File | string },

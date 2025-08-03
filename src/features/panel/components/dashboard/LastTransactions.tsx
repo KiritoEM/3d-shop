@@ -1,10 +1,11 @@
 import Link from "next/link";
-import CardHeader from "../CardHeader";
+import CardHeader from "./CardHeader";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { ITransaction } from "@/models/transactionModel";
 import { FC } from "react";
 import { formatIntoPrice } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
+import EmptySection from "../EmptySection";
 
 type LastTransactionsProps = {
     transactionsData: Pick<
@@ -22,14 +23,7 @@ const LastTransactions: FC<LastTransactionsProps> = ({
     transactionsData,
 }): JSX.Element => {
     if (!Array.isArray(transactionsData) || transactionsData.length === 0) {
-        return (
-            <article className="user-stats-card dark:bg-gray rounded-lg border p-6 dark:border-0">
-                <CardHeader title="Dernières transactions" rightSide={<></>} />
-                <div className="flex h-[200px] items-center justify-center">
-                    <p>Aucune donnée disponible</p>
-                </div>
-            </article>
-        );
+        return <EmptySection cardTitle="Dernières transactions" />;
     }
 
     return (
@@ -46,7 +40,7 @@ const LastTransactions: FC<LastTransactionsProps> = ({
                 }
             />
 
-            <Table className="last-transactions-card__table mt-8">
+            <Table className="transactions-table mt-8">
                 <TableBody>
                     {transactionsData.map((transaction) => (
                         <TableRow key={transaction.id}>

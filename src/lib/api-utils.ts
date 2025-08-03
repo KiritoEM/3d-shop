@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { IDBSession } from "@/types";
 import { cookies } from "next/headers";
 import { isServer } from "./utils";
-import { ReactNode } from "react";
 
 type RequestOptions = Partial<{
     method: "GET" | "PUT" | "DELETE" | "POST";

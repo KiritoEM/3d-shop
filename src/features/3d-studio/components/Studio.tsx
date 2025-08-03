@@ -4,7 +4,7 @@ import React, { FC } from "react";
 import StudioViewCanvas from "@/components/3d-models/product/studio/viewCanvas";
 import { IGLTFModel } from "@/types";
 import StudioTopBar from "./top-bar/TopBar";
-import { useStudio } from "../hooks/useStudio";
+import { useStudio } from "../store/studio";
 import dynamic from "next/dynamic";
 import MaterialConfigurator from "./material-configurator/MaterialConfigurator";
 

@@ -5,8 +5,8 @@ import { INextauthSession } from "@/types";
 import DotLoadingScreen from "@/components/DotLoadingScreen";
 import { Avatar } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useRecommandation } from "../hooks/useRecommandation";
-import PromptInput from "./PromptInput";
+import { useRecommandation } from "../../store/recommandation";
+import PromptInput from "./../PromptInput";
 import ChatItem, { ChatItemSkeleton } from "./ChatItem";
 
 // Section Header

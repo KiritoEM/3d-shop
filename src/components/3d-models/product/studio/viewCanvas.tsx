@@ -2,7 +2,7 @@ import React, { FC, Suspense, useEffect, useRef, useState } from "react";
 import { Environment } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { IGLTFModel } from "@/types";
-import { useStudio } from "@/features/3d-studio/hooks/useStudio";
+import { useStudio } from "@/features/3d-studio/store/studio";
 import Loader from "../Loader";
 import Controller from "./Controller";
 import StudioModel from "./model";

@@ -5,7 +5,7 @@ import { OrbitControls } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useSpring } from "@react-spring/three";
 import { CAMERA_ZOOM } from "@/constants/constants";
-import { useStudio } from "@/features/3d-studio/hooks/useStudio";
+import { useStudio } from "@/features/3d-studio/store/studio";
 
 type ControllerProps = {
     isHovered: boolean;

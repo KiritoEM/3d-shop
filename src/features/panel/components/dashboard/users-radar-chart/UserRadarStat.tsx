@@ -8,57 +8,13 @@ import {
     ChartTooltipContent,
 } from "@/components/ui/chart";
 import { MONTH_STRING } from "@/constants/constants";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import { IUserStats } from "@/models/userModel";
 import CardHeader from "../CardHeader";
+import EmptyChart from "../../EmptySection";
+import RadarFilter from "./RadarFilter";
 
-type IFilter = {
-    year: number;
+export type IFilter = {
     monthInterval: [number, number];
-};
-
-type RadarStatsActionsProps = {
-    filters: IFilter;
-    addFilters: (filter: Partial<IFilter>) => void;
-};
-
-const RadarStatsActions: FC<RadarStatsActionsProps> = ({
-    // years,
-    filters,
-    addFilters,
-}): JSX.Element => {
-    return (
-        <div className="radar-action flex items-center gap-4">
-            <div className="radar-action__month-interval">
-                <Select
-                    onValueChange={(value) =>
-                        addFilters({
-                            monthInterval: [
-                                Number(value.split("_")[0]),
-                                Number(value.split("_")[1]),
-                            ],
-                        })
-                    }
-                    value={`${filters.monthInterval[0]}_${filters.monthInterval[1]}`}
-                >
-                    <SelectTrigger className="w-fit gap-3">
-                        <SelectValue>{`${MONTH_STRING[filters.monthInterval[0]]} - ${MONTH_STRING[filters.monthInterval[1]]}`}</SelectValue>
-                    </SelectTrigger>
-
-                    <SelectContent>
-                        <SelectItem value="0_6">Janvier - Juin</SelectItem>
-                        <SelectItem value="7_12">Juillet - Décembre</SelectItem>
-                    </SelectContent>
-                </Select>
-            </div>
-        </div>
-    );
 };
 
 const chartConfig = {
@@ -76,17 +32,9 @@ type UserRadarStatProps = {
 
 const UserRadarStat: FC<UserRadarStatProps> = ({ statsData }): JSX.Element => {
     const [monthInterval, setMonthInterval] = useState<IMonthInterval>([0, 5]); //by default january - july
-    const [year, setYear] = useState<number>(new Date().getFullYear());
 
     if (!Array.isArray(statsData) || statsData.length === 0) {
-        return (
-            <article className="user-stats-card bg-gray rounded-lg p-6">
-                <CardHeader title="Utilisateurs" rightSide={<></>} />
-                <div className="flex h-[310px] items-center justify-center">
-                    <p>Aucune donnée disponible</p>
-                </div>
-            </article>
-        );
+        return <EmptyChart cardTitle="Utilisateurs" />;
     }
 
     const radarData =
@@ -104,7 +52,6 @@ const UserRadarStat: FC<UserRadarStatProps> = ({ statsData }): JSX.Element => {
 
     const handleFilter = (filter: Partial<IFilter>) => {
         filter.monthInterval && setMonthInterval(filter.monthInterval);
-        filter.year && setYear(filter.year);
     };
 
     useEffect(() => {
@@ -116,13 +63,12 @@ const UserRadarStat: FC<UserRadarStatProps> = ({ statsData }): JSX.Element => {
     }, [new Date().getMonth()]);
 
     return (
-        <article className="user-stats-card border dark:bg-gray rounded-lg p-6 dark:border-0">
+        <article className="user-stats-card dark:bg-gray rounded-lg border p-6 dark:border-0">
             <CardHeader
                 title="Utilisateurs"
                 rightSide={
-                    <RadarStatsActions
-                        // years={[2024, 2023, 2025]}
-                        filters={{ year, monthInterval }}
+                    <RadarFilter
+                        filters={{ monthInterval }}
                         addFilters={handleFilter}
                     />
                 }

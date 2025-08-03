@@ -39,7 +39,8 @@ export const signup = async (
         if (!createdUser) {
             return {
                 status: "error",
-                message: "Veuillez vérifier le nom d'admin et le mot de passe admin",
+                message:
+                    "Veuillez vérifier le nom d'admin et le mot de passe admin",
             };
         }
 
@@ -71,10 +72,10 @@ export const loginAdmin = async (
         });
 
         if (!checkedAdminInfo) {
-             return {
+            return {
                 status: "error",
                 message: "Un erreur s'est produit",
-            }
+            };
         }
 
         //create session if login successfull

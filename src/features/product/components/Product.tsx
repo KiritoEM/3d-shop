@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import React, { FC, Fragment } from "react";
 import { fetchProductByCuid } from "../services/productDetailsServices";
 import ProductDetails from "./ProductDetails";
-import { useProductCustomiser } from "../hooks/useProductCustomiser";
+import { useProductCustomiser } from "../store/customizedProduct";
 import { Skeleton } from "@/components/ui/skeleton";
 import ProductViewCanvas from "@/components/3d-models/product/ProductViewCanvas";
 

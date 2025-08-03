@@ -9,7 +9,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { FC, ReactNode } from "react";
-import Webcam from "./FacialWebcam";
+import Webcam from "./facial-webcam/FacialWebcam";
 
 type DialogWrapperProps = {
     children: ReactNode;
