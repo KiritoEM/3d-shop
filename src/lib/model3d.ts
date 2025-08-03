@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { GLTF, GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { I3DMaterial, IGLTFModel } from "@/types";
+import { getToast } from "./file-utilities";
+import path from "node:path";
 
 export const loadBlobModel = (
     arrayBuffer: ArrayBuffer,
@@ -34,6 +36,27 @@ export const loadBlobModel = (
             });
         });
     });
+};
+
+export const validate3DModel = (file: File, maxSize?: number): boolean => {
+    if (!file) return false;
+
+    const extname = path.extname(file.name).slice(1);
+
+    if (extname !== "glb" && extname !== "gltf") {
+        getToast({ type: "TYPE_ERROR", fileType: "MODEL_3D" });
+        return false;
+    }
+
+    if (maxSize && file.size > maxSize) {
+        getToast({
+            type: "SIZE-ERROR",
+            maxSize: Math.round(maxSize / 1024 / 1024),
+        });
+        return false;
+    }
+
+    return true;
 };
 
 export const transformMaterialsIntoArray = (
