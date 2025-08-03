@@ -5,8 +5,8 @@ import { IGLTFModel } from "@/types";
 import { useStudio } from "@/features/3d-studio/store/studio";
 import Loader from "../Loader";
 import Controller from "./Controller";
-import StudioModel from "./model";
 import Composer from "./Composer";
+import StudioModel from "./Model";
 
 interface ProductViewCanvasProps {
     model: IGLTFModel;

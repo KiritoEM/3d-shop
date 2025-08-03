@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { IDBSession } from "@/types";
-import { cookies } from "next/headers";
 import { isServer } from "./utils";
 
 type RequestOptions = Partial<{
@@ -33,10 +32,11 @@ const buildURLWithParams = (
     return `${url}?${queryString}`;
 };
 
-export const getServerCookies = async () => {
+export const getServerCookies = async (): Promise<string> => {
     if (!isServer) return "";
 
     try {
+        const { cookies } = await import("next/headers");
         const cookiesStore = await cookies();
         return cookiesStore
             .getAll()
@@ -44,8 +44,8 @@ export const getServerCookies = async () => {
             .join("; ");
     } catch (err) {
         console.error("Error when fetching cookies: ", err);
+        return "";
     }
-    return "";
 };
 
 export const fetchApi = async (

@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { fetchApi } from "./lib/api-utils";
 
 export const middleware = async (request: NextRequest) => {
     const { pathname } = request.nextUrl;
@@ -14,7 +13,7 @@ export const middleware = async (request: NextRequest) => {
                 : NextResponse.next();
         }
 
-        const response = await fetchApi(
+        const response = await fetch(
             `${request.nextUrl.origin}/api/admin/session/${sessionToken}`,
         );
 
