@@ -1,3 +1,4 @@
+import { fetchApi } from "@/lib/api-utils";
 import { isDevelopment } from "@/lib/utils";
 import { IResponseType } from "@/types";
 
@@ -5,7 +6,7 @@ export const askBot = async (
     message: string,
 ): Promise<IResponseType<string>> => {
     try {
-        const response = await fetch(`/api/bot/bot_recommandation`, {
+        const response = await fetchApi("/api/bot/bot_recommandation", {
             method: "POST",
             body: JSON.stringify({ prompt: message }),
         });

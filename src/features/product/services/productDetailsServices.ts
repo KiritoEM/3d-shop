@@ -1,7 +1,8 @@
+import { fetchApi } from "@/lib/api-utils";
 import { IProduct } from "@/models/productModel";
 
 export const fetchProductByCuid = async (cuid: string): Promise<IProduct> => {
-    const response = await fetch(`/api/product/${cuid}`);
+    const response = await fetchApi(`/api/product/${cuid}`);
 
     if (!response.ok) {
         throw new Error("Error when fetching product by its cuid");

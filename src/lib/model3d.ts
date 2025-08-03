@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { GLTF, GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { I3DMaterial, IGLTFModel } from "@/types";
-import { getToast } from "./file-utilities";
+import { getToast } from "./file-utils";
 import path from "node:path";
 
 export const loadBlobModel = (

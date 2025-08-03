@@ -1,12 +1,14 @@
+import { fetchApi } from "@/lib/api-utils";
+
 export const getUsersGroupbyMonth = async (token: string) => {
-    const response = await fetch(
-        `/api/users/get_stats?year=${new Date().getFullYear()}`,
-        {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+    const response = await fetchApi("/api/users/get_stats", {
+        headers: {
+            Authorization: `Bearer ${token}`,
         },
-    );
+        params: {
+            year: new Date().getFullYear(),
+        },
+    });
 
     return response.json();
 };
@@ -15,9 +17,12 @@ export const getTransactionsGroupbyMonth = async (
     token: string,
     year: number = new Date().getFullYear(),
 ) => {
-    const response = await fetch(`/api/payment/get_stats?year=${year}`, {
+    const response = await fetchApi("/api/payment/get_stats", {
         headers: {
             Authorization: `Bearer ${token}`,
+        },
+        params: {
+            year,
         },
     });
 
@@ -28,9 +33,12 @@ export const getLastTransactions = async (
     token: string,
     pagination: number = 5,
 ) => {
-    const response = await fetch(`/api/payment?pagination=${pagination}`, {
+    const response = await fetchApi("/api/payment", {
         headers: {
             Authorization: `Bearer ${token}`,
+        },
+        params: {
+            pagination,
         },
     });
 
@@ -38,7 +46,7 @@ export const getLastTransactions = async (
 };
 
 export const getLastProducts = async (token: string) => {
-    const response = await fetch(`/api/products/recent`, {
+    const response = await fetchApi("/api/products/recent", {
         headers: {
             Authorization: `Bearer ${token}`,
         },

@@ -1,4 +1,5 @@
 import { CartItemTypes } from "@/features/cart/store/cart";
+import { fetchApi } from "@/lib/api-utils";
 import { stripe } from "@/lib/stripe";
 import { isDevelopment } from "@/lib/utils";
 
@@ -8,11 +9,8 @@ export const fetchSecret = async (productsToBuy: CartItemTypes[]) => {
             throw new Error("No products to buy");
         }
 
-        const response = await fetch("/api/payment", {
+        const response = await fetchApi("/api/payment", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
             body: JSON.stringify({
                 products: productsToBuy.map((product) => {
                     return {

@@ -4,6 +4,7 @@ import { useLayoutEffect, useState } from "react";
 import { getToken } from "@/lib/sessions/dbSession";
 import { isDevelopment } from "@/lib/utils";
 import { IDBSession } from "@/types";
+import { fetchApi } from "@/lib/api-utils";
 
 const useDBSession = () => {
     const [isLoading, setLoading] = useState<boolean>(true);
@@ -21,7 +22,7 @@ const useDBSession = () => {
 
                 setToken(token);
 
-                const response = await fetch(`/api/admin/session/${token}`);
+                const response = await fetchApi(`/api/admin/session/${token}`);
 
                 if (response.ok) {
                     const session = (await response.json()) as IDBSession;

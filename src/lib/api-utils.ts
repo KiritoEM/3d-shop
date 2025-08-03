@@ -4,36 +4,37 @@ import { cookies } from "next/headers";
 import { isServer } from "./utils";
 
 type RequestOptions = Partial<{
-    method: "GET" | "PUT" | "DELETE" | "POST";
+    method: "GET" | "PUT" | "DELETE" | "POST" | "PATCH";
     headers: Record<string, string>;
     body: any;
     cookie: string;
     params: Record<string, string | number | boolean | undefined | null>;
     cache: RequestCache;
     next: NextFetchRequestConfig;
+    credentials: RequestCredentials;
 }>;
 
 const buildURLWithParams = (
-    url: string[],
+    url: string,
     params: RequestOptions["params"],
 ): string => {
-    if (!params) return url.join("/");
+    if (!params) return url;
 
     const filteredParams = Object.entries(params).filter(
         ([_, value]) => value !== undefined && value !== null,
     );
 
-    if (Object.keys(filteredParams).length === 0) return url.join("/");
+    if (Object.keys(filteredParams).length === 0) return url;
 
     const queryString = new URLSearchParams(
         filteredParams as unknown as Record<string, string>,
     ).toString();
 
-    return `${url.join("/")}?${queryString}`;
+    return `${url}?${queryString}`;
 };
 
 export const getServerCookies = async () => {
-    if (typeof window !== "undefined") return "";
+    if (!isServer) return "";
 
     try {
         const cookiesStore = await cookies();
@@ -60,6 +61,7 @@ export const fetchApi = async (
         params,
         cache = "no-store",
         next,
+        credentials,
     } = options;
 
     //get server header cookies
@@ -68,7 +70,7 @@ export const fetchApi = async (
         cookieHeader = await getServerCookies();
     }
 
-    const prefixUrl = isServer && serverUrl.length ? [serverUrl, url] : [url];
+    const prefixUrl = isServer && serverUrl.length ? `${serverUrl}${url}` : url;
     const fetchUrl = buildURLWithParams(prefixUrl, params);
 
     const response = await fetch(fetchUrl, {
@@ -79,10 +81,10 @@ export const fetchApi = async (
             ...headers,
             ...(cookieHeader ? { Cookie: cookieHeader } : {}),
         },
-        ...(method !== "GET" && body
+        ...(method !== "GET" && method !== "DELETE" && body
             ? { body: JSON.stringify(body) }
             : undefined),
-        credentials: "include",
+        credentials,
         cache,
         next,
     });

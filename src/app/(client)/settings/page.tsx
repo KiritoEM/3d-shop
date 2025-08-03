@@ -9,12 +9,12 @@ import { validateSession } from "@/lib/sessions/serverSessionUtilities";
 import { IUser } from "@/models/userModel";
 import DeleteAccount from "@/features/user-settings/components/DeleteAccount";
 import SettingsHeader from "@/features/user-settings/components/SettingsHeader";
+import { fetchApi } from "@/lib/api-utils";
 
 const UserSetting = async (): Promise<JSX.Element> => {
     await validateSession(authOptions, "settings");
-    const response = await fetch(`${process.env.API_URL}/api/user`, {
+    const response = await fetchApi(`${process.env.API_URL}/api/user`, {
         credentials: "include",
-        headers: await headers(),
     });
 
     if (!response.ok) {

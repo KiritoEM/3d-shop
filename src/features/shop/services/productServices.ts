@@ -1,7 +1,8 @@
+import { fetchApi } from "@/lib/api-utils";
 import { IProduct } from "@/models/productModel";
 
 export const fetchProducts = async (): Promise<IProduct[]> => {
-    const response = await fetch("/api/products");
+    const response = await fetchApi("/api/products");
 
     if (!response.ok) {
         throw new Error("Error when fetching all products");

@@ -15,9 +15,6 @@ export const verifyRecaptcha = async (
         const response = await fetch("/api/verify_recaptcha", {
             method: "POST",
             body: JSON.stringify({ captchaValue }),
-            headers: {
-                "content-type": "application/json",
-            },
         });
 
         if (!response.ok) {

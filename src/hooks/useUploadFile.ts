@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { IfileType } from "@/types";
-import { validateFileType } from "@/lib/file-utilities";
+import { validateFileType } from "@/lib/file-utils";
 
 const useUploadFile = (fileType: IfileType, requiredFileType: string[]) => {
     const [uploadedFile, setFile] = useState<File | null>(null);
