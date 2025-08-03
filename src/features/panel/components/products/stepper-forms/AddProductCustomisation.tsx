@@ -9,8 +9,6 @@ import { cn, handleInputFileChange } from "@/lib/utils";
 import { useStepper } from "@/store/stepper";
 import { loadBlobModel } from "@/lib/model3d";
 import { toast } from "react-toastify";
-import { mode } from "crypto-js";
-import { fetchApi } from "@/lib/api-utils";
 
 type Upload3dFileProps = {
     onFileSelected: (file: File) => void;
