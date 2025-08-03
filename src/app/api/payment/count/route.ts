@@ -22,12 +22,9 @@ const handler = async (req: NextRequest) => {
 
         const dataToSerialize = transactionsCount.map((item) =>
             Number(item.count),
-        );
+        )[0];
 
-        return NextResponse.json(
-            { count: dataToSerialize.length },
-            { status: 200 },
-        );
+        return NextResponse.json({ count: dataToSerialize }, { status: 200 });
     } catch (error) {
         console.error("Error in getCount of transactions: ", error);
         return NextResponse.json(

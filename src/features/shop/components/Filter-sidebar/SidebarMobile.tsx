@@ -6,7 +6,7 @@ import { CUSTOMISATION_FILTER_OPTS } from "@/data/store-data";
 import { DualRangeSlider } from "@/components/ui/ranger-slider";
 import { FC } from "react";
 import { cn, normalizeStr } from "@/lib/utils";
-import { FilterSidebarProps } from ".";
+import { FilterSidebarProps } from "./FilterSidebar";
 import useFilterQuery from "@/features/shop/hooks/useFilterQuery";
 import { X } from "lucide-react";
 

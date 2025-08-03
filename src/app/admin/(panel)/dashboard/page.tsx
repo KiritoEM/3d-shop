@@ -1,5 +1,5 @@
 import GridSection from "@/features/panel/components/dashboard/GridSection";
-import StatisticsSection from "@/features/panel/components/dashboard/StatisticsSection";
+import StatisticsSection from "@/features/panel/components/dashboard/tables/StatisticsSection";
 import { getToken } from "@/lib/sessions/dbSession";
 
 const Dashboard = async (): Promise<JSX.Element> => {
@@ -31,13 +31,15 @@ const Dashboard = async (): Promise<JSX.Element> => {
         statsResponse[2].json(),
     ]);
 
+    console.log(usersStats, transactionsStats, productsStats);
+
     return (
         <section className="dashboard mt-8">
             <StatisticsSection
                 statistics={{
                     users: usersStats.count,
-                    products: transactionsStats.count,
-                    transactions: productsStats.count,
+                    products: productsStats.count,
+                    transactions: transactionsStats.count,
                 }}
             />
 

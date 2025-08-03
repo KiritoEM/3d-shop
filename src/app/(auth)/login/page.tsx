@@ -1,4 +1,4 @@
-import LoginForm from "@/features/auth/components/LoginForm";
+import LoginForm from "@/features/auth/components/forms/LoginForm";
 import { authOptions } from "@/lib/nextauth";
 import { redirectIfAuthentificated } from "@/lib/sessions/serverSessionUtilities";
 

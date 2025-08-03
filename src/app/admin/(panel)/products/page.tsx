@@ -1,7 +1,9 @@
+import ProductsContent from "@/features/panel/components/products/Products";
+
 const Products = (): JSX.Element => {
     return (
         <section className="products mt-8">
-            <></>
+            <ProductsContent />
         </section>
     );
 };

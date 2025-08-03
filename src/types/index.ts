@@ -1,6 +1,9 @@
 import { Session as NextauthSession } from "next-auth";
 import { NextRequest } from "next/server";
 import { AdminFacialRecognition, AdminInfo, Session } from "@prisma/client";
+import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { Prettify } from "@/lib/utils";
+import * as THREE from "three";
 
 export type IResponseType<T = null> = {
     message: string;
@@ -8,20 +11,22 @@ export type IResponseType<T = null> = {
     data?: T;
 };
 
+export type OTPEmailProps = {
+    validationCode: string;
+};
+
+export type EmailTemplateProps = {
+    sendOTP: OTPEmailProps;
+};
+
 export type EmailTemplateType = "sendOTP";
 
-export interface OTPEmailProps {
-    validationCode: string;
-}
-
-export interface EmailTemplateProps {
-    sendOTP: OTPEmailProps;
-}
-
-export type IDBSession = Pick<AdminInfo, "id" | "username" | "role"> & {
-    image?: string;
-    expires?: Date;
-};
+export type IDBSession = Prettify<
+    Pick<AdminInfo, "id" | "username" | "role"> & {
+        image?: string;
+        expires?: Date;
+    }
+>;
 
 export type SessionwithFacial = Session & {
     admin: AdminInfo & {
@@ -29,18 +34,54 @@ export type SessionwithFacial = Session & {
     };
 };
 
-export type IfileType = "IMAGE" | "VIDEO";
-
-export type INextauthSession = NextauthSession["user"] & {
-    id: string;
-    accessToken?: string;
+export type NextRequestWithId = NextRequest & {
+    userId?: string;
 };
 
-export interface NextRequestWithId extends NextRequest {
-    userId?: string;
-}
-
-export interface IPagination {
+export type IPagination = {
     take?: number;
     skip: number;
-}
+};
+
+export type IfileType = "IMAGE" | "VIDEO" | "MODEL_3D";
+
+export type INextauthSession = Prettify<
+    NextauthSession["user"] & {
+        id: string;
+        accessToken?: string;
+    }
+>;
+
+export type IStep = {
+    name: string;
+    component: React.ComponentType;
+};
+
+export type IObjectEntity = {
+    key: string;
+    value: string;
+};
+
+export type IGLTFModel = Prettify<
+    Pick<GLTF, "scene" | "animations"> & {
+        materials: { [key: string]: THREE.Material };
+    }
+>;
+
+export type I3DMaterial = Pick<THREE.Material, "name"> & {
+    type?: any;
+    color?: THREE.Color | string | number;
+    updatedColor?: string | null;
+    roughness?: number;
+    metalness?: number;
+    emissive?: THREE.Color | string | number;
+    opacity?: number;
+    transparent?: boolean;
+    [key: string]: any;
+};
+
+export type IColorEntity = {
+    label: string;
+    color: string;
+    default?: boolean;
+};

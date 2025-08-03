@@ -1,18 +1,18 @@
 import { UploadCloud, X } from "lucide-react";
-import React, { FC, Fragment, useState } from "react";
-import { cn } from "@/lib/utils";
+import React, { FC } from "react";
+import { cn, truncateFileName } from "@/lib/utils";
 import { IfileType } from "@/types";
 import useDragNDrop from "@/hooks/useDragNDrop";
+import { handleInputFileChange } from "@/lib/utils";
 import { Button } from "./button";
-import path from "path";
 
 interface IFileUploaderProps extends React.ComponentProps<"label"> {
     dragNdropDescription?: string;
     uploadedFile: File | null;
     FileType: IfileType;
-    onFileSelected: (e: File) => void;
-    reset: () => void;
     maxFileNameLength?: number;
+    onFileSelected: (file: File) => void;
+    reset: () => void;
 }
 
 const DEFAULT_DESCRIPTION = `<span class='font-medium text-violet-400'>Cliquer pour télécharger</span> votre fichier ou <span class='font-medium text-violet-400'>glisser le</span>`;
@@ -35,26 +35,20 @@ const FileUploader: FC<IFileUploaderProps> = ({
         handleDrop,
     } = useDragNDrop(onFileSelected);
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        onFileSelected(e.target.files?.[0] as File);
-    };
+    const renderMediaPreview = (type: IfileType): JSX.Element | null => {
+        switch (type) {
+            case "IMAGE":
+                return (
+                    <ImagePreview
+                        uploadedFile={uploadedFile!}
+                        maxFileNameLength={maxFileNameLength}
+                        reset={reset}
+                    />
+                );
 
-    const truncateFileName = (fileName: string, maxLength: number): string => {
-        if (fileName.length <= maxLength) {
-            return fileName;
+            default:
+                return <></>;
         }
-
-        const extension = path.extname(fileName);
-        const nameWithoutExt = path.basename(fileName, extension);
-
-        const availableLength = maxLength - extension.length - 3;
-
-        if (availableLength <= 0) {
-            return `...${extension}`;
-        }
-
-        return `${nameWithoutExt.slice(0, availableLength)}...${extension}`;
     };
 
     return (
@@ -77,7 +71,7 @@ const FileUploader: FC<IFileUploaderProps> = ({
                     <div className="file-uploader__field flex h-fit w-fit flex-col items-center gap-4">
                         <div className="text-background border-3 border-gray flex h-10 w-10 items-center justify-center rounded-lg bg-white">
                             {" "}
-                            <UploadCloud className="text-foreground size-6" />
+                            <UploadCloud className="text-background size-6" />
                         </div>
 
                         <p
@@ -94,39 +88,52 @@ const FileUploader: FC<IFileUploaderProps> = ({
                             id="input-uploader"
                             onChange={(
                                 e: React.ChangeEvent<HTMLInputElement>,
-                            ) => handleFileChange(e)}
+                            ) => handleInputFileChange(onFileSelected, e)}
                         />
                     </div>
                 </label>
             ) : (
-                <div className="file-preview relative mt-4 flex h-full w-full items-center justify-between overflow-hidden">
-                    <div className="file-info flex items-center gap-5">
-                        <img
-                            src={URL.createObjectURL(uploadedFile)}
-                            alt="preview-file"
-                            className="file-info__image border-3 border-input h-[74px] w-[74px] rounded-xl object-cover"
-                        />
-
-                        <div className="file-info__details">
-                            <h6 title={uploadedFile.name}>
-                                {truncateFileName(
-                                    uploadedFile.name,
-                                    maxFileNameLength,
-                                )}
-                            </h6>
-                            <p className="text-muted-foreground mt-1 text-sm">
-                                {(uploadedFile.size / 1024 / 1024).toFixed(2)}
-                                MB
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Remove Button */}
-                    <Button type="button" variant="ghost" onClick={reset}>
-                        <X />
-                    </Button>
-                </div>
+                renderMediaPreview(FileType)
             )}
+        </div>
+    );
+};
+
+type ImagePreviewProps = {
+    uploadedFile: File;
+    maxFileNameLength: number;
+    reset: () => void;
+};
+
+const ImagePreview: FC<ImagePreviewProps> = ({
+    uploadedFile,
+    maxFileNameLength,
+    reset,
+}) => {
+    return (
+        <div className="file-preview relative mt-4 flex h-full w-full items-center justify-between overflow-hidden">
+            <div className="file-info flex items-center gap-5">
+                <img
+                    src={URL.createObjectURL(uploadedFile)}
+                    alt="preview-file"
+                    className="file-info__image border-3 border-input h-[74px] w-[74px] rounded-xl object-cover"
+                />
+
+                <div className="file-info__details">
+                    <h6 title={uploadedFile.name}>
+                        {truncateFileName(uploadedFile.name, maxFileNameLength)}
+                    </h6>
+                    <p className="text-muted-foreground mt-1 text-sm">
+                        {(uploadedFile.size / 1024 / 1024).toFixed(2)}
+                        MB
+                    </p>
+                </div>
+            </div>
+
+            {/* Remove Button */}
+            <Button type="button" variant="ghost" onClick={reset}>
+                <X />
+            </Button>
         </div>
     );
 };

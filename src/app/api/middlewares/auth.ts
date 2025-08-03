@@ -8,7 +8,7 @@ import {
     checkIsSuperadmin,
     isTokenExpired,
     unauthorizedResponse,
-} from "@/lib/server-utils";
+} from "@/lib/api-utils";
 
 interface AuthConfig {
     type?: "nextauth" | "db_session";

@@ -1,10 +1,24 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, Edit2, MoreHorizontal, Trash2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { formatIntoPrice } from "@/lib/utils";
-import { IStatisticCard, ITransactionsColumns, IUsersColumns } from "../constants/types";
+import {
+    IProductsColumns,
+    IStatisticCard,
+    ITransactionsColumns,
+    IUsersColumns,
+} from "../constants/types";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { IStep } from "@/types";
+import AddProductForm from "@/features/panel/components/products/stepper-forms/AddProductForm";
+import AddProductStudio from "@/features/panel/components/products/stepper-forms/AddProductCustomisation";
 
 type IStatisticCardData = Record<string, IStatisticCard>;
 
@@ -172,7 +186,9 @@ export const USERS_COLUMNS: ColumnDef<IUsersColumns>[] = [
         accessorKey: "authType",
         header: "Authentification",
         cell: ({ row }) => {
-            const accountType = !row.original.accounts.length ? "credentials" : row.original.accounts[0]?.type.toLowerCase();
+            const accountType = !row.original.accounts.length
+                ? "credentials"
+                : row.original.accounts[0]?.type.toLowerCase();
 
             const renderBadge = (accountType: string) => {
                 switch (accountType) {
@@ -202,5 +218,98 @@ export const USERS_COLUMNS: ColumnDef<IUsersColumns>[] = [
                 account.type.toLowerCase().includes(value.toLowerCase()),
             );
         },
+    },
+];
+
+export const PRODUCTS_COLUMNS: ColumnDef<IProductsColumns>[] = [
+    {
+        id: "select",
+        header: ({ table }) => (
+            <Checkbox
+                checked={
+                    table.getIsAllPageRowsSelected() ||
+                    (table.getIsSomePageRowsSelected() && "indeterminate")
+                }
+                onCheckedChange={(value) =>
+                    table.toggleAllPageRowsSelected(!!value)
+                }
+                aria-label="Séléctionner tout"
+            />
+        ),
+        cell: ({ row }) => (
+            <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
+                aria-label="Séléctionner une ligne"
+            />
+        ),
+    },
+    {
+        accessorKey: "name",
+        header: "Nom",
+        cell: ({ row }) => <div>{row.getValue("name")}</div>,
+    },
+    {
+        accessorKey: "description",
+        header: "Description",
+        cell: ({ row }) => (
+            <div
+                className="flex w-[610px]"
+                style={{ whiteSpace: "normal", overflowWrap: "break-word" }}
+            >
+                <p>{row.getValue("description")}</p>
+            </div>
+        ),
+    },
+    {
+        accessorKey: "price",
+        header: "Prix",
+        cell: ({ row }) => (
+            <div className="lowercase">
+                {formatIntoPrice(row.getValue("price"))}€
+            </div>
+        ),
+    },
+    {
+        accessorFn: (row) => row.category.name,
+        accessorKey: "category",
+        header: "Catégorie",
+        cell: ({ row }) => <div>{row.original.category.name}</div>,
+    },
+    {
+        id: "actions",
+        enableHiding: false,
+        cell: ({ row }) => {
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal />
+                        </Button>
+                    </DropdownMenuTrigger>
+
+                    <DropdownMenuContent align="end" className="max-w-lg">
+                        <DropdownMenuItem>
+                            <Edit2 /> Modifier
+                        </DropdownMenuItem>
+                        <DropdownMenuItem variant="destructive">
+                            <Trash2 /> Supprimer
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            );
+        },
+    },
+];
+
+export const MULTIFORM_DATA: IStep[] = [
+    {
+        name: "Info sur le produit",
+        component: AddProductStudio,
+    },
+    {
+        name: "Personnalisation produit",
+        component: AddProductStudio,
     },
 ];

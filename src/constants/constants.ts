@@ -156,6 +156,8 @@ export const MONTH_STRING = [
     "Décembre",
 ];
 
+export const CAMERA_ZOOM = .5 as const;
+
 export enum ERROR_CODE {
     BAD_REQUEST = 400,
     UNAUTHORIZED = 401,

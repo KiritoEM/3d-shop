@@ -1,4 +1,4 @@
-import AdminLoginForm from "@/features/auth/components/AdminLoginForm";
+import AdminLoginForm from "@/features/auth/components/forms/AdminLoginForm";
 
 const AdminLogin = async (): Promise<JSX.Element> => {
     return (

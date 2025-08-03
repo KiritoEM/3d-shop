@@ -1,5 +1,5 @@
 import BackBtn from "@/components/BackBtn";
-import ProductContent from "@/features/product-page/components/ProductContent";
+import ProductContent from "@/features/product/components/Product";
 
 const ProductPage = async ({
     params,

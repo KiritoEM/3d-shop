@@ -1,18 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { FC, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { isDevelopment } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { INextauthSession } from "@/types";
 import { useRecommandation } from "../hooks/useRecommandation";
 
-type PromptInputProps = {
-    session: INextauthSession;
-};
-
-const PromptInput: FC<PromptInputProps> = ({ session }): JSX.Element => {
+const PromptInput = (): JSX.Element => {
     const { setChat, setLoading } = useRecommandation();
     const [inputValue, setInputValue] = useState<string>("");
 
@@ -28,7 +23,7 @@ const PromptInput: FC<PromptInputProps> = ({ session }): JSX.Element => {
 
         try {
             const response = await axios.post(
-                `/api/bot_recommandation`,
+                `/api/bot/bot_recommandation`,
                 {
                     prompt: userMessage,
                 },

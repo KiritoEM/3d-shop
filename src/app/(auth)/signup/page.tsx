@@ -1,4 +1,4 @@
-import SignupForm from "@/features/auth/components/SignupForm";
+import SignupForm from "@/features/auth/components/forms/SignupForm";
 import { authOptions } from "@/lib/nextauth";
 import { redirectIfAuthentificated } from "@/lib/sessions/serverSessionUtilities";
 

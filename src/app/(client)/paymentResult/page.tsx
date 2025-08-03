@@ -1,4 +1,4 @@
-import Error from "@/components/error";
+import Error from "@/components/Error";
 import { Button } from "@/components/ui/button";
 import { addPayment } from "@/features/payement/actions/paymentActions";
 import Lottie from "@/components/lotties/SuccessLottie";

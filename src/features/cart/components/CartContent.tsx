@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { usePayment } from "@/features/payement/hooks/usePayment";
 import { useSession } from "next-auth/react";
-import AuthLoadingScreen from "@/components/AuthLoadingScreen";
+import DotLoadingScreen from "@/components/DotLoadingScreen";
 
 const CartItem: FC<CartItemTypes> = ({ id, name, price }): JSX.Element => {
     const { deleteItem } = useCart();
@@ -63,7 +63,7 @@ const CartPayment: FC<CartPaymentProps> = ({
     const { status, data } = useSession();
 
     const handlePay = () => {
-        if (status === "loading") return <AuthLoadingScreen />;
+        if (status === "loading") return <DotLoadingScreen />;
 
         setProductsToBuy(productsToBuy);
 

@@ -11,7 +11,7 @@ import { Admin, AdminActive, Logo, Logout, LogoWithoutLabel } from "@/icons";
 import { cn, isFunction } from "@/lib/utils";
 import { logoutAdmin } from "@/features/auth/actions/authActions";
 import useDBSession from "@/hooks/useDBSession";
-import AuthLoadingScreen from "@/components/AuthLoadingScreen";
+import DotLoadingScreen from "@/components/DotLoadingScreen";
 import { useSidebar } from "@/store/sidebar";
 
 const NavResponsive = dynamic(() => import("./NavResponsive"), {
@@ -103,7 +103,7 @@ const Sidebar: FC = (): JSX.Element => {
     const isSuperAdmin = session?.role === "SUPERADMIN";
 
     if (!token || !session) {
-        return <AuthLoadingScreen text="Chargement en cours..." />;
+        return <DotLoadingScreen text="Chargement en cours..." />;
     }
 
     const handleLogout = async () => {
@@ -134,14 +134,14 @@ const Sidebar: FC = (): JSX.Element => {
                         <LogoWithoutLabel
                             className={cn(
                                 LOGO_BASE_STYLE,
-                                "w-32 sm:w-40 lg:w-9",
+                                "w-32 sm:w-40 lg:w-8",
                             )}
                         />
                     ) : (
                         <Logo
                             className={cn(
                                 LOGO_BASE_STYLE,
-                                "w-32 sm:w-40 lg:w-40",
+                                "w-32 sm:w-40 lg:w-36",
                             )}
                         />
                     )}
