@@ -6,6 +6,11 @@ import { cn } from "@/lib/utils";
 import { I3DMaterial, IColorEntity } from "@/types";
 import ConfigBlock from "./ConfigBlock";
 import PickColor from "./PickColor";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type MaterialConfiguratorProps = {
     selectedMaterial: I3DMaterial;
@@ -42,7 +47,6 @@ const MaterialConfigurator: FC<MaterialConfiguratorProps> = ({
     };
 
     const handleChangeColor = (newColor: string) => {
-        console.log(newColor);
         if (newColor !== currentColor) {
             updateMaterial({
                 ...selectedMaterial,
@@ -78,21 +82,22 @@ const MaterialConfigurator: FC<MaterialConfiguratorProps> = ({
                     })}
 
                     {/* Pick Color */}
-                    <div className="pick-color">
-                        <Button
-                            size="sm"
-                            className="!h-7 w-7 !px-0 !py-0"
-                            variant="outline"
-                            onClick={() => setPickColor(!pickColor)}
-                        >
-                            <PipetteIcon className="!size-4" />
-                        </Button>
-                    </div>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                size="sm"
+                                className="!h-7 w-7 !px-0 !py-0"
+                                variant="outline"
+                                onClick={() => setPickColor(!pickColor)}
+                            >
+                                <PipetteIcon className="!size-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
 
-                    <PickColor
-                        isOpen={pickColor}
-                        onColorChange={handleChangeColor}
-                    />
+                        <DropdownMenuContent>
+                            <PickColor onColorChange={handleChangeColor} />
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
             </ConfigBlock>
         </div>
