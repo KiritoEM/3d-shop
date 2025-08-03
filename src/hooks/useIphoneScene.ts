@@ -4,6 +4,7 @@ import * as THREE from "three";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
 import { useMediaQuery } from "react-responsive";
+import gsap from "gsap";
 
 const calculateResponsiveY = () => {
     const aboutSection = document.querySelector(".about") as HTMLDivElement;
