@@ -25,6 +25,7 @@ const MaterialConfigurator: FC<MaterialConfiguratorProps> = ({
     const defaultColor = useMemo(() => {
         return selectedMaterial.color;
     }, [selectedMaterial.color]);
+    const [pickedColor, setPickedColor] = useState<string>("");
 
     //default color by default
     useEffect(() => {
@@ -46,6 +47,12 @@ const MaterialConfigurator: FC<MaterialConfiguratorProps> = ({
         default: true,
     };
 
+    const pickedColorObject: IColorEntity = {
+        label: "Couleur choisie",
+        color: pickedColor,
+        default: false,
+    };
+
     const handleChangeColor = (newColor: string) => {
         if (newColor !== currentColor) {
             updateMaterial({
@@ -55,12 +62,15 @@ const MaterialConfigurator: FC<MaterialConfiguratorProps> = ({
         }
     };
 
-    const avalaibleColors: IColorEntity[] = [
+    const avalaibleColors: (IColorEntity | undefined)[] = [
         defaultColorObject,
+        defaultColorObject.color !== pickedColorObject.color
+            ? { ...pickedColorObject }
+            : undefined,
         ...RECOMMANDED_COLORS.filter((item) => item.color !== defaultColor),
     ];
     return (
-        <div className="material-configurator bg-gray absolute right-4 top-20 z-30 w-full max-w-[244px] rounded-lg p-4">
+        <div className="material-configurator bg-gray absolute right-4 top-24 z-30 w-full max-w-[244px] rounded-lg p-4">
             <ConfigBlock name="color" title="Couleurs">
                 <div className="colors-list flex flex-wrap gap-4 gap-y-3">
                     {avalaibleColors.map((item, index) => {
@@ -95,7 +105,13 @@ const MaterialConfigurator: FC<MaterialConfiguratorProps> = ({
                         </DropdownMenuTrigger>
 
                         <DropdownMenuContent>
-                            <PickColor onColorChange={handleChangeColor} />
+                            <PickColor
+                                onColorChange={(color: string) => {
+                                    handleChangeColor(color);
+                                    setPickColor(false);
+                                    setPickedColor(color);
+                                }}
+                            />
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>

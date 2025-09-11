@@ -1,14 +1,14 @@
 "use client";
 
 import { UploadCloud } from "lucide-react";
-import { FC, useCallback, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { FC, useCallback } from "react";
 import Studio from "@/features/3d-studio/components/Studio";
 import { useStudio } from "@/features/3d-studio/store/studio";
 import useDragNDrop from "@/hooks/useDragNDrop";
-import { cn, handleInputFileChange } from "@/lib/utils";
+import { cn, handleInputFileChange, isDevelopment } from "@/lib/utils";
 import { useStepper } from "@/store/stepper";
-import { loadBlobModel } from "@/lib/model3d";
-import { toast } from "react-toastify";
+import { loadBlobModel, validate3DModel } from "@/lib/model3d";
 
 type Upload3dFileProps = {
     onFileSelected: (file: File) => void;
@@ -76,90 +76,83 @@ const Uploader3dFile: FC<Upload3dFileProps> = ({
 const AddProductCustomisation = (): JSX.Element => {
     const { formData } = useStepper();
     const { model, setModel, setArrayBuffer } = useStudio();
-    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    // const handleFileSelected = useCallback(async (file: File) => {
-    //     if (validate3DModel(file, 50 * 1024 * 1024)) {
-    // const reader = new FileReader();
-    // reader.onload = async () => {
-    //     try {
-    //         const modelFromBlob = await loadBlobModel(
-    //             reader.result as ArrayBuffer,
-    //         );
-    //         setModel(modelFromBlob);
-    //         setArrayBuffer(reader.result as ArrayBuffer);
-    //     } catch (err) {
-    //         isDevelopment &&
-    //             console.error(
-    //                 "An error was occured when loading gltf: ",
-    //                 err,
-    //             );
-    //         toast(
-    //             "Un erreur s'est produit lors du téléchargement du model",
-    //             {
-    //                 type: "error",
-    //                 theme: "colored",
-    //             },
-    //         );
-    //     }
-    // };
-    // reader.readAsArrayBuffer(file);
-    // const modelFromBlob = await loadBlobModel(
-    //     "/uploaded-models/iphone_16_pro_max.glb",
-    // );
-    // setModel(modelFromBlob);
-    //     }
+    const handleFileSelected = useCallback(async (file: File) => {
+        if (validate3DModel(file, 50 * 1024 * 1024)) {
+            const reader = new FileReader();
+            reader.onload = async () => {
+                try {
+                    const modelFromBlob = await loadBlobModel(
+                        reader.result as ArrayBuffer,
+                    );
 
-    // }, []);
-
-    useEffect(() => {
-        setIsLoading(true);
-        const handleFetch = async () => {
-            try {
-                const response = await fetch(
-                    "/uploaded-models/apple_watch_ultra_2.glb",
-                );
-                if (!response.ok) {
-                    throw new Error(
-                        `Failed to fetch model: ${response.statusText}`,
+                    setModel(modelFromBlob);
+                    setArrayBuffer(reader.result as ArrayBuffer);
+                } catch (err) {
+                    isDevelopment &&
+                        console.error(
+                            "An error was occured when loading gltf: ",
+                            err,
+                        );
+                    toast(
+                        "Un erreur s'est produit lors du téléchargement du model",
+                        {
+                            type: "error",
+                            theme: "colored",
+                        },
                     );
                 }
-                const arrayBuffer = await response.arrayBuffer();
-                const modelFromBlob = await loadBlobModel(arrayBuffer);
-                setModel(modelFromBlob);
-                setArrayBuffer(arrayBuffer);
-            } catch (err) {
-                console.error("Error loading model:", err);
-                toast("An error occurred while loading the model", {
-                    type: "error",
-                    theme: "colored",
-                });
-            } finally {
-                setIsLoading(false);
-            }
-        };
+            };
 
-        handleFetch();
-    }, [setModel, setArrayBuffer]);
+            reader.readAsArrayBuffer(file);
+        }
+    }, []);
+
+    // useEffect(() => {
+    //     setIsLoading(true);
+    //     const handleFetch = async () => {
+    //         try {
+    //             const response = await fetch(
+    //                 "/uploaded-models/apple_watch_ultra_2.glb",
+    //             );
+    //             if (!response.ok) {
+    //                 throw new Error(
+    //                     `Failed to fetch model: ${response.statusText}`,
+    //                 );
+    //             }
+    //             const arrayBuffer = await response.arrayBuffer();
+    //             const modelFromBlob = await loadBlobModel(arrayBuffer);
+    //             setModel(modelFromBlob);
+    //             setArrayBuffer(arrayBuffer);
+    //         } catch (err) {
+    //             console.error("Error loading model:", err);
+    //             toast("An error occurred while loading the model", {
+    //                 type: "error",
+    //                 theme: "colored",
+    //             });
+    //         } finally {
+    //             setIsLoading(false);
+    //         }
+    //     };
+
+    //     handleFetch();
+    // }, [setModel, setArrayBuffer]);
 
     return (
-        <div
-            className={cn(
-                "add-product-studio w-full overflow-hidden rounded-xl",
-                "border-gray border-2",
+        <>
+            {!model && <Uploader3dFile onFileSelected={handleFileSelected} />}
+
+            {model && (
+                <div
+                    className={cn(
+                        "add-product-studio w-full overflow-hidden rounded-xl",
+                        "border-gray border-2",
+                    )}
+                >
+                    <Studio model={model} />
+                </div>
             )}
-        >
-            {!isLoading && model ? (
-                <Studio model={model} />
-            ) : (
-                <p>Chargement...</p>
-            )}
-            {/* {!model ? (
-                <Uploader3dFile onFileSelected={handleFileSelected} />
-            ) : (
-                <Studio model={model} />
-            )} */}
-        </div>
+        </>
     );
 };
 

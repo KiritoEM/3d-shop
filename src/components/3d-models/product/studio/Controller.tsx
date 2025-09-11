@@ -12,7 +12,8 @@ type ControllerProps = {
 };
 
 const Controller: FC<ControllerProps> = ({ isHovered }): JSX.Element => {
-    const { cameraDistance, cameraUpdated, setCameraDistance } = useStudio();
+    const { cameraDistance, cameraUpdated, setCameraDistance, isFlipped } =
+        useStudio();
     const controlsRef = useRef<any>(null);
 
     const { springDistance } = useSpring({

@@ -52,7 +52,7 @@ export type ColorPickerProps = HTMLAttributes<HTMLDivElement> & {
     value?: Parameters<typeof Color>[0];
     defaultValue?: Parameters<typeof Color>[0];
     // onChange?: (value: Parameters<typeof Color.rgb>[0]) => void;
-    onColorChange?: (value: string) => void
+    onColorChange?: (value: string) => void;
 };
 export const ColorPicker = ({
     value,
@@ -169,10 +169,7 @@ export const ColorPickerSelection = memo(
         }, [isDragging, handlePointerMove]);
         return (
             <div
-                className={cn(
-                    "relative cursor-crosshair rounded",
-                    className,
-                )}
+                className={cn("relative cursor-crosshair rounded", className)}
                 onPointerDown={(e) => {
                     e.preventDefault();
                     setIsDragging(true);
