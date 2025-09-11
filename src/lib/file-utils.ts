@@ -1,5 +1,26 @@
 import { IfileType } from "@/types";
+import path from "node:path";
 import { toast } from "react-toastify";
+
+export const truncateFileName = (
+    fileName: string,
+    maxLength: number,
+): string => {
+    if (fileName.length <= maxLength) {
+        return fileName;
+    }
+
+    const extension = path.extname(fileName);
+    const nameWithoutExt = path.basename(fileName, extension);
+
+    const availableLength = maxLength - extension.length - 3;
+
+    if (availableLength <= 0) {
+        return `...${extension}`;
+    }
+
+    return `${nameWithoutExt.slice(0, availableLength)}...${extension}`;
+};
 
 export const getToast = (params: {
     type: "TYPE_ERROR" | "SIZE-ERROR";

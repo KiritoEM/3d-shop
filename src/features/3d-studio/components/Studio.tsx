@@ -7,6 +7,7 @@ import StudioTopBar from "./top-bar/TopBar";
 import { useStudio } from "../store/studio";
 import dynamic from "next/dynamic";
 import MaterialConfigurator from "./material-configurator/MaterialConfigurator";
+import { convertHtmlToImage } from "@/lib/htmlIntoImage";
 
 const MaterialsList = dynamic(() => import("./materials-list/MaterialsList"), {
     ssr: false,
@@ -19,14 +20,24 @@ const MaterialsList = dynamic(() => import("./materials-list/MaterialsList"), {
 type StudioProps = { model: IGLTFModel } & React.ComponentProps<"div">;
 
 const Studio: FC<StudioProps> = ({ model, ...props }): JSX.Element => {
-    const { materialToCustomize, selectedMaterials, setMaterialToCustomize } =
-        useStudio();
+    const {
+        materialToCustomize,
+        canvasRef,
+        selectedMaterials,
+        setMaterialToCustomize,
+    } = useStudio();
     return (
         <div className="3d-studio relative h-[94vh] w-full" {...props}>
             <StudioViewCanvas model={model} />
 
             {/* Top Bar */}
-            <StudioTopBar isMaterialsSelected={selectedMaterials.length > 0} />
+            <StudioTopBar
+                onCapture={() => {
+                    canvasRef?.current
+                        ? convertHtmlToImage(canvasRef)
+                        : undefined;
+                }}
+            />
 
             {/* Bottom toolbar */}
             {selectedMaterials.length && (

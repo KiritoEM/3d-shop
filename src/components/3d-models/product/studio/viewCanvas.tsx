@@ -1,12 +1,13 @@
 import React, { FC, Suspense, useEffect, useRef, useState } from "react";
+import * as THREE from "three";
 import { Environment } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { IGLTFModel } from "@/types";
 import { useStudio } from "@/features/3d-studio/store/studio";
 import Loader from "../Loader";
 import Controller from "./Controller";
-import StudioModel from "./model";
 import Composer from "./Composer";
+import StudioModel from "./Model";
 
 interface ProductViewCanvasProps {
     model: IGLTFModel;
@@ -17,7 +18,8 @@ const StudioViewCanvas: FC<ProductViewCanvasProps> = ({
 }): JSX.Element => {
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const { hoveredMeshs } = useStudio();
+    const modelRef = useRef<THREE.Group>(null);
+    const { hoveredMeshs, setCanvasRef } = useStudio();
 
     const { scene } = model;
 
@@ -26,6 +28,10 @@ const StudioViewCanvas: FC<ProductViewCanvasProps> = ({
             setTimeout(() => {
                 setIsLoaded(true);
             }, 1400);
+        }
+
+        if (canvasRef.current) {
+            setCanvasRef(canvasRef ?? null);
         }
     }, [scene]);
 
@@ -60,7 +66,10 @@ const StudioViewCanvas: FC<ProductViewCanvasProps> = ({
                 <Controller isHovered={hoveredMeshs.length !== 0} />
 
                 <Suspense fallback={null}>
-                    <StudioModel scene={scene} />
+                    <StudioModel
+                        ref={modelRef as React.RefObject<THREE.Group>}
+                        scene={scene}
+                    />
                 </Suspense>
 
                 <Composer />

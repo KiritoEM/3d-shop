@@ -1,10 +1,11 @@
 import { UploadCloud, X } from "lucide-react";
 import React, { FC } from "react";
-import { cn, truncateFileName } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { IfileType } from "@/types";
 import useDragNDrop from "@/hooks/useDragNDrop";
 import { handleInputFileChange } from "@/lib/utils";
 import { Button } from "./button";
+import { truncateFileName } from "@/lib/file-utils";
 
 interface IFileUploaderProps extends React.ComponentProps<"label"> {
     dragNdropDescription?: string;

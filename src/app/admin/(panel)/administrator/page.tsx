@@ -8,7 +8,7 @@ import { fetchApi } from "@/lib/api-utils";
 
 const Admin = async (): Promise<JSX.Element> => {
     const token = await getToken();
-    const response = await fetchApi(`${process.env.API_URL}/api/admin/info`, {
+    const response = await fetchApi("/api/admin/info", {
         headers: {
             Authorization: `Bearer ${token}`,
         },

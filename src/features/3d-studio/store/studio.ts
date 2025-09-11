@@ -2,6 +2,7 @@ import { create } from "zustand";
 import * as THREE from "three";
 import { I3DMaterial, IGLTFModel } from "@/types";
 import { CAMERA_ZOOM } from "@/constants/constants";
+import { RefObject } from "react";
 
 type ICameraActions = "ZOOM_IN" | "ZOOM_OUT";
 
@@ -14,6 +15,8 @@ type StudioState = {
     materialToCustomize: I3DMaterial | null;
     selectedMeshs: THREE.Mesh[];
     hoveredMeshs: THREE.Mesh[];
+    canvasRef: RefObject<any> | null;
+    isFlipped?: boolean;
 };
 
 type StudioActions = {
@@ -26,7 +29,9 @@ type StudioActions = {
     setMaterialToCustomize: (material: I3DMaterial) => void;
     setSelectedMaterials: (materials: I3DMaterial[]) => void;
     setHoveredMeshs: (meshs: THREE.Mesh[]) => void;
-    setSelectedMeshs: (meshs: THREE.Mesh[]) => void;
+    setSelectedMeshs: (meshs: THREE.Mesh[] | any) => void;
+    setCanvasRef: (ref: RefObject<any> | null) => void;
+    setIsFlipped: (state: boolean) => void;
     resetSelectedMaterials: () => void;
     resetSelectedMeshs: () => void;
     resetHoveredMeshs: () => void;
@@ -44,6 +49,8 @@ export const useStudio = create<StudioStore>((set, get) => ({
     selectedMeshs: [],
     hoveredMeshs: [],
     materialToCustomize: null,
+    canvasRef: null,
+    isFlipped: false,
 
     // Actions
     setModel: (model: IGLTFModel) => set({ model }),
@@ -85,6 +92,8 @@ export const useStudio = create<StudioStore>((set, get) => ({
     setHoveredMeshs: (meshs: THREE.Mesh[]) => set({ hoveredMeshs: meshs }),
 
     setSelectedMeshs: (meshs: THREE.Mesh[]) => set({ selectedMeshs: meshs }),
+    setCanvasRef: (ref: RefObject<any> | null) => set({ canvasRef: ref }),
+    setIsFlipped: (state: boolean) => set({ isFlipped: state }),
     resetSelectedMaterials: () => set({ selectedMaterials: [] }),
     resetSelectedMeshs: () => set({ selectedMeshs: [] }),
     resetHoveredMeshs: () => set({ hoveredMeshs: [] }),

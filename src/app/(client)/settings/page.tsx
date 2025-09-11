@@ -13,7 +13,7 @@ import { fetchApi } from "@/lib/api-utils";
 
 const UserSetting = async (): Promise<JSX.Element> => {
     await validateSession(authOptions, "settings");
-    const response = await fetchApi(`${process.env.API_URL}/api/user`, {
+    const response = await fetchApi("/api/user", {
         credentials: "include",
     });
 

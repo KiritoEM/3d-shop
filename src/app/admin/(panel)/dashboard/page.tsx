@@ -1,5 +1,6 @@
 import GridSection from "@/features/panel/components/dashboard/GridSection";
 import StatisticsSection from "@/features/panel/components/dashboard/statistics-section/StatisticsSection";
+import { fetchApi } from "@/lib/api-utils";
 import { getToken } from "@/lib/sessions/dbSession";
 
 const Dashboard = async (): Promise<JSX.Element> => {
@@ -11,16 +12,16 @@ const Dashboard = async (): Promise<JSX.Element> => {
     };
 
     const statsResponse = await Promise.all([
-        fetch(`${process.env.API_URL}/api/users/count`, {
+        fetchApi("/api/users/count", {
             ...reqHeader,
         }),
-        fetch(
-            `${process.env.API_URL}/api/payment/count?year=${new Date().getFullYear()}`,
-            {
-                ...reqHeader,
+        fetchApi("/api/payment/count", {
+            ...reqHeader,
+            params: {
+                year: new Date().getFullYear(),
             },
-        ),
-        fetch(`${process.env.API_URL}/api/products/count`, {
+        }),
+        fetchApi("/api/products/count", {
             ...reqHeader,
         }),
     ]);

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { FC } from "react";
-
 import { I3DMaterial } from "@/types";
 import { useStudio } from "../../store/studio";
 import MaterialItem from "./MaterialItem";
@@ -27,7 +26,8 @@ const MaterialsList: FC<MaterialsListProps> = ({
                         key={index}
                         isActive={materialToCustomize?.name === material.name}
                         name={material.name}
-                        color={material.updatedColor ?? material.color}
+                        color={material.color}
+                        updatedColor={material.updatedColor}
                         selectMaterial={setMaterialToCustomize}
                     />
                 ))}
