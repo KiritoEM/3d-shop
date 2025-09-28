@@ -92,7 +92,7 @@ const ShopContent = (): JSX.Element => {
                         <ProductSkeleton />
                     ) : productsError ? (
                         // Error state
-                        <h4 className="col-span-3 w-full text-xl xl:text-2xl">
+                        <h4 className="col-span-3 w-full text-xl">
                             Une erreur s'est produite
                         </h4>
                     ) : products && products.length > 0 ? (
