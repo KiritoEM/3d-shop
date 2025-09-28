@@ -9,6 +9,7 @@ export const GET = async (req: NextRequest) => {
         const categoryId = Number(searchParams.get("category_id"));
         const minPrice = searchParams.get("price_range")?.split("-")[0];
         const maxPrice = searchParams.get("price_range")?.split("-")[1];
+        const searchValue = searchParams.get("search_value");
 
         const productsDataLength = await prisma.product.count();
 
@@ -27,6 +28,7 @@ export const GET = async (req: NextRequest) => {
                 },
             },
             where: {
+                name: searchValue ? { contains: searchValue } : undefined,
                 categoryId: categoryId || undefined,
                 price: {
                     gte: minPrice ? Number(minPrice) : undefined,

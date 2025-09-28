@@ -5,6 +5,7 @@ import { fetchProducts } from "@/features/shop/services/productServices";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback } from "react";
 import useShopStore, { Filters } from "../../store/shopStore";
+import { debounce } from "@/lib/utils";
 
 const useShopData = () => {
     const { searchValue, filters, setFilters, resetStore, setSearchValues } =
@@ -34,16 +35,15 @@ const useShopData = () => {
     });
 
     const handleChangePriceRange = useCallback(
-        (range: [number, number]) => {
+        debounce((range: [number, number]) => {
             setFilters({ ...filters, priceRange: range });
-        },
+        }, 650),
         [setFilters],
     );
 
-
-    const handleSearchChange = (value: string) => {
+    const handleSearchChange = debounce((value: string) => {
         setSearchValues(value);
-    };
+    }, 600);
 
     const handleChangeFilters = (filters: Filters) => {
         setFilters(filters);

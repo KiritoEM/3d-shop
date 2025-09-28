@@ -73,6 +73,7 @@ const ShopContent = (): JSX.Element => {
                             className="filter-btn bg-input flex h-9 items-center rounded-lg px-3 lg:hidden"
                             onClick={() => setOpenSidebar(true)}
                         >
+                            akf
                             <FilterIcon className="size-4" />
                         </div>
 

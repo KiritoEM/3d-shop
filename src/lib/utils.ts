@@ -155,3 +155,13 @@ export const copyTextClipboard = (value: any) => {
         type: "success",
     });
 };
+
+//debounce
+export const debounce = (fn: Function, timeout: number = 400) => {
+    let timer: NodeJS.Timeout | null = null;
+
+    return (...args: any[]) => {
+        timer && clearTimeout(timer);
+        timer = setTimeout(() => fn(...args), timeout);
+    };
+};
