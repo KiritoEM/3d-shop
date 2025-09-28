@@ -4,6 +4,7 @@ import { I3DMaterial, IGLTFModel } from "@/types";
 import { CAMERA_ZOOM } from "@/constants/constants";
 import { RefObject } from "react";
 import { ExportBlobIntoArrayBuffer } from "@/lib/model3d";
+import { AVAILABLE_GROUND_COLORS } from "@/data/studio-data";
 
 type ICameraActions = "ZOOM_IN" | "ZOOM_OUT";
 
@@ -18,6 +19,7 @@ type StudioState = {
     hoveredMeshs: THREE.Mesh[];
     canvasRef: RefObject<any> | null;
     isFlipped?: boolean;
+    groundColor: string;
 };
 
 type StudioActions = {
@@ -34,6 +36,7 @@ type StudioActions = {
     setCanvasRef: (ref: RefObject<any> | null) => void;
     setIsFlipped: (state: boolean) => void;
     exportModelIntoBuffer: () => Promise<void>;
+    setGroundColor: (color: string) => void;
     resetSelectedMaterials: () => void;
     resetSelectedMeshs: () => void;
     resetHoveredMeshs: () => void;
@@ -53,6 +56,7 @@ export const useStudio = create<StudioStore>((set, get) => ({
     materialToCustomize: null,
     canvasRef: null,
     isFlipped: false,
+    groundColor: AVAILABLE_GROUND_COLORS[0].color,
 
     // Actions
     setModel: (model: IGLTFModel | null) => set({ model }),
@@ -104,6 +108,7 @@ export const useStudio = create<StudioStore>((set, get) => ({
             set({ arrayBuffer: arrayBuffer });
         }
     },
+    setGroundColor: (color: string) => set({ groundColor: color }),
     resetSelectedMaterials: () => set({ selectedMaterials: [] }),
     resetSelectedMeshs: () => set({ selectedMeshs: [] }),
     resetHoveredMeshs: () => set({ hoveredMeshs: [] }),

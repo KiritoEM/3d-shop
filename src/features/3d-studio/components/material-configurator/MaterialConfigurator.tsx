@@ -1,11 +1,10 @@
 import React, { FC, useEffect, useMemo, useState } from "react";
 import { PipetteIcon } from "lucide-react";
-import { RECOMMANDED_COLORS } from "@/data/studio-data";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { I3DMaterial, IColorEntity } from "@/types";
 import ConfigBlock from "./ConfigBlock";
-import PickColor from "./PickColor";
+import PickColor from "../../../../components/PickColor";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,11 +12,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 type MaterialConfiguratorProps = {
+    colorsData: IColorEntity[];
     selectedMaterial: I3DMaterial;
     updateMaterial: (material: I3DMaterial) => void;
 };
 
 const MaterialConfigurator: FC<MaterialConfiguratorProps> = ({
+    colorsData,
     selectedMaterial,
     updateMaterial,
 }): JSX.Element => {
@@ -67,29 +68,34 @@ const MaterialConfigurator: FC<MaterialConfiguratorProps> = ({
         defaultColorObject.color !== pickedColorObject.color
             ? { ...pickedColorObject }
             : undefined,
-        ...RECOMMANDED_COLORS.filter((item) => item.color !== defaultColor),
+        ...colorsData.filter((item) => item.color !== defaultColor),
     ];
     return (
         <div className="material-configurator bg-gray absolute right-4 top-24 z-30 w-full max-w-[244px] rounded-lg p-4">
             <ConfigBlock name="color" title="Couleurs">
                 <div className="colors-list flex flex-wrap gap-4 gap-y-3">
-                    {avalaibleColors.map((item, index) => {
-                        const isSelected = item.color === currentColor;
-                        return (
-                            <article
-                                key={index}
-                                className={cn(
-                                    "h-7 w-7 rounded-md",
-                                    isSelected
-                                        ? "border-3 border-yellow-400"
-                                        : "cursor-pointer",
-                                )}
-                                style={{ backgroundColor: `${item.color}` }}
-                                title={item.label}
-                                onClick={() => handleChangeColor(item.color)}
-                            />
-                        );
-                    })}
+                    {avalaibleColors.length > 0 &&
+                        avalaibleColors.map((item, index) => {
+                            const isSelected = item?.color === currentColor;
+                            return (
+                                <article
+                                    key={index}
+                                    className={cn(
+                                        "h-7 w-7 rounded-md",
+                                        isSelected
+                                            ? "border-3 border-yellow-400"
+                                            : "cursor-pointer",
+                                    )}
+                                    style={{
+                                        backgroundColor: `${item?.color}`,
+                                    }}
+                                    title={item?.label}
+                                    onClick={() =>
+                                        handleChangeColor(item?.color as string)
+                                    }
+                                />
+                            );
+                        })}
 
                     {/* Pick Color */}
                     <DropdownMenu>

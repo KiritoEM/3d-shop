@@ -14,98 +14,101 @@ import { v4 as uuidV4 } from "uuid";
 
 export const createProduct = async (
     data: Prettify<IAddProductSchema & { model?: ArrayBuffer }>,
-): Promise<IResponseType<Product | null>> => {
-    try {
-        let modelPath: string | null = null;
-        const { model, ...productData } = data;
+) => {
+    console.log(data);
+    // try {
+    //     let modelPath: string | null = null;
+    //     const { model, ...productData } = data;
 
-        if (!("model" in data)) {
-            return {
-                status: "error",
-                message: "Pas de model 3D séléctionné, vous devez choisir",
-            };
-        }
+    //     if (!("model" in data)) {
+    //         return {
+    //             status: "error",
+    //             message: "Pas de model 3D séléctionné, vous devez choisir",
+    //         };
+    //     }
 
-        if (!addProductSchema.safeParse(productData).success) {
-            return {
-                status: "error",
-                message:
-                    "Veuillez remplir tous les champs correctement et essayer de nouveau",
-            };
-        }
+    //     if (!addProductSchema.safeParse(productData).success) {
+    //         return {
+    //             status: "error",
+    //             message:
+    //                 "Veuillez remplir tous les champs correctement et essayer de nouveau",
+    //         };
+    //     }
 
-        //create file for model arrayBuffer
-        const fileName = `model3d_${uuidV4()}`;
-        const modelFile = new File(
-            [data.model as ArrayBuffer],
-            `${fileName}.glb`,
-            { type: "model/gltf" },
-        );
+    //     //create file for model arrayBuffer
+    //     const fileName = `model3d_${uuidV4()}`;
+    //     const modelFile = new File(
+    //         [data.model as ArrayBuffer],
+    //         `${fileName}.glb`,
+    //         { type: "model/gltf" },
+    //     );
 
-        const {
-            status,
-            message,
-            data: modelUploadedPath,
-        } = await uploadFileLocal(
-            modelFile as File,
-            "uploaded-models",
-            fileName,
-        );
+    //     console.log(modelFile, productData);
 
-        if (status === "error") {
-            throw new Error();
-        }
+    //     // const {
+    //     //     status,
+    //     //     message,
+    //     //     data: modelUploadedPath,
+    //     // } = await uploadFileLocal(
+    //     //     modelFile as File,
+    //     //     "uploaded-models",
+    //     //     fileName,
+    //     // );
 
-        modelPath = modelUploadedPath!;
+    //     // if (status === "error") {
+    //     //     throw new Error();
+    //     // }
 
-        const createdProduct = await prisma.$transaction(async (tx) => {
-            const existingProduct = await tx.product.findUnique({
-                where: {
-                    name: data.name,
-                },
-            });
+    //     // modelPath = modelUploadedPath!;
 
-            if (existingProduct) {
-                throw new Error("The product already exists");
-            }
+    //     // const createdProduct = await prisma.$transaction(async (tx) => {
+    //     //     const existingProduct = await tx.product.findUnique({
+    //     //         where: {
+    //     //             name: data.name,
+    //     //         },
+    //     //     });
 
-            const createdProductInfo = await tx.product.create({
-                data: {
-                    name: productData.name,
-                    description: productData.description,
-                    price: Number(productData.price),
-                    categoryId: Number(productData.category),
-                    modelPath,
-                    groundColor: "#ffffff",
-                },
-            });
+    //     //     if (existingProduct) {
+    //     //         throw new Error("The product already exists");
+    //     //     }
 
-            return createdProductInfo;
-        });
+    //     //     const createdProductInfo = await tx.product.create({
+    //     //         data: {
+    //     //             name: productData.name,
+    //     //             description: productData.description,
+    //     //             price: Number(productData.price),
+    //     //             categoryId: Number(productData.category),
+    //     //             modelPath,
+    //     //             groundColor: "#ffffff",
+    //     //         },
+    //     //     });
 
-        //revalidate path
-        revalidatePath("/admin/products/create");
+    //     //     return createdProductInfo;
+    //     // });
 
-        return {
-            status: "success",
-            message: "Produit ajouté avec succés!!!",
-            data: createdProduct,
-        };
-    } catch (err) {
-        isDevelopment &&
-            console.error("Erreur lors de la création du produit:", err);
+    //     //revalidate path
+    //     // revalidatePath("/admin/products/create");
 
-        if (err instanceof Error && err.message) {
-            return {
-                status: "error",
-                message: "L'administrateur avec ce nom existe déja",
-            };
-        }
+    //     return {
+    //         status: "success",
+    //         message: "Produit ajouté avec succés!!!",
+    //         data: null,
+    //     };
+    // } catch (err) {
+    //     isDevelopment &&
+    //         console.error("Erreur lors de la création du produit:", err);
 
-        return {
-            status: "error",
-            message: "Erreur lors de la création de l'admin",
-            data: null,
-        };
-    }
+    //     if (err instanceof Error && err.message) {
+    //         return {
+    //             status: "error",
+    //             message: "L'administrateur avec ce nom existe déja",
+    //         };
+    //     }
+
+    //     return {
+    //         status: "error",
+    //         message: "Erreur lors de la création de l'admin",
+    //         data: null,
+    //     };
+    // }
 };

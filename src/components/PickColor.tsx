@@ -15,9 +15,7 @@ type PickColorProps = {
     onColorChange?: (color: string) => void;
 };
 
-const PickColor: FC<PickColorProps> = ({
-    onColorChange,
-}): JSX.Element => {
+const PickColor: FC<PickColorProps> = ({ onColorChange }): JSX.Element => {
     return (
         <ColorPicker
             className="bg-background mt-1 max-w-sm rounded-md border p-4 shadow-sm"

@@ -21,10 +21,10 @@ const StudioTopBar: FC<StudioTopBarProps> = ({
 
                 <div className="center">
                     <header className="materials-selection-header flex flex-col items-center text-center">
-                        <p className="text-muted-foreground mt-1 max-w-[530px] text-[13px]">
+                        <p className="text-white/80 mt-1 max-w-[530px] text-[13px]">
                             Choisissez les éléments du modèle 3D que vous
                             souhaitez modifier ou personnaliser{" "}
-                            <span className="text-primary">
+                            <span className="font-semibold text-white">
                                 (Cliquer sur l'objet pour le sélectionner)
                             </span>
                         </p>

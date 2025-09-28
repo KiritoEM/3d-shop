@@ -8,8 +8,12 @@ import { useStudio } from "../store/studio";
 import dynamic from "next/dynamic";
 import MaterialConfigurator from "./material-configurator/MaterialConfigurator";
 import { convertHtmlToImage } from "@/lib/htmlIntoImage";
-import { useStepper } from "@/store/stepper";
 import { toast } from "react-toastify";
+import GroundConfigurator from "./GroundConfigurator";
+import {
+    AVAILABLE_GROUND_COLORS,
+    RECOMMANDED_COLORS,
+} from "@/data/studio-data";
 
 const MaterialsList = dynamic(() => import("./materials-list/MaterialsList"), {
     ssr: false,
@@ -21,7 +25,7 @@ const MaterialsList = dynamic(() => import("./materials-list/MaterialsList"), {
 
 type StudioProps = {
     model: IGLTFModel;
-    onSave?: () => void;
+    onSave: (arrayBuffer: ArrayBuffer) => void;
 } & React.ComponentProps<"div">;
 
 const Studio: FC<StudioProps> = ({ model, onSave, ...props }): JSX.Element => {
@@ -29,21 +33,22 @@ const Studio: FC<StudioProps> = ({ model, onSave, ...props }): JSX.Element => {
         arrayBuffer,
         materialToCustomize,
         canvasRef,
+        groundColor,
         selectedMaterials,
         setMaterialToCustomize,
         exportModelIntoBuffer,
+        setGroundColor,
     } = useStudio();
-    const { setFormData } = useStepper();
 
     const handleSave = () => {
         exportModelIntoBuffer();
 
         if (!arrayBuffer) {
             toast.error("Impossible de sauvegarder le model 3D !!!");
+            return;
         }
 
-        setFormData({ key: "model", value: arrayBuffer as ArrayBuffer });
-        onSave?.();
+        onSave?.(arrayBuffer);
     };
 
     return (
@@ -68,10 +73,18 @@ const Studio: FC<StudioProps> = ({ model, onSave, ...props }): JSX.Element => {
             {/* Right Configurator */}
             {materialToCustomize && selectedMaterials.length > 0 && (
                 <MaterialConfigurator
+                    colorsData={RECOMMANDED_COLORS}
                     selectedMaterial={materialToCustomize}
                     updateMaterial={setMaterialToCustomize}
                 />
             )}
+
+            {/* Ground Configurator */}
+            <GroundConfigurator
+                colorData={AVAILABLE_GROUND_COLORS}
+                selectedColor={groundColor}
+                onSelectColor={setGroundColor}
+            />
         </div>
     );
 };

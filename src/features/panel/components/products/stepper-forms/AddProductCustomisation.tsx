@@ -54,29 +54,27 @@ const AddProductCustomisation = (): JSX.Element => {
     }, []);
 
     //handle create product
-    const handleCreateProduct = () => {
-        startTransition(async () => {
-            const isProductCreated = await createProduct(
-                formData as Prettify<
-                    IAddProductSchema & { model?: ArrayBuffer }
-                >,
-            );
+    const handleCreateProduct = async (arrayBuffer: ArrayBuffer) => {
+        // startTransition(async () => {
+        const isProductCreated = await createProduct({
+            ...formData,
+            model: arrayBuffer,
+        } as Prettify<IAddProductSchema & { model?: ArrayBuffer }>);
 
-            if (isProductCreated.status === "error") {
-                toast(isProductCreated.message, {
-                    type: "error",
-                    theme: "colored",
-                });
-            } else {
-                toast(isProductCreated.message, {
-                    type: "success",
-                    theme: "colored",
-                });
-
-                //reset model
-                setModel(null);
-            }
-        });
+        // if (isProductCreated.status === "error") {
+        //     toast(isProductCreated.message, {
+        //         type: "error",
+        //         theme: "colored",
+        //     });
+        // } else {
+        //     toast(isProductCreated.message, {
+        //         type: "success",
+        //         theme: "colored",
+        //     });
+        //     //reset model
+        //     setModel(null);
+        // }
+        // });
     };
 
     return (
@@ -87,7 +85,7 @@ const AddProductCustomisation = (): JSX.Element => {
                 <div
                     className={cn(
                         "add-product-studio w-full overflow-hidden rounded-xl",
-                        "border-gray border-2",
+                        "border-primary border-3",
                     )}
                 >
                     <Studio model={model} onSave={handleCreateProduct} />

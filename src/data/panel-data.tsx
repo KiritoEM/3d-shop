@@ -306,7 +306,7 @@ export const PRODUCTS_COLUMNS: ColumnDef<IProductsColumns>[] = [
 export const MULTIFORM_DATA: IStep[] = [
     {
         name: "Info sur le produit",
-        component: AddProductForm,
+        component: AddProductStudio,
     },
     {
         name: "Personnalisation produit",

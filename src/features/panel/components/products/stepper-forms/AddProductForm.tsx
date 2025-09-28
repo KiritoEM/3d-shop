@@ -38,6 +38,12 @@ const AddProductForm = (): JSX.Element => {
     const { setStep, setFormData } = useStepper();
     const form = useForm<IAddProductSchema>({
         resolver: zodResolver(addProductSchema),
+        defaultValues: {
+            name: "",
+            description: "",
+            price: "",
+            category: "",
+        },
     });
     const { setSidebarState } = useSidebar();
 
@@ -58,8 +64,8 @@ const AddProductForm = (): JSX.Element => {
                 </h3>
 
                 {isCategoriesLoading ? (
-                    <div className="loading-spinner mt-12 grid w-full place-content-center">
-                        <div className="h-9 w-9 animate-spin rounded-full border-b-2 border-current"></div>
+                    <div className="loading-spinner mt-14 grid w-full place-content-center">
+                        <div className="h-7 w-7 animate-spin rounded-full border-b-2 border-current"></div>
                     </div>
                 ) : (
                     <form

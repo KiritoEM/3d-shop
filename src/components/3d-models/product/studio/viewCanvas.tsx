@@ -19,7 +19,7 @@ const StudioViewCanvas: FC<ProductViewCanvasProps> = ({
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const modelRef = useRef<THREE.Group>(null);
-    const { hoveredMeshs, setCanvasRef } = useStudio();
+    const { hoveredMeshs, groundColor, setCanvasRef } = useStudio();
 
     const { scene } = model;
 
@@ -60,7 +60,7 @@ const StudioViewCanvas: FC<ProductViewCanvasProps> = ({
                     far: 1000,
                 }}
             >
-                <color attach="background" args={["#1c1c1c"]} />
+                <color attach="background" args={[groundColor]} />
                 <fog attach="fog" args={["#1c1c1c", 10, 20]} />
                 <Environment preset="warehouse" environmentIntensity={0.84} />
                 <Controller isHovered={hoveredMeshs.length !== 0} />

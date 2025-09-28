@@ -22,3 +22,26 @@ export const RECOMMANDED_COLORS: IColorEntity[] = [
         color: "#27AE60",
     },
 ];
+
+export const AVAILABLE_GROUND_COLORS: IColorEntity[] = [
+    {
+        label: "Gris",
+        color: "#44444E",
+    },
+    {
+        label: "Beige",
+        color: "#D2B48C",
+    },
+    {
+        label: "Vert Clair",
+        color: "#a9dc76",
+    },
+    {
+        label: "Rouge",
+        color: "#D84040",
+    },
+    {
+        label: "Violette",
+        color: "#ab9df2",
+    },
+];
