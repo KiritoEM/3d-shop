@@ -8,6 +8,8 @@ import { useStudio } from "../store/studio";
 import dynamic from "next/dynamic";
 import MaterialConfigurator from "./material-configurator/MaterialConfigurator";
 import { convertHtmlToImage } from "@/lib/htmlIntoImage";
+import { useStepper } from "@/store/stepper";
+import { toast } from "react-toastify";
 
 const MaterialsList = dynamic(() => import("./materials-list/MaterialsList"), {
     ssr: false,
@@ -17,17 +19,35 @@ const MaterialsList = dynamic(() => import("./materials-list/MaterialsList"), {
 //     ssr: false,
 // });
 
-type StudioProps = { model: IGLTFModel } & React.ComponentProps<"div">;
+type StudioProps = {
+    model: IGLTFModel;
+    onSave?: () => void;
+} & React.ComponentProps<"div">;
 
-const Studio: FC<StudioProps> = ({ model, ...props }): JSX.Element => {
+const Studio: FC<StudioProps> = ({ model, onSave, ...props }): JSX.Element => {
     const {
+        arrayBuffer,
         materialToCustomize,
         canvasRef,
         selectedMaterials,
         setMaterialToCustomize,
+        exportModelIntoBuffer,
     } = useStudio();
+    const { setFormData } = useStepper();
+
+    const handleSave = () => {
+        exportModelIntoBuffer();
+
+        if (!arrayBuffer) {
+            toast.error("Impossible de sauvegarder le model 3D !!!");
+        }
+
+        setFormData({ key: "model", value: arrayBuffer as ArrayBuffer });
+        onSave?.();
+    };
+
     return (
-        <div className="3d-studio relative h-[94vh] w-full" {...props}>
+        <div className="studio relative h-[94vh] w-full" {...props}>
             <StudioViewCanvas model={model} />
 
             {/* Top Bar */}
@@ -37,6 +57,7 @@ const Studio: FC<StudioProps> = ({ model, ...props }): JSX.Element => {
                         ? convertHtmlToImage(canvasRef)
                         : undefined;
                 }}
+                onSave={handleSave}
             />
 
             {/* Bottom toolbar */}

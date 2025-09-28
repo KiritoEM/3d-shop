@@ -7,9 +7,13 @@ import ZoomActions from "./ZoomActions";
 
 type StudioTopBarProps = {
     onCapture: () => void;
+    onSave: () => void;
 };
 
-const StudioTopBar: FC<StudioTopBarProps> = ({ onCapture }): JSX.Element => {
+const StudioTopBar: FC<StudioTopBarProps> = ({
+    onCapture,
+    onSave,
+}): JSX.Element => {
     return (
         <div className="top-bar absolute inset-4 z-30 h-fit">
             <div className="top-bar__container flex w-full justify-between gap-6">
@@ -37,7 +41,7 @@ const StudioTopBar: FC<StudioTopBarProps> = ({ onCapture }): JSX.Element => {
                             <Download /> Capturer
                         </Button>
 
-                        <Button size="sm">
+                        <Button size="sm" onClick={onSave}>
                             <ArrowUp /> Créer le produit
                         </Button>
                     </div>

@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { I3DMaterial, IGLTFModel } from "@/types";
 import { CAMERA_ZOOM } from "@/constants/constants";
 import { RefObject } from "react";
+import { ExportBlobIntoArrayBuffer } from "@/lib/model3d";
 
 type ICameraActions = "ZOOM_IN" | "ZOOM_OUT";
 
@@ -20,7 +21,7 @@ type StudioState = {
 };
 
 type StudioActions = {
-    setModel: (model: IGLTFModel) => void;
+    setModel: (model: IGLTFModel | null) => void;
     setCameraAction: (action: ICameraActions) => void;
     setCameraUpdated: () => void;
     setArrayBuffer: (arrayBuffer: ArrayBuffer) => void;
@@ -32,6 +33,7 @@ type StudioActions = {
     setSelectedMeshs: (meshs: THREE.Mesh[] | any) => void;
     setCanvasRef: (ref: RefObject<any> | null) => void;
     setIsFlipped: (state: boolean) => void;
+    exportModelIntoBuffer: () => Promise<void>;
     resetSelectedMaterials: () => void;
     resetSelectedMeshs: () => void;
     resetHoveredMeshs: () => void;
@@ -53,7 +55,7 @@ export const useStudio = create<StudioStore>((set, get) => ({
     isFlipped: false,
 
     // Actions
-    setModel: (model: IGLTFModel) => set({ model }),
+    setModel: (model: IGLTFModel | null) => set({ model }),
     setArrayBuffer: (arrayBuffer: ArrayBuffer) => set({ arrayBuffer }),
     setCameraUpdated: () => set({ cameraUpdated: true }),
     setCameraDistance: (distance: number) => set({ cameraDistance: distance }),
@@ -94,6 +96,14 @@ export const useStudio = create<StudioStore>((set, get) => ({
     setSelectedMeshs: (meshs: THREE.Mesh[]) => set({ selectedMeshs: meshs }),
     setCanvasRef: (ref: RefObject<any> | null) => set({ canvasRef: ref }),
     setIsFlipped: (state: boolean) => set({ isFlipped: state }),
+    exportModelIntoBuffer: async () => {
+        const { model } = get();
+
+        if (model) {
+            const arrayBuffer = await ExportBlobIntoArrayBuffer(model);
+            set({ arrayBuffer: arrayBuffer });
+        }
+    },
     resetSelectedMaterials: () => set({ selectedMaterials: [] }),
     resetSelectedMeshs: () => set({ selectedMeshs: [] }),
     resetHoveredMeshs: () => set({ hoveredMeshs: [] }),

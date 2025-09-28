@@ -8,6 +8,7 @@ export const askBot = async (
     try {
         const response = await fetchApi("/api/bot/bot_recommandation", {
             method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ prompt: message }),
         });
 

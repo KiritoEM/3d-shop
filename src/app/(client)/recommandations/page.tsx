@@ -1,7 +1,7 @@
 "use client";
 
 import AvatarViewCanvas from "@/components/3d-models/avatar/viewCanvas";
-import Chatbot from "@/features/recommandations/components/Chatbot";
+import Chatbot from "@/features/recommandations/components/chatbot/Chatbot";
 import checkIsAuthentified from "@/HOC/isAuthentificated";
 
 const Recommandations = (): JSX.Element => {

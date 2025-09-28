@@ -80,7 +80,7 @@ export const createNewAdmin = async (
         isDevelopment &&
             console.error("Erreur lors de la création de l'admin:", err);
 
-        if (err instanceof Error && err.message === "Admin exist already") {
+        if (err instanceof Error && err.message) {
             return {
                 status: "error",
                 message: "L'administrateur avec ce nom existe déja",

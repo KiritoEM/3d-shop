@@ -7,7 +7,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         const data = (await req.json()) as { prompt?: string };
         const AIModel = grokModel();
 
-        if (!data.prompt) {
+        if (!data.prompt?.trim()) {
             return NextResponse.json(
                 {
                     message: "No data provided",

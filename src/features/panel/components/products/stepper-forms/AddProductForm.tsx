@@ -138,7 +138,7 @@ const AddProductForm = (): JSX.Element => {
                                             {categories?.map((category) => (
                                                 <SelectItem
                                                     key={category.id}
-                                                    value={category.name}
+                                                    value={category.id.toString()}
                                                 >
                                                     {category.name}
                                                 </SelectItem>

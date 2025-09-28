@@ -22,10 +22,17 @@ const PromptInput = (): JSX.Element => {
 
         const botResponse = await askBot(userMessage);
 
+        if (botResponse.status === "error") {
+            setLoading(false);
+            return;
+        }
+
         setChat({
             role: "bot",
-            message: botResponse.message,
+            message: botResponse.data ?? "",
         });
+
+        setLoading(false);
     };
 
     return (

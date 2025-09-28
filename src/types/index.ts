@@ -59,7 +59,7 @@ export type IStep = {
 
 export type IObjectEntity = {
     key: string;
-    value: string;
+    value: string | ArrayBuffer;
 };
 
 export type IGLTFModel = Prettify<

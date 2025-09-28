@@ -82,7 +82,7 @@ export const fetchApi = async (
             ...(cookieHeader ? { Cookie: cookieHeader } : {}),
         },
         ...(method !== "GET" && method !== "DELETE" && body
-            ? { body: JSON.stringify(body) }
+            ? { body }
             : undefined),
         credentials,
         cache,
