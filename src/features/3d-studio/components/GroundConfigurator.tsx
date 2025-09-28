@@ -31,7 +31,7 @@ const GroundConfigurator: FC<GroundConfiguratorProps> = ({
                         style={{
                             backgroundColor: `${color.color}`,
                         }}
-                        title={color.label}
+                        title="Choisir la couleur du fond"
                         onClick={() => onSelectColor(color.color)}
                     />
                 );

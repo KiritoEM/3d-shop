@@ -4,7 +4,10 @@ import { I3DMaterial, IGLTFModel } from "@/types";
 import { CAMERA_ZOOM } from "@/constants/constants";
 import { RefObject } from "react";
 import { ExportBlobIntoArrayBuffer } from "@/lib/model3d";
-import { AVAILABLE_GROUND_COLORS } from "@/data/studio-data";
+import {
+    AVAILABLE_GROUND_COLORS,
+    RECOMMANDED_COLORS,
+} from "@/data/studio-data";
 
 type ICameraActions = "ZOOM_IN" | "ZOOM_OUT";
 

@@ -16,12 +16,15 @@ import { useStepper } from "@/store/stepper";
 import { loadBlobModel, validate3DModel } from "@/lib/model3d";
 import { createProduct } from "@/features/panel/actions/productActions";
 import { IAddProductSchema } from "@/lib/zod-schemas/productSchema";
+import { useRouter } from "next/navigation";
 
 const AddProductCustomisation = (): JSX.Element => {
     const { formData } = useStepper();
-    const { model, setModel, setArrayBuffer } = useStudio();
+    const { model, groundColor, setModel, setArrayBuffer } = useStudio();
     const [isPending, startTransition] = useTransition();
+    const router = useRouter();
 
+    //handle select file
     const handleFileSelected = useCallback(async (file: File) => {
         if (validate3DModel(file, 50 * 1024 * 1024)) {
             const reader = new FileReader();
@@ -55,26 +58,30 @@ const AddProductCustomisation = (): JSX.Element => {
 
     //handle create product
     const handleCreateProduct = async (arrayBuffer: ArrayBuffer) => {
-        // startTransition(async () => {
-        const isProductCreated = await createProduct({
-            ...formData,
-            model: arrayBuffer,
-        } as Prettify<IAddProductSchema & { model?: ArrayBuffer }>);
+        startTransition(async () => {
+            const isProductCreated = await createProduct({
+                ...formData,
+                model: arrayBuffer,
+                groundColor,
+            } as Prettify<
+                IAddProductSchema & { model?: ArrayBuffer; groundColor: string }
+            >);
 
-        // if (isProductCreated.status === "error") {
-        //     toast(isProductCreated.message, {
-        //         type: "error",
-        //         theme: "colored",
-        //     });
-        // } else {
-        //     toast(isProductCreated.message, {
-        //         type: "success",
-        //         theme: "colored",
-        //     });
-        //     //reset model
-        //     setModel(null);
-        // }
-        // });
+            if (isProductCreated.status === "error") {
+                toast(isProductCreated.message, {
+                    type: "error",
+                    theme: "colored",
+                });
+            } else {
+                toast(isProductCreated.message, {
+                    type: "success",
+                    theme: "colored",
+                });
+                //reset model
+                setModel(null);
+                router.replace("/admin/products", {});
+            }
+        });
     };
 
     return (
@@ -88,7 +95,11 @@ const AddProductCustomisation = (): JSX.Element => {
                         "border-primary border-3",
                     )}
                 >
-                    <Studio model={model} onSave={handleCreateProduct} />
+                    <Studio
+                        model={model}
+                        isSaving={isPending}
+                        onSave={handleCreateProduct}
+                    />
                 </div>
             )}
         </>

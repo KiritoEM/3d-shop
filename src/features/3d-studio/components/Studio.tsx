@@ -19,16 +19,18 @@ const MaterialsList = dynamic(() => import("./materials-list/MaterialsList"), {
     ssr: false,
 });
 
-// const MaterialConfigurator = dynamic(() => import("./MaterialConfigurator"), {
-//     ssr: false,
-// });
-
 type StudioProps = {
     model: IGLTFModel;
+    isSaving?: boolean;
     onSave: (arrayBuffer: ArrayBuffer) => void;
 } & React.ComponentProps<"div">;
 
-const Studio: FC<StudioProps> = ({ model, onSave, ...props }): JSX.Element => {
+const Studio: FC<StudioProps> = ({
+    model,
+    isSaving,
+    onSave,
+    ...props
+}): JSX.Element => {
     const {
         arrayBuffer,
         materialToCustomize,
@@ -85,6 +87,16 @@ const Studio: FC<StudioProps> = ({ model, onSave, ...props }): JSX.Element => {
                 selectedColor={groundColor}
                 onSelectColor={setGroundColor}
             />
+
+            {/* Loading when saving */}
+            {isSaving && (
+                <div className="loading-spinner absolute inset-0 z-50 flex flex-1 items-center justify-center bg-black/75">
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="h-7 w-7 animate-spin rounded-full border-b-2 border-current" />
+                        <span>Création en cours...</span>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

@@ -33,15 +33,15 @@ export const AVAILABLE_GROUND_COLORS: IColorEntity[] = [
         color: "#D2B48C",
     },
     {
-        label: "Vert Clair",
-        color: "#a9dc76",
+        label: "Vert",
+        color: "#84994F",
     },
     {
-        label: "Rouge",
-        color: "#D84040",
+        label: "Bleu Navy",
+        color: "#1C6EA4",
     },
     {
         label: "Violette",
-        color: "#ab9df2",
+        color: "#8F87F1",
     },
 ];
