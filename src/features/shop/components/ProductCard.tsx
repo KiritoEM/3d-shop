@@ -5,7 +5,7 @@ import Link from "next/link";
 import { FC } from "react";
 import ProductViewCanvas from "@/components/3d-models/product/ProductViewCanvas";
 import { Button } from "@/components/ui/button";
-import useShopStore from "@/features/shop/hooks/shop/shopStore";
+import useShopStore from "@/features/shop/store/shopStore";
 import { formatIntoPrice } from "@/lib/utils";
 import { IProduct } from "@/models/productModel";
 

@@ -2,11 +2,11 @@
 
 import { useQueryState } from "nuqs";
 import { useEffect } from "react";
-import useShopStore from "./shop/shopStore";
+import useShopStore from "../store/shopStore";
 
 const useFilterQuery = () => {
     const [activeCategory, setCategory] = useQueryState("category", {
-        defaultValue: "tout",
+        defaultValue: "all",
     });
     const { setFilters } = useShopStore();
 

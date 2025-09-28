@@ -6,6 +6,9 @@ export const GET = async (req: NextRequest) => {
         const { searchParams } = new URL(req.url);
         const paginationCount = Number(searchParams.get("pagination_count"));
         const paginationSkip = Number(searchParams.get("pagination_skip"));
+        const categoryId = Number(searchParams.get("category_id"));
+        const minPrice = searchParams.get("price_range")?.split("-")[0];
+        const maxPrice = searchParams.get("price_range")?.split("-")[1];
 
         const productsDataLength = await prisma.product.count();
 
@@ -21,6 +24,13 @@ export const GET = async (req: NextRequest) => {
                         name: true,
                         id: true,
                     },
+                },
+            },
+            where: {
+                categoryId: categoryId || undefined,
+                price: {
+                    gte: minPrice ? Number(minPrice) : undefined,
+                    lte: maxPrice ? Number(maxPrice) : undefined,
                 },
             },
         });

@@ -1,13 +1,11 @@
 "use client";
 
-import { Checkbox } from "@/components/ui/checkbox";
-import { FilterCard } from "./card";
-import { CUSTOMISATION_FILTER_OPTS } from "@/data/store-data";
+import { FilterCard } from "./cards/card";
 import { DualRangeSlider } from "@/components/ui/ranger-slider";
 import { FC } from "react";
-import { normalizeStr } from "@/lib/utils";
 import { ICategory } from "@/models/categoryModel";
 import useFilterQuery from "@/features/shop/hooks/useFilterQuery";
+import CategoryFilterCard from "./cards/CategoryFilterCard";
 
 export interface FilterSidebarProps {
     categories: ICategory[];
@@ -29,76 +27,16 @@ const FilterSidebar: FC<FilterSidebarProps> = ({
     ).length;
     return (
         <aside className="filter-bar scrollable-section fixed hidden h-[calc(100vh-110px)] w-full max-w-[310px] space-y-8 overflow-y-auto overflow-x-hidden pb-8 lg:block xl:max-w-[325px]">
-            {/* Customisation card */}
-            <FilterCard className="customisation-card" title="Customisation">
-                <ul className="flex flex-col space-y-5">
-                    {CUSTOMISATION_FILTER_OPTS.map((opt, index) => (
-                        <li
-                            key={index}
-                            className="customisation__opt flex w-full items-center justify-between"
-                        >
-                            <label htmlFor={`customisation-opt-${index}`}>
-                                {opt.label}
-                            </label>
-                            <Checkbox
-                                id={`customisation-opt-${index}`}
-                                className="h-6 w-6 rounded-sm"
-                            />
-                        </li>
-                    ))}
-                </ul>
-            </FilterCard>
-
             {/* Category card */}
-            <FilterCard className="category-card" title="Catégories">
-                {categoriesLoading ? (
-                    <div className="spinner mx-auto mt-4 h-7 w-7 animate-spin rounded-full border-b-2 border-current"></div>
-                ) : (
-                    <ul className="flex flex-col space-y-5">
-                        <li
-                            className="category__item flex w-full cursor-pointer items-center justify-between"
-                            onClick={() => setCategory("tout")}
-                        >
-                            <p
-                                className={
-                                    activeCategory === "tout"
-                                        ? "text-primary"
-                                        : "text-foreground"
-                                }
-                            >
-                                Tout
-                            </p>
-                            <div className="count bg-primary/10 text-primary rounded-xl px-3 py-1 text-sm">
-                                <span>{allCategoriesLength}</span>
-                            </div>
-                        </li>
-
-                        {categories.map((category, index) => (
-                            <li
-                                key={index}
-                                className="category__item flex w-full cursor-pointer items-center justify-between"
-                                onClick={() =>
-                                    setCategory(normalizeStr(category.name))
-                                }
-                            >
-                                <p
-                                    className={
-                                        activeCategory ===
-                                        normalizeStr(category.name)
-                                            ? "text-primary"
-                                            : "text-foreground"
-                                    }
-                                >
-                                    {category.name}
-                                </p>
-                                <div className="count bg-primary/10 text-primary rounded-xl px-3 py-1 text-sm">
-                                    <span>{category.products.length}</span>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                )}
-            </FilterCard>
+            <CategoryFilterCard
+                {...{
+                    activeCategory,
+                    categories,
+                    categoriesLoading,
+                    allCategoriesLength,
+                }}
+                onSelectCategory={setCategory}
+            />
 
             {/* Price card */}
             <FilterCard className="category-card" title="Prix(Euros)">

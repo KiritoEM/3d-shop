@@ -7,15 +7,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import ProductCard from "@/features/shop/components/ProductCard";
 import useShopData from "@/features/shop/hooks/shop/useShopData";
 import SearchInput from "@/components/SearchInput";
+import ProductSkeleton from "./skeletons/ProductSkeleton";
 
-const FilterbarLoaderSkeletons = () => (
-    <aside className="filter-bar-skeletons fixed hidden h-[calc(100vh-110px)] w-full max-w-[310px] space-y-8 pb-8 lg:block xl:max-w-[325px]">
-        <Skeleton className="customisation-card h-[140px] w-full rounded-lg" />
-        <Skeleton className="category-card h-[340px] w-full rounded-lg" />
-        <Skeleton className="price-card h-[100px] w-full rounded-lg" />
-    </aside>
-);
-
+//lazy loading
 const FilterSidebar = dynamic(
     () => import("@/features/shop/components/Filter-sidebar/FilterSidebar"),
     {
@@ -35,9 +29,8 @@ const ShopContent = (): JSX.Element => {
     const [isSidebarOpen, setOpenSidebar] = useState<boolean>(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const {
+        products,
         categories,
-        isProductsLoaded,
-        filteredProducts,
         productsError,
         productsLoading,
         categoriesLoading,
@@ -49,7 +42,7 @@ const ShopContent = (): JSX.Element => {
     return (
         <Fragment>
             <Fragment>
-                {/* Sidebar for desktop and plus */}
+                {/* Sidebar - desktop and more */}
                 <FilterSidebar
                     categories={categories ?? []}
                     priceRange={priceRange!}
@@ -57,7 +50,7 @@ const ShopContent = (): JSX.Element => {
                     setPriceRange={handleChangePriceRange}
                 />
 
-                {/* Sidebar for mobile and tablet */}
+                {/* Sidebar - mobile and tablet */}
                 <FilterSidebarMobile
                     categories={categories ?? []}
                     priceRange={priceRange!}
@@ -74,7 +67,7 @@ const ShopContent = (): JSX.Element => {
                         Notre Shop
                     </h2>
 
-                    {/* Header actions */}
+                    {/* Section Header */}
                     <div className="header__actions flex space-x-3">
                         <div
                             className="filter-btn bg-input flex h-9 items-center rounded-lg px-3 lg:hidden"
@@ -90,41 +83,39 @@ const ShopContent = (): JSX.Element => {
                     </div>
                 </header>
 
-                <div className="shop-products__showcases sm2:grid-cols-2 mt-10 grid gap-x-6 gap-y-8 sm:grid-cols-3 xl:mt-12 2xl:grid-cols-4">
-                    {/* Rendered products */}
-                    {filteredProducts &&
-                        filteredProducts.map((product) => (
-                            <ProductCard key={product.id} {...product} />
-                        ))}
-
-                    {/* Skeletons loading */}
-                    {productsLoading &&
-                        Array.from({ length: 6 }).map((_, i) => (
-                            <Skeleton
-                                key={i}
-                                className="h-[228px] w-full rounded-lg lg:h-[200px] xl:h-[260px] 2xl:h-[235px]"
-                            />
-                        ))}
-
-                    {/* If an error occured */}
-                    {productsError && (
+                {/* Product Content */}
+                <div className="shop-products__content sm2:grid-cols-2 mt-10 grid gap-x-6 gap-y-8 sm:grid-cols-3 xl:mt-12 2xl:grid-cols-4">
+                    {productsLoading ? (
+                        // Skeletons loading
+                        <ProductSkeleton />
+                    ) : productsError ? (
+                        // Error state
                         <h4 className="col-span-3 w-full text-xl xl:text-2xl">
-                            Un erreur s'est produit
+                            Une erreur s'est produite
+                        </h4>
+                    ) : products && products.length > 0 ? (
+                        // Products display
+                        products.map((product) => (
+                            <ProductCard key={product.id} {...product} />
+                        ))
+                    ) : (
+                        // No products found
+                        <h4 className="col-span-3 w-full text-xl">
+                            Pas de produits correspondants
                         </h4>
                     )}
-
-                    {/* If no items in shop */}
-                    {!productsLoading &&
-                        isProductsLoaded &&
-                        (filteredProducts.length === 0 || productsError) && (
-                            <h4 className="col-span-3 w-full text-xl xl:text-2xl">
-                                Pas de produits correspondants
-                            </h4>
-                        )}
                 </div>
             </div>
         </Fragment>
     );
 };
+
+const FilterbarLoaderSkeletons = () => (
+    <aside className="filter-bar-skeletons fixed hidden h-[calc(100vh-110px)] w-full max-w-[310px] space-y-8 pb-8 lg:block xl:max-w-[325px]">
+        <Skeleton className="customisation-card h-[140px] w-full rounded-lg" />
+        <Skeleton className="category-card h-[340px] w-full rounded-lg" />
+        <Skeleton className="price-card h-[100px] w-full rounded-lg" />
+    </aside>
+);
 
 export default ShopContent;

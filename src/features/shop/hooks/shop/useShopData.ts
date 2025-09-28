@@ -3,27 +3,25 @@
 import { fetchCategories } from "@/features/shop/services/categoryServices";
 import { fetchProducts } from "@/features/shop/services/productServices";
 import { useQuery } from "@tanstack/react-query";
-import { useCallback, useEffect, useState } from "react";
-import useShopStore, { Filters } from "./shopStore";
+import { useCallback } from "react";
+import useShopStore, { Filters } from "../../store/shopStore";
 
 const useShopData = () => {
-    const [isProductsLoaded, setIsProductLoaded] = useState<boolean>(false);
-    const {
-        setProducts,
-        filters,
-        setFilters,
-        getFilteredProducts,
-        resetStore,
-        setSearchValues,
-    } = useShopStore();
+    const { searchValue, filters, setFilters, resetStore, setSearchValues } =
+        useShopStore();
 
     const {
         data: products,
         isLoading: productsLoading,
         error: productsError,
     } = useQuery({
-        queryKey: ["products"],
-        queryFn: () => fetchProducts(),
+        queryKey: [
+            "products",
+            searchValue,
+            filters.category,
+            filters.priceRange,
+        ],
+        queryFn: () => fetchProducts({ searchValue: searchValue, filters }),
     });
 
     const {
@@ -35,20 +33,13 @@ const useShopData = () => {
         queryFn: () => fetchCategories(),
     });
 
-    //add data from tanstack to zustand for filtering data
-    useEffect(() => {
-        if (products) {
-            setProducts(products);
-            setIsProductLoaded(true);
-        }
-    }, [products]);
-
     const handleChangePriceRange = useCallback(
         (range: [number, number]) => {
             setFilters({ ...filters, priceRange: range });
         },
         [setFilters],
     );
+
 
     const handleSearchChange = (value: string) => {
         setSearchValues(value);
@@ -59,8 +50,7 @@ const useShopData = () => {
     };
 
     return {
-        products,
-        isProductsLoaded,
+        products: products?.paginatedData,
         categories,
         productsLoading,
         categoriesLoading,
@@ -68,7 +58,6 @@ const useShopData = () => {
         resetStore,
         categoriesError,
         priceRange: filters.priceRange,
-        filteredProducts: getFilteredProducts(),
         handleChangePriceRange,
         handleSearchChange,
         handleChangeFilters,

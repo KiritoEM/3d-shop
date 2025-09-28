@@ -1,14 +1,13 @@
 "use client";
 
-import { Checkbox } from "@/components/ui/checkbox";
-import { FilterCard } from "./card";
-import { CUSTOMISATION_FILTER_OPTS } from "@/data/store-data";
-import { DualRangeSlider } from "@/components/ui/ranger-slider";
+import { FilterCard } from "./cards/card";
 import { FC } from "react";
-import { cn, normalizeStr } from "@/lib/utils";
-import { FilterSidebarProps } from "./FilterSidebar";
-import useFilterQuery from "@/features/shop/hooks/useFilterQuery";
 import { X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import useFilterQuery from "@/features/shop/hooks/useFilterQuery";
+import { DualRangeSlider } from "@/components/ui/ranger-slider";
+import { FilterSidebarProps } from "./FilterSidebar";
+import CategoryFilterCard from "./cards/CategoryFilterCard";
 
 interface FilterSidebarMobileProps extends FilterSidebarProps {
     isSidebarOpen: boolean;
@@ -44,80 +43,16 @@ const FilterSidebarMobile: FC<FilterSidebarMobileProps> = ({
             </div>
 
             <div className="filter-bar-mobile__container mb-12 mt-28 flex flex-col gap-8">
-                {/* Customisation card */}
-                <FilterCard
-                    className="customisation-card"
-                    title="Customisation"
-                >
-                    <ul className="flex flex-col space-y-5">
-                        {CUSTOMISATION_FILTER_OPTS.map((opt, index) => (
-                            <li
-                                key={index}
-                                className="customisation__opt flex w-full items-center justify-between gap-3"
-                            >
-                                <label htmlFor={`customisation-opt-${index}`}>
-                                    {opt.label}
-                                </label>
-                                <Checkbox
-                                    id={`customisation-opt-${index}`}
-                                    className="h-6 w-6 rounded-sm"
-                                />
-                            </li>
-                        ))}
-                    </ul>
-                </FilterCard>
-
                 {/* Category card */}
-                <FilterCard className="category-card" title="Catégories">
-                    {categoriesLoading ? (
-                        <div className="spinner mx-auto mt-4 h-7 w-7 animate-spin rounded-full border-b-2 border-current"></div>
-                    ) : (
-                        <ul className="flex flex-col space-y-5">
-                            <li
-                                className="category__item flex w-full cursor-pointer items-center justify-between gap-3"
-                                onClick={() => setCategory("tout")}
-                            >
-                                <p
-                                    className={
-                                        activeCategory === "tout"
-                                            ? "text-primary"
-                                            : "text-foreground"
-                                    }
-                                >
-                                    Tout
-                                </p>
-                                <div className="count bg-primary/10 text-primary rounded-xl px-3 py-1 text-sm">
-                                    <span>{allCategoriesLength}</span>
-                                </div>
-                            </li>
-
-                            {categories.map((category, index) => (
-                                <li
-                                    key={index}
-                                    className="category__item flex w-full cursor-pointer items-center justify-between gap-3"
-                                    onClick={() =>
-                                        setCategory(normalizeStr(category.name))
-                                    }
-                                >
-                                    <p
-                                        className={
-                                            activeCategory ===
-                                            normalizeStr(category.name)
-                                                ? "text-primary"
-                                                : "text-foreground"
-                                        }
-                                    >
-                                        {category.name}
-                                    </p>
-                                    <div className="count bg-primary/10 text-primary rounded-xl px-3 py-1 text-sm">
-                                        <span>{category.products.length}</span>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                </FilterCard>
-
+                <CategoryFilterCard
+                    {...{
+                        activeCategory,
+                        categories,
+                        categoriesLoading,
+                        allCategoriesLength,
+                    }}
+                    onSelectCategory={setCategory}
+                />
                 {/* Price card */}
                 <FilterCard className="category-card" title="Prix(Euros)">
                     <div className="mt-16 w-full pr-5">
