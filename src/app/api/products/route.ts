@@ -28,7 +28,9 @@ export const GET = async (req: NextRequest) => {
                 },
             },
             where: {
-                name: searchValue ? { contains: searchValue } : undefined,
+                name: searchValue
+                    ? { contains: searchValue, mode: "insensitive" }
+                    : undefined,
                 categoryId: categoryId || undefined,
                 price: {
                     gte: minPrice ? Number(minPrice) : undefined,

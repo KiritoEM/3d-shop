@@ -6,6 +6,7 @@ import { FC } from "react";
 import { ICategory } from "@/models/categoryModel";
 import useFilterQuery from "@/features/shop/hooks/useFilterQuery";
 import CategoryFilterCard from "./cards/CategoryFilterCard";
+import useShopStore from "../../store/shopStore";
 
 export interface FilterSidebarProps {
     categories: ICategory[];
@@ -20,7 +21,8 @@ const FilterSidebar: FC<FilterSidebarProps> = ({
     priceRange,
     categoriesLoading,
 }): JSX.Element => {
-    const { activeCategory, setCategory } = useFilterQuery();
+    const { setCategory } = useFilterQuery();
+    const { filters } = useShopStore();
 
     const allCategoriesLength = categories.map((category) =>
         category.products.flat(),
@@ -30,12 +32,14 @@ const FilterSidebar: FC<FilterSidebarProps> = ({
             {/* Category card */}
             <CategoryFilterCard
                 {...{
-                    activeCategory,
+                    activeCategory: filters.category
+                        ? String(filters.category)
+                        : "all",
                     categories,
                     categoriesLoading,
                     allCategoriesLength,
                 }}
-                onSelectCategory={setCategory}
+                onSelectCategory={(category) => setCategory(category)}
             />
 
             {/* Price card */}

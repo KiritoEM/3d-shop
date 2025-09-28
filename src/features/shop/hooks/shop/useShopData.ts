@@ -6,10 +6,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useCallback } from "react";
 import useShopStore, { Filters } from "../../store/shopStore";
 import { debounce } from "@/lib/utils";
+import useFilterQuery from "../useFilterQuery";
 
 const useShopData = () => {
     const { searchValue, filters, setFilters, resetStore, setSearchValues } =
         useShopStore();
+    const { setSearchQuery, setPriceRange } = useFilterQuery();
 
     const {
         data: products,
@@ -37,17 +39,15 @@ const useShopData = () => {
     const handleChangePriceRange = useCallback(
         debounce((range: [number, number]) => {
             setFilters({ ...filters, priceRange: range });
-        }, 650),
+            setPriceRange(`${range[0]}-${range[1]}`);
+        }, 1000),
         [setFilters],
     );
 
     const handleSearchChange = debounce((value: string) => {
         setSearchValues(value);
-    }, 600);
-
-    const handleChangeFilters = (filters: Filters) => {
-        setFilters(filters);
-    };
+        setSearchQuery(value);
+    }, 1000);
 
     return {
         products: products?.paginatedData,
@@ -60,7 +60,6 @@ const useShopData = () => {
         priceRange: filters.priceRange,
         handleChangePriceRange,
         handleSearchChange,
-        handleChangeFilters,
     };
 };
 

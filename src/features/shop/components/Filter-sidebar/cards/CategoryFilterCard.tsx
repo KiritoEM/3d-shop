@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { FilterCard } from "./card";
 import { ICategory } from "@/models/categoryModel";
+import { encodeId } from "@/lib/encodage";
 
 type CategoryFilterCardProps = {
     activeCategory: string;
@@ -46,7 +47,7 @@ const CategoryFilterCard: FC<CategoryFilterCardProps> = ({
                             key={index}
                             className="category__item flex w-full cursor-pointer items-center justify-between"
                             onClick={() =>
-                                onSelectCategory(category.id.toString())
+                                onSelectCategory(encodeId(category.id))
                             }
                         >
                             <p

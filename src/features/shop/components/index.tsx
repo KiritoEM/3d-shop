@@ -8,13 +8,14 @@ import ProductCard from "@/features/shop/components/ProductCard";
 import useShopData from "@/features/shop/hooks/shop/useShopData";
 import SearchInput from "@/components/SearchInput";
 import ProductSkeleton from "./skeletons/ProductSkeleton";
+import FilterbarSkeleton from "./skeletons/FilterbarSkeleton";
 
 //lazy loading
 const FilterSidebar = dynamic(
     () => import("@/features/shop/components/Filter-sidebar/FilterSidebar"),
     {
         ssr: false,
-        loading: () => <FilterbarLoaderSkeletons />,
+        loading: () => <FilterbarSkeleton />,
     },
 );
 
@@ -110,13 +111,5 @@ const ShopContent = (): JSX.Element => {
         </Fragment>
     );
 };
-
-const FilterbarLoaderSkeletons = () => (
-    <aside className="filter-bar-skeletons fixed hidden h-[calc(100vh-110px)] w-full max-w-[310px] space-y-8 pb-8 lg:block xl:max-w-[325px]">
-        <Skeleton className="customisation-card h-[140px] w-full rounded-lg" />
-        <Skeleton className="category-card h-[340px] w-full rounded-lg" />
-        <Skeleton className="price-card h-[100px] w-full rounded-lg" />
-    </aside>
-);
 
 export default ShopContent;

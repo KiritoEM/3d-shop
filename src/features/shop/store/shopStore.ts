@@ -5,7 +5,7 @@ import { devtools, combine } from "zustand/middleware";
 
 export type Filters = {
     priceRange?: [number, number];
-    category?: string;
+    category?: number;
 };
 
 type ShopState = {
