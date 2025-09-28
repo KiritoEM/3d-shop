@@ -12,6 +12,7 @@ type ShopState = {
     rotateModel: boolean;
     filters: Filters;
     searchValue?: string;
+    isModelLoaded: boolean;
 };
 
 const initialState: ShopState = {
@@ -20,6 +21,7 @@ const initialState: ShopState = {
     },
     searchValue: "",
     rotateModel: false,
+    isModelLoaded: false,
 };
 
 const useShopStore = create(
@@ -37,6 +39,10 @@ const useShopStore = create(
 
             setRotateModel: () => {
                 set({ rotateModel: true });
+            },
+
+            setIsModelLoaded: (state: boolean) => {
+                set({ isModelLoaded: state });
             },
 
             resetStore: () => {

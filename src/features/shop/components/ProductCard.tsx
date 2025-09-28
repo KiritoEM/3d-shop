@@ -12,7 +12,9 @@ import { IProduct } from "@/models/productModel";
 type ProductCardProps = Pick<
     IProduct,
     "cuid" | "name" | "config3D" | "modelPath" | "groundColor" | "price"
-> & {};
+> & {
+    isLoading?: boolean;
+};
 
 const ProductCard: FC<ProductCardProps> = ({
     cuid,
@@ -22,7 +24,8 @@ const ProductCard: FC<ProductCardProps> = ({
     groundColor,
     config3D,
 }): JSX.Element => {
-    const { setRotateModel } = useShopStore();
+    const { isModelLoaded, setRotateModel } = useShopStore();
+
     return (
         <article
             className="product-card sm2:h-[180px] relative h-[270px] cursor-pointer overflow-hidden rounded-lg sm:h-[184px] md:h-[220px] lg:h-[200px] xl:h-[260px] 2xl:h-[235px]"
@@ -31,23 +34,26 @@ const ProductCard: FC<ProductCardProps> = ({
         >
             <ProductViewCanvas config3D={config3D!} modelPath={modelPath} />
 
-            <div className="product-card__active absolute top-0 z-30 flex h-full w-full items-center justify-center p-2">
-                <div className="overlay-bg bg-[#0D0D0D]/81 absolute h-full w-full"></div>
-                <div className="content relative z-20 flex flex-col items-center space-y-3 text-center text-white">
-                    <h5 className="sm2:text-[17px] font-michroma text-xl md:text-lg xl:text-xl">
-                        {name}
-                    </h5>
-                    <p className="sm2:text-sm text-lg md:text-lg">
-                        {formatIntoPrice(price!)} €
-                    </p>
+            {/* Product details */}
+            {isModelLoaded && (
+                <div className="product-card__active absolute top-0 z-30 flex h-full w-full items-center justify-center p-2">
+                    <div className="overlay-bg bg-[#0D0D0D]/81 absolute h-full w-full"></div>
+                    <div className="content relative z-20 flex flex-col items-center space-y-3 text-center text-white">
+                        <h5 className="sm2:text-[17px] font-michroma text-xl md:text-lg xl:text-xl">
+                            {name}
+                        </h5>
+                        <p className="sm2:text-sm text-lg md:text-lg">
+                            {formatIntoPrice(price!)} €
+                        </p>
 
-                    <Button className="mt-1 !h-8 rounded-full" asChild>
-                        <Link href={`/shop/${cuid}`}>
-                            <Info /> Détails
-                        </Link>
-                    </Button>
+                        <Button className="mt-1 !h-8 rounded-full" asChild>
+                            <Link href={`/shop/${cuid}`}>
+                                <Info /> Détails
+                            </Link>
+                        </Button>
+                    </div>
                 </div>
-            </div>
+            )}
         </article>
     );
 };

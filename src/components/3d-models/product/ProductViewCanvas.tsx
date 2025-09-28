@@ -1,39 +1,38 @@
 "use client";
 
-import React, { FC, Suspense, useEffect, useState } from "react";
+import React, { FC, Suspense, useEffect } from "react";
 import { Stage, OrbitControls, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Config3D } from "@/models/productModel";
 import Lights from "./Lights";
 import Loader from "./Loader";
+import useShopStore from "@/features/shop/store/shopStore";
 
 type ProductViewCanvasProps = {
     modelPath: string;
     config3D: Config3D;
     orbitControl?: boolean;
-    selectedMaterials?: Record<string, string>;
 };
 
 const ProductViewCanvas: FC<ProductViewCanvasProps> = ({
     modelPath,
     config3D,
     orbitControl = false,
-    selectedMaterials,
 }): JSX.Element => {
-    const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const { scene, materials } = useGLTF(modelPath);
+    const { isModelLoaded, setIsModelLoaded } = useShopStore();
 
     useEffect(() => {
         if (scene) {
             setTimeout(() => {
-                setIsLoaded(true);
+                setIsModelLoaded(true);
             }, 600);
         }
     }, [scene, materials]);
 
     return (
         <div className="relative h-full w-full">
-            {!isLoaded && <Loader />}
+            {!isModelLoaded && <Loader />}
 
             <Canvas
                 shadows
@@ -42,7 +41,7 @@ const ProductViewCanvas: FC<ProductViewCanvasProps> = ({
                     backgroundColor: "transparent",
                     width: "100%",
                     height: "100%",
-                    opacity: isLoaded ? 1 : 0,
+                    opacity: isModelLoaded ? 1 : 0,
                     transition: "opacity 0.3s ease-in-out",
                 }}
                 gl={{
