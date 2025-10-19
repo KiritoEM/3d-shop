@@ -44,7 +44,6 @@ const ProductContent: FC<ProductContentProps> = ({ cuid }): JSX.Element => {
                                 config3D={data?.config3D!}
                                 modelPath={data?.modelPath!}
                                 orbitControl
-                                selectedMaterials={selectedMaterial ?? {}}
                             />
                         ) : (
                             <Skeleton className="h-full w-full" />

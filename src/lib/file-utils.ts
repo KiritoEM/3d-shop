@@ -1,5 +1,5 @@
 import { IfileType } from "@/types";
-import path from "node:path";
+import path from "path";
 import { toast } from "react-toastify";
 
 export const truncateFileName = (

@@ -1,6 +1,6 @@
 "use server";
 
-import path from "node:path";
+import path from "path";
 import { AdminInfo } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { deleteFile, uploadFileLocal } from "@/lib/uploadLocalFile";

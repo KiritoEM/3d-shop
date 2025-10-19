@@ -18,6 +18,7 @@ const StudioModel: FC<StudioModelProps> = ({ scene }): JSX.Element => {
         handlePointerMissed,
         handleClick,
     } = useStudioModel(scene);
+
     return (
         <Center>
             <Resize scale={0.46}>

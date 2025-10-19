@@ -3,7 +3,6 @@
 import React, { Fragment, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { FilterIcon } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
 import ProductCard from "@/features/shop/components/ProductCard";
 import useShopData from "@/features/shop/hooks/shop/useShopData";
 import SearchInput from "@/components/SearchInput";
@@ -74,7 +73,6 @@ const ShopContent = (): JSX.Element => {
                             className="filter-btn bg-input flex h-9 items-center rounded-lg px-3 lg:hidden"
                             onClick={() => setOpenSidebar(true)}
                         >
-                            akf
                             <FilterIcon className="size-4" />
                         </div>
 

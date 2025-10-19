@@ -3,7 +3,7 @@ import { GLTF, GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { GLTFExporter } from "three/examples/jsm/exporters/GLTFExporter.js";
 import { I3DMaterial, IGLTFModel } from "@/types";
 import { getToast } from "./file-utils";
-import path from "node:path";
+import path from "path";
 
 export const loadBlobModel = (
     arrayBuffer: ArrayBuffer,

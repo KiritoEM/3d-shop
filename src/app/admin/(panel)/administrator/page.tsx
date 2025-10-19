@@ -1,10 +1,10 @@
 import AdminCard from "@/features/panel/components/administrators/admin-card/AdminCard";
 import { getToken } from "@/lib/sessions/dbSession";
-import Error from "@/components/Error";
 import { IAdminInfo } from "@/models/adminModel";
 import { Suspense } from "react";
 import AdministratorLoading from "./loading";
 import { fetchApi } from "@/lib/api-utils";
+import Error from "@/components/error";
 
 const Admin = async (): Promise<JSX.Element> => {
     const token = await getToken();

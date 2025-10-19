@@ -1,6 +1,4 @@
-import { headers } from "next/headers";
 import AccountPreview from "@/components/AccountPreview";
-import Error from "@/components/Error";
 import Block from "@/features/user-settings/components/Block";
 import ChangeUserInfo from "@/features/user-settings/components/change-user-info/ChangeUserInfo";
 import { authOptions } from "@/lib/nextauth";
@@ -10,6 +8,7 @@ import { IUser } from "@/models/userModel";
 import DeleteAccount from "@/features/user-settings/components/DeleteAccount";
 import SettingsHeader from "@/features/user-settings/components/SettingsHeader";
 import { fetchApi } from "@/lib/api-utils";
+import Error from "@/components/error";
 
 const UserSetting = async (): Promise<JSX.Element> => {
     await validateSession(authOptions, "settings");

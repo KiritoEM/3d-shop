@@ -2,7 +2,7 @@
 
 import { User } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import path from "node:path";
+import path from "path";
 import { compareData, hashData } from "@/lib/hash";
 import { prisma } from "@/lib/prisma";
 import { deleteFile, uploadFileLocal } from "@/lib/uploadLocalFile";

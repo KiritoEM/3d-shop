@@ -8,6 +8,7 @@ import useFilterQuery from "@/features/shop/hooks/useFilterQuery";
 import { DualRangeSlider } from "@/components/ui/ranger-slider";
 import { FilterSidebarProps } from "./FilterSidebar";
 import CategoryFilterCard from "./cards/CategoryFilterCard";
+import useShopStore from "../../store/shopStore";
 
 interface FilterSidebarMobileProps extends FilterSidebarProps {
     isSidebarOpen: boolean;
@@ -22,7 +23,8 @@ const FilterSidebarMobile: FC<FilterSidebarMobileProps> = ({
     isSidebarOpen,
     closeSidebar,
 }): JSX.Element => {
-    const { activeCategory, setCategory } = useFilterQuery();
+    const { setCategory } = useFilterQuery();
+    const { filters } = useShopStore();
 
     const allCategoriesLength = categories.map((category) =>
         category.products.flat(),
@@ -46,13 +48,16 @@ const FilterSidebarMobile: FC<FilterSidebarMobileProps> = ({
                 {/* Category card */}
                 <CategoryFilterCard
                     {...{
-                        activeCategory,
+                        activeCategory: filters.category
+                            ? String(filters.category)
+                            : "all",
                         categories,
                         categoriesLoading,
                         allCategoriesLength,
                     }}
-                    onSelectCategory={setCategory}
+                    onSelectCategory={(category) => setCategory(category)}
                 />
+
                 {/* Price card */}
                 <FilterCard className="category-card" title="Prix(Euros)">
                     <div className="mt-16 w-full pr-5">
