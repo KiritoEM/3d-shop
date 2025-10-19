@@ -60,14 +60,14 @@ const ProductViewCanvas: FC<ProductViewCanvasProps> = ({
 
                 {orbitControl && <OrbitControls enableZoom={false} />}
 
-                <Stage intensity={0.4} preset="upfront">
+                <Stage intensity={0.006} preset="upfront" adjustCamera={1.1}>
                     <Suspense fallback={null}>
                         {/* Model */}
                         <group
                             dispose={null}
                             position={config3D.position ?? [0, 0, 0]}
                             rotation={config3D.rotation ?? [0, 0, 0]}
-                            scale={config3D.scale ?? 2.4}
+                            // scale={config3D.scale ?? 2.4}
                         >
                             <primitive object={scene} />
                         </group>

@@ -1,6 +1,9 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+import { v4 as uuidV4 } from "uuid";
 import { prisma } from "@/lib/prisma";
+import { Product } from "@prisma/client";
 import { uploadFileLocal } from "@/lib/uploadLocalFile";
 import { isDevelopment, Prettify } from "@/lib/utils";
 import {
@@ -8,12 +11,11 @@ import {
     IAddProductSchema,
 } from "@/lib/zod-schemas/productSchema";
 import { IResponseType } from "@/types";
-import { Product } from "@prisma/client";
-import { revalidatePath } from "next/cache";
-import { v4 as uuidV4 } from "uuid";
 
 export const createProduct = async (
-    data: Prettify<IAddProductSchema & { model?: ArrayBuffer }>,
+    data: Prettify<
+        IAddProductSchema & { model?: ArrayBuffer; groundColor: string }
+    >,
 ): Promise<IResponseType<Product | null>> => {
     try {
         let modelPath: string | null = null;
@@ -74,7 +76,7 @@ export const createProduct = async (
                     price: Number(productData.price),
                     categoryId: Number(productData.category),
                     modelPath,
-                    groundColor: "#ffffff",
+                    groundColor: data.groundColor || "#000000",
                 },
             });
 

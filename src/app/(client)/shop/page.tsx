@@ -5,9 +5,7 @@ const Shop = (): JSX.Element => {
     return (
         <section className="shop mt-[106px]">
             <div className="shop__container container flex gap-12 !px-6">
-                <Suspense fallback={null}>
-                    <ShopContent />
-                </Suspense>
+                <ShopContent />
             </div>
         </section>
     );
