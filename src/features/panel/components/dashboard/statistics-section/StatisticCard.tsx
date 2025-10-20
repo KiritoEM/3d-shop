@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ArrowRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const StatisticCard: FC<IStatisticCard> = ({
     badgeBg,
@@ -11,6 +12,7 @@ const StatisticCard: FC<IStatisticCard> = ({
     label,
     statistic,
     iconClass,
+    redirectUrl,
 }): JSX.Element => {
     return (
         <article className="statistic-card dark:bg-gray relative flex w-full flex-col justify-between gap-8 rounded-lg border p-6 dark:border-0">
@@ -40,7 +42,9 @@ const StatisticCard: FC<IStatisticCard> = ({
                 variant="ghost"
                 className="absolute right-5 top-5 cursor-pointer !px-0  !py-0"
             >
-                <ArrowRightIcon className="size-6 -rotate-45 stroke-1 md:size-8" />
+                <Link href={redirectUrl || ""}>
+                    <ArrowRightIcon className="size-6 -rotate-45 stroke-1 md:size-8" />
+                </Link>
             </Button>
         </article>
     );

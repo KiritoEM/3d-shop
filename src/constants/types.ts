@@ -20,6 +20,7 @@ export type IStatisticCard = {
     statistic?: number;
     label: string;
     iconClass?: string;
+    redirectUrl?: string;
 };
 
 export type ITransactionsColumns = Pick<

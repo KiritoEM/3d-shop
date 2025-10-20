@@ -20,6 +20,7 @@ const StatisticsSection: FC<StatisticsSectionProps> = ({
                 icon={STATISTICS_CARD_DATA["users"].icon}
                 label={STATISTICS_CARD_DATA["users"].label}
                 statistic={statistics.users}
+                redirectUrl="/admin/users"
             />
 
             <StatisticCard
@@ -27,6 +28,7 @@ const StatisticsSection: FC<StatisticsSectionProps> = ({
                 icon={STATISTICS_CARD_DATA["product"].icon}
                 label={STATISTICS_CARD_DATA["product"].label}
                 statistic={statistics.products}
+                redirectUrl="/admin/products"
             />
 
             <StatisticCard
@@ -34,6 +36,7 @@ const StatisticsSection: FC<StatisticsSectionProps> = ({
                 icon={STATISTICS_CARD_DATA["transactions"].icon}
                 label={STATISTICS_CARD_DATA["transactions"].label}
                 statistic={statistics.transactions}
+                redirectUrl="/admin/payment"
             />
         </div>
     );
