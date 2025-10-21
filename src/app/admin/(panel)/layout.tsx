@@ -23,8 +23,8 @@ export default function LandingLayout({
                 className={cn(
                     "panel__content p-4 pr-6",
                     closed || isLg
-                        ? "ml-[110px] w-[calc(100%-110px)]"
-                        : "xl:w-[calc(100%-304px] 2xl:w-[calc(100%-320px xl:ml-[304px] 2xl:ml-[320px]",
+                        ? "ml-0 w-full lg:ml-[110px] lg:w-[calc(100%-110px)]"
+                        : "ml-0 w-full xl:ml-[304px] xl:w-[calc(100%-304px)] 2xl:ml-[320px] 2xl:w-[calc(100%-320px)]",
                 )}
             >
                 <PanelHeader />

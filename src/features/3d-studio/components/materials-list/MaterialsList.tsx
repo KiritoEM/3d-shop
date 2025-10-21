@@ -19,7 +19,7 @@ const MaterialsList: FC<MaterialsListProps> = ({
     const { materialToCustomize, setMaterialToCustomize } = useStudio();
 
     return (
-        <div className="materials-wrapper scrollable-section absolute bottom-4 left-1/2 z-30 -translate-x-1/2 overflow-x-auto overflow-y-hidden px-2 py-3">
+        <div className="materials-wrapper scrollable-section absolute bottom-11 sm3:bottom-4 left-1/2 z-30 -translate-x-1/2 overflow-x-auto overflow-y-hidden px-2 py-3">
             <div className="materials-list flex gap-5">
                 {(selectedMaterials as I3DMaterial[]).map((material, index) => (
                     <MaterialItem

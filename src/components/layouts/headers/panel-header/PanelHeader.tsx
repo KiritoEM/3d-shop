@@ -39,7 +39,7 @@ const PanelHeader = (): JSX.Element => {
 
             {/* Menu icon if tablet and mobile*/}
             <NavMenuIcon
-                className="![&>svg]:size-4 md:![&>svg]:size-5 !px-3 !py-1 sm:ml-2 md:!px-4 md:!py-2"
+                className="![&>svg]:size-4 !px-3 !py-1 sm:ml-2 md:!px-4 md:!py-2"
                 isOpen={isSidebarResponsiveOpen}
                 openNav={() =>
                     setResponsiveSidebarState(!isSidebarResponsiveOpen)

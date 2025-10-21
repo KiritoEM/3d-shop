@@ -54,7 +54,7 @@ const Studio: FC<StudioProps> = ({
     };
 
     return (
-        <div className="studio relative h-[94vh] w-full" {...props}>
+        <div className="studio relative h-[72vh] w-full lg:h-[94vh]" {...props}>
             <StudioViewCanvas model={model} />
 
             {/* Top Bar */}

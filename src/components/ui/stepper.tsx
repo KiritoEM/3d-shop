@@ -62,7 +62,7 @@ const Stepper: FC<StepperProps> = ({
                 renderCustomIndicatorNode={renderCustomIndicatorNode}
             />
 
-            <div className="stepper__component mt-18">
+            <div className="stepper__component mt-14 sm3:mt-18">
                 {ActiveComponent ? <ActiveComponent /> : null}
             </div>
         </div>
@@ -91,7 +91,7 @@ const StepperIndicators: FC<StepperIndicators> = ({
     return (
         <div
             className={cn(
-                "stepper__indicators relative mx-auto flex max-w-[510px] items-center justify-between",
+                "stepper__indicators sm3:max-w-[400px] relative mx-auto flex max-w-[300px] items-center justify-between md:max-w-[510px]",
                 className,
             )}
         >
@@ -122,7 +122,7 @@ const StepperIndicators: FC<StepperIndicators> = ({
 
                     <p
                         className={cn(
-                            "step__name text-muted-foreground absolute left-1/2 top-12 w-max -translate-x-1/2 text-[15px]",
+                            "step__name sm3:block text-muted-foreground absolute left-1/2 top-12 hidden w-max -translate-x-1/2 text-sm sm:text-[15px]",
                         )}
                     >
                         {step.name}

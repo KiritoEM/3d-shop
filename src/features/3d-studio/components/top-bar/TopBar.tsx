@@ -20,8 +20,8 @@ const StudioTopBar: FC<StudioTopBarProps> = ({
                 <ZoomActions />
 
                 <div className="center">
-                    <header className="materials-selection-header flex flex-col items-center text-center">
-                        <p className="mt-1 max-w-[530px] text-[13px] text-white/80">
+                    <header className="materials-selection-header hidden sm:flex flex-col items-center text-center">
+                        <p className="mt-1 max-w-[530px] text-[12px] text-white/80 lg:text-[13px]">
                             Choisissez les éléments du modèle 3D que vous
                             souhaitez modifier ou personnaliser{" "}
                             <span className="font-semibold text-white">
@@ -38,11 +38,12 @@ const StudioTopBar: FC<StudioTopBarProps> = ({
                             variant="secondary"
                             onClick={onCapture}
                         >
-                            <Download /> Capturer
+                            <Download /> <span className="hidden sm:block">Capturer</span>
                         </Button>
 
                         <Button size="sm" onClick={onSave}>
-                            <ArrowUp /> Créer le produit
+                            <ArrowUp /> Créer{" "}
+                            <span className="hidden lg:block">le produit</span>
                         </Button>
                     </div>
                 </div>
