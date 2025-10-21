@@ -22,10 +22,6 @@ const PanelHeader = (): JSX.Element => {
 
     const isDark = theme === "dark";
 
-    if (isLoading) {
-        return <DotLoadingScreen text="Chargement en cours..." />;
-    }
-
     return (
         <header className="panel-header flex justify-between lg:justify-end xl:justify-between">
             <Button
@@ -66,6 +62,7 @@ const PanelHeader = (): JSX.Element => {
                     username={session?.username ?? ""}
                     role={session?.role ?? ""}
                     image={session?.image ?? ""}
+                    isLoadingSession={isLoading}
                 />
             </div>
         </header>

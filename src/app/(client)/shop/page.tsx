@@ -1,7 +1,4 @@
-"use client";
-
 import ShopContent from "@/features/shop/components/ShopContent";
-import React from "react";
 
 const Shop = (): JSX.Element => {
     return (

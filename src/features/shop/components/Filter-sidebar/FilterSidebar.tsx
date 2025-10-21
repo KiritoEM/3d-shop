@@ -2,31 +2,38 @@
 
 import { FilterCard } from "./cards/card";
 import { DualRangeSlider } from "@/components/ui/ranger-slider";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { ICategory } from "@/models/categoryModel";
 import useFilterQuery from "@/features/shop/hooks/useFilterQuery";
 import CategoryFilterCard from "./cards/CategoryFilterCard";
 import useShopStore from "../../store/shopStore";
+import { debounce } from "@/lib/utils";
 
 export interface FilterSidebarProps {
     categories: ICategory[];
     priceRange: [number, number];
     categoriesLoading: boolean;
-    setPriceRange: (range: [number, number]) => void;
 }
 
 const FilterSidebar: FC<FilterSidebarProps> = ({
     categories,
-    setPriceRange,
     priceRange,
     categoriesLoading,
 }): JSX.Element => {
-    const { setCategory } = useFilterQuery();
-    const { filters } = useShopStore();
+    const { setCategory, setPriceRange } = useFilterQuery();
+    const { filters, setFilters } = useShopStore();
 
     const allCategoriesLength = categories.map((category) =>
         category.products.flat(),
     ).length;
+
+    const handleChangePriceRange = useCallback(
+        debounce((range: [number, number]) => {
+            setFilters({ ...filters, priceRange: range });
+            setPriceRange(`${range[0]}-${range[1]}`);
+        }, 1000),
+        [setFilters],
+    );
     return (
         <aside className="filter-bar scrollable-section fixed hidden h-[calc(100vh-110px)] w-full max-w-[310px] space-y-8 overflow-y-auto overflow-x-hidden pb-8 lg:block xl:max-w-[325px]">
             {/* Category card */}
@@ -50,7 +57,7 @@ const FilterSidebar: FC<FilterSidebarProps> = ({
                             <span className="text-[13px]">{value}</span>
                         )}
                         value={priceRange}
-                        onValueChange={setPriceRange}
+                        onValueChange={handleChangePriceRange}
                         className="font-michroma"
                         min={0}
                         max={3500000}

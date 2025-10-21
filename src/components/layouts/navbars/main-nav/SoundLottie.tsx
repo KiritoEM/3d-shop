@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { useMediaQuery } from "react-responsive";
 import { DotLottiePlayer } from "@dotlottie/react-player";
 import { usePlaySound } from "@/store/sound";
+import "@dotlottie/react-player/dist/index.css";
 
 const SoundLottie = () => {
     const togglePlaySound = usePlaySound((state) => state.togglePlaySound);

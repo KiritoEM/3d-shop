@@ -47,7 +47,7 @@ const AvatarUploader: FC<AvatarUploaderProps> = ({
                 ) : (
                     <img
                         src={uploadedAvatar}
-                        className="lg:size-74 size-60 rounded-full object-cover md:size-64 xl:size-80"
+                        className="lg:size-74 border-primary size-60 rounded-full border object-cover"
                     />
                 )}
             </div>

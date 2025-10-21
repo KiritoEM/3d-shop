@@ -1,9 +1,9 @@
 "use client";
 
 import { FilterCard } from "./cards/card";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { X } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, debounce } from "@/lib/utils";
 import useFilterQuery from "@/features/shop/hooks/useFilterQuery";
 import { DualRangeSlider } from "@/components/ui/ranger-slider";
 import { FilterSidebarProps } from "./FilterSidebar";
@@ -17,18 +17,26 @@ interface FilterSidebarMobileProps extends FilterSidebarProps {
 
 const FilterSidebarMobile: FC<FilterSidebarMobileProps> = ({
     categories,
-    setPriceRange,
     priceRange,
     categoriesLoading,
     isSidebarOpen,
     closeSidebar,
 }): JSX.Element => {
-    const { setCategory } = useFilterQuery();
-    const { filters } = useShopStore();
+    const { setCategory, setPriceRange } = useFilterQuery();
+    const { filters, setFilters } = useShopStore();
 
     const allCategoriesLength = categories.map((category) =>
         category.products.flat(),
     ).length;
+
+    const handleChangePriceRange = useCallback(
+        debounce((range: [number, number]) => {
+            setFilters({ ...filters, priceRange: range });
+            setPriceRange(`${range[0]}-${range[1]}`);
+        }, 1000),
+        [setFilters],
+    );
+
     return (
         <div
             className={cn(
@@ -66,7 +74,7 @@ const FilterSidebarMobile: FC<FilterSidebarMobileProps> = ({
                                 <span className="text-[13px]">{value}</span>
                             )}
                             value={priceRange}
-                            onValueChange={setPriceRange}
+                            onValueChange={handleChangePriceRange}
                             className="font-michroma"
                             min={0}
                             max={3500000}

@@ -10,16 +10,13 @@ import { cn } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
 import {
     DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import DotLoadingScreen from "@/components/DotLoadingScreen";
 import NavMenuIcon from "../../MenuIcon";
 import NavResponsive from "./responsive-nav/NavResponsive";
-
-import "@dotlottie/react-player/dist/index.css";
 import SoundLottie from "./SoundLottie";
+import DropdownMenuAuthentificatedActions from "./DropdownMenuActions";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const MATCHED_PATH: string[] = ["/"];
 
@@ -48,40 +45,12 @@ const MenuItems: FC<MenuItemsProps> = ({ data, path }): JSX.Element => {
     );
 };
 
-type DropdownMenuActionsProps = {
-    data: typeof NAV_DATA_AUTHENTICATED;
-    actions: (key: string) => void;
-};
-
-const DropdownMenuAuthentificatedActions: FC<DropdownMenuActionsProps> = ({
-    data,
-    actions,
-}) => {
-    return (
-        <DropdownMenuContent className="flex w-48 flex-col gap-2 p-3">
-            {data.map((item, index) => (
-                <DropdownMenuItem
-                    key={index}
-                    className="animated-label flex cursor-pointer items-center gap-3 text-base transition-opacity hover:opacity-70"
-                    onClick={() => actions(item.key)}
-                >
-                    <item.icon /> <span>{item.label}</span>
-                </DropdownMenuItem>
-            ))}
-        </DropdownMenuContent>
-    );
-};
-
 // Main nav component
 const MainNav = (): JSX.Element => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const path = usePathname();
     const router = useRouter();
     const { data, status } = useSession();
-
-    if (status === "loading") {
-        return <DotLoadingScreen text="Chargement en cours..." />;
-    }
 
     const isAbsolute = MATCHED_PATH.includes(path);
 
@@ -127,6 +96,13 @@ const MainNav = (): JSX.Element => {
 
                             <SoundLottie />
 
+                            {/* Loading session */}
+                            {status === "loading" && (
+                                <div className="avatar-skeleton">
+                                    <Skeleton className="avatar-skeleton h-9 w-9 rounded-full" />
+                                </div>
+                            )}
+
                             {status === "authenticated" && data.user ? (
                                 <Fragment>
                                     {/* For desktop */}
@@ -138,6 +114,7 @@ const MainNav = (): JSX.Element => {
                                                 className="!size-[2.1em]"
                                             />
                                         </DropdownMenuTrigger>
+
                                         <DropdownMenuAuthentificatedActions
                                             data={NAV_DATA_AUTHENTICATED}
                                             actions={handleDropdownmenuActions}

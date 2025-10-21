@@ -18,7 +18,7 @@ const AdminCard: FC<AdminCardProps> = ({
     adminFacial,
 }): JSX.Element => {
     const [isPending, startTransition] = useTransition();
-    const { session } = useDBSession();
+    const { session, isLoading } = useDBSession();
 
     const handleDeleteAdmin = (id: string) => {
         startTransition(async () => {
@@ -33,6 +33,10 @@ const AdminCard: FC<AdminCardProps> = ({
 
     if (isPending) {
         return <DotLoadingScreen text="Suppresion de l'admin..." />;
+    }
+
+    if (isLoading) {
+        return <DotLoadingScreen text="Chargement en cours..." />;
     }
 
     return (
