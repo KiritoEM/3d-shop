@@ -7,7 +7,7 @@ import { useStudio } from "@/features/3d-studio/store/studio";
 import Loader from "../Loader";
 import Controller from "./Controller";
 import Composer from "./Composer";
-import StudioModel from "./Model";
+import StudioModel from "./model";
 
 interface ProductViewCanvasProps {
     model: IGLTFModel;
@@ -37,7 +37,7 @@ const StudioViewCanvas: FC<ProductViewCanvasProps> = ({
 
     return (
         <div className="relative z-20 h-full w-full">
-            {!isLoaded && <Loader />}
+            {!isLoaded && <Loader type="loading" />}
             <Canvas
                 ref={canvasRef}
                 shadows

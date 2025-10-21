@@ -4,7 +4,7 @@ import { Canvas } from "@react-three/fiber";
 import { AvatarModel } from "./model";
 import { Suspense } from "react";
 import { Environment } from "@react-three/drei";
-import CommonLoader from "../Loader";
+import CommonLoader from "../CommonLoader";
 import { useMediaQuery } from "react-responsive";
 
 const AvatarViewCanvas = (): JSX.Element => {

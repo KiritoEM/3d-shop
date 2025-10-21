@@ -1,12 +1,13 @@
 "use client";
 
-import React, { FC, Suspense, useEffect } from "react";
-import { Stage, OrbitControls, useGLTF } from "@react-three/drei";
+import React, { FC, Suspense } from "react";
+import { Stage, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Config3D } from "@/models/productModel";
 import Lights from "./Lights";
-import Loader from "./Loader";
 import useShopStore from "@/features/shop/store/shopStore";
+import ProductModel from "./ProductModel";
+import Loader from "./Loader";
 
 type ProductViewCanvasProps = {
     modelPath: string;
@@ -19,16 +20,7 @@ const ProductViewCanvas: FC<ProductViewCanvasProps> = ({
     config3D,
     orbitControl = false,
 }): JSX.Element => {
-    const { scene, materials } = useGLTF(modelPath);
-    const { isModelLoaded, setIsModelLoaded } = useShopStore();
-
-    useEffect(() => {
-        if (scene) {
-            setTimeout(() => {
-                setIsModelLoaded(true);
-            }, 600);
-        }
-    }, [scene, materials]);
+    const { isModelLoaded } = useShopStore();
 
     return (
         <div className="relative h-full w-full">
@@ -63,14 +55,10 @@ const ProductViewCanvas: FC<ProductViewCanvasProps> = ({
                 <Stage intensity={0.006} preset="upfront" adjustCamera={1.1}>
                     <Suspense fallback={null}>
                         {/* Model */}
-                        <group
-                            dispose={null}
-                            position={config3D.position ?? [0, 0, 0]}
-                            rotation={config3D.rotation ?? [0, 0, 0]}
-                            // scale={config3D.scale ?? 2.4}
-                        >
-                            <primitive object={scene} />
-                        </group>
+                        <ProductModel
+                            modelPath={modelPath}
+                            config3D={config3D}
+                        />
                     </Suspense>
                 </Stage>
             </Canvas>

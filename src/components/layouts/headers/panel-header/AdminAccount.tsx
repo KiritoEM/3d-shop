@@ -22,7 +22,7 @@ const AdminAccount: FC<AdminAccountProps> = ({
             </div>
 
             <div className="admin-account__info hidden sm:block">
-                <h6 className="font-michroma line-clamp-1 max-w-[190px] text-ellipsis text-base">
+                <h6 className="font-michroma line-clamp-1 max-w-[175px] text-ellipsis text-base">
                     {username}
                 </h6>
                 <p className="text-muted-foreground mt-[2px] text-xs xl:text-sm">

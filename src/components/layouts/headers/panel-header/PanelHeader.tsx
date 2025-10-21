@@ -48,7 +48,7 @@ const PanelHeader = (): JSX.Element => {
 
             <div className="panel-header__actions relative flex items-center space-x-4 md:space-x-6">
                 <div className="space-x-4 md:space-x-4">
-                    <Notifications />
+                    {/* <Notifications /> */}
 
                     <ThemeTrigger
                         isDark={isDark}

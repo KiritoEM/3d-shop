@@ -42,7 +42,7 @@ const Controller: FC<ControllerProps> = ({ isHovered }): JSX.Element => {
         <OrbitControls
             ref={controlsRef}
             maxDistance={2.4}
-            minDistance={1.6}
+            minDistance={1.3}
             autoRotate={!isHovered}
             autoRotateSpeed={-0.6}
             zoomSpeed={CAMERA_ZOOM}

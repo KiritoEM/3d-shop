@@ -1,5 +1,3 @@
-import { normalizeStr } from "@/lib/utils";
-import { IProduct } from "@/models/productModel";
 import { create } from "zustand";
 import { devtools, combine } from "zustand/middleware";
 
