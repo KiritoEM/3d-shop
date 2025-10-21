@@ -84,7 +84,7 @@ const ProductsContent = (): JSX.Element => {
                         </DropdownMenuItem> */}
                         <DropdownMenuItem
                             variant="destructive"
-                            onClick={() => 
+                            onClick={() =>
                                 handleDeleteProduct(Number(row.original.id))
                             }
                             className="cursor-pointer"

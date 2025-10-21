@@ -25,6 +25,7 @@ export type IDBSession = Prettify<
     Pick<AdminInfo, "id" | "username" | "role"> & {
         image?: string;
         expires?: Date;
+        adminId?: string;
     }
 >;
 

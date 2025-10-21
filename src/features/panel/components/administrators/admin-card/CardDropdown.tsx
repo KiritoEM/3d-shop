@@ -9,10 +9,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 type CardDropdownProps = {
-    deleteAdmin: () => void;
+    showDeleteButton?: boolean;
+    onDelete: () => void;
 };
 
-const CardDropdown: FC<CardDropdownProps> = ({ deleteAdmin }): JSX.Element => {
+const CardDropdown: FC<CardDropdownProps> = ({
+    showDeleteButton = true,
+    onDelete,
+}): JSX.Element => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -25,12 +29,14 @@ const CardDropdown: FC<CardDropdownProps> = ({ deleteAdmin }): JSX.Element => {
             </DropdownMenuTrigger>
 
             <DropdownMenuContent className="w-56" align="start">
-                <DropdownMenuItem onClick={deleteAdmin}>
-                    <span className="text-destructive hover:text-destructive flex items-center gap-3">
-                        <Trash2 className="text-destructive" /> Supprimer le
-                        compte
-                    </span>
-                </DropdownMenuItem>
+                {showDeleteButton && (
+                    <DropdownMenuItem onClick={onDelete}>
+                        <span className="text-destructive hover:text-destructive flex items-center gap-3">
+                            <Trash2 className="text-destructive" /> Supprimer le
+                            compte
+                        </span>
+                    </DropdownMenuItem>
+                )}
             </DropdownMenuContent>
         </DropdownMenu>
     );

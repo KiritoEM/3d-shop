@@ -65,7 +65,7 @@ const PanelHeader = (): JSX.Element => {
                 <AdminAccount
                     username={session?.username ?? ""}
                     role={session?.role ?? ""}
-                    image={session?.image}
+                    image={session?.image ?? ""}
                 />
             </div>
         </header>

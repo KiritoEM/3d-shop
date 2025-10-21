@@ -32,6 +32,7 @@ const useDBSession = () => {
                         username: session.username,
                         role: session.role,
                         image: session.image ?? "",
+                        adminId: session.adminId,
                     });
                 }
             } catch (err) {

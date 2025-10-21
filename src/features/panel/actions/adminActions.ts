@@ -11,6 +11,7 @@ import { revalidatePath } from "next/cache";
 import { getSession, getToken } from "@/lib/sessions/dbSession";
 import { redirect } from "next/navigation";
 import { logoutAdmin } from "@/features/auth/actions/authActions";
+import { createCustomError } from "@/lib/error";
 
 export const createNewAdmin = async (
     data: IAddAdminSchema & { image?: File; password: string },
@@ -42,7 +43,10 @@ export const createNewAdmin = async (
             });
 
             if (existingAdmin) {
-                throw new Error("Admin exist already");
+                throw createCustomError(
+                    "AdminAlreadyExist",
+                    "L'administrateur avec ce nom existe déja",
+                );
             }
 
             const adminInfoAdded = await tx.adminInfo.create({
@@ -81,10 +85,12 @@ export const createNewAdmin = async (
             console.error("Erreur lors de la création de l'admin:", err);
 
         if (err instanceof Error && err.message) {
-            return {
-                status: "error",
-                message: "L'administrateur avec ce nom existe déja",
-            };
+            if (err.name === "AdminAlreadyExist") {
+                return {
+                    status: "error",
+                    message: "L'administrateur avec ce nom existe déja",
+                };
+            }
         }
 
         return {
@@ -109,14 +115,20 @@ export const deleteAdminById = async (
         });
 
         if (!deletedAdmin) {
-            throw new Error();
+            throw createCustomError(
+                "AdminNotFound",
+                "L'administrateur que vous essayez de supprimer n'existe pas",
+            );
         }
 
         if (deletedAdmin.adminFacial) {
             const { status } = await deleteFile(deletedAdmin.adminFacial.image);
 
             if (status === "error") {
-                throw new Error();
+                throw createCustomError(
+                    "DeleteFileError",
+                    "Une erreur s'est produite lors de la suppression de l'image",
+                );
             }
         }
 
@@ -138,6 +150,18 @@ export const deleteAdminById = async (
     } catch (err) {
         isDevelopment &&
             console.error("Erreur lors de la suppresion de l'admin:", err);
+
+        if (err instanceof Error && err.message) {
+            if (
+                err.name === "AdminNotFound" ||
+                err.name === "DeleteFileError"
+            ) {
+                return {
+                    status: "error",
+                    message: err.message,
+                };
+            }
+        }
 
         return {
             status: "error",

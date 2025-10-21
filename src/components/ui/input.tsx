@@ -27,6 +27,7 @@ type PasswordInputProps = {
 const PasswordInput: React.FC<PasswordInputProps> = ({
     placeholder,
     className,
+    ...props
 }) => {
     const [showPassword, setShowPassword] = React.useState<boolean>(false);
     return (
@@ -35,6 +36,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
                 className="pr-8"
                 placeholder={placeholder}
                 type={showPassword ? "text" : "password"}
+                {...props}
             />
             <div
                 className="eye-icon absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"

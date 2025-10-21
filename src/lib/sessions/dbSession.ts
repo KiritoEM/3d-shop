@@ -4,8 +4,6 @@ import crypto from "crypto";
 import { headers, cookies } from "next/headers";
 import { IDBSession, SessionwithFacial } from "@/types";
 import { prisma } from "../prisma";
-import { AdminFacialRecognition, AdminInfo, Session } from "@prisma/client";
-
 const generateToken = () => {
     const randomBytes = crypto.randomBytes(32).toString("hex");
     return crypto.createHash("sha256").update(randomBytes).digest("hex"); //hash random bytes
@@ -59,6 +57,11 @@ export const getSession = async (token: string): Promise<IDBSession> => {
         },
         include: {
             admin: {
+                select: {
+                    username: true,
+                    role: true,
+                    id: true,
+                },
                 include: {
                     adminFacial: true,
                 },
@@ -70,12 +73,15 @@ export const getSession = async (token: string): Promise<IDBSession> => {
         throw new Error("Session not found");
     }
 
+    console.log(session);
+
     return {
         id: session.id,
         username: session.admin?.username!,
         role: session.admin?.role!,
         image: session.admin?.adminFacial?.image ?? "",
         expires: session.expires,
+        adminId: session.admin.id,
     };
 };
 
