@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Fragment, Suspense, useRef, useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { FilterIcon } from "lucide-react";
 import ProductCard from "@/features/shop/components/ProductCard";
@@ -14,6 +14,7 @@ const FilterSidebar = dynamic(
     () => import("@/features/shop/components/Filter-sidebar/FilterSidebar"),
     {
         ssr: false,
+        loading: () => <FilterbarSkeleton />,
     },
 );
 
@@ -41,17 +42,13 @@ const ShopContent = (): JSX.Element => {
     return (
         <Fragment>
             <Fragment>
-                <Suspense fallback={<FilterbarSkeleton />}>
-                    <>
-                        {/* Sidebar - desktop and more */}
-                        <FilterSidebar
-                            categories={categories ?? []}
-                            priceRange={priceRange!}
-                            categoriesLoading={categoriesLoading}
-                            setPriceRange={handleChangePriceRange}
-                        />
-                    </>
-                </Suspense>
+                {/* Sidebar - desktop and more */}
+                <FilterSidebar
+                    categories={categories ?? []}
+                    priceRange={priceRange!}
+                    categoriesLoading={categoriesLoading}
+                    setPriceRange={handleChangePriceRange}
+                />
 
                 {/* Sidebar - mobile and tablet */}
                 <FilterSidebarMobile
