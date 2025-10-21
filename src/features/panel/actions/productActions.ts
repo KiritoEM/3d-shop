@@ -11,6 +11,7 @@ import {
     IAddProductSchema,
 } from "@/lib/zod-schemas/productSchema";
 import { IResponseType } from "@/types";
+import { createCustomError } from "@/lib/error";
 
 export const createProduct = async (
     data: Prettify<
@@ -53,7 +54,10 @@ export const createProduct = async (
         );
 
         if (status === "error") {
-            throw new Error();
+            throw createCustomError(
+                "UploadError",
+                "Une erreur s'est produite lors de l'upload du model 3D",
+            );
         }
 
         modelPath = modelUploadedPath!;
@@ -66,7 +70,10 @@ export const createProduct = async (
             });
 
             if (existingProduct) {
-                throw new Error("The product already exists");
+                throw createCustomError(
+                    "ProductAlreadyExists",
+                    "Le produit avec ce nom existe déja, essayer un autre",
+                );
             }
 
             const createdProductInfo = await tx.product.create({
@@ -95,17 +102,75 @@ export const createProduct = async (
         isDevelopment &&
             console.error("Erreur lors de la création du produit:", err);
 
-        if (err instanceof Error && err.message) {
-            return {
-                status: "error",
-                message: "Le produit avec ce nom existe déja, essayer un autre",
-            };
+        if (err instanceof Error) {
+            if (
+                err.name === "ProductAlreadyExists" ||
+                err.name === "UploadError"
+            ) {
+                return {
+                    status: "error",
+                    message: err.message,
+                };
+            }
         }
 
         return {
             status: "error",
             message: "Erreur lors de la création de l'admin",
             data: null,
+        };
+    }
+};
+
+export const deleteproductById = async (
+    productId: number,
+): Promise<IResponseType<boolean>> => {
+    try {
+        const product = await prisma.product.findUnique({
+            where: {
+                id: productId,
+            },
+        });
+
+        if (!product) {
+            throw createCustomError(
+                "ProductNotFound",
+                "Le produit que vous essayez de supprimer n'existe pas",
+            );
+        }
+
+        const deletedProduct = await prisma.product.deleteMany({
+            where: {
+                id: product.id,
+            },
+        });
+
+        //revalidate path
+        revalidatePath("/admin/products");
+
+        return {
+            status: "success",
+            message: "Produit supprimé avec succés!!!",
+            data: deletedProduct.count > 0,
+        };
+    } catch (err) {
+        isDevelopment &&
+            console.error("Erreur lors de la suppression du produit:", err);
+
+        if (err instanceof Error) {
+            if (err.name === "ProductNotFound") {
+                return {
+                    status: "error",
+                    message: err.message,
+                };
+            }
+        }
+
+        return {
+            status: "error",
+            message:
+                "Un erreur s'est produit lors de la suppression du produit",
+            data: false,
         };
     }
 };

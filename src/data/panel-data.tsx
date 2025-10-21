@@ -10,12 +10,6 @@ import {
     ITransactionsColumns,
     IUsersColumns,
 } from "../constants/types";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { IStep } from "@/types";
 import AddProductForm from "@/features/panel/components/products/stepper-forms/AddProductForm";
 import AddProductStudio from "@/features/panel/components/products/stepper-forms/AddProductCustomisation";
@@ -275,31 +269,6 @@ export const PRODUCTS_COLUMNS: ColumnDef<IProductsColumns>[] = [
         accessorKey: "category",
         header: "Catégorie",
         cell: ({ row }) => <div>{row.original.category.name}</div>,
-    },
-    {
-        id: "actions",
-        enableHiding: false,
-        cell: ({ row }) => {
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal />
-                        </Button>
-                    </DropdownMenuTrigger>
-
-                    <DropdownMenuContent align="end" className="max-w-lg">
-                        <DropdownMenuItem>
-                            <Edit2 /> Modifier
-                        </DropdownMenuItem>
-                        <DropdownMenuItem variant="destructive">
-                            <Trash2 /> Supprimer
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
-        },
     },
 ];
 

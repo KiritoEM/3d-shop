@@ -30,7 +30,7 @@ const LastAddedProducts: FC<LastAddedProductssProps> = ({
                 rightSide={
                     !isLg ? (
                         <Link
-                            href=""
+                            href="/admin/products"
                             className="text-primary cursor-pointer text-sm hover:font-semibold"
                         >
                             Voir tout

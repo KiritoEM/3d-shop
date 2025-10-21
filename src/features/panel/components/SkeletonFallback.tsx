@@ -4,10 +4,12 @@ import { FC } from "react";
 
 type SkeletonFallbackProps = {
     className?: string;
+    label?: string;
 };
 
 const SkeletonFallback: FC<SkeletonFallbackProps> = ({
     className,
+    label,
 }): JSX.Element => (
     <Skeleton
         className={cn(
@@ -15,7 +17,11 @@ const SkeletonFallback: FC<SkeletonFallbackProps> = ({
             className,
         )}
     >
-        <div className="h-9 w-9 animate-spin rounded-full border-b-2 border-current"></div>
+        <div className="flex flex-col items-center gap-3">
+            <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-current" />
+
+            {label && <p>{label}</p>}
+        </div>
     </Skeleton>
 );
 
