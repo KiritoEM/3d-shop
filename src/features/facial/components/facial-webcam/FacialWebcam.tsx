@@ -90,9 +90,11 @@ const Webcam = (): JSX.Element => {
                 )}
 
             {/* Failure State */}
-            {!isLoadingWebcam && authStatus === "Unknow" && (
-                <FacialUnknown baseStyle={BASE_STYLE_CONTAINER} />
-            )}
+            {!isLoadingWebcam &&
+                authStatus === "Unknow" &&
+                sessionCreated !== "Pending" && (
+                    <FacialUnknown baseStyle={BASE_STYLE_CONTAINER} />
+                )}
 
             {/* Video Preview */}
             <Camera

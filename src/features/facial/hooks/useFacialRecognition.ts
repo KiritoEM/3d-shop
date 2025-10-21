@@ -81,7 +81,7 @@ const useFacialRecognition = (
 
             const timer = setTimeout(() => {
                 detectFace();
-            }, 1000);
+            }, 500);
 
             return () => clearTimeout(timer);
         }

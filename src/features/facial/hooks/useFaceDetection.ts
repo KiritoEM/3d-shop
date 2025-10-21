@@ -81,7 +81,7 @@ const useFaceDetection = (
                                 setTimeout(() => {
                                     onUnknow();
                                     return;
-                                }, 1000);
+                                }, 400);
                             }
 
                             try {
@@ -107,7 +107,7 @@ const useFaceDetection = (
                                     }
 
                                     closeWebcam();
-                                }, 1000);
+                                }, 700);
                             } catch (labelError) {
                                 console.error(
                                     "Error processing face labels:",
