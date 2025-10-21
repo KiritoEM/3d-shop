@@ -55,15 +55,19 @@ export const getSession = async (token: string): Promise<IDBSession> => {
         where: {
             token,
         },
-        include: {
+        select: {
+            id: true,
+            expires: true,
             admin: {
                 select: {
                     username: true,
                     role: true,
                     id: true,
-                },
-                include: {
-                    adminFacial: true,
+                    adminFacial: {
+                        select: {
+                            image: true,
+                        },
+                    },
                 },
             },
         },
