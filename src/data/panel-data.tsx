@@ -65,12 +65,12 @@ export const TRANSACTIONS_COLUMNS: ColumnDef<ITransactionsColumns>[] = [
         cell: ({ row }) => (
             <div className="flex items-center gap-4">
                 <Avatar
-                    name={row.getValue("customerName")}
+                    name={row.original.customerName}
                     image={row.original.user?.image ?? ""}
                     className="!size-8"
                 />
 
-                <span>{row.getValue("customerName")}</span>
+                <span>{row.original.customerName}</span>
             </div>
         ),
     },

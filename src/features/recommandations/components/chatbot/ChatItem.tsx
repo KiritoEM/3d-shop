@@ -1,4 +1,4 @@
-import { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, useEffect, useState } from "react";
 import { useRemark } from "react-remarkify";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
@@ -38,6 +38,14 @@ const ChatItem: FC<ChatItemProps> = ({ image, message, role, name }) => {
     });
     const [copied, setCopied] = useState<boolean>(false);
     const { setSpeechtext, setAnimation } = useSpeechAvatar();
+
+    //Reset speech states when speech is stopped or paused
+    useEffect(() => {
+        if (speechStatus === "paused" || speechStatus === "stopped") {
+            setSpeechtext("");
+            setAnimation("Idle");
+        }
+    }, [speechStatus, setSpeechtext, setAnimation]);
 
     const handlePlaySound = () => {
         if (speechStatus !== "started") {

@@ -23,9 +23,9 @@ const FilterSidebar: FC<FilterSidebarProps> = ({
     const { setCategory, setPriceRange } = useFilterQuery();
     const { filters, setFilters } = useShopStore();
 
-    const allCategoriesLength = categories.map((category) =>
-        category.products.flat(),
-    ).length;
+    const allCategoriesLength = categories
+        .map((category) => category.products.flat())
+        .flat().length;
 
     const handleChangePriceRange = useCallback(
         debounce((range: [number, number]) => {
