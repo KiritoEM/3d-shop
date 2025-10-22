@@ -8,6 +8,7 @@ import { ITransactionStats } from "@/models/transactionModel";
 import { useFilterData } from "../store/filteredData";
 import {
     getLastProducts,
+    getLastTransactions,
     getTransactionsGroupbyMonth,
     getUsersGroupbyMonth,
 } from "../services/dashboardServices";
@@ -31,8 +32,10 @@ const useDashboardData = (token: string) => {
         isLoading: isLastTransactionsDataLoading,
     } = useQuery({
         queryKey: ["lastTransactions"],
-        queryFn: () => getTransactionsGroupbyMonth(token, year),
+        queryFn: () => getLastTransactions(token, year),
     });
+
+    console.log(lastTransactionsData);
 
     const { data: lastProductsData, isLoading: isLastProductsDataLoading } =
         useQuery({
@@ -57,7 +60,7 @@ const useDashboardData = (token: string) => {
         isLastProductsDataLoading,
         isTransactionsDataLoading,
         isUsersDataLoading,
-        lastTransactionsData,
+        lastTransactionsData : lastTransactionsData?.paginatedData,
         lastProductsData,
         usersFilledData,
         transactionsFilledData,

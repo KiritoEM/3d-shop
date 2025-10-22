@@ -22,6 +22,7 @@ import { deleteproductById } from "../../actions/productActions";
 import { toast } from "react-toastify";
 import { IProductsColumns } from "@/constants/types";
 import { Row } from "@tanstack/react-table";
+import { queryClient } from "@/lib/react-query";
 
 const FILTER_OPTIONS = [
     {
@@ -60,6 +61,10 @@ const ProductsContent = (): JSX.Element => {
             toast(isProductDeleted.message, {
                 type: isProductDeleted.status === "error" ? "error" : "success",
                 theme: "colored",
+            });
+
+            queryClient.invalidateQueries({
+                queryKey: ["products"],
             });
         });
     };

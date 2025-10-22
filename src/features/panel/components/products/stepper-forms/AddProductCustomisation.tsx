@@ -17,6 +17,7 @@ import { loadBlobModel, validate3DModel } from "@/lib/model3d";
 import { createProduct } from "@/features/panel/actions/productActions";
 import { IAddProductSchema } from "@/lib/zod-schemas/productSchema";
 import { useRouter } from "next/navigation";
+import { queryClient } from "@/lib/react-query";
 
 const AddProductCustomisation = (): JSX.Element => {
     const { formData } = useStepper();
@@ -79,6 +80,7 @@ const AddProductCustomisation = (): JSX.Element => {
                 });
                 //reset model
                 setModel(null);
+                queryClient.invalidateQueries({ queryKey: ["products"] });
                 router.replace("/admin/products", {});
             }
         });

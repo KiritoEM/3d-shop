@@ -43,6 +43,7 @@ const TransactionsChart: FC<TransactionsChartProps> = ({
     const years = Object.keys(transactionsStatsMock).map((item) =>
         Number(item),
     );
+    
 
     return (
         <article className="transactions-stats-transactions-card dark:bg-gray rounded-lg border p-6 dark:border-0">

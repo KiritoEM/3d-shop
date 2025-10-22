@@ -145,9 +145,6 @@ export const deleteproductById = async (
             },
         });
 
-        //revalidate path
-        revalidatePath("/admin/products");
-
         return {
             status: "success",
             message: "Produit supprimé avec succés!!!",

@@ -137,17 +137,20 @@ export const USERS_COLUMNS: ColumnDef<IUsersColumns>[] = [
     {
         accessorKey: "name",
         header: "Nom",
-        cell: ({ row }) => (
-            <div className="flex items-center gap-4">
-                <Avatar
-                    name={row.getValue("name")}
-                    image={row.getValue("image") ?? ""}
-                    className="!size-8"
-                />
+        cell: ({ row }) => {
+            console.log(row.original.image);
+            return (
+                <div className="flex items-center gap-4">
+                    <Avatar
+                        name={row.getValue("name")}
+                        image={row.original.image ?? ""}
+                        className="!size-8"
+                    />
 
-                <span>{row.getValue("name")}</span>
-            </div>
-        ),
+                    <span>{row.getValue("name")}</span>
+                </div>
+            );
+        },
     },
     {
         accessorKey: "email",

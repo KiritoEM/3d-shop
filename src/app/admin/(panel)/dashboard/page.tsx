@@ -32,8 +32,6 @@ const Dashboard = async (): Promise<JSX.Element> => {
         statsResponse[2].json(),
     ]);
 
-    console.log(usersStats, transactionsStats, productsStats);
-
     return (
         <section className="dashboard mt-8">
             <StatisticsSection
