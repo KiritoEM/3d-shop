@@ -37,8 +37,8 @@ const RadarFilter: FC<RadarStatsActionsProps> = ({
                     </SelectTrigger>
 
                     <SelectContent>
-                        <SelectItem value="0_6">Janvier - Juin</SelectItem>
-                        <SelectItem value="7_12">Juillet - Décembre</SelectItem>
+                        <SelectItem value="0_5">Janvier - Juin</SelectItem>
+                        <SelectItem value="6_11">Juillet - Décembre</SelectItem>
                     </SelectContent>
                 </Select>
             </div>
