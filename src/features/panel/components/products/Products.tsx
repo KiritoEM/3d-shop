@@ -1,9 +1,9 @@
 "use client";
 
-import { Fragment, useMemo, useTransition } from "react";
+import { useMemo, useTransition } from "react";
 import Link from "next/link";
-import { Edit2, MoreHorizontal, Plus, Trash2 } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { MoreHorizontal, Plus, Trash2 } from "lucide-react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { DataTable } from "@/components/ui/data-table";
 import { Button } from "@/components/ui/button";
 import { PRODUCTS_COLUMNS } from "@/data/panel-data";
@@ -22,7 +22,6 @@ import { deleteproductById } from "../../actions/productActions";
 import { toast } from "react-toastify";
 import { IProductsColumns } from "@/constants/types";
 import { Row } from "@tanstack/react-table";
-import { queryClient } from "@/lib/react-query";
 
 const FILTER_OPTIONS = [
     {
@@ -42,6 +41,7 @@ const FILTER_OPTIONS = [
 const ProductsContent = (): JSX.Element => {
     const { paginationOpt, handleChangePagination } = usePagination();
     const [isPending, startTransition] = useTransition();
+    const queryClient = useQueryClient();
 
     const { data: productsData, isLoading } = useQuery({
         queryKey: ["products", paginationOpt.skip],

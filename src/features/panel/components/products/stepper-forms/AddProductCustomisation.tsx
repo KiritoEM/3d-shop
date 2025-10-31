@@ -17,13 +17,14 @@ import { loadBlobModel, validate3DModel } from "@/lib/model3d";
 import { createProduct } from "@/features/panel/actions/productActions";
 import { IAddProductSchema } from "@/lib/zod-schemas/productSchema";
 import { useRouter } from "next/navigation";
-import { queryClient } from "@/lib/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 const AddProductCustomisation = (): JSX.Element => {
     const { formData } = useStepper();
     const { model, groundColor, setModel, setArrayBuffer } = useStudio();
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     //handle select file
     const handleFileSelected = useCallback(async (file: File) => {
