@@ -56,6 +56,10 @@ services:
       NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ${NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
     networks:
       - app_network
+    volumes:
+      - uploaded-client-avatars:/app/public/uploaded-client-avatars
+      - uploaded-admin-avatars:/app/public/uploaded-admin-avatars
+      - uploaded-models:/app/public/uploaded-models
     depends_on:
       postgres:
         condition: service_healthy
@@ -67,3 +71,6 @@ networks:
 
 volumes:
   pg_data:
+  uploaded-client-avatars:
+  uploaded-admin-avatars:
+  uploaded-models:

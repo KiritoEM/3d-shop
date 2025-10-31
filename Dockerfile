@@ -5,6 +5,10 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+RUN mkdir -p public/uploaded-client-avatars \
+    public/uploaded-admin-avatars \
+    public/uploaded-models
+
 ENV YARN_CACHE_FOLDER=/tmp/.yarn-cache
 RUN mkdir -p /tmp/.yarn-cache && chmod 777 /tmp/.yarn-cache
 
