@@ -113,6 +113,8 @@ const useFaceDetection = (
                                     "Error processing face labels:",
                                     labelError,
                                 );
+                                onUnknow();
+                                closeWebcam();
                             }
                         }
                     }

@@ -24,27 +24,30 @@ type IlabelFaceDescriptors = {
 export const handleLabelFace = async <T extends IlabelFaceDescriptors>(
     data: T[],
 ): Promise<faceapi.LabeledFaceDescriptors[]> => {
-    return await Promise.all(
+    const labeledFaces = await Promise.all(
         data.map(async (item) => {
             const img = await faceapi.fetchImage(item.image);
-
-            const faceDetected = await faceapi
+            const detection = await faceapi
                 .detectSingleFace(img)
                 .withFaceLandmarks()
                 .withFaceDescriptor();
 
-            if (!faceDetected) {
-                throw new Error(`no faces detected for ${item.username}`);
+            if (!detection) {
+                console.warn(`No face detected for ${item.username}`);
+                return null;
             }
 
-            const faceDescriptor = [faceDetected.descriptor];
-            return new faceapi.LabeledFaceDescriptors(
-                item.username,
-                faceDescriptor,
-            );
+            return new faceapi.LabeledFaceDescriptors(item.username, [
+                detection.descriptor,
+            ]);
         }),
     );
+
+    return labeledFaces.filter(
+        (face): face is faceapi.LabeledFaceDescriptors => face !== null,
+    );
 };
+
 export const compareFace = async (
     labeledDescriptors: faceapi.LabeledFaceDescriptors[],
     queryDescriptor: Float32Array,
