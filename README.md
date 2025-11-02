@@ -26,4 +26,4 @@ Bazzar is a prototype e-commerce application that allows users to visualize prod
 - [x] Role-Based Access Control (RBAC)
 
 ## Todo
-- [ ] Use cloud file upload to store and user file in production mode
+- [ ] Use cloud file upload to store and use file in production mode
