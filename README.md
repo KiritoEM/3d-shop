@@ -1,3 +1,5 @@
+![screenshoot of project](./assets/screenshoot.png)
+
 # Bazzar
 
 Bazzar is a prototype e-commerce application that allows users to visualize products in 3D directly within the shop. It integrates an AI-powered recommendation agent that suggests products based on user needs and preferences. The platform supports secure payments via Stripe and includes an admin dashboard featuring a 3D studio for product customization and complete store management and access.
@@ -8,15 +10,16 @@ Bazzar is a prototype e-commerce application that allows users to visualize prod
 ## Features
 ### Client
 - [x] Landing page
+- [x] Support for Dark/Light modes
 - [x] Shop with filter and 3d preview
 - [x] AI Recommandation Bot with an virtual avatar with lipsync providing suggestions  
 - [x] Cart and secure payment with stripe 
-- [x] Support for Dark/Light modes
 - [x] Client login using 0Auth(Google) or credentials
 - [x] Client settings page
 
 ### Admin dashboard
 - [x] Admin login using facial recognition or credentials
+- [x] Support for Dark/Light modes
 - [x] Analytics Dashboard for data visualization
 - [x] Payment management and possibility to export data as CSV
 - [x] Users management 
